@@ -1,0 +1,148 @@
+homeassistant:
+  name: Home
+  latitude: !secret MY_LATITUDE
+  longitude: !secret MY_LONGITUDE
+  temperature_unit: F
+  time_zone: America/New_York
+  customize: !include customize.yaml
+group: !include groups.yaml
+#automation: !include automation.yaml
+sensor: !include_dir_merge_list sensors
+switch: !include_dir_merge_list switches
+light: !include_dir_merge_list light
+alexa: !include alexa/intents.yaml
+
+http:
+  api_password: !secret MY_API_PASS
+  ssl_certificate: !secret SSL_CERT
+  ssl_key: !secret SSL_KEY
+
+zone:
+  name: Home
+  latitude: !secret MY_LATITUDE
+  longitude: !secret MY_LONGITUDE
+  radius: 100
+  icon: mdi:account-multiple
+
+zone 2:
+  name: Manheim
+  latitude: !secret WORK_LATITUDE
+  longitude: !secret WORK_LONGITUDE
+  radius: 500
+  icon: mdi:office
+
+zone 3:
+  name: Zoo Atlanta
+  latitude: 33.7321545
+  longitude: -84.3734925
+  radius: 350
+  icon: mdi:paw
+
+zone 4:
+  name: Gump
+  latitude: 33.89261183797744
+  longitude: -83.96071630537878
+  radius: 200
+  icon: mdi:school
+
+zone 5:
+  name: Pottery
+  latitude: 33.987571
+  longitude: -84.0951167
+  radius: 100
+  icon: mdi:palette
+
+zone 6:
+  name: The Learning Gym
+  latitude: 33.8992118
+  longitude: -84.0054688
+  radius: 100
+  icon: mdi:dumbbell
+
+zone 7:
+  name: Gwinnett Swim
+  latitude: 34.1414549
+  longitude: -83.9602195
+  radius: 100
+  icon: mdi:swim
+
+zone 8:
+  name: Summit
+  latitude: !secret SUMMIT_LATITUDE
+  longitude: !secret SUMMIT_LONGITUDE
+  radius: 500
+  icon: mdi:office
+
+mqtt:
+ broker: 192.168.1.15
+ port: 8882
+ username: !secret MQTT_USER
+ password: !secret MQTT_PASS
+
+# View all events in a logbook
+logbook:
+
+# Enables support for tracking state changes over time.
+history:
+
+# Enables the frontend
+frontend:
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+#camera:
+#  platform: mjpeg
+#  mjpeg_url: !secret CAMERA
+#  name: Skylars Room
+
+thermostat:
+  platform: honeywell
+  username: !secret HONEYWELL_USER
+  password: !secret HONEYWELL_PASS
+  name: First Floor
+  region: us
+
+device_tracker:
+  - platform: asuswrt
+    host: 192.168.1.1
+    protocol: telnet
+    mode: router
+    username: !secret ROUTER_USER
+    password: !secret ROUTER_PASS
+    track_new_devices: yes
+    interval_seconds: 60
+    consider_home: 180
+  - platform: owntracks
+    max_gps_accuracy: 200
+    consider_home: 180
+  #- platform: icloud
+    #username: !secret ICLOUD_USER
+    #password: !secret ICLOUD_PASS
+    #interval_seconds: 60
+    #consider_home: 180
+
+#notify:
+#  platform: googlevoice
+#  username: !secret GV_USER
+#  password: !secret GV_PASS
+#  name: googlevoice
+
+ifttt:
+  key: !secret IFTTT_API_KEY
+
+media_player:
+  platform: cast
+  host: 192.168.1.219
+
+# Discover some devices automatically
+discovery:
+
+# Checks for available updates
+updater:
+
+# Track the sun
+sun:
+
+  
+

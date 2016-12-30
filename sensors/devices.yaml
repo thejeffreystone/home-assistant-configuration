@@ -1,0 +1,49 @@
+- platform: template
+  sensors:
+      amazon_dot_lr:
+        friendly_name: 'Amazon Dot LR'
+        value_template: "{{ 'Online' if is_state('device_tracker.kindlecdf98981f', 'home') else 'Offline' }}"
+            
+      circle:
+        friendly_name: 'Disney Circle'
+        value_template: "{{ 'Online' if is_state('device_tracker.circle', 'home') else 'Offline' }}" 
+
+      tycho:
+        friendly_name: 'tycho'
+        value_template: "{{ 'Online' if is_state('device_tracker.tycho', 'home') else 'Offline' }}"
+
+      tightbeam:
+        friendly_name: 'tightbeam'
+        value_template: "{{ 'Online' if is_state('device_tracker.tightbeam', 'home') else 'Offline' }}"
+
+      appletv:
+        friendly_name: 'Apple Tv'
+        value_template: "{{ 'Online' if is_state('device_tracker.appletv', 'home') else 'Offline' }}"
+
+      xboxone:
+        friendly_name: 'xboxone'
+        value_template: "{{ 'Online' if is_state('device_tracker.xboxone', 'home') else 'Offline' }}"
+
+      chromecast:
+        friendly_name: 'Chromecast'
+        value_template: "{{ 'Online' if is_state('device_tracker.chromecast', 'home') else 'Offline' }}"
+
+      smartthings:
+        friendly_name: 'SmartThings'
+        value_template: "{{ 'Online' if is_state('device_tracker.d052a8170fef', 'home') else 'Offline' }}"
+
+      samsungtv:
+        friendly_name: 'Samsung Tv'
+        value_template: "{{ 'Online' if is_state('device_tracker.c4731ecec013', 'home') else 'Offline' }}"
+
+      honeywell:
+        friendly_name: 'Honeywell'
+        value_template: "{{ 'Online' if is_state('device_tracker.gateway2f3bca', 'home') else 'Offline' }}"
+
+      router:
+        friendly_name: 'Asus Router'
+        value_template: "{{ 'Online' if is_state('device_tracker.routerasuscom', 'home') else 'Offline' }}"
+
+      kat_mini:
+        friendly_name: "Kat's Mini"
+        value_template: "{{ 'Online' if is_state('device_tracker.katherinesmini', 'home') else 'Offline' }}"

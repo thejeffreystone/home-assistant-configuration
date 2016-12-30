@@ -1,0 +1,117 @@
+### GROUPS ###
+default_view:
+    name: Home
+    view: yes
+    entities:
+      - group.family
+      - group.outside
+      - group.living_room
+      - group.temperature
+
+people:
+  name: People
+  view: yes
+#  icon: mdi:human-male-female
+  entities:
+    - group.jeffrey
+    - group.katherine
+
+network:
+  name: Network
+  view: yes
+  entities:
+    - group.internet
+    - group.home_automation
+    - group.entertainment
+    - group.servers
+
+environment:
+  name: Weather
+  view: yes
+  entities:
+    - group.weather
+    - group.temperature
+    - group.precipitation
+
+### Grops ###
+Family:
+    - device_tracker.jarvis_jeffreysphone
+    - device_tracker.katheriesiphone
+
+Jeffrey:
+    - device_tracker.jarvis_jeffreysphone
+    - device_tracker.jeffreyonesipad
+    - device_tracker.jeffreysmbp
+    - device_tracker.jstonemac
+
+Katherine:
+    - device_tracker.katheriesiphone
+    - device_tracker.katherinesipad
+    - sensor.kat_mini
+
+Thermostat:
+    - thermostat.first_floor
+
+Weather:
+    - sun.sun
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_humidity
+    - sensor.dark_sky_cloud_coverage
+    - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_wind_bearing
+    - sensor.dark_sky_visibility
+    - sensor.dark_sky_pressure
+    
+Sun:
+    - sun.sun
+
+Temperature:
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_humidity
+    - sensor.dark_sky_dew_point
+
+Precipitation:
+    - sensor.dark_sky_nearest_storm_distance
+    - sensor.dark_sky_nearest_storm_bearing
+    - sensor.dark_sky_precip
+    - sensor.dark_sky_precip_probability
+    - sensor.dark_sky_precip_intensity
+
+Internet:
+  - sensor.speedtest_ping
+  - sensor.speedtest_download
+  - sensor.speedtest_upload
+
+#HVAC:
+#  - device_tracker.gateway2f3bca
+
+Entertainment:
+  - sensor.samsungtv
+  - sensor.appletv
+  - sensor.xboxone
+  - sensor.chromecast
+
+Home Automation:
+  - sensor.smartthings
+  - sensor.amazon_dot_lr
+  - sensor.honeywell
+
+#Cameras:
+#  - device_tracker.ipcam_00626e46eb09_1
+
+Servers:
+  - sensor.jarvis
+  - sensor.tightbeam
+
+Living Room:
+  - switch.fireplace_lights
+  - switch.tower_lamp
+  - switch.rail_lights
+
+Outside:
+  - switch.driveway_light
+  - switch.side_door_light
+  - switch.front_porch_left
+  - switch.front_porch_right

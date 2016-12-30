@@ -1,0 +1,28 @@
+- platform: mqtt
+  name: "Driveway Light"
+  state_topic: "smartthings/Garage Door Light/switch"
+  command_topic: "smartthings/Garage Door Light/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+- platform: mqtt
+  name: "Side Door Light"
+  state_topic: "smartthings/Garage Side Door/switch"
+  command_topic: "smartthings/Garage Side Door/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+- platform: mqtt
+  name: "Front Porch Left"
+  state_topic: "smartthings/Front Porch 1/switch"
+  command_topic: "smartthings/Front Porch 1/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+- platform: mqtt
+  name: "Front Porch Right"
+  state_topic: "smartthings/Front Porch 2/switch"
+  command_topic: "smartthings/Front Porch 2/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true

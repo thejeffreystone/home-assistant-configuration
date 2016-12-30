@@ -1,0 +1,148 @@
+### CUSTOMIZE ###
+
+## Default View ##
+
+# Speedtest #
+sensor.speedtest_ping:
+  icon: mdi:speedometer
+  friendly_name: Ping
+sensor.speedtest_download:
+  icon: mdi:download
+  friendly_name: Download
+sensor.speedtest_upload:
+  icon: mdi:upload
+  friendly_name: Upload
+# Weather #
+sensor.dark_sky_summary:
+  icon: mdi:leaf
+  friendly_name: Conditions
+sensor.dark_sky_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: 'Outdoor Temperature'
+sensor.dark_sky_apparent_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: 'Apparent Temperature'
+sensor.dark_sky_precip:
+  icon: mdi:weather-pouring
+  friendly_name: Precipitation
+sensor.dark_sky_precip_probability:
+  icon: mdi:weather-pouring
+  friendly_name: Precipitation Chance
+sensor.dark_sky_precip_intensity:
+  icon: mdi:weather-pouring
+  friendly_name: Precip Intensity
+sensor.dark_sky_humidity:
+  icon: mdi:water-percent
+  friendly_name: 'Outdoor Humidity'
+sensor.dark_sky_cloud_coverage:
+  icon: mdi:weather-cloudy
+  friendly_name: Cloud Coverage
+sensor.dark_sky_nearest_storm_distance:
+  icon: mdi:weather-lightning
+  friendly_name: Nearest Storm Distance
+sensor.dark_sky_nearest_storm_bearing:
+  icon: mdi:compass-outline
+  friendly_name: Nearest Storm Bearing
+sensor.dark_sky_wind_speed:
+  icon: mdi:weather-windy
+  friendly_name: Wind Speed
+sensor.dark_sky_wind_bearing:
+  icon: mdi:compass-outline
+  friendly_name: Wind Direction
+sensor.dark_sky_ozone:
+  icon: mdi:cloud
+sensor.dark_sky_pressure:
+  icon: mdi:weight
+  friendly_name: Pressure
+sensor.dark_sky_dew_point:
+  icon: mdi:thermometer
+  friendly_name: Dew Point
+sensor.dark_sky_visability:
+  icon: mdi:eye-outline
+  friendly_name: Visability
+
+# Devices #
+
+device_tracker.jarvis_jeffreysphone:
+  #icon: mdi:human-male
+  entity_picture: !secret JEFF_ICON
+  friendly_name: Jeff
+device_tracker.katheriesiphone:
+  #icon: mdi:human-female
+  entity_picture: !secret KAT_ICON
+  friendly_name: Kat
+device_tracker.jeffreyonesipad:
+  icon: mdi:tablet-ipad
+  friendly_name: Jeff's iPad
+device_tracker.katherinesipad:
+  icon: mdi:tablet-ipad
+  friendly_name: Kat's Ipad
+device_tracker.jeffreysmbp:
+  icon: mdi:laptop-mac
+  friendly_name: Jeff's MacBook
+device_tracker.jstonemac:
+  icon: mdi:laptop-mac
+  friendly_name: Jeff's Work Mac
+device_tracker.katherinesmini:
+  icon: mdi:desktop-mac
+  friendly_name: Kat's Mini
+
+
+device_tracker.gateway2f3bca:
+  icon: mdi:nest-thermostat
+  friendly_name: Honeywell
+
+sensor.kat_mini:
+  icon: mdi:desktop-mac
+  
+sensor.appletv:
+  icon: mdi:apple
+  
+sensor.xboxone:
+  icon: mdi:xbox
+  
+sensor.jarvis:
+  icon: mdi:linux
+  
+device_tracker.jarvis:
+  hidden: true
+sensor.tightbeam:
+  icon: mdi:linux
+  
+device_tracker.tightbeam:
+  hidden: true
+sensor.chromecast:
+  icon: mdi:cast
+  
+sensor.samsungtv:
+  icon: mdi:television
+
+sensor.amazon_dot_lr:
+  icon: mdi:amazon
+
+sensor.honeywell:
+  icon: mdi:nest-thermostat
+
+sensor.smartthings:
+  icon: mdi:router-wireless
+
+switch.fireplace_lights:
+  icon: mdi:spotlight-beam
+
+switch.tower_lamp:
+  icon: mdi:lightbulb
+
+switch.driveway_light:
+  icon: mdi:lightbulb
+
+switch.side_door_light:
+  icon: mdi:lightbulb
+
+switch.front_porch_left:
+  icon: mdi:lightbulb
+
+switch.front_porch_right:
+  icon: mdi:lightbulb
+
+switch.rail_lights:
+  icon: mdi:lightbulb
