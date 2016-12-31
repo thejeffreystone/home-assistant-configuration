@@ -75,7 +75,7 @@ zone 8:
 
 mqtt:
  broker: 192.168.1.15
- port: 8882
+ port: 8883
  username: !secret MQTT_USER
  password: !secret MQTT_PASS
 
