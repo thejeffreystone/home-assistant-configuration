@@ -63,7 +63,7 @@ sensor.dark_sky_visability:
 
 # Devices #
 
-device_tracker.jarvis_jeffreysphone:
+device_tracker.owntracks_jeffreysphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff

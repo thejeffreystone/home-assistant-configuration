@@ -35,11 +35,11 @@ environment:
 
 ### Grops ###
 Family:
-    - device_tracker.jarvis_jeffreysphone
+    - device_tracker.owntracks_jeffreysphone
     - device_tracker.katheriesiphone
 
 Jeffrey:
-    - device_tracker.jarvis_jeffreysphone
+    - device_tracker.owntracks_jeffreysphone
     - device_tracker.jeffreyonesipad
     - device_tracker.jeffreysmbp
     - device_tracker.jstonemac
