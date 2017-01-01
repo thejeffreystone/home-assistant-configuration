@@ -14,15 +14,15 @@
   retain: true
 - platform: mqtt
   name: "Front Porch Left"
-  state_topic: "smartthings/Front Porch Left/switch"
-  command_topic: "smartthings/Front Porch Left/switch"
+  state_topic: "smartthings/Porch Left/switch"
+  command_topic: "smartthings/Porch Left/switch"
   payload_on: "on"
   payload_off: "off"
   retain: true
 - platform: mqtt
   name: "Front Porch Right"
-  state_topic: "smartthings/Front Porch Right/switch"
-  command_topic: "smartthings/Front Porch Right/switch"
+  state_topic: "smartthings/Porch Right/switch"
+  command_topic: "smartthings/Porch Right/switch"
   payload_on: "on"
   payload_off: "off"
   retain: true
