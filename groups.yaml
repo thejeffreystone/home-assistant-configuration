@@ -40,7 +40,8 @@ Family:
 
 Jeffrey:
     - device_tracker.owntracks_jeffreysphone
-    - sensor.mqtt_jeff_phone_battery
+    - sensor.jeff_phone_battery
+    - sensor.jeff_velocity
     - device_tracker.jeffreyonesipad
     - device_tracker.jeffreysmbp
     - device_tracker.jstonemac

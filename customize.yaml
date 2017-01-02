@@ -67,6 +67,13 @@ device_tracker.owntracks_jeffreysphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
+sensor.jeff_phone_battery:
+  icon: mdi:battery-30
+  friendly_name: Jeff's iPhone Battery
+sensor.jeff_velocity:
+  icon: mdi:speedometer
+  friendly_name: Jeff's Current Speed
+  
 device_tracker.katheriesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
