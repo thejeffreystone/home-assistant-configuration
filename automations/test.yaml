@@ -1,0 +1,9 @@
+#trigger:
+#  platform: time
+  # Matches every hour at 5 minutes past whole
+#  minutes: 49
+#  seconds: 00
+#action:
+#  service: switch.turn_on
+#  data:
+#    entity_id: switch.fireplace_lights

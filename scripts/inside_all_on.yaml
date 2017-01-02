@@ -1,0 +1,12 @@
+sequence:
+- event: LOGBOOK_ENTRY
+  event_data:
+    name: EVENT
+    message: "Turning inside lights on."
+- service: switch.turn_on
+  data:
+    entity_id: switch.tower_lamp
+
+#- service: notify.notify
+#  data:
+#    message: "Outside lights are on!"

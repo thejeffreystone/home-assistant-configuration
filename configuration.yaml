@@ -6,11 +6,12 @@ homeassistant:
   time_zone: America/New_York
   customize: !include customize.yaml
 group: !include groups.yaml
-#automation: !include automation.yaml
+automation: !include automation.yaml
 sensor: !include_dir_merge_list sensors
 switch: !include_dir_merge_list switches
-light: !include_dir_merge_list light
+script: !include scripts.yaml
 alexa: !include alexa/intents.yaml
+input_select: !include input_select.yaml
 
 http:
   api_password: !secret MY_API_PASS

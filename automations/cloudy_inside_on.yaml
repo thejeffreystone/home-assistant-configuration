@@ -1,0 +1,13 @@
+alias: "Cloudy, inside on"
+trigger:
+  platform: time
+  after: '14:40:00'
+condition:
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_cloud_coverage
+    above: 90
+  - condition: state
+    entity_id: group.family
+    state: "home"
+action:
+  service: script.inside_all_on

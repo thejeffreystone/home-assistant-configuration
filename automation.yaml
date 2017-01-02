@@ -1,0 +1,6 @@
+# Sun Based
+- !include automations/sunset_outside_on.yaml
+- !include automations/sunset_inside_on.yaml
+# Weather Based
+- !include automations/cloudy_inside_on.yaml
+
