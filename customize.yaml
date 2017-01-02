@@ -73,7 +73,9 @@ sensor.jeff_phone_battery:
 sensor.jeff_velocity:
   icon: mdi:speedometer
   friendly_name: Jeff's Current Speed
-  
+input_select.jeff_status:
+  friendly_name: "Jeff's Status"
+
 device_tracker.katheriesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
@@ -108,10 +110,10 @@ sensor.appletv:
 sensor.xboxone:
   icon: mdi:xbox
   
-sensor.jarvis:
+sensor.tycho:
   icon: mdi:linux
   
-device_tracker.jarvis:
+device_tracker.tycho:
   hidden: true
 sensor.tightbeam:
   icon: mdi:linux

@@ -10,7 +10,7 @@
 
       tycho:
         friendly_name: 'tycho'
-        value_template: "{{ 'Online' if is_state('device_tracker.tycho', 'home') else 'Offline' }}"
+        value_template: "{{ 'Online' if is_state('device_tracker.jarvis', 'home') else 'Offline' }}"
 
       tightbeam:
         friendly_name: 'tightbeam'

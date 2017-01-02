@@ -21,6 +21,7 @@ network:
   view: yes
   entities:
     - group.internet
+    - group.computers
     - group.home_automation
     - group.entertainment
     - group.servers
@@ -41,15 +42,13 @@ Family:
 Jeffrey:
     - device_tracker.owntracks_jeffreysphone
     - sensor.jeff_phone_battery
+    - input_select.jeff_status
     - sensor.jeff_velocity
-    - device_tracker.jeffreyonesipad
-    - device_tracker.jeffreysmbp
-    - device_tracker.jstonemac
+    
 
 Katherine:
     - device_tracker.katheriesiphone
-    - device_tracker.katherinesipad
-    - sensor.kat_mini
+    
 
 Thermostat:
     - thermostat.first_floor
@@ -103,8 +102,15 @@ Home Automation:
 #Cameras:
 #  - device_tracker.ipcam_00626e46eb09_1
 
+Computers:
+  - device_tracker.jeffreyonesipad
+  - device_tracker.jeffreysmbp
+  - device_tracker.jstonemac
+  - device_tracker.katherinesipad
+  - sensor.kat_mini
+
 Servers:
-  - sensor.jarvis
+  - sensor.tycho
   - sensor.tightbeam
 
 Living Room:
