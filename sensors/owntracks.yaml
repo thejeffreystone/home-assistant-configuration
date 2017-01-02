@@ -1,11 +1,7 @@
 - platform: mqtt
-  sensors:
-    Jeffs Phone Battery:
-      state_topic: "owntracks/owntracks/jeffreysphone"
-      unit_of_measurement: "%"
-      value_template: '{{ value_json.batt }}'
+  state_topic: "owntracks/owntracks/jeffreysphone"
+  name: "Jeff iPhone Battery"
+  unit_of_measurement: "%"
+  value_template: '{{ value_json.batt }}'
 
-   #state_topic: "owntracks/owntracks/jeffreysphone"
-   #name: "Jeffs Velocity"
-   #unit_of_measurement: "%"
-   #value_template: '{{ value_json.vel }}'
+   

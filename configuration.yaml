@@ -2,7 +2,7 @@ homeassistant:
   name: Home
   latitude: !secret MY_LATITUDE
   longitude: !secret MY_LONGITUDE
-  temperature_unit: F
+  temperature_unit: imperial
   time_zone: America/New_York
   customize: !include customize.yaml
 group: !include groups.yaml
