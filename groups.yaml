@@ -37,21 +37,24 @@ environment:
 ### Grops ###
 Family:
     - device_tracker.owntracks_jeffreysphone
-    - device_tracker.katheriesiphone
+    - device_tracker.katherinestonesiphone
 
 Jeffrey:
     - device_tracker.owntracks_jeffreysphone
-    - sensor.jeff_phone_battery
+    - sensor.jeff_iphone_batt
     - input_select.jeff_status
-    - sensor.jeff_velocity
-    
+    - sensor.jeff_ett_home
+
+Jeff Trackers:
+  - device_tracker.owntracks_jeffreysphone
+  - device_tracker.jeffreysiphone
 
 Katherine:
-    - device_tracker.katheriesiphone
-    
+    - device_tracker.katherinestonesiphone
+    - sensor.kat_iphone_batt
 
 Thermostat:
-    - thermostat.first_floor
+    - climate.first_floor
 
 Weather:
     - sun.sun
@@ -63,7 +66,7 @@ Weather:
     - sensor.dark_sky_wind_bearing
     - sensor.dark_sky_visibility
     - sensor.dark_sky_pressure
-    
+
 Sun:
     - sun.sun
 
@@ -115,8 +118,11 @@ Servers:
 
 Living Room:
   - switch.fireplace_lights
-  - switch.tower_lamp
+  - light.tower_lamp
   - switch.rail_lights
+  - scene.livingroom_dim
+  - scene.livingroom_night
+  - scene.livingroom_normal
 
 Outside:
   - switch.driveway_light
