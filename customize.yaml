@@ -67,7 +67,14 @@ device_tracker.owntracks_jeffreysphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
+device_tracker.jeffreysiphone:
+  #icon: mdi:human-male
+  entity_picture: !secret JEFF_ICON
+  friendly_name: Jeff
 sensor.jeff_phone_battery:
+  icon: mdi:battery-30
+  friendly_name: Jeff's iPhone Battery
+sensor.jeff_iphone_batt:
   icon: mdi:battery-30
   friendly_name: Jeff's iPhone Battery
 sensor.jeff_velocity:
@@ -75,8 +82,11 @@ sensor.jeff_velocity:
   friendly_name: Jeff's Current Speed
 input_select.jeff_status:
   friendly_name: "Jeff's Status"
+sensor.jeff_ett_home:
+  friendly_name: "Jeffs ETA Home"
+  icon: mdi:car
 
-device_tracker.katheriesiphone:
+device_tracker.katherinestonesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
@@ -103,26 +113,26 @@ device_tracker.gateway2f3bca:
 
 sensor.kat_mini:
   icon: mdi:desktop-mac
-  
+
 sensor.appletv:
   icon: mdi:apple
-  
+
 sensor.xboxone:
   icon: mdi:xbox
-  
+
 sensor.tycho:
   icon: mdi:linux
-  
+
 device_tracker.tycho:
   hidden: true
 sensor.tightbeam:
   icon: mdi:linux
-  
+
 device_tracker.tightbeam:
   hidden: true
 sensor.chromecast:
   icon: mdi:cast
-  
+
 sensor.samsungtv:
   icon: mdi:television
 
