@@ -8,7 +8,6 @@
   name: "Jeff Velocity"
   state_topic: "owntracks/owntracks/jeffreysphone"
   qos: 0
-  unit_of_measurement: ""
-  value_template: '{{ value_json.vel }}'
+  unit_of_measurement: "mph"
+  value_template: '{{ value_json.vel }} '
 
-   
