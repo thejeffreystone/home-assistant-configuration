@@ -2,16 +2,19 @@ homeassistant:
   name: Home
   latitude: !secret MY_LATITUDE
   longitude: !secret MY_LONGITUDE
+  elevation: 315
   unit_system: imperial
   time_zone: America/New_York
   customize: !include customize.yaml
 group: !include groups.yaml
 automation: !include automation.yaml
 sensor: !include_dir_merge_list sensors
+light: !include_dir_merge_list lights
 switch: !include_dir_merge_list switches
 script: !include scripts.yaml
 alexa: !include alexa/intents.yaml
 input_select: !include input_select.yaml
+scene: !include scenes.yaml
 
 http:
   api_password: !secret MY_API_PASS
@@ -97,7 +100,7 @@ conversation:
 #  mjpeg_url: !secret CAMERA
 #  name: Skylars Room
 
-thermostat:
+climate:
   platform: honeywell
   username: !secret HONEYWELL_USER
   password: !secret HONEYWELL_PASS
@@ -114,20 +117,23 @@ device_tracker:
     track_new_devices: yes
     interval_seconds: 60
     consider_home: 180
-  - platform: owntracks
-    max_gps_accuracy: 200
+  #- platform: owntracks
+  #  max_gps_accuracy: 200
+  #  consider_home: 180
+  - platform: icloud
+    username: !secret ICLOUD_USER
+    password: !secret ICLOUD_PASS
+    interval_seconds: 60
     consider_home: 180
-  #- platform: icloud
-    #username: !secret ICLOUD_USER
-    #password: !secret ICLOUD_PASS
-    #interval_seconds: 60
-    #consider_home: 180
 
-#notify:
+
+notify:
 #  platform: googlevoice
 #  username: !secret GV_USER
 #  password: !secret GV_PASS
 #  name: googlevoice
+  platform: pushbullet
+  api_key: !secret pushbullet_api
 
 ifttt:
   key: !secret IFTTT_API_KEY
@@ -145,5 +151,7 @@ updater:
 # Track the sun
 sun:
 
-  
+
+
+
 
