@@ -6,15 +6,6 @@
   payload_off: "off"
   retain: true
 - platform: mqtt
-  name: "Tower Lamp"
-  state_topic: "smartthings/Tower Lamp/switch"
-  command_topic: "smartthings/Tower Lamp/switch"
-  brightness_state_topic: "smartthings/Tower Lamp/level"
-  brightness_command_topic: "smartthings/Tower Lamp/level"
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
-- platform: mqtt
   name: "Rail Lights"
   state_topic: "smartthings/Stairs Rail/switch"
   command_topic: "smartthings/Stairs Rail/switch"

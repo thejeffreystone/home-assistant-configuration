@@ -2,13 +2,10 @@ sequence:
 - event: LOGBOOK_ENTRY
   event_data:
     name: EVENT
-    message: "Turning inside lights on."
-- service: switch.turn_on
+    message: "Turning inside lights off."
+- service: switch.turn_off
   data:
     entity_id: switch.tower_lamp
-- service: scene.turn_on
-  data:
-    entity_id: scene.livingroom_normal
 - service: notify.notify
   data:
     title: 'Anchorage House'

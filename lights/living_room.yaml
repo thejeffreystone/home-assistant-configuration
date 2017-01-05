@@ -1,0 +1,9 @@
+- platform: mqtt
+  name: "Tower Lamp"
+  state_topic: "smartthings/Tower Lamp/switch"
+  command_topic: "smartthings/Tower Lamp/switch"
+  brightness_state_topic: "smartthings/Tower Lamp/level"
+  brightness_command_topic: "smartthings/Tower Lamp/level"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
