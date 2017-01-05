@@ -1,0 +1,7 @@
+alias: "Sunset Inside on"
+trigger:
+  platform: sun
+  event: sunset
+  offset: "+01:00:00"
+action:
+  service: script.inside_all_off

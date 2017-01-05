@@ -1,6 +1,21 @@
+# General
+- !include automations/good_morning.yaml
+- !include automations/good_night.yaml
 # Sun Based
 - !include automations/sunset_outside_on.yaml
 - !include automations/sunset_inside_on.yaml
+- !include automations/sunset_outside_off.yaml
+- !include automations/sunset_inside_off.yaml
 # Weather Based
-- !include automations/cloudy_inside_on.yaml
+- !include automations/cloudy_inside_on_home.yaml
+# Jeff
+- !include automations/jeff_manheim_enter.yaml
+- !include automations/jeff_manheim_leave.yaml
+- !include automations/jeff_home_enter.yaml
+- !include automations/jeff_home_leave.yaml
+#- !include automations/jeff_stationary.yaml
+#- !include automations/jeff_driving.yaml
+#- !include automations/jeff_walking.yaml
+#- !include automations/jeff_driving.yaml
+# Zone
 

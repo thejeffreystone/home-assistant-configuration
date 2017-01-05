@@ -1,0 +1,12 @@
+alias: "Good Morning"
+trigger:
+  platform: sun
+  event: sunrise
+  offset: "-00:30:00"
+action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_normal
+  - service: notify.notify
+    data:
+      title: 'Anchorage House'
+      message: "Good Morning, Anchorage House is up and online."

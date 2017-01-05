@@ -1,0 +1,13 @@
+alias: "Good Night"
+trigger:
+  platform: time
+  hours: 22
+  minutes: 00
+  seconds: 00
+action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_night
+  - service: notify.notify
+    data:
+      title: 'Anchorage House'
+      message: "Shutting down for the night, Good Night"

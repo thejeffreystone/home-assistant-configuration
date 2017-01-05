@@ -1,9 +1,13 @@
-#trigger:
-#  platform: time
+alias: test
+trigger:
+  platform: time
   # Matches every hour at 5 minutes past whole
-#  minutes: 49
-#  seconds: 00
-#action:
-#  service: switch.turn_on
-#  data:
-#    entity_id: switch.fireplace_lights
+  minutes: 20
+  seconds: 00
+action:
+  ##service: scene.turn_on
+  #entity_id: scene.livingroom_night
+  - service: notify.notify
+    data:
+      title: 'This is a test'
+      message: "his is a test"

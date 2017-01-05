@@ -1,0 +1,15 @@
+alias: "Jeff Arrives Home"
+trigger:
+  platform: zone
+  event: enter
+  zone: zone.home
+  entity_id: device_tracker.jeffreysiphone
+action:
+  - service: notify.notify
+    data:
+      title: 'Anchorage House'
+      message: "Jeff is home!"
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.jeff_status
+      option: stationary

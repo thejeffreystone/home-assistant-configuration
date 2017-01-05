@@ -1,7 +1,7 @@
-alias: "Cloudy, inside on"
+alias: "Cloudy, inside on if home"
 trigger:
   platform: time
-  after: '14:40:00'
+  after: '14:00:00'
 condition:
   - condition: numeric_state
     entity_id: sensor.dark_sky_cloud_coverage
@@ -10,4 +10,7 @@ condition:
     entity_id: group.family
     state: "home"
 action:
-  service: script.inside_all_on
+  - service: notify.notify
+    data:
+      title: "It's Cloudy"
+      message: "It's Cloudy, you might need more light"

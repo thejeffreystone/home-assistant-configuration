@@ -1,0 +1,15 @@
+alias: "Jeff Leaves Manheim"
+trigger:
+  platform: zone
+  event: leave
+  zone: zone.manheim
+  entity_id: device_tracker.jeffreysiphone
+action:
+  - service: notify.notify
+    data:
+      title: 'Anchorage House'
+      message: "Jeff left Manheim"
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.jeff_status
+      option: moving

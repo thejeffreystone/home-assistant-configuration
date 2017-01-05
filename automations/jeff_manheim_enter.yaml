@@ -1,0 +1,15 @@
+alias: "Jeff Arrives At Manheim"
+trigger:
+  platform: zone
+  event: enter
+  zone: zone.manheim
+  entity_id: device_tracker.jeffreysiphone
+action:
+  - service: notify.notify
+    data:
+      title: 'Anchorage House'
+      message: "Jeff arrived at Manheim"
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.jeff_status
+      option: stationary
