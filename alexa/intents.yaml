@@ -4,11 +4,11 @@ intents:
         type: plaintext
         text: >
           {%- if is_state('device_tracker.owntracks_jeffreysphone', 'home') and
-                 is_state('device_tracker.katheriesiphone', 'home') -%}
+                 is_state('device_tracker.katherinestonesiphone', 'home') -%}
             You are both home
           {%- else -%}
-            Jeff is at {{ states("device_tracker.owntracks_jeffreysiphone") }}
-            and Kat is at {{ states("device_tracker.katheriesiphone") }}
+            Jeff is at {{ states("device_tracker.owntracks_jeffreysphone") }}
+            and Kat is at {{ states("device_tracker.katherinestonesiphone") }}
           {% endif %}
 
     WhereIsJeffIntent:
@@ -29,12 +29,12 @@ intents:
       speech:
         type: plaintext
         text: >
-          {%- if is_state('device_tracker.katheriesiphone', 'home') -%}
+          {%- if is_state('device_tracker.katherinestonesiphone', 'home') -%}
             Kat is at home
           {%- else -%}
-            {%- if is_state('device_tracker.katheriesiphone', 'not_home') -%}
+            {%- if is_state('device_tracker.katherinestonesiphone', 'not_home') -%}
               Kat is not here
             {%- else -%}
-              Kat is at {{ states("device_tracker.katheriesiphone") }}
+              Kat is at {{ states("device_tracker.katherinestonesiphone") }}
             {% endif %}
           {% endif %}
