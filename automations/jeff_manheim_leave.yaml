@@ -7,7 +7,7 @@ trigger:
 action:
   - service: notify.notify
     data:
-      title: 'Anchorage House'
+      title: 'Jeff Left Manheim'
       message: "Jeff left Manheim"
   - service: input_select.select_option
     data:

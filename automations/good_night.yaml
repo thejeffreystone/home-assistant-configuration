@@ -9,5 +9,5 @@ action:
     entity_id: scene.livingroom_night
   - service: notify.notify
     data:
-      title: 'Anchorage House'
+      title: 'Good Night'
       message: "Shutting down for the night, Good Night"

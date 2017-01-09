@@ -14,8 +14,8 @@ sequence:
     entity_id: switch.front_porch_left
 - service: switch.turn_off
   data:
-    entity_id: switch.front_porch_right  
+    entity_id: switch.front_porch_right
 - service: notify.notify
   data:
-    title: 'Anchorage House'
+    title: 'Outside lights are off'
     message: "Outside lights are off!"

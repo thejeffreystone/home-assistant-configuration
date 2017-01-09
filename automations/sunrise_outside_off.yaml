@@ -1,6 +1,10 @@
-alias: "Sunset Outside off"
+alias: "Sunrise Outside off"
 trigger:
   platform: sun
   event: sunrise
 action:
-  service: script.outside_all_off
+  - service: notify.notify
+    data:
+      title: 'Sun is Up!'
+      message: "Turning off Outside Lights."
+  - service: script.outside_all_off

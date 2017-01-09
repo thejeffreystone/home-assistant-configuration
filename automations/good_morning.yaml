@@ -8,5 +8,5 @@ action:
     entity_id: scene.livingroom_normal
   - service: notify.notify
     data:
-      title: 'Anchorage House'
+      title: 'Good Morning'
       message: "Good Morning, Anchorage House is up and online."

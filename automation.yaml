@@ -4,8 +4,8 @@
 # Sun Based
 - !include automations/sunset_outside_on.yaml
 - !include automations/sunset_inside_on.yaml
-- !include automations/sunset_outside_off.yaml
-- !include automations/sunset_inside_off.yaml
+- !include automations/sunrise_outside_off.yaml
+- !include automations/sunrise_inside_off.yaml
 # Weather Based
 - !include automations/cloudy_inside_on_home.yaml
 # Jeff

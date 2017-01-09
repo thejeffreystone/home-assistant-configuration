@@ -1,7 +1,7 @@
-alias: "Sunset Inside on"
+alias: "Sunrise Inside off"
 trigger:
   platform: sun
-  event: sunset
+  event: sunrise
   offset: "+01:00:00"
 action:
   service: script.inside_all_off
