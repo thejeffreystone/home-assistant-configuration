@@ -1,0 +1,15 @@
+alias: "Jeff Arrives At CAI"
+trigger:
+  platform: zone
+  event: enter
+  zone: zone.summit
+  entity_id: device_tracker.owntracks_jeffreysphone
+action:
+  - service: notify.notify
+    data:
+      title: 'Jeff is at CAI-Summit'
+      message: "Jeff arrived at CAI-Summit"
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.jeff_status
+      option: stationary
