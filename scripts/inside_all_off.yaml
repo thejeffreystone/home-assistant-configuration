@@ -8,5 +8,4 @@ sequence:
     entity_id: switch.tower_lamp
 - service: notify.notify
   data:
-    title: 'Turning inside lights off'
-    message: "Inside lights are off!"
+    message: "Inside lights are off"

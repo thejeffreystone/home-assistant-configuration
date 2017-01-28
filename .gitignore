@@ -1,1 +1,9 @@
 /*
+!/alexa
+!/automations
+!/lights
+!/scripts
+!/sensors
+!/switches
+!*.yaml
+!README.md

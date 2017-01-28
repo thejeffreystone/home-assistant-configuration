@@ -1,0 +1,10 @@
+alias: "Kat Leaves Home"
+trigger:
+  platform: zone
+  event: leave
+  zone: zone.home
+  entity_id: device_tracker.katheriesiphone_2
+action:
+  - service: notify.notify
+    data:
+      message: "Kat left home"

@@ -50,7 +50,7 @@ Jeff Trackers:
   - device_tracker.jeffreysiphone
 
 Katherine:
-    - device_tracker.katherinestonesiphone
+    - device_tracker.katheriesiphone_2
     - sensor.kat_iphone_batt
 
 Thermostat:

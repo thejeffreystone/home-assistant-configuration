@@ -1,0 +1,16 @@
+- name: livingroom normal
+  entities:
+    light.tower_lamp:
+      state: on
+      brightness: 100
+- name: livingroom dim
+  entities:
+    light.tower_lamp:
+      state: on
+      brightness: 40
+- name: livingroom night
+  entities:
+    light.tower_lamp:
+      state: on
+      brightness: 10
+

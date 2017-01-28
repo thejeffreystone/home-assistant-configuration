@@ -1,0 +1,10 @@
+alias: "Kat Arrives Home"
+trigger:
+  platform: zone
+  event: enter
+  zone: zone.home
+  entity_id: device_tracker.katheriesiphone_2
+action:
+  - service: notify.notify
+    data:
+      message: "Kat arrived home"

@@ -1,0 +1,9 @@
+jeff_status:
+  name: Jeff Status
+  options:
+   - driving
+   - stationary
+   - sleeping
+   - walking
+   - moving
+  initial: stationary

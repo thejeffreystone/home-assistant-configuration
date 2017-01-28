@@ -11,5 +11,4 @@ sequence:
     entity_id: scene.livingroom_normal
 - service: notify.notify
   data:
-    title: 'Inside lights are on'
-    message: "Inside lights are on!"
+    message: "Inside lights are on"

@@ -19,5 +19,8 @@
 #- !include automations/jeff_driving.yaml
 #- !include automations/jeff_walking.yaml
 #- !include automations/jeff_driving.yaml
-# Zone
-
+# Kat
+- !include automations/kat_work_enter.yaml
+- !include automations/kat_work_leave.yaml
+- !include automations/kat_home_enter.yaml
+- !include automations/kat_home_leave.yaml
