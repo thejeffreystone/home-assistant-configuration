@@ -52,6 +52,7 @@ Jeff Trackers:
 Katherine:
     - device_tracker.katheriesiphone_2
     - sensor.kat_iphone_batt
+    - sensor.kat_ett_home
 
 Thermostat:
     - climate.first_floor

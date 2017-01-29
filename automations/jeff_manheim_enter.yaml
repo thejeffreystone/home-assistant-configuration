@@ -7,7 +7,6 @@ trigger:
 action:
   - service: notify.notify
     data:
-      title: 'Jeff is at Manheim'
       message: "Jeff arrived at Manheim"
   - service: input_select.select_option
     data:

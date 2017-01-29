@@ -1,4 +1,4 @@
-alias: "Kat Leaves Home"
+alias: "Kat Leaves Work"
 trigger:
   platform: zone
   event: leave

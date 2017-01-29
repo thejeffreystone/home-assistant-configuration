@@ -7,8 +7,7 @@ trigger:
 action:
   - service: notify.notify
     data:
-      title: 'Jeff is Home'
-      message: "Jeff is home!"
+      message: "Jeff arrived home"
   - service: input_select.select_option
     data:
       entity_id: input_select.jeff_status

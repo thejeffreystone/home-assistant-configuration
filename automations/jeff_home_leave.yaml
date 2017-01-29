@@ -7,7 +7,6 @@ trigger:
 action:
   - service: notify.notify
     data:
-      title: 'Jeff Left Home'
       message: "Jeff left home"
   - service: input_select.select_option
     data:

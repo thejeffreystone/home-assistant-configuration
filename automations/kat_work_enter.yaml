@@ -1,4 +1,4 @@
-alias: "Kat Arrives Home"
+alias: "Kat Arrives Work"
 trigger:
   platform: zone
   event: enter

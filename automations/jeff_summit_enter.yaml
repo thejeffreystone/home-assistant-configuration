@@ -7,7 +7,6 @@ trigger:
 action:
   - service: notify.notify
     data:
-      title: 'Jeff is at CAI-Summit'
       message: "Jeff arrived at CAI-Summit"
   - service: input_select.select_option
     data:
