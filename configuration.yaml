@@ -68,9 +68,6 @@ device_tracker:
     track_new_devices: yes
     interval_seconds: 60
     consider_home: 180
-  - platform: owntracks
-    max_gps_accuracy: 200
-    consider_home: 180
   - platform: icloud
     username: !secret ICLOUD_USER
     password: !secret ICLOUD_PASS
