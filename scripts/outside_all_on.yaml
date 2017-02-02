@@ -17,4 +17,4 @@ sequence:
     entity_id: switch.front_porch_right
 - service: notify.notify
   data:
-    message: "Outside lights are on"
+    title: "Outside lights are on"

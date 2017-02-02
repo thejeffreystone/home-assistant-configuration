@@ -37,17 +37,13 @@ environment:
 ### Grops ###
 Family:
     - device_tracker.owntracks_jeffreysphone
-    - device_tracker.katherinestonesiphone
+    - device_tracker.katheriesiphone_2
 
 Jeffrey:
     - device_tracker.owntracks_jeffreysphone
     - sensor.jeff_iphone_batt
     - input_select.jeff_status
     - sensor.jeff_ett_home
-
-Jeff Trackers:
-  - device_tracker.owntracks_jeffreysphone
-  - device_tracker.jeffreysiphone
 
 Katherine:
     - device_tracker.katheriesiphone_2
