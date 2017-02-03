@@ -5,6 +5,6 @@ trigger:
 action:
   - service: notify.notify
     data:
-      title: 'Sun is Up!'
-      message: "Turning off Outside Lights."
+      title: 'HA: Turning Off Outside Ligts'
+      message: "Sun is up."
   - service: script.outside_all_off

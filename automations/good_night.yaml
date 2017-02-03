@@ -9,4 +9,4 @@ action:
     entity_id: scene.livingroom_night
   - service: notify.notify
     data:
-      message: "Shutting down for the night, Good Night"
+      title: "Shutting down for the night, Good Night"

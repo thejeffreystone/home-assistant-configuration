@@ -1,10 +1,1 @@
-- platform: mqtt
-  name: "Garage Door"
-  state_topic: 'smartthings/Garage Door/contact'
-  command_topic: 'smartthings/Garage Door/door'
-  state_open: 'open'
-  state_closed: 'closed'
-  service_open: 'open'
-  service_close: 'close'
-  retain: true
-  optimistic: true
+

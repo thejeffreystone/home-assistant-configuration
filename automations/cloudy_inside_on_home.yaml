@@ -12,5 +12,4 @@ condition:
 action:
   - service: notify.notify
     data:
-      title: "It's Cloudy"
-      message: "It's Cloudy, you might need more light"
+      title: "HA: Turning on Lights - Cloudy"
