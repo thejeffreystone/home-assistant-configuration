@@ -6,6 +6,7 @@ default_view:
       - group.family
       - group.outside
       - group.living_room
+      - group.garage
       - group.temperature
 
 people:
@@ -126,3 +127,6 @@ Outside:
   - switch.side_door_light
   - switch.front_porch_left
   - switch.front_porch_right
+
+Garage:
+  - switch.garage_door
