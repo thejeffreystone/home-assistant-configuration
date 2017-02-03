@@ -4,6 +4,10 @@
         friendly_name: 'Amazon Dot LR'
         value_template: "{{ 'Online' if is_state('device_tracker.kindlecdf98981f', 'home') else 'Offline' }}"
 
+      amazon_dot_kn:
+        friendly_name: 'Amazon Dot KN'
+        value_template: "{{ 'Online' if is_state('device_tracker.kindle23d7b37a0', 'home') else 'Offline' }}"
+
       circle:
         friendly_name: 'Disney Circle'
         value_template: "{{ 'Online' if is_state('device_tracker.circle', 'home') else 'Offline' }}"
@@ -48,6 +52,22 @@
         friendly_name: "Kat's Mini"
         value_template: "{{ 'Online' if is_state('device_tracker.katherinesmini', 'home') else 'Offline' }}"
 
+      jeff_mbp:
+        friendly_name: "Jeff's MBP"
+        value_template: "{{ 'Online' if is_state('device_tracker.jeffreysmbp', 'home') else 'Offline' }}"
+
+      jeff_work_mbp:
+        friendly_name: "Jeff's Work MBP"
+        value_template: "{{ 'Online' if is_state('device_tracker.jstonemac', 'home') else 'Offline' }}"
+
+      jeff_ipad:
+        friendly_name: "Jeff's iPad"
+        value_template: "{{ 'Online' if is_state('device_tracker.jeffreysipad', 'home') else 'Offline' }}"
+
+      kat_ipad:
+        friendly_name: "Kat's iPad"
+        value_template: "{{ 'Online' if is_state('device_tracker.katherinesipad', 'home') else 'Offline' }}"
+
       jeff_iphone_batt:
         unit_of_measurement: '%'
         value_template: >-
@@ -60,8 +80,8 @@
       kat_iphone_batt:
         unit_of_measurement: '%'
         value_template: >-
-            {%- if states.device_tracker.katheriesiphone_2.attributes.battery %}
-                {{ states.device_tracker.katheriesiphone_2.attributes.battery | round(1) }}
+            {%- if states.device_tracker.katherinesiphone.attributes.battery %}
+                {{ states.device_tracker.katherinesiphone.attributes.battery | round(1) }}
             {% else %}
                 {{ states.sensor.kat_iphone_batt.state }}
             {%- endif %}

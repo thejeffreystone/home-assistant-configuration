@@ -3,7 +3,7 @@ trigger:
   platform: zone
   event: leave
   zone: zone.home
-  entity_id: device_tracker.owntracks_jeffreysphone
+  entity_id: device_tracker.jeffreysiphone
 action:
   - service: notify.notify
     data:

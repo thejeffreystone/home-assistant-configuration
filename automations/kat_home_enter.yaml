@@ -3,7 +3,7 @@ trigger:
   platform: zone
   event: enter
   zone: zone.home
-  entity_id: device_tracker.katheriesiphone_2
+  entity_id: device_tracker.katherinesiphone
 action:
   - service: notify.notify
     data:

@@ -37,17 +37,17 @@ environment:
 
 ### Grops ###
 Family:
-    - device_tracker.owntracks_jeffreysphone
-    - device_tracker.katheriesiphone_2
+    - device_tracker.jeffreysiphone
+    - device_tracker.katherinesiphone
 
 Jeffrey:
-    - device_tracker.owntracks_jeffreysphone
+    - device_tracker.jeffreysiphone
     - sensor.jeff_iphone_batt
     - input_select.jeff_status
     - sensor.jeff_ett_home
 
 Katherine:
-    - device_tracker.katheriesiphone_2
+    - device_tracker.katherinesiphone
     - sensor.kat_iphone_batt
     - sensor.kat_ett_home
 
@@ -104,10 +104,10 @@ Home Automation:
 #  - device_tracker.ipcam_00626e46eb09_1
 
 Computers:
-  - device_tracker.jeffreyonesipad
-  - device_tracker.jeffreysmbp
-  - device_tracker.jstonemac
-  - device_tracker.katherinesipad
+  - sesnor.jeff_ipad
+  - sensor.jeff_mbp
+  - sensor.jeff_work_mbp
+  - sensor.kat_ipad
   - sensor.kat_mini
 
 Servers:
