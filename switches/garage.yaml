@@ -5,6 +5,6 @@
   state_open: 'open'
   state_closed: 'closed'
   service_open: 'open'
-  service_close: 'closed'
+  service_close: 'close'
   retain: true
   optimistic: true
