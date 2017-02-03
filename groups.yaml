@@ -129,4 +129,4 @@ Outside:
   - switch.front_porch_right
 
 Garage:
-  - switch.garage_door
+  - cover.garage_door

@@ -90,6 +90,19 @@ media_player:
   platform: cast
   host: 192.168.1.219
 
+cover:
+  - platform: mqtt
+    name: "Garage Door"
+    state_topic: 'smartthings/Garage Door/contact'
+    command_topic: 'smartthings/Garage Door/door'
+    state_open: 'open'
+    state_closed: 'closed'
+    payload_open: 'open'
+    payload_close: 'closed'
+    retain: true
+    optimistic: true
+    value_template: '{{ value.x }}'
+
 # Discover some devices automatically
 discovery:
 
