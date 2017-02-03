@@ -86,7 +86,7 @@ sensor.jeff_ett_home:
   friendly_name: "Jeffs ETA Home"
   icon: mdi:car
 
-device_tracker.katheriesiphone_2:
+device_tracker.katherinesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
@@ -114,6 +114,18 @@ device_tracker.gateway2f3bca:
 sensor.kat_mini:
   icon: mdi:desktop-mac
 
+sensor.jeff_work_mbp:
+  icon: mdi:laptop-mac
+
+sensor.jeff_mbp:
+  icon: mdi:laptop-mac
+
+sensor.jeff_ipad:
+  icon: mdi:tablet-ipad
+
+sensor.kat_ipad:
+  icon: mdi:tablet-ipad
+
 sensor.appletv:
   icon: mdi:apple
 
@@ -137,6 +149,9 @@ sensor.samsungtv:
   icon: mdi:television
 
 sensor.amazon_dot_lr:
+  icon: mdi:amazon
+
+sensor.amazon_dot_kn:
   icon: mdi:amazon
 
 sensor.honeywell:

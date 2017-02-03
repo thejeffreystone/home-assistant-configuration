@@ -98,13 +98,14 @@ Entertainment:
 Home Automation:
   - sensor.smartthings
   - sensor.amazon_dot_lr
+  - sensor.amazon_dot_kn
   - sensor.honeywell
 
 #Cameras:
 #  - device_tracker.ipcam_00626e46eb09_1
 
 Computers:
-  - sesnor.jeff_ipad
+  - sensor.jeff_ipad
   - sensor.jeff_mbp
   - sensor.jeff_work_mbp
   - sensor.kat_ipad
