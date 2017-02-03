@@ -1,0 +1,16 @@
+alias: "Close Garage at Nine"
+trigger:
+  platform: time
+  hours: 21
+  minutes: 00
+  seconds: 00
+condition:
+  condition: state
+  entity_id: cover.garage_door
+  state: "open"
+action:
+  - service: cover.close_cover
+    entity_id: cover.garage_door
+  - service: notify.notify
+    data:
+      message: "HA: Closing Garage Door"
