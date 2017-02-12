@@ -87,8 +87,11 @@ ifttt:
   key: !secret IFTTT_API_KEY
 
 media_player:
-  platform: cast
-  host: 192.168.1.219
+  - platform: cast
+    host: 192.168.1.219
+  - platform: apple_tv
+    host: 192.168.1.12
+    login_id: !secret apple_tv_login
 
 cover:
   - platform: mqtt
