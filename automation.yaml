@@ -18,3 +18,6 @@
 # Kat
 - !include automations/kat_home_enter.yaml
 - !include automations/kat_home_leave.yaml
+# Garage
+- !include automations/close_garage_at_nine.yaml
+- !include automations/close_garage_on_away.yaml
