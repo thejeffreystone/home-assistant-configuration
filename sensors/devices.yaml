@@ -22,7 +22,14 @@
 
       appletv:
         friendly_name: 'Apple Tv'
-        value_template: "{{ 'Online' if is_state('device_tracker.appletv', 'home') else 'Offline' }}"
+        value_template: >-
+            {%- if is_state("device_tracker.appletv", "home") %}
+                Online
+            {%  elif is_state("device_tracker.appletv", "playing") %}
+                Playing
+            {% else %}
+                Offline
+            {%- endif %}
 
       xboxone:
         friendly_name: 'xboxone'
