@@ -23,11 +23,11 @@
       appletv:
         friendly_name: 'Apple Tv'
         value_template: >-
-            {%- if is_state("media_player.appletv", "on") %}
+            {%- if is_state("media_player.apple_tv", "on") %}
                 On
-            {%  elif is_state("media_player.appletv", "playing") %}
-                Playing  {%- if states.media_player.appletv.attributes.media_title %}
-                    - {{ states.media_player.appletv.attributes.media_title }}
+            {%  elif is_state("media_player.apple_tv", "playing") %}
+                Playing  {%- if states.media_player.apple_tv.attributes.media_title %}
+                    - {{ states.media_player.apple_tv.attributes.media_title }}
             {% else %}
                 Off
             {%- endif %}
