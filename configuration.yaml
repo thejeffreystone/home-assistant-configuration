@@ -28,6 +28,55 @@ zone:
   radius: 100
   icon: mdi:account-multiple
 
+zone 2:
+  name: Manheim
+  latitude: !secret WORK_LATITUDE
+  longitude: !secret WORK_LONGITUDE
+  radius: 500
+  icon: mdi:office
+
+zone 3:
+  name: Zoo Atlanta
+  latitude: 33.7321545
+  longitude: -84.3734925
+  radius: 350
+  icon: mdi:paw
+
+zone 4:
+  name: Gump
+  latitude: 33.89261183797744
+  longitude: -83.96071630537878
+  radius: 200
+  icon: mdi:school
+
+zone 5:
+  name: Pottery
+  latitude: 33.987571
+  longitude: -84.0951167
+  radius: 100
+  icon: mdi:palette
+
+zone 6:
+  name: The Learning Gym
+  latitude: 33.8992118
+  longitude: -84.0054688
+  radius: 100
+  icon: mdi:dumbbell
+
+zone 7:
+  name: Gwinnett Swim
+  latitude: 34.1414549
+  longitude: -83.9602195
+  radius: 100
+  icon: mdi:swim
+
+zone 8:
+  name: Summit
+  latitude: !secret SUMMIT_LATITUDE
+  longitude: !secret SUMMIT_LONGITUDE
+  radius: 500
+  icon: mdi:office
+
 mqtt:
  broker: 192.168.1.10
  port: 8883
@@ -72,6 +121,9 @@ device_tracker:
     username: !secret ICLOUD_USER
     password: !secret ICLOUD_PASS
     interval_seconds: 60
+    consider_home: 180
+  - platform: owntracks
+    max_gps_accuracy: 200
     consider_home: 180
 
 

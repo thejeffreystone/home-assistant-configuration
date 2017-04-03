@@ -42,7 +42,7 @@ Family:
 
 Jeffrey:
     - device_tracker.jeffreysiphone
-    - sensor.jeff_iphone_batt
+    - sensor.jeff_iphone_battery
     - input_select.jeff_status
     - sensor.jeff_ett_home
 
