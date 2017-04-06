@@ -1,9 +1,11 @@
 /*
+!*.yaml
 !/alexa
 !/automations
 !/lights
 !/scripts
 !/sensors
 !/switches
-!*.yaml
 !README.md
+known_devices.yaml
+secrets.yaml
