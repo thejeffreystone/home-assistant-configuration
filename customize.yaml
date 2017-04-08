@@ -90,7 +90,7 @@ device_tracker.katherinesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
-device_tracker.jeffreyonesipad:
+device_tracker.jeffreyonestonesipad:
   icon: mdi:tablet-ipad
   friendly_name: Jeff's iPad
 device_tracker.katherinesipad:
