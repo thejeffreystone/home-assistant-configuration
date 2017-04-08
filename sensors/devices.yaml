@@ -62,7 +62,7 @@
 
       jeff_ipad:
         friendly_name: "Jeff's iPad"
-        value_template: "{{ 'Online' if is_state('device_tracker.jeffreysipad', 'home') else 'Offline' }}"
+        value_template: "{{ 'Online' if is_state('device_tracker.jeffreystonesipad', 'home') else 'Offline' }}"
 
       kat_ipad:
         friendly_name: "Kat's iPad"
@@ -71,7 +71,7 @@
       jeff_iphone_batt:
         unit_of_measurement: '%'
         value_template: >-
-            {%- if states.device_tracker.jeffreystonsiphone.attributes.battery %}
+            {%- if states.device_tracker.jeffreystonesiphone.attributes.battery %}
                 {{ states.device_tracker.jeffreystonesiphone.attributes.battery | round(1) }}
             {% else %}
                 {{ states.sensor.jeff_iphone_batt.state }}
