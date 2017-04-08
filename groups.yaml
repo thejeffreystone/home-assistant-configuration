@@ -33,7 +33,6 @@ network:
     - group.internet
     - group.computers
     - group.home_automation
-    - group.entertainment
     - group.servers
 
 environment:
