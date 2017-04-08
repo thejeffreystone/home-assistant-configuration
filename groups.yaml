@@ -21,7 +21,7 @@ entertainment:
   name: Entertainment
   view: yes
   entities:
-    - media_player.pn60e550_pn60e550
+    - group.tvs
     - media_player.apple_tv
     - media_player.chromecast_lr
     - group.gaming
@@ -51,8 +51,8 @@ Family:
 Jeffrey:
     - device_tracker.jeffreysiphone
     - sensor.jeff_phone_battery
-    - input_select.jeff_status
     - sensor.jeff_ett_home
+    - input_select.jeff_status
 
 Katherine:
     - device_tracker.katherinesiphone
@@ -108,6 +108,8 @@ Home Automation:
 
 #Cameras:
 #  - device_tracker.ipcam_00626e46eb09_1
+TVs:
+  - sensor.samsungtv
 
 Computers:
   - sensor.jeff_ipad
