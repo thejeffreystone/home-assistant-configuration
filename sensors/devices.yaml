@@ -23,7 +23,7 @@
       appletv:
         friendly_name: 'Apple Tv'
         value_template: >-
-            {%- if is_state("media_player.apple_tv", "on") %}
+            {%- if is_state('media_player.apple_tv', 'on') %}
                 On
             {%  elif states.media_player.apple_tv.attributes.media_title) %}
                 {{ states.media_player.apple_tv.attributes.media_title }}
@@ -37,7 +37,7 @@
 
       chromecast:
         friendly_name: 'Chromecast'
-        value_template: "{{ 'On' if is_state("media_player.chromecast_lr", "on") else 'Off' }}"
+        value_template: "{{ 'On' if is_state('media_player.chromecast_lr', 'on') else 'Off' }}"
 
       smartthings:
         friendly_name: 'SmartThings'
@@ -46,7 +46,7 @@
       samsungtv:
         friendly_name: 'Samsung Tv'
         value_template: "{{ 'On' if is_state("media_player.pn60e550_pn60e550", "on") else 'Off' }}"
-            
+
       honeywell:
         friendly_name: 'Honeywell'
         value_template: "{{ 'Online' if is_state('device_tracker.gateway2f3bca', 'home') else 'Offline' }}"
