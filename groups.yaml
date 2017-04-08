@@ -90,10 +90,10 @@ Internet:
 #  - device_tracker.gateway2f3bca
 
 Entertainment:
-  - sensor.samsungtv
-  - sensor.appletv
+  - media_player.pn60e550_pn60e550
+  - media_player.apple_tv
   - sensor.xboxone
-  - sensor.chromecast
+  - media_player.chromecast_lr
 
 Home Automation:
   - sensor.smartthings

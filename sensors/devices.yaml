@@ -22,14 +22,7 @@
 
       appletv:
         friendly_name: 'Apple Tv'
-        value_template: >-
-            {%- if is_state('media_player.apple_tv', 'on') %}
-                On
-            {%  elif states.media_player.apple_tv.attributes.media_title) %}
-                {{ states.media_player.apple_tv.attributes.media_title }}
-            {% else %}
-                Off
-            {%- endif %}
+        value_template: "{{ 'On' if is_state('media_player.apple_tv', 'on') else 'Off' }}"
 
       xboxone:
         friendly_name: 'xboxone'
