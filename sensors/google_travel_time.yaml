@@ -1,7 +1,7 @@
 - platform: google_travel_time
   name: "Jeff ETT Home"
   api_key: !secret google_api
-  origin: device_tracker.owntracks_jeffreysiphone
+  origin: device_tracker.jeffreystonesiphone
   destination: zone.home
 - platform: google_travel_time
   name: "Kat ETT Home"
