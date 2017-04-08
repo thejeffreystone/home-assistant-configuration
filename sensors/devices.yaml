@@ -45,7 +45,7 @@
 
       samsungtv:
         friendly_name: 'Samsung Tv'
-        value_template: "{{ 'On' if is_state("media_player.pn60e550_pn60e550", "on") else 'Off' }}"
+        value_template: "{{ 'On' if is_state('media_player.pn60e550_pn60e550', 'on') else 'Off' }}"
 
       honeywell:
         friendly_name: 'Honeywell'
