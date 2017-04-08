@@ -67,7 +67,7 @@ device_tracker.owntracks_jeffreysphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
-device_tracker.jeffreysiphone:
+device_tracker.jeffreystonesiphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff

@@ -45,12 +45,12 @@ environment:
 
 ### Grops ###
 Family:
-    - device_tracker.jeffreysiphone
+    - device_tracker.jeffreystonesiphone
     - device_tracker.katherinesiphone
 
 Jeffrey:
-    - device_tracker.jeffreysiphone
-    - sensor.jeff_phone_battery
+    - device_tracker.jeffreystonesiphone
+    - sensor.jeff_iphone_batt
     - sensor.jeff_ett_home
     - input_select.jeff_status
 

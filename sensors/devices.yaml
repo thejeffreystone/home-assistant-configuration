@@ -71,8 +71,8 @@
       jeff_iphone_batt:
         unit_of_measurement: '%'
         value_template: >-
-            {%- if states.device_tracker.jeffreysiphone.attributes.battery %}
-                {{ states.device_tracker.jeffreysiphone.attributes.battery | round(1) }}
+            {%- if states.device_tracker.jeffreystonsiphone.attributes.battery %}
+                {{ states.device_tracker.jeffreystonesiphone.attributes.battery | round(1) }}
             {% else %}
                 {{ states.sensor.jeff_iphone_batt.state }}
             {%- endif %}
