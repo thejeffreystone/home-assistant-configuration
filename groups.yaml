@@ -17,6 +17,15 @@ people:
     - group.jeffrey
     - group.katherine
 
+entertainment:
+  name: Entertainment
+  view: yes
+  entities:
+    - media_player.pn60e550_pn60e550
+    - media_player.apple_tv
+    - media_player.chromecast_lr
+    - group.gaming
+
 network:
   name: Network
   view: yes
@@ -89,11 +98,8 @@ Internet:
 #HVAC:
 #  - device_tracker.gateway2f3bca
 
-Entertainment:
-  - media_player.pn60e550_pn60e550
-  - media_player.apple_tv
+Gaming:
   - sensor.xboxone
-  - media_player.chromecast_lr
 
 Home Automation:
   - sensor.smartthings
