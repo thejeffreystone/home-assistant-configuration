@@ -60,8 +60,8 @@
       kat_iphone_batt:
         unit_of_measurement: '%'
         value_template: >-
-            {%- if states.device_tracker.katheriesiphone_2.attributes.battery %}
-                {{ states.device_tracker.katheriesiphone_2.attributes.battery | round(1) }}
+            {%- if states.device_tracker.katherinesiphone.attributes.battery %}
+                {{ states.device_tracker.katherinesiphone.attributes.battery | round(1) }}
             {% else %}
                 {{ states.sensor.kat_iphone_batt.state }}
             {%- endif %}

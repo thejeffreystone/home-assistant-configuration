@@ -97,38 +97,41 @@ device_tracker.jeffreystonesiphone:
   friendly_name: Jeff
 sensor.jeff_phone_battery:
   icon: mdi:battery-30
-  friendly_name: Jeff's iPhone Battery
+  friendly_name: "Jeff's iPhone Battery"
 sensor.jeff_iphone_batt:
   icon: mdi:battery-30
-  friendly_name: Jeff's iPhone Battery
+  friendly_name: "Jeff's iPhone Battery"
 sensor.jeff_velocity:
   icon: mdi:speedometer
-  friendly_name: Jeff's Current Speed
+  friendly_name: "Jeff's Current Speed"
 input_select.jeff_status:
   friendly_name: "Jeff's Status"
 sensor.jeff_ett_home:
-  friendly_name: "Jeffs ETA Home"
+  friendly_name: "Jeff's ETA Home"
   icon: mdi:car
 
 device_tracker.katherinesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
+sensor.kat_iphone_batt:
+  icon: mdi:battery-30
+  friendly_name: "Kat's iPhone Battery"
 device_tracker.jeffreyonestonesipad:
   icon: mdi:tablet-ipad
-  friendly_name: Jeff's iPad
+  friendly_name: "Jeff's iPad"
 device_tracker.katherinesipad:
   icon: mdi:tablet-ipad
-  friendly_name: Kat's Ipad
+  friendly_name: "Kat's Ipad"
 device_tracker.jeffreysmbp:
   icon: mdi:laptop-mac
-  friendly_name: Jeff's MacBook
+  friendly_name: "Jeff's MacBook"
 device_tracker.jstonemac:
   icon: mdi:laptop-mac
-  friendly_name: Jeff's Work Mac
+  friendly_name: "Jeff's Work Mac"
 device_tracker.katherinesmini:
   icon: mdi:desktop-mac
-  friendly_name: Kat's Mini
+  friendly_name: "Kat's Mini"
 sensor.kat_ett_home:
   friendly_name: "Kat's ETA Home"
   icon: mdi:car
