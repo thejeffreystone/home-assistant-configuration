@@ -3,9 +3,9 @@ inside_all_on: !include scripts/inside_all_on.yaml
 outside_all_on: !include scripts/outside_all_on.yaml
 inside_all_off: !include scripts/inside_all_off.yaml
 outside_all_off: !include scripts/outside_all_off.yaml
-jeff_is_driving: !include scripts/jeff_is_driving.yaml
+jeff_is_moving: !include scripts/jeff_is_moving.yaml
 jeff_is_stationary: !include scripts/jeff_is_stationary.yaml
 jeff_unknown: !include scripts/jeff_unknown.yaml
-kat_is_driving: !include scripts/kat_is_driving.yaml
+kat_is_moving: !include scripts/kat_is_moving.yaml
 kat_is_stationary: !include scripts/kat_is_stationary.yaml
 kat_unknown: !include scripts/kat_unknown.yaml
