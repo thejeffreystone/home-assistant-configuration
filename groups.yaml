@@ -2,92 +2,113 @@
 default_view:
     name: Home
     view: yes
+    icon: mdi:home
     entities:
       - group.family
       - group.outside
-      - group.living_room
-      - group.garage
       - group.temperature
 
 people:
   name: People
   view: yes
-#  icon: mdi:human-male-female
+  icon: mdi:human-male-female
   entities:
     - group.jeffrey
     - group.katherine
 
-entertainment:
-  name: Entertainment
+living:
+  name: Living
   view: yes
+  icon: mdi:sofa
   entities:
-    - group.tvs
+    - group.living_lights
+    - group.living_scenes
+    - group.living_tv
     - media_player.apple_tv
     - media_player.chromecast_lr
-    - group.gaming
+    - group.living_gaming
+
+outdoors:
+  name: Outdoors
+  view: yes
+  icon: mdi:tree
+  entities:
+    - group.outside_lights
+
+garage:
+  name: Garage
+  view: yes
+  icon: mdi:car
+  entities:
+    - group.garage_door
 
 network:
   name: Network
   view: yes
+  icon: mdi:network
   entities:
     - group.internet
     - group.computers
     - group.home_automation
     - group.servers
 
-environment:
+weather:
   name: Weather
   view: yes
+  icon: mdi:weather-partlycloudy
   entities:
     - group.weather
     - group.temperature
     - group.precipitation
 
+#################################################################################
 ### Grops ###
 Family:
-    - device_tracker.jeffreystonesiphone
-    - device_tracker.katherinesiphone
+  - device_tracker.jeffreystonesiphone
+  - sensor.jeff_ett_home
+  - device_tracker.katherinesiphone
+  - sensor.kat_ett_home
 
 Jeffrey:
-    - device_tracker.jeffreystonesiphone
-    - sensor.jeff_iphone_batt
-    - sensor.jeff_ett_home
-    - input_select.jeff_status
+  - device_tracker.jeffreystonesiphone
+  - sensor.jeff_iphone_batt
+  - sensor.jeff_ett_home
+  - input_select.jeff_status
 
 Katherine:
-    - device_tracker.katherinesiphone
-    - sensor.kat_iphone_batt
-    - sensor.kat_ett_home
+  - device_tracker.katherinesiphone
+  - sensor.kat_iphone_batt
+  - sensor.kat_ett_home
 
 Thermostat:
-    - climate.first_floor
+  - climate.first_floor
 
 Weather:
-    - sun.sun
-    - sensor.dark_sky_summary
-    - sensor.dark_sky_apparent_temperature
-    - sensor.dark_sky_humidity
-    - sensor.dark_sky_cloud_coverage
-    - sensor.dark_sky_wind_speed
-    - sensor.dark_sky_wind_bearing
-    - sensor.dark_sky_visibility
-    - sensor.dark_sky_pressure
+  - sun.sun
+  - sensor.dark_sky_summary
+  - sensor.dark_sky_apparent_temperature
+  - sensor.dark_sky_humidity
+  - sensor.dark_sky_cloud_coverage
+  - sensor.dark_sky_wind_speed
+  - sensor.dark_sky_wind_bearing
+  - sensor.dark_sky_visibility
+  - sensor.dark_sky_pressure
 
 Sun:
-    - sun.sun
+  - sun.sun
 
 Temperature:
-    - sensor.dark_sky_temperature
-    - sensor.dark_sky_apparent_temperature
-    - sensor.dark_sky_humidity
-    - sensor.dark_sky_dew_point
+  - sensor.dark_sky_temperature
+  - sensor.dark_sky_apparent_temperature
+  - sensor.dark_sky_humidity
+  - sensor.dark_sky_dew_point
 
 Precipitation:
-    - sensor.dark_sky_nearest_storm_distance
-    - sensor.dark_sky_nearest_storm_bearing
-    - sensor.dark_sky_precip
-    - sensor.dark_sky_precip_probability
-    - sensor.dark_sky_precip_intensity
+  - sensor.dark_sky_nearest_storm_distance
+  - sensor.dark_sky_nearest_storm_bearing
+  - sensor.dark_sky_precip
+  - sensor.dark_sky_precip_probability
+  - sensor.dark_sky_precip_intensity
 
 Internet:
   - sensor.speedtest_ping
@@ -96,9 +117,6 @@ Internet:
 
 #HVAC:
 #  - device_tracker.gateway2f3bca
-
-Gaming:
-  - sensor.xboxone
 
 Home Automation:
   - sensor.smartthings
@@ -111,6 +129,12 @@ Home Automation:
 TVs:
   - sensor.samsungtv
 
+Living TV:
+  - sensor.samsungtv
+
+Living Gaming:
+  - sensor.xboxone
+
 Computers:
   - sensor.jeff_ipad
   - sensor.jeff_mbp
@@ -122,19 +146,21 @@ Servers:
   - sensor.tycho
   - sensor.tightbeam
 
-Living Room:
+Living Lights:
   - switch.fireplace_lights
   - light.tower_lamp
   - switch.rail_lights
+
+Living Scenes:
   - scene.livingroom_dim
   - scene.livingroom_night
   - scene.livingroom_normal
 
-Outside:
+Outside Lights:
   - switch.driveway_light
   - switch.side_door_light
   - switch.front_porch_left
   - switch.front_porch_right
 
-Garage:
+Garage Door:
   - cover.garage_door
