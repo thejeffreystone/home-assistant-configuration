@@ -73,6 +73,18 @@ sensor.dark_sky_visability:
   icon: mdi:eye-outline
   friendly_name: Visability
 
+sensor.dark_sky_daily_low_temperature:
+  friendly_name: Todays Low
+  icon: thermometer-lines
+
+sensor.dark_sky_daily_high_temperature:
+  friendly_name: Todays High
+  icon: thermometer-lines
+
+sensor.dark_sky_daily_max_precip_intensity:
+  friendly_name: Rain Intensity
+  icon: gauge
+
 # Devices #
 
 device_tracker.owntracks_jeffreysphone:
@@ -197,18 +209,20 @@ switch.rail_lights:
 
 sensor.garage_door:
   icon: mdi:garage
+  friendly_name: Garage Door
 
 cover.garage_door:
   icon: mdi:garage
+  friendly_name: Garage Door
 
 sensor.home_to_summit:
-  friendly_name: "Time to Summit"
+  friendly_name: "Home to Summit"
   icon: mdi:car
 
 sensor.home_to_zoo:
-  friendly_name: "Time to Zoo Atlanta"
+  friendly_name: "Home to Zoo Atlanta"
   icon: mdi:car
 
 sensor.pws_alerts:
   friendly_name: "Weather Alerts"
-  icon: mdi.alert
+  icon: mdi:alert
