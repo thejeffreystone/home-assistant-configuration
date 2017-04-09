@@ -46,7 +46,19 @@ sensor.dark_sky_nearest_storm_bearing:
 sensor.dark_sky_wind_speed:
   icon: mdi:weather-windy
   friendly_name: Wind Speed
+sensor.pws_wind_mph:
+  icon: mdi:weather-windy
+  friendly_name: Wind Speed
+sensor.pws_wind_gust_mph:
+  icon: mdi:weather-windy
+  friendly_name: Wind Gusts
+sensor.pws_precip_today_in:
+  icon: mdi:gauge
+  friendly_name: Rain Gauge
 sensor.dark_sky_wind_bearing:
+  icon: mdi:compass-outline
+  friendly_name: Wind Direction
+sensor.pws_wind_dir:
   icon: mdi:compass-outline
   friendly_name: Wind Direction
 sensor.dark_sky_ozone:
@@ -196,3 +208,7 @@ sensor.home_to_summit:
 sensor.home_to_zoo:
   friendly_name: "Time to Zoo Atlanta"
   icon: mdi:car
+
+sensor.pws_alerts:
+  friendly_name: "Weather Alerts"
+  icon: mdi.alert
