@@ -5,8 +5,8 @@ default_view:
     icon: mdi:home
     entities:
       - group.family
-      - group.outside
       - group.temperature
+      - group.security
 
 people:
   name: People
@@ -164,3 +164,6 @@ Outside Lights:
 
 Garage Door:
   - cover.garage_door
+
+Security:
+  - sensor.garage_door

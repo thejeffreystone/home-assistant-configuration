@@ -180,3 +180,9 @@ switch.front_porch_right:
 
 switch.rail_lights:
   icon: mdi:lightbulb
+
+sensor.garage_door:
+  icon: mdi:garage
+
+cover.garage_door:
+  icon: mdi:garage

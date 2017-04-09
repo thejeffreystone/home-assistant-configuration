@@ -1,0 +1,6 @@
+- platform: mqtt
+  name: "Garage Door"
+  state_topic: "smartthings/Garage Door/contact"
+  qos: 0
+  unit_of_measurement: ""
+  value_template: '{{ value.x }}'
