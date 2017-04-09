@@ -186,3 +186,11 @@ sensor.garage_door:
 
 cover.garage_door:
   icon: mdi:garage
+
+sensor.home_to_summit:
+  friendly_name: "Time to Summit"
+  icon: mdi:car
+
+sensor.home_to_zoo:
+  friendly_name: "Time to Zoo Atlanta"
+  icon: mdi:car

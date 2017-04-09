@@ -6,6 +6,7 @@ default_view:
     entities:
       - group.family
       - group.temperature
+      - group.sun_and_moon
       - group.travel_times
       - group.security
 
@@ -66,9 +67,7 @@ weather:
 ### Grops ###
 Family:
   - device_tracker.jeffreystonesiphone
-  - sensor.jeff_ett_home
   - device_tracker.katherinesiphone
-  - sensor.kat_ett_home
 
 Jeffrey:
   - device_tracker.jeffreystonesiphone
@@ -80,10 +79,14 @@ Katherine:
   - device_tracker.katherinesiphone
   - sensor.kat_iphone_batt
   - sensor.kat_ett_home
+  - input_select.kat_status
 
 Travel Times:
   - sensor.home_to_summit
   - sensor.home_to_zoo
+  - sensor.jeff_ett_home
+  - sensor.kat_ett_home
+
 
 Living Lights:
   - switch.fireplace_lights
@@ -106,6 +109,7 @@ Thermostat:
 
 Weather:
   - sun.sun
+  - sensor.moon
   - sensor.dark_sky_summary
   - sensor.dark_sky_apparent_temperature
   - sensor.dark_sky_humidity
@@ -115,8 +119,9 @@ Weather:
   - sensor.dark_sky_visibility
   - sensor.dark_sky_pressure
 
-Sun:
+Sun and Moon:
   - sun.sun
+  - sensor.moon
 
 Temperature:
   - sensor.dark_sky_temperature

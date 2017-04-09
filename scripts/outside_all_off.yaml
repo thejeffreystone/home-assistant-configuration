@@ -15,6 +15,3 @@ sequence:
 - service: switch.turn_off
   data:
     entity_id: switch.front_porch_right
-- service: notify.notify
-  data:
-    title: "HA: Outside lights are off"

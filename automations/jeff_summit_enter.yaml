@@ -1,11 +1,11 @@
-alias: "Jeff Arrives Home"
+alias: "Jeff Arrives At Summit"
 trigger:
   platform: zone
   event: enter
-  zone: zone.home
+  zone: zone.summit
   entity_id: device_tracker.jeffreystonesiphone
 action:
   - service: notify.notify
     data:
-      message: "Jeff arrived home"
+      message: "Jeff arrived at Summit"
   - service: script.jeff_is_stationary

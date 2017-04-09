@@ -1,0 +1,9 @@
+sequence:
+- event: LOGBOOK_ENTRY
+  event_data:
+    name: EVENT
+    message: "Jeff Status Unknown"
+- service: input_select.select_option
+  data:
+    entity_id: input_select.jeff_status
+    option: unknown

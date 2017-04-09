@@ -1,11 +1,11 @@
-alias: "Jeff Leaves Home"
+alias: "Jeff Leaves Summit"
 trigger:
   platform: zone
   event: leave
-  zone: zone.home
+  zone: zone.summit
   entity_id: device_tracker.jeffreystonesiphone
 action:
   - service: notify.notify
     data:
-      message: "Jeff left home"
+      message: "Jeff left summit"
   - service: script.jeff_is_moving

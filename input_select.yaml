@@ -1,9 +1,14 @@
 jeff_status:
   name: Jeff Status
   options:
-   - driving
    - stationary
-   - sleeping
-   - walking
    - moving
-  initial: stationary
+   - unknown
+  initial: unknown
+kat_status:
+  name: Kat Status
+  options:
+   - stationary
+   - moving
+   - unknown
+  initial: unknown

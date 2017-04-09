@@ -9,6 +9,3 @@ sequence:
 - service: scene.turn_on
   data:
     entity_id: scene.livingroom_normal
-- service: notify.notify
-  data:
-    title: "HA: Inside lights are on"

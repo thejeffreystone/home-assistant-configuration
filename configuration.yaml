@@ -156,7 +156,6 @@ cover:
     payload_close: 'closed'
     retain: true
     optimistic: true
-    value_template: '{{ value.x }}'
 
 # Discover some devices automatically
 discovery:

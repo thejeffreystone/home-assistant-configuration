@@ -3,16 +3,10 @@ trigger:
   - platform: state
     entity_id: group.family
     state: "not home"
-  - platform: state
-    entity_id: cover.garage_door
-    state: "open"
 condition:
   - condition: state
     entity_id: cover.garage_door
     state: "open"
-  - condition: state
-    entity_id: group.family
-    state: "not home"
 action:
   - service: notify.notify
     data:

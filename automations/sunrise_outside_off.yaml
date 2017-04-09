@@ -3,8 +3,4 @@ trigger:
   platform: sun
   event: sunrise
 action:
-  - service: notify.notify
-    data:
-      title: 'HA: Turning Off Outside Ligts'
-      message: "Sun is up."
   - service: script.outside_all_off
