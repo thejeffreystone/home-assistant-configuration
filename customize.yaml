@@ -105,7 +105,9 @@ device_tracker.jstonemac:
 device_tracker.katherinesmini:
   icon: mdi:desktop-mac
   friendly_name: Kat's Mini
-
+sensor.kat_ett_home:
+  friendly_name: "Kat's ETA Home"
+  icon: mdi:car
 
 device_tracker.gateway2f3bca:
   icon: mdi:nest-thermostat
