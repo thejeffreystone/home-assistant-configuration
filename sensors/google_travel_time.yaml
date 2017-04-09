@@ -8,3 +8,13 @@
   api_key: !secret google_api
   origin: device_tracker.katherinesiphone
   destination: zone.home
+- platform: google_travel_time
+  name: "Home To Summit"
+  api_key: !secret google_api
+  origin: zone.home
+  destination: zone.summit
+- platform: google_travel_time
+  name: "Home To Zoo"
+  api_key: !secret google_api
+  origin: zone.home
+  destination: zone.zoo_atlanta

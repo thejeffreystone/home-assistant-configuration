@@ -6,6 +6,7 @@ default_view:
     entities:
       - group.family
       - group.temperature
+      - group.travel_times
       - group.security
 
 people:
@@ -24,9 +25,9 @@ living:
     - group.living_lights
     - group.living_scenes
     - group.living_tv
+    - group.living_gaming
     - media_player.apple_tv
     - media_player.chromecast_lr
-    - group.living_gaming
 
 outdoors:
   name: Outdoors
@@ -79,6 +80,26 @@ Katherine:
   - device_tracker.katherinesiphone
   - sensor.kat_iphone_batt
   - sensor.kat_ett_home
+
+Travel Times:
+  - sensor.home_to_summit
+  - sensor.home_to_zoo
+
+Living Lights:
+  - switch.fireplace_lights
+  - light.tower_lamp
+  - switch.rail_lights
+
+Living Scenes:
+  - scene.livingroom_dim
+  - scene.livingroom_night
+  - scene.livingroom_normal
+
+Outside Lights:
+  - switch.driveway_light
+  - switch.side_door_light
+  - switch.front_porch_left
+  - switch.front_porch_right
 
 Thermostat:
   - climate.first_floor
@@ -145,22 +166,6 @@ Computers:
 Servers:
   - sensor.tycho
   - sensor.tightbeam
-
-Living Lights:
-  - switch.fireplace_lights
-  - light.tower_lamp
-  - switch.rail_lights
-
-Living Scenes:
-  - scene.livingroom_dim
-  - scene.livingroom_night
-  - scene.livingroom_normal
-
-Outside Lights:
-  - switch.driveway_light
-  - switch.side_door_light
-  - switch.front_porch_left
-  - switch.front_porch_right
 
 Garage Door:
   - cover.garage_door
