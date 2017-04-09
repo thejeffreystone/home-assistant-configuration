@@ -3,8 +3,14 @@
     garage_door:
       unit_of_measurement: '%'
       value_template: >-
-          {%- if states.cover.garage_door }
-              {{ states.cover.garage_door }}
-          {% else %}
-              {{ states.sensor.garage_door.state }}
-          {%- endif %}
+          {%- if is_state("cover.garage_door", "open") %}
+                Open
+            {%  elif is_state("cover.garage_door", "opening") %}
+                Opening
+            {% elif is_state("cover.garage_door", "closed") %}
+                Closed
+            {% elif is_state("cover.garage_door", "closing") %}
+                Closing
+            {% else %}
+                Unknown
+            {%- endif %}
