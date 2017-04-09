@@ -10,5 +10,6 @@ condition:
 action:
   - service: notify.notify
     data:
-      title: "No one home, Garage Open"
+      title: "Jarvis"
+      message: "No one home, Closing Garage"
   - service: cover.close_cover

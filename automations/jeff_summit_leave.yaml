@@ -7,5 +7,6 @@ trigger:
 action:
   - service: notify.notify
     data:
-      message: "Jeff left summit"
+      title: "Jarvis"
+      message: "Jeff has left summit"
   - service: script.jeff_is_moving

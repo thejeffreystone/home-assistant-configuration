@@ -7,5 +7,6 @@ trigger:
 action:
   - service: notify.notify
     data:
-      message: "Jeff arrived home"
+      title: "Jarvis"
+      message: "Jeff has arrived home"
   - service: script.jeff_is_stationary

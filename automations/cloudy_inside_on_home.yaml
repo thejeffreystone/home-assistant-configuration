@@ -12,4 +12,5 @@ condition:
 action:
   - service: notify.notify
     data:
-      title: "HA: Turning on Lights - Cloudy"
+      title: "Jarvis"
+      message: "Turning on LR Lights"

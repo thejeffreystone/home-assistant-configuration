@@ -13,4 +13,5 @@ action:
     entity_id: cover.garage_door
   - service: notify.notify
     data:
-      message: "HA: Closing Garage Door"
+      title: "Jarvis"
+      message: "Closing Garage Door"
