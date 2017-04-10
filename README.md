@@ -17,6 +17,7 @@ Currently I am running HA on a Dell Optiplex running Ubuntu 16.04.
 * [Cree Connect Bulbs](http://a.co/91ddysL)
 * [Foscam FI8918W](http://a.co/cExSWZ7)
 * [ASUS RT-N66U](http://a.co/cCDuNkI)
+* [GoControl Z-Wave Garage Door Opener](http://a.co/iw3H4zQ)
 * AppleTv
 * ChromeCast
 
@@ -25,6 +26,7 @@ Currently I am running HA on a Dell Optiplex running Ubuntu 16.04.
 * IFTTT
 * Owntracks
 * MQTT (For Smartthings and Owntracks)
+* Google Maps (For Traffic/Travel Times)
 * [Smartthings-MQTT-Bridge](https://github.com/stjohnjohnson/smartthings-mqtt-bridge)
 * [Homebridge](https://github.com/nfarina/homebridge)
 
