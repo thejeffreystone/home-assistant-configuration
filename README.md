@@ -26,11 +26,12 @@ Currently I am running HA on a Dell Optiplex running Ubuntu 16.04.
 * Owntracks
 * MQTT (For Smartthings and Owntracks)
 * [Smartthings-MQTT-Bridge](https://github.com/stjohnjohnson/smartthings-mqtt-bridge)
+* [Homebridge](https://github.com/nfarina/homebridge)
 
 **Automations:**
 ```
-LOCATION AWARNESS:
-    Send notifications based on arrival and departure of zones as well as itegration with Echo so Alexa can provide location when asked.
+LOCATION AWARENESS:
+    Send notifications based on arrival and departure of zones as well as integration with Echo so Alexa can provide location when asked.
 
 SUNSET:
     Turn on Outside lights and Living Room Lamp (100%)
@@ -39,22 +40,22 @@ SUNRISE:
     Turn off all lights
 
 SECURITY
-    When smoke is dectected all lights turn on
+    When smoke is detected all lights turn on
 
 ```
 
-#Todo List
+**Todo List**
 
 * Move HA to RasberryPi 3.
 * Move Automations currently handled by Smartthings to HA.
 * Add LED Strips to stairs, kitchen cabinets.
 * Add Slack notifications.
-* Add GoControl Z-Wave Garage Door Opener
+* ~~Add GoControl Z-Wave Garage Door Opener~~
 * Put Door Sensor in Mailbox
 * Add scenes for various daily events and to streamline automation
 * Add RGB LED Bulbs to the lamps in the bedrooms and living areas
 * Add Motion detectors
 * Add door sensors
-* Integrate with Google Maps to provide traffic and ETA for daily driving routes
+* ~~Integrate with Google Maps to provide traffic and ETA for daily driving routes~~
 * Add Smart locks to ensure all doors are locked.
 * Replace other Smoke Detectors with Z-Wave Detectors.
