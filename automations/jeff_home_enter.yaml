@@ -1,9 +1,13 @@
 alias: "Jeff Arrives Home"
 trigger:
-  platform: zone
-  event: enter
-  zone: zone.home
-  entity_id: device_tracker.jeffreystonesiphone
+#  platform: zone
+#  event: enter
+#  zone: zone.home
+#  entity_id: device_tracker.jeffreystonesiphone
+  platform: mqtt
+  topic: anchoragehouse/jeffrey/status
+  # Optional
+  payload: 'stationary'
 action:
   - service: notify.notify
     data:
