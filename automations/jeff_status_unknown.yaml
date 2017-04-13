@@ -13,4 +13,4 @@ action:
     data:
       title: "Jarvis"
       message: "Jeff has arrived home"
-  - service: script.jeff_is_known
+  - service: script.jeff_unknown
