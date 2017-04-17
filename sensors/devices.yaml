@@ -76,6 +76,7 @@
             {% else %}
                 {{ states.sensor.jeff_iphone_batt.state }}
             {%- endif %}
+        icon_template: '{%- if is_state("sensor.jeff_iphone_batt", "unknown") %}mdi:battery-unknown{%- elif is_state_attr("device_tracker.jeffreystonesiphone", "battery_status", "Charging") %}mdi:battery-charging{%- elif  states.device_tracker.jeffreystonesiphone.attributes.battery <= 5 %}mdi:battery-outline{%- elif states.device_tracker.jeffreystonesiphone.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.jeffreystonesiphone.attributes.battery|float / 10)|round*10}}{%- endif %}'
 
       kat_iphone_batt:
         unit_of_measurement: '%'
@@ -85,3 +86,4 @@
             {% else %}
                 {{ states.sensor.kat_iphone_batt.state }}
             {%- endif %}
+       icon_template: '{%- if is_state("sensor.sensor.kat_iphone_batt", "unknown") %}mdi:battery-unknown{%- elif is_state_attr("device_tracker.katherinesiphone", "battery_status", "Charging") %}mdi:battery-charging{%- elif  states.device_tracker.katherinesiphone.attributes.battery <= 5 %}mdi:battery-outline{%- elif states.device_tracker.katherinesiphone.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.katherinesiphone.attributes.battery|float / 10)|round*10}}{%- endif %}'
