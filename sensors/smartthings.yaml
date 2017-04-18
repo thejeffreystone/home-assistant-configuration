@@ -14,4 +14,4 @@
             {% else %}
                 Unknown
             {%- endif %}
-      icon_template: '{%- if is_state("sensor.garage_door", "Closed") %}mdi:garage{%- elif is_state("sensor.garage_door", "Open") %}mdi:garage-open{% else %}mdi:sync-alert{%- endif %}'
+      icon_template: '{%- if is_state("cover.garage_door", "closed") %}mdi:garage{%- elif is_state("cover.garage_door", "open") %}mdi:garage-open{% else %}mdi:sync-alert{%- endif %}'
