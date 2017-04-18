@@ -209,10 +209,11 @@ switch.rail_lights:
   icon: mdi:lightbulb
 
 sensor.garage_door:
-  icon: mdi:garage
+
   friendly_name: Garage Door
 
 cover.garage_door:
+  icon: mdi:garage
   friendly_name: Garage Door
 
 sensor.home_to_summit:
