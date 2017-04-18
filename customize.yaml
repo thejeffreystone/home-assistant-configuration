@@ -213,7 +213,7 @@ sensor.garage_door:
   friendly_name: Garage Door
 
 cover.garage_door:
-  icon: mdi:garage
+  device_class: garage
   friendly_name: Garage Door
 
 sensor.home_to_summit:
