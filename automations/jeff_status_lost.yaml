@@ -1,0 +1,7 @@
+alias: "Jeff Status Lost"
+trigger:
+  platform: mqtt
+  topic: anchoragehouse/jeffrey/status
+  payload: 'unknown'
+action:
+  service: script.jeff_unknown

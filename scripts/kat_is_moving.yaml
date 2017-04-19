@@ -1,9 +1,0 @@
-sequence:
-- event: LOGBOOK_ENTRY
-  event_data:
-    name: EVENT
-    message: "Kat is Moving"
-- service: input_select.select_option
-  data:
-    entity_id: input_select.kat_status
-    option: moving

@@ -1,16 +1,11 @@
 alias: "Jeff Leaves Summit"
 trigger:
-#  platform: zone
-#  event: leave
-#  zone: zone.summit
-#  entity_id: device_tracker.jeffreystonesiphone
-  platform: mqtt
-  topic: anchoragehouse/jeffrey/status
-  # Optional
-  payload: 'moving'
+  platform: zone
+  event: leave
+  zone: zone.summit
+  entity_id: device_tracker.jeffreystonesiphone
 action:
   - service: notify.notify
     data:
       title: "Jarvis"
       message: "Jeff has left summit"
-  - service: script.jeff_is_moving

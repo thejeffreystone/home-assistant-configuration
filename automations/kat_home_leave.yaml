@@ -9,4 +9,3 @@ action:
     data:
       title: "Jarvis"
       message: "Kat has left home"
-  - service: script.kat_unknown

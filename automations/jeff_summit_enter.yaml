@@ -8,5 +8,4 @@ action:
   - service: notify.notify
     data:
       title: "Jarvis"
-      message: "Jeff has arrived at Summit"
-  - service: script.jeff_is_stationary
+      message: "Jeff is arriving at Summit"

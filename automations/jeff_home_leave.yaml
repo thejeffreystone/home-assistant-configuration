@@ -9,4 +9,3 @@ action:
     data:
       title: "Jarvis"
       message: "Jeff has left home"
-  - service: script.jeff_is_moving

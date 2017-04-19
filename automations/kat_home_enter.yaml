@@ -8,5 +8,4 @@ action:
   - service: notify.notify
     data:
       title: "Jarvis"
-      message: "Kat has arrived home"
-  - service: script.kat_is_stationary
+      message: "Kat is arriving home"
