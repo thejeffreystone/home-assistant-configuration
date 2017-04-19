@@ -83,7 +83,6 @@ Katherine:
   - device_tracker.katherinesiphone
   - sensor.kat_iphone_batt
   - sensor.kat_ett_home
-  - input_select.kat_status
 
 Travel Times:
   - sensor.home_to_summit
