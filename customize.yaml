@@ -109,7 +109,7 @@ sensor.jeff_ett_home:
   friendly_name: "Jeff's ETA Home"
   icon: mdi:car
 
-device_tracker.katherinesiphone:
+device_tracker.katherinestonesiphone:
   #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
