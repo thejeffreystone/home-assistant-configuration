@@ -6,7 +6,7 @@
 - platform: google_travel_time
   name: "Kat ETT Home"
   api_key: !secret google_api
-  origin: device_tracker.katherinesiphone
+  origin: device_tracker.katherinestonesiphone
   destination: zone.home
 - platform: google_travel_time
   name: "Home To Summit"

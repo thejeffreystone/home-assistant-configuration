@@ -71,7 +71,7 @@ Notices:
 
 Family:
   - device_tracker.jeffreystonesiphone
-  - device_tracker.katherinesiphone
+  - device_tracker.katherinestonesiphone
 
 Jeffrey:
   - device_tracker.jeffreystonesiphone
@@ -80,7 +80,7 @@ Jeffrey:
   - input_select.jeff_status
 
 Katherine:
-  - device_tracker.katherinesiphone
+  - device_tracker.katherinestonesiphone
   - sensor.kat_iphone_batt
   - sensor.kat_ett_home
 
