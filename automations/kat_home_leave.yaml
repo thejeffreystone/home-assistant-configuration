@@ -5,7 +5,6 @@ trigger:
   zone: zone.home
   entity_id: device_tracker.katherinesiphone
 action:
-  - service: notify.notify
+  - service: notify.ios_jeffreystonesiphone
     data:
-      title: "Jarvis"
       message: "Kat has left home"

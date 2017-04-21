@@ -10,5 +10,3 @@ action:
   service: notify.ios_jeffreystonesiphone
     data:
       message: "Test Alert"
-      data:
-        subtitle: "Just a test"

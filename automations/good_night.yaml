@@ -7,7 +7,6 @@ trigger:
 action:
   - service: scene.turn_on
     entity_id: scene.livingroom_night
-  - service: notify.notify
+  - service: notify.ios_jeffreystonesiphone
     data:
-      title: "Jarvis"
-      message: "Shutting down for the night, Good Night"
+      message: "House shutting down for the night, Good Night"

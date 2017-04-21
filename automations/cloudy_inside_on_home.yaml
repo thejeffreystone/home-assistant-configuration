@@ -10,7 +10,6 @@ condition:
     entity_id: group.family
     state: "home"
 action:
-  - service: notify.notify
+  - service: notify.ios_jeffreystonesiphone
     data:
-      title: "Jarvis"
-      message: "Turning on LR Lights"
+      message: "Cloudy, turning on LR Lamp"

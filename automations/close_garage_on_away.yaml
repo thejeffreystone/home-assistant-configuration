@@ -8,8 +8,7 @@ condition:
     entity_id: cover.garage_door
     state: "open"
 action:
-  - service: notify.notify
+  - service: notify.ios_jeffreystonesiphone
     data:
-      title: "Jarvis"
       message: "No one home, Closing Garage"
   - service: cover.close_cover
