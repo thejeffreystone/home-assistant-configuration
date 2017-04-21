@@ -1,14 +1,11 @@
 alias: test
 trigger:
   platform: time
-  # Matches every hour at 5 minutes past whole
-  minutes: 03
+  minutes: 10 
   seconds: 00
 action:
-  ##service: scene.turn_on
-  #entity_id: scene.livingroom_night
   service: notify.ios_jeffreystonesiphone
+  data:
+    message: "Test Alert"
     data:
-      message: "Test Alert"
-      data:
-        subtitle: "Just a test"
+    subtitle: "Just a test"

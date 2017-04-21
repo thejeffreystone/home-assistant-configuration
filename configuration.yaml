@@ -122,9 +122,6 @@ device_tracker:
     password: !secret ICLOUD_PASS
     interval_seconds: 60
     consider_home: 180
-  - platform: owntracks
-    max_gps_accuracy: 200
-    consider_home: 180
 
 
 notify:
@@ -132,8 +129,9 @@ notify:
 #  username: !secret GV_USER
 #  password: !secret GV_PASS
 #  name: googlevoice
-  platform: pushbullet
-  api_key: !secret pushbullet_api
+  - platform: pushbullet
+    api_key: !secret pushbullet_api
+  - platform: ios
 
 ifttt:
   key: !secret IFTTT_API_KEY
