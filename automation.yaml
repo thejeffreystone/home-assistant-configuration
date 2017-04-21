@@ -1,4 +1,5 @@
 # General
+- !include automations/test.yaml
 - !include automations/good_morning.yaml
 - !include automations/good_night.yaml
 # Sun Based

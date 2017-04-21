@@ -165,3 +165,7 @@ updater:
 
 # Track the sun
 sun:
+
+# iOS
+ios:
+  
