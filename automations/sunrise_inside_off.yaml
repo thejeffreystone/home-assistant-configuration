@@ -1,7 +1,8 @@
 alias: "Sunrise Inside off"
 trigger:
-  platform: sun
-  event: sunrise
-  offset: "+01:00:00"
+  platform: time
+  hours: 07
+  minutes: 00
+  seconds: 00
 action:
   service: script.inside_all_off

@@ -1,8 +1,9 @@
 alias: "Good Morning"
 trigger:
-  platform: sun
-  event: sunrise
-  offset: "-00:30:00"
+  platform: time
+  hours: 05
+  minutes: 15
+  seconds: 00
 action:
   - service: scene.turn_on
     entity_id: scene.livingroom_normal

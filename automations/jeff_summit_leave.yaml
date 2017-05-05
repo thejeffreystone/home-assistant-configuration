@@ -5,7 +5,6 @@ trigger:
   zone: zone.summit
   entity_id: device_tracker.jeffreystonesiphone
 action:
-  - service: notify.notify
+  - service: notify.ios_katherinestonesiphone
     data:
-      title: "Jarvis"
-      message: "Jeff has left summit"
+      message: "Jeff left summit"

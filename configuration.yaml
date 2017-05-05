@@ -78,8 +78,8 @@ zone 8:
   icon: mdi:office
 
 mqtt:
- broker: 192.168.1.10
- port: 8883
+ broker: 192.168.1.20
+ port: 1883
  username: !secret MQTT_USER
  password: !secret MQTT_PASS
 
@@ -114,7 +114,6 @@ device_tracker:
     mode: router
     username: !secret ROUTER_USER
     password: !secret ROUTER_PASS
-    track_new_devices: yes
     interval_seconds: 60
     consider_home: 180
   - platform: icloud
@@ -122,6 +121,7 @@ device_tracker:
     password: !secret ICLOUD_PASS
     interval_seconds: 60
     consider_home: 180
+  - platform: bluetooth_tracker
 
 
 notify:
@@ -129,9 +129,9 @@ notify:
 #  username: !secret GV_USER
 #  password: !secret GV_PASS
 #  name: googlevoice
-  - platform: pushbullet
-    api_key: !secret pushbullet_api
-  - platform: ios
+#  - platform: pushbullet
+#    api_key: !secret pushbullet_api
+  platform: ios
 
 ifttt:
   key: !secret IFTTT_API_KEY
@@ -166,4 +166,3 @@ sun:
 
 # iOS
 ios:
-  

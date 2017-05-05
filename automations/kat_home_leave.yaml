@@ -3,8 +3,8 @@ trigger:
   platform: zone
   event: leave
   zone: zone.home
-  entity_id: device_tracker.katherinesiphone
+  entity_id: device_tracker.katherinestonesiphone
 action:
   - service: notify.ios_jeffreystonesiphone
     data:
-      message: "Kat has left home"
+      message: "Kat left home"
