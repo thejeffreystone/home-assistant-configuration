@@ -1,5 +1,8 @@
 known_devices.yaml
 secrets.yaml
+entity_registry.yaml
+.HA_VERSION
+zones.yaml
 *ios.conf
 *.log
 *.db
