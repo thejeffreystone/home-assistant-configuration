@@ -1,0 +1,12 @@
+tornado_alarm:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Sounding Tornado Alarm"
+  - delay:
+      seconds: 15
+  - service: shell_command.tornado_alarm
+
+
+  

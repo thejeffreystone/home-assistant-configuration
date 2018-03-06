@@ -1,0 +1,13 @@
+tornado_warning:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Tornado Warning"
+  #- service: notify.jeff_ios
+  #  data:
+  #    message: 'Tornado Warning Issued for Anchorage House.'
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: Atention. Severe Weather Alert. A Tornado Warning has been issued for this area. Repeat. A Tornado Warning has been issued for this area. Sounding Alarm.

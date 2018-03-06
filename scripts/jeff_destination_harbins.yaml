@@ -1,0 +1,7 @@
+jeff_destination_harbins:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "jeff/driving/destination"
+        payload: "Harbins"
+        retain: true

@@ -1,0 +1,18 @@
+security_check_garage:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "SECURITY: Performing Security check - Garage"
+  - condition: state
+    #entity_id: sensor.garage_door_contact
+    entity_id: cover.garage_door
+    state: "open"
+  - delay:
+      minutes: 1
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.garage_issue
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.secure_mode

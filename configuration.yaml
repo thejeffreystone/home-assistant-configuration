@@ -6,142 +6,134 @@ homeassistant:
   unit_system: imperial
   time_zone: America/New_York
   customize: !include customize.yaml
-group: !include groups.yaml
-automation: !include automation.yaml
-sensor: !include_dir_merge_list sensors
-light: !include_dir_merge_list lights
-switch: !include_dir_merge_list switches
-script: !include scripts.yaml
-alexa: !include alexa/intents.yaml
-input_select: !include input_select.yaml
-scene: !include scenes.yaml
+
+frontend:
+  themes:
+    blue:
+      primary-color: "#356AA0"
 
 http:
   api_password: !secret MY_API_PASS
-  ssl_certificate: !secret SSL_CERT
-  ssl_key: !secret SSL_KEY
+  #ssl_certificate: !secret SSL_CERT
+  #ssl_key: !secret SSL_KEY
+  #base_url: !secret BASEURL
+  cors_allowed_origins:
+    - https://google.com
+    - https://home-assistant.io
+  use_x_forwarded_for: True
+  trusted_networks:
+    - 127.0.0.1
+    - 192.168.7.0/24
+  ip_ban_enabled: True
+  login_attempts_threshold: 5
 
-zone:
-  name: Home
-  latitude: !secret MY_LATITUDE
-  longitude: !secret MY_LONGITUDE
-  radius: 100
-  icon: mdi:account-multiple
+config:
 
-zone 2:
-  name: Manheim
-  latitude: !secret WORK_LATITUDE
-  longitude: !secret WORK_LONGITUDE
-  radius: 500
-  icon: mdi:office
+conversation:
 
-zone 3:
-  name: Zoo Atlanta
-  latitude: 33.7321545
-  longitude: -84.3734925
-  radius: 350
-  icon: mdi:paw
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.7.1/24
+    track_new_devices: yes
+  - platform: icloud
+    username: !secret ICLOUD_USER
+    password: !secret ICLOUD_PASS
+    track_new_devices: yes
+  - platform: geofency
+  - platform: owntracks
+    track_new_devices: yes
+  #- platform: bluetooth_tracker
 
-zone 4:
-  name: Gump
-  latitude: 33.89261183797744
-  longitude: -83.96071630537878
-  radius: 200
-  icon: mdi:school
+discovery:
 
-zone 5:
-  name: Pottery
-  latitude: 33.987571
-  longitude: -84.0951167
-  radius: 100
-  icon: mdi:palette
+updater:
+  #include_used_components: true
 
-zone 6:
-  name: The Learning Gym
-  latitude: 33.8992118
-  longitude: -84.0054688
-  radius: 100
-  icon: mdi:dumbbell
+sun:
 
-zone 7:
-  name: Gwinnett Swim
-  latitude: 34.1414549
-  longitude: -83.9602195
-  radius: 100
-  icon: mdi:swim
+#https://home-assistant.io/components/recorder/
+recorder:
+  purge_interval: 1
+  purge_keep_days: 3
 
-zone 8:
-  name: Summit
-  latitude: !secret SUMMIT_LATITUDE
-  longitude: !secret SUMMIT_LONGITUDE
-  radius: 500
-  icon: mdi:office
+#https://home-assistant.io/components/logger/
+logger:
+  default: error
+  logs:
+    homeassistant.components.sensor.template: critical
+    homeassistant.components.cover: critical
 
+history:
+
+#zwave:
+#  usb_path: /dev/ttyACM0
+
+media_player:
+  - platform: cast
+  - platform: apple_tv
+    host: 192.168.7.23
+    login_id: !secret apple_tv_login
+  - platform: roku
+    host: 192.168.7.52
+    name: roku living room
+  - platform: vlc
+    name: hass_speaker
+    arguments: '--alsa-audio-device=hw:0,0'
+
+tts:
+  - platform: google
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+
+notify:
+  - platform: ios
+  - name: all_ios
+    platform: group
+    services:
+      - service: ios_jeffreystonesiphone
+      - service: ios_jeffreystonesipad
+      - service: ios_katherinestonesiphone
+  - name: jeff_ios
+    platform: group
+    services:
+      - service: ios_jeffreystonesiphone
+      - service: ios_jeffreystonesipad
+ 
 mqtt:
- broker: 192.168.1.20
+ broker: 192.168.7.24
  port: 1883
  username: !secret MQTT_USER
  password: !secret MQTT_PASS
 
-# View all events in a logbook
-logbook:
 
-# Enables support for tracking state changes over time.
-history:
+### Includes ###
+alert: !include_dir_merge_named alerts/
+group: !include groups.yaml
+automation: !include_dir_merge_list automation
+sensor: !include_dir_merge_list sensors
+binary_sensor: !include_dir_merge_list binary_sensors
+light: !include_dir_merge_list lights
+switch: !include_dir_merge_list switches
+script: !include_dir_merge_named scripts/
+intent_script: !include intents/intents.yaml
+scene: !include scenes.yaml
+input_select: !include input_select.yaml
+input_boolean: !include input_boolean.yaml
+zone: !include zones.yaml
+ios: !include ios.yaml
 
-# Enables the frontend
-frontend:
-
-# Allows you to issue voice commands from the frontend
-conversation:
-
-#camera:
-#  platform: mjpeg
-#  mjpeg_url: !secret CAMERA
-#  name: Skylars Room
-
-climate:
-  platform: honeywell
-  username: !secret HONEYWELL_USER
-  password: !secret HONEYWELL_PASS
-  name: First Floor
-  region: us
-
-device_tracker:
-  - platform: asuswrt
-    host: 192.168.1.1
-    protocol: telnet
-    mode: router
-    username: !secret ROUTER_USER
-    password: !secret ROUTER_PASS
-    interval_seconds: 60
-    consider_home: 180
-  - platform: icloud
-    username: !secret ICLOUD_USER
-    password: !secret ICLOUD_PASS
-    interval_seconds: 60
-    consider_home: 180
-  - platform: bluetooth_tracker
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_token
 
 
-notify:
-#  platform: googlevoice
-#  username: !secret GV_USER
-#  password: !secret GV_PASS
-#  name: googlevoice
-#  - platform: pushbullet
-#    api_key: !secret pushbullet_api
-  platform: ios
+python_script:
+
+### Devices and Services
 
 ifttt:
   key: !secret IFTTT_API_KEY
-
-media_player:
-  - platform: cast
-    host: 192.168.1.219
-  - platform: apple_tv
-    host: 192.168.1.12
-    login_id: !secret apple_tv_login
 
 cover:
   - platform: mqtt
@@ -155,14 +147,23 @@ cover:
     retain: true
     optimistic: true
 
-# Discover some devices automatically
-discovery:
+climate:
+  platform: honeywell
+  username: !secret HONEYWELL_USER
+  password: !secret HONEYWELL_PASS
+  name: First Floor
+  region: us
+  scan_interval: 600
 
-# Checks for available updates
-updater:
+alexa:
 
-# Track the sun
-sun:
+map:
+  
+### Custom Commands
 
-# iOS
-ios:
+shell_command:
+  alarm_off: pkill mpg123
+  tornado_alarm: mpg123 /media/audio/Tornado_Siren.mp3
+  door_chime: mpg123 /media/audio/Store_Door_Chime.mp3
+  security_alarm: mpg123 /media/audio/security_siren.mp3
+  security_alarm_intro: mpg123 /media/audio/Siren_Noise.mp3

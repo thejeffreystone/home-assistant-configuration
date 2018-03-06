@@ -1,0 +1,8 @@
+vacation_canceled:
+  sequence:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: "on"
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.vacation_mode

@@ -1,14 +1,26 @@
-jeff_status:
-  name: Jeff Status
+alarm_mode:
+  name: alarm mode
   options:
-   - stationary
-   - moving
-   - unknown
-  initial: unknown
-kat_status:
-  name: Kat Status
+   - home_armed
+   - away_armed
+   - disarmed
+trash_pickup:
+  name: Trash Pickup
   options:
-   - stationary
-   - moving
-   - unknown
-  initial: unknown
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+  initial: Tuesday
+  icon: mdi:delete-variant 
+recycle_pickup:
+  name: Recycle Pickup
+  options:
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+  initial: Tuesday
+  icon: mdi:delete-variant

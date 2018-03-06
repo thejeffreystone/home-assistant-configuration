@@ -1,0 +1,50 @@
+push:
+  categories:
+  - name: Lamps Off
+    identifier: 'Lamps'
+    actions:
+      - identifier: 'LAMPS_OFF'
+        title: 'Lamps Off'
+        activationMode: 'background'
+        authenticationRequired: yes
+        destructive: yes
+        behavior: 'default'
+      - identifier: 'DISMISS'
+        title: 'Dismiss'
+        activationMode: 'background'
+        authenticationRequired: yes
+        destructive: no
+        behavior: 'default'
+
+  - name: Htpc Off
+    identifier: 'Htpc'
+    actions:
+      - identifier: 'HTPC_OFF'
+        title: 'Htpc Off'
+        activationMode: 'background'
+        authenticationRequired: yes
+        destructive: yes
+        behavior: 'default'
+      - identifier: 'DISMISS'
+        title: 'Dismiss'
+        activationMode: 'background'
+        authenticationRequired: yes
+        destructive: no
+        behavior: 'default'
+
+  - name: Dektop Off
+    identifier: 'Desktop'
+    actions:
+      - identifier: 'DESKTOP_OFF'
+        title: 'Desktop Off'
+        activationMode: 'background'
+        authenticationRequired: yes
+        destructive: yes
+        behavior: 'default'
+      - identifier: 'DISMISS'
+        title: 'Dismiss'
+        activationMode: 'background'
+        authenticationRequired: yes
+        destructive: no
+        behavior: 'default'
+

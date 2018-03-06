@@ -1,0 +1,14 @@
+test_tts:
+  sequence:
+    - service: tts.google_say
+      data_template:
+        entity_id: media_player.hass_speaker
+        message: >
+          {% if now().strftime("%H")|int < 12 %}
+          Good morning
+          {% elif now().strftime("%H")|int < 18 %}
+          Good afternoon
+          {% else %}
+          Good evening
+          {% endif %}
+          This is simply a test of google's text to speech platform

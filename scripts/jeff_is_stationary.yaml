@@ -1,9 +1,7 @@
-sequence:
-- event: LOGBOOK_ENTRY
-  event_data:
-    name: EVENT
-    message: "Jeff is Stationary"
-- service: input_select.select_option
-  data:
-    entity_id: input_select.jeff_status
-    option: stationary
+jeff_is_stationary:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "jeff/location/status"
+        payload: "stationary"
+        retain: true

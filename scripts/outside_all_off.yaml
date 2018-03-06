@@ -1,17 +1,15 @@
-sequence:
-- event: LOGBOOK_ENTRY
-  event_data:
-    name: EVENT
-    message: "Turning outside lights off."
-- service: switch.turn_off
-  data:
-    entity_id: switch.driveway_light
-- service: switch.turn_off
-  data:
-    entity_id: switch.side_door_light
-- service: switch.turn_off
-  data:
-    entity_id: switch.front_porch_left
-- service: switch.turn_off
-  data:
-    entity_id: switch.front_porch_right
+outside_all_off:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Turning outside lights off."
+  - service: switch.turn_off
+    data:
+      entity_id: switch.driveway_light
+  - service: switch.turn_off
+    data:
+      entity_id: switch.side_door_light
+  - service: switch.turn_off
+    data:
+      entity_id: switch.front_porch

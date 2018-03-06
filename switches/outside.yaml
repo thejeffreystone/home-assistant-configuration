@@ -6,23 +6,16 @@
   payload_off: "off"
   retain: true
 - platform: mqtt
-  name: "Side Door Light"
-  state_topic: "smartthings/Side Door Light/switch"
-  command_topic: "smartthings/Side Door Light/switch"
+  name: "Side Door"
+  state_topic: "smartthings/Side Door/switch"
+  command_topic: "smartthings/Side Door/switch"
   payload_on: "on"
   payload_off: "off"
   retain: true
 - platform: mqtt
-  name: "Front Porch Left"
-  state_topic: "smartthings/Porch Left/switch"
-  command_topic: "smartthings/Porch Left/switch"
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
-- platform: mqtt
-  name: "Front Porch Right"
-  state_topic: "smartthings/Porch Right/switch"
-  command_topic: "smartthings/Porch Right/switch"
+  name: "Front Porch"
+  state_topic: "smartthings/Front Porch/switch"
+  command_topic: "smartthings/Front Porch/switch"
   payload_on: "on"
   payload_off: "off"
   retain: true

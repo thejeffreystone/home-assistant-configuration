@@ -1,0 +1,17 @@
+status_report:
+  sequence:
+    - service: tts.google_say
+      data_template:
+        entity_id: media_player.hass_speaker
+        message: >
+          {% if now().strftime("%H")|int < 12 %}
+          Good morning
+          {% elif now().strftime("%H")|int < 18 %}
+          Good afternoon
+          {% else %}
+          Good evening
+          {% endif %}
+          It's {{now().strftime("%H%M")}}
+          It's currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} 
+          degrees in Grayson. Today will be {{states.sensor.dark_sky_hourly_summary.state|replace(".", "")}}, with a high of 
+          {{states.sensor.dark_sky_daily_high_temperature.state|round}} degrees.

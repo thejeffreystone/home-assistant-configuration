@@ -5,10 +5,3 @@
   payload_on: "on"
   payload_off: "off"
   retain: true
-- platform: mqtt
-  name: "Rail Lights"
-  state_topic: "smartthings/Stairs Rail/switch"
-  command_topic: "smartthings/Stairs Rail/switch"
-  payload_on: "on"
-  payload_off: "off"
-  retain: true

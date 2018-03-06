@@ -1,0 +1,6 @@
+family_is_home:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: "house/family/status"
+      payload_template: "home"

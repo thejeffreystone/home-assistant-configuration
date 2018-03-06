@@ -1,0 +1,14 @@
+washer_finished_notification:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.washer_notification
+    state: 'on'
+  - delay:
+      minutes: 3
+  - service: notify.all_ios
+    data:
+      message: "Washer is done"
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.washer_notification
+  - service: script.washer_notification_audible

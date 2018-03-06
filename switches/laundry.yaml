@@ -1,0 +1,7 @@
+- platform: mqtt
+  name: "Washer"
+  state_topic: "smartthings/Washer/switch"
+  command_topic: "smartthings/Washer/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true

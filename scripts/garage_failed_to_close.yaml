@@ -1,0 +1,13 @@
+garage_failed_to_close:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "WARN: Garage Could Not Close"
+  - condition: state
+    entity_id: sensor.garage_door_contact
+    state: "open"
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: Garage was unable to close. 

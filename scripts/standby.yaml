@@ -1,0 +1,12 @@
+standby:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Security standing down"
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.secure_mode
+  - service: notify.jeff_ios
+    data:
+      message: Anchorage House in Standby

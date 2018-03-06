@@ -34,3 +34,92 @@
     seconds: 0
     milliseconds: 0
 - platform: moon
+- platform: pollen
+  zip_code: 30017
+  monitored_conditions:
+    - allergy_average_forecasted
+    - allergy_average_historical
+    - allergy_index_today
+    - allergy_index_tomorrow
+    - allergy_index_yesterday
+    - disease_average_forecasted
+## Accurite 158 - Back Porch
+- platform: mqtt
+  name: "Accurite Back Porch Temperature"
+  state_topic: "house/accurite-158/temperature"
+- platform: mqtt
+  name: "Accurite Back Porch Humidity"
+  state_topic: "house/accurite-158/humidity"
+# - platform: mqtt
+#   name: "Accurite Back Porch Status"
+#   state_topic: "house/accurite-158/status"
+# - platform: mqtt
+#   name: "Accurite Back Porch Battery"
+#   state_topic: "house/accurite-158/battery"
+- platform: mqtt
+  name: "Accurite Back Porch Model"
+  state_topic: "house/accurite-158/model"
+- platform: mqtt
+  name: "Accurite Back Porch lupdate"
+  state_topic: "house/accurite-158/lastupdate"
+- platform: mqtt
+  name: "Accurite Garage Temperature"
+  state_topic: "house/accurite-10968/temperature"
+- platform: mqtt
+  name: "Accurite Garage Humidity"
+  state_topic: "house/accurite-10968/humidity"
+- platform: mqtt
+  name: "Accurite Garage Model"
+  state_topic: "house/accurite-10968/model"
+- platform: mqtt
+  name: "Accurite Garage lupdate"
+  state_topic: "house/accurite-10968/lastupdate"
+- platform: template
+  sensors:
+      tornado_warning:
+        friendly_name: 'Tornado Warning'
+        value_template: >-
+          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Tornado Warning") %}
+            active
+          {% elif is_state("sensor.pws_alerts.attributes.Description_TOR", "Tornado Warning") %}
+            active
+          {% else %}
+            inactive
+          {%- endif %}
+        icon_template: mdi:message-alert
+
+      tornado_watch:
+        friendly_name: 'Tornado Watch'
+        value_template: >-
+          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Tornado Watch") %}
+            active
+          {% elif is_state("sensor.pws_alerts.attributes.Description_TOW", "Tornado Watch") %}
+            active
+          {% else %}
+            inactive
+          {%- endif %}
+        icon_template: mdi:message-alert
+
+      tstorm_warning:
+        friendly_name: 'T-Storm Warning'
+        value_template: >-
+          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Severe Thunderstorm Warning") %}
+            active
+          {% elif is_state("sensor.pws_alerts.attributes.Description_WRN", "Severe Thunderstorm Warning") %}
+            active
+          {% else %}
+            inactive
+          {%- endif %}
+        icon_template: mdi:message-alert 
+
+      storm_statement:
+        friendly_name: 'Storm Statement'
+        value_template: >-
+          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Severe Weather Statement") %}
+            active
+          {% elif is_state("sensor.pws_alerts.attributes.Description_SVR", "Severe Weather Statement") %}
+            active
+          {% else %}
+            inactive
+          {%- endif %}
+        icon_template: mdi:message-alert   

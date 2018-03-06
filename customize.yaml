@@ -87,14 +87,25 @@ sensor.dark_sky_daily_max_precip_intensity:
 
 # Devices #
 
-device_tracker.owntracks_jeffreysphone:
+device_tracker.owntracks_jeffreystonesiphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
+
+sensor.jeffrey_location:
+  #icon: mdi:human-male
+  entity_picture: !secret JEFF_ICON
+  friendly_name: Jeff
+
+sensor.jeff_destination:
+  icon: mdi:google-maps
+  name: "Jeffs Destination"
+
 device_tracker.jeffreystonesiphone:
   #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
+  
 sensor.jeff_phone_battery:
   icon: mdi:battery-30
   friendly_name: "Jeff's iPhone Battery"
@@ -156,6 +167,9 @@ sensor.kat_ipad:
 sensor.appletv:
   icon: mdi:apple
 
+sensor.roku:
+  icon: mdi:television
+
 sensor.xboxone:
   icon: mdi:xbox
 
@@ -196,21 +210,17 @@ switch.tower_lamp:
 switch.driveway_light:
   icon: mdi:lightbulb
 
-switch.side_door_light:
+switch.side_door:
   icon: mdi:lightbulb
 
-switch.front_porch_left:
+switch.front_porch:
   icon: mdi:lightbulb
 
-switch.front_porch_right:
+switch.front_lamp:
   icon: mdi:lightbulb
 
-switch.rail_lights:
+switch.loft_lamp:
   icon: mdi:lightbulb
-
-sensor.garage_door:
-
-  friendly_name: Garage Door
 
 cover.garage_door:
   device_class: garage
@@ -227,3 +237,131 @@ sensor.home_to_zoo:
 sensor.pws_alerts:
   friendly_name: "Weather Alerts"
   icon: mdi:alert
+
+switch.master_fan:
+  friendly_name: "Master Box Fan"
+  icon: mdi:power-plug
+
+switch.house_secured:
+  name: House Secured
+  icon: mdi:lock
+
+switch.vacation_mode:
+  name: Vacation Mode
+  icon: mdi:airplane-takeoff
+
+switch.guest_mode:
+  name: Guest Mode
+  icon: mdi:account-multiple
+
+switch.notifications_to_kat:
+  name: Notify Katherine
+  icon: mdi:telegram
+
+switch.notifications_to_jeff:
+  name: Notify Jeff
+  icon: mdi:telegram
+
+switch.automations:
+  name: automations
+  icon: mdi:home-automation
+
+sensor.kitchen_fire:
+  name: Kitchen Smoke Detector
+  icon: mdi:tower-fire
+
+switch.garage_alarm:
+  name: Garage Door Alarm
+  icon: mdi:alert
+
+input_select.trash_pickup:
+  name: Trash Pickup
+  icon: mdi:delete-variant
+
+input_select.recycle_pickup:
+  name: Recycle Pickup
+  icon: mdi:delete-variant
+
+switch.trash_notification:
+  name: Trash Notifications
+  icon: mdi:telegram
+
+sensor.eero_loft:
+  icon: mdi:router-wireless
+
+sensor.eero_livingroom:
+  icon: mdi:router-wireless
+
+sensor.smoke_kitchen:
+  icon: mdi:fire
+
+sensor.family_status:
+  icon: mdi:home
+  name: Family Status
+
+sensor.ha_uptime:
+  friendly_name: HA Uptime
+  icon: mdi:clock-start
+
+sensor.installed_version:
+  friendly_name: Installed
+  icon: mdi:folder-download
+
+sensor.lets_encrypt_expiration:
+  friendly_name: Lets Encrypt Expiration
+  icon: mdi:timelapse
+
+sensor.current_ha_version:
+  friendly_name: Latest Release
+  icon: mdi:github-circle
+
+sensor.connected_clients:
+  friendly_name: Connections
+  icon: mdi:lan-connect
+
+zwave.aeotec_zw090_zstick_gen5_us:
+  friendly_name: Zwave USB Hub
+
+sensor.ha_v2db:
+  friendly_name: HA Database
+  icon: mdi:file
+
+sensor.ha_log:
+  friendly_name: HA Log
+  icon: mdi:file
+
+media_player.roku_5s6719003683:
+  friendly_name: Roku Living Room
+  icon: mdi:youtube-tv
+
+switch.kitchen_cabinets:
+  icon: mdi:lightbulb
+switch.kitchen_light_strip:
+  icon: mdi:lightbulb
+sensor.accurite_back_porch_temperature:
+  friendly_name: Back Porch Temp
+  icon: mdi:thermometer
+  unit_of_measurement: '°F'
+sensor.accurite_back_porch_humidity:
+  friendly_name: Back Porch Humidity
+  icon: mdi:water-percent
+  unit_of_measurement: '%'
+sensor.accurite_garage_temperature:
+  friendly_name: Garage Temp
+  icon: mdi:thermometer
+  unit_of_measurement: '°F'
+sensor.accurite_garage_humidity:
+  friendly_name: Garage Humidity
+  icon: mdi:water-percent
+  unit_of_measurement: '%'
+binary_sensor.garage_dome_sensor:
+  friendly_name: Garage Motion
+
+sensor.washer_power:
+  friendly_name: Washer Power
+  icon: mdi:power-plug
+  unit_of_measurement: 'w'
+sensor.washer:
+  icon: mdi:power-plug
+###### Groups #######
+

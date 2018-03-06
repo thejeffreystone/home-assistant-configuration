@@ -1,0 +1,11 @@
+open_garage:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "opening the garage"
+  - condition: state
+    entity_id: cover.garage_door
+    state: "closed"
+  - service: cover.open_cover
+    entity_id: cover.garage_door

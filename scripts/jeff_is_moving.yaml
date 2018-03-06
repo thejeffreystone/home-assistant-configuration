@@ -1,9 +1,7 @@
-sequence:
-- event: LOGBOOK_ENTRY
-  event_data:
-    name: EVENT
-    message: "Jeff is Moving"
-- service: input_select.select_option
-  data:
-    entity_id: input_select.jeff_status
-    option: moving
+jeff_is_moving:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "jeff/location/status"
+        payload: "moving"
+        retain: true

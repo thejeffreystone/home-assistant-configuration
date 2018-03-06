@@ -1,12 +1,13 @@
 - platform: mqtt
   name: "Jeff Phone Battery"
-  state_topic: "owntracks/owntracks/jeffreysphone"
+  state_topic: "owntracks/owntracks/jeffreystonesiphone"
   qos: 0
   unit_of_measurement: "%"
   value_template: '{{ value_json.batt }}'
 - platform: mqtt
   name: "Jeff Velocity"
-  state_topic: "owntracks/owntracks/jeffreysphone"
+  state_topic: "owntracks/owntracks/jeffreystonesiphone"
   qos: 0
-  unit_of_measurement: "mph"
+  unit_of_measurement: "kmh"
   value_template: '{{ value_json.vel }} '
+

@@ -1,0 +1,16 @@
+#garage_now_closed:
+#  sequence:
+#  - event: LOGBOOK_ENTRY
+#    event_data:
+#      name: EVENT
+#      message: "SUCCESS: Garage Now Closed"
+#  - condition: state
+#    entity_id: sensor.garage_door_contact
+#    state: "closed"
+  #- service: notify.jeff_ios
+  #  data:
+  #    message: 'SUCCESS: Garage Now Closed'
+  #- service: tts.google_say
+  #  data:
+  #    entity_id: media_player.hass_speaker
+  #    message: Garage has been Closed. 

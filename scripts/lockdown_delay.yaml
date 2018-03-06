@@ -1,0 +1,11 @@
+lockdown:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "SECURITY: Executing Lockdown in 5 mins"
+  - delay:
+      minutes: 5
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.secure_mode

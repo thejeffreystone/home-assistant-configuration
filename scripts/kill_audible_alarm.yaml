@@ -1,0 +1,7 @@
+kill_audible_alarm:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Silence Alarm"
+  - service: shell_command.alarm_off

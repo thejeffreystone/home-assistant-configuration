@@ -1,0 +1,10 @@
+security_sound_alarm_intro:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Sounding Security Alarm Intro"
+  - condition: state
+    entity_id: sensor.family_status
+    state: home
+  - service: shell_command.security_alarm_intro

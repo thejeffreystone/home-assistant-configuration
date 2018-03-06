@@ -1,0 +1,19 @@
+- platform: mqtt
+  name: "Kitchen Cabinets"
+  state_topic: "smartthings/Kitchen Cabinets/switch"
+  command_topic: "smartthings/Kitchen Cabinets/switch"
+  brightness_state_topic: "smartthings/Kitchen Cabinets/level"
+  brightness_command_topic: "smartthings/Kitchen Cabinets/level"
+  brightness_scale: 101
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+- platform: mqtt
+  name: "Kitchen Light Strip"
+  state_topic: "smartthings/Kitchen Light Strip/switch"
+  command_topic: "smartthings/Kitchen Light Strip/switch"
+  brightness_state_topic: "smartthings/Kitchen Light Strip/level"
+  brightness_command_topic: "smartthings/Kitchen Light Strip/level"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true

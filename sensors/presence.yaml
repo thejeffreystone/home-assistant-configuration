@@ -1,0 +1,12 @@
+- platform: mqtt
+  name: "Kat Presence"
+  state_topic: "smartthings/Kat/presence"
+  payload_on: "present"
+  payload_off: "not present"
+  retain: true
+- platform: mqtt
+  name: "Jeff Presence"
+  state_topic: "smartthings/Jeffrey/presence"
+  payload_on: "present"
+  payload_off: "not present"
+  retain: true

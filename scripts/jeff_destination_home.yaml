@@ -1,0 +1,7 @@
+jeff_destination_home:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "jeff/driving/destination"
+        payload: "Home"
+        retain: true

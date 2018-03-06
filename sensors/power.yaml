@@ -1,0 +1,4 @@
+- platform: mqtt
+  name: "Washer Power"
+  state_topic: "smartthings/Washer/power"
+  retain: true

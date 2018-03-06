@@ -1,0 +1,31 @@
+security_report:
+  sequence:
+  - delay:
+      seconds: 9
+  - service: tts.google_say
+    data_template:
+      entity_id: media_player.hass_speaker
+      message: >
+        {%- if is_state("input_boolean.security_alarm", "on") %}
+          {%- if is_state("binary_sensor.front_door", "on") %}
+            Front door is open
+          {%- endif %}
+          {%- if is_state("binary_sensor.back_door", "on") %}
+            Back door is open
+          {%- endif %}
+          {%- if is_state("binary_sensor.laundry_room_door", "on") %}
+            Laundry door is open
+          {%- endif %}
+          {%- if is_state("binary_sensor.attic_door", "on") %}
+            Attic door is open
+          {%- endif %}
+          {%- if is_state("binary_sensor.garage_door", "on") %}
+            Garage door is open
+          {%- endif %}
+          {%- if is_state("binary_sensor.garage_motion", "on") %}
+            Motion in garage
+          {%- endif %}
+        {% else %}
+            House is secure
+        {%- endif %}
+          

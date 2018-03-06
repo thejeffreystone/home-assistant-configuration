@@ -2,15 +2,11 @@
   sensors:
       amazon_dot_lr:
         friendly_name: 'Amazon Dot LR'
-        value_template: "{{ 'Online' if is_state('device_tracker.kindlecdf98981f', 'home') else 'Offline' }}"
+        value_template: "{{ 'Online' if is_state('device_tracker.dot_livingroom', 'home') else 'Offline' }}"
 
       amazon_dot_kn:
         friendly_name: 'Amazon Dot KN'
-        value_template: "{{ 'Online' if is_state('device_tracker.kindle23d7b37a0', 'home') else 'Offline' }}"
-
-      circle:
-        friendly_name: 'Disney Circle'
-        value_template: "{{ 'Online' if is_state('device_tracker.circle', 'home') else 'Offline' }}"
+        value_template: "{{ 'Online' if is_state('device_tracker.dot_kitchen', 'home') else 'Offline' }}"
 
       tycho:
         friendly_name: 'tycho'
@@ -28,9 +24,9 @@
         friendly_name: 'xboxone'
         value_template: "{{ 'Online' if is_state('device_tracker.xboxone', 'home') else 'Offline' }}"
 
-      chromecast:
-        friendly_name: 'Chromecast'
-        value_template: "{{ 'On' if is_state('media_player.chromecast_lr', 'on') else 'Off' }}"
+      chromecast_livingroom:
+        friendly_name: 'Chromecast - Living Room'
+        value_template: "{{ 'On' if is_state('media_player.chromecast_livingroom', 'on') else 'Off' }}"
 
       smartthings:
         friendly_name: 'SmartThings'
@@ -43,10 +39,6 @@
       honeywell:
         friendly_name: 'Honeywell'
         value_template: "{{ 'Online' if is_state('device_tracker.gateway2f3bca', 'home') else 'Offline' }}"
-
-      router:
-        friendly_name: 'Asus Router'
-        value_template: "{{ 'Online' if is_state('device_tracker.routerasuscom', 'home') else 'Offline' }}"
 
       kat_mini:
         friendly_name: "Kat's Mini"
@@ -68,22 +60,36 @@
         friendly_name: "Kat's iPad"
         value_template: "{{ 'Online' if is_state('device_tracker.katherinesipad', 'home') else 'Offline' }}"
 
-      jeff_iphone_batt:
-        unit_of_measurement: '%'
-        value_template: >-
-            {%- if states.device_tracker.jeffreystonesiphone.attributes.battery %}
-                {{ states.device_tracker.jeffreystonesiphone.attributes.battery | round(1) }}
-            {% else %}
-                {{ states.sensor.jeff_iphone_batt.state }}
-            {%- endif %}
-        icon_template: '{%- if is_state("sensor.jeff_iphone_batt", "unknown") %}mdi:battery-unknown{%- elif is_state_attr("device_tracker.jeffreystonesiphone", "battery_status", "Charging") %}mdi:battery-charging{%- elif  states.device_tracker.jeffreystonesiphone.attributes.battery <= 5 %}mdi:battery-outline{%- elif states.device_tracker.jeffreystonesiphone.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.jeffreystonesiphone.attributes.battery|float / 10)|round*10}}{%- endif %}'
+      eero_livingroom:
+        friendly_name: "Eero Living Room"
+        value_template: "{{ 'Online' if is_state('device_tracker.eero_livingroom', 'home') else 'Offline' }}"
 
-      kat_iphone_batt:
-        unit_of_measurement: '%'
+      eero_loft:
+        friendly_name: "Eero Loft"
+        value_template: "{{ 'Online' if is_state('device_tracker.eero_loft', 'home') else 'Offline' }}"
+
+      smoke_kitchen:
+        friendly_name: "Kitchen Smoke"
+        value_template: "{{ 'Smoke Detected!' if is_state('device_tracker.eero_loft', 'smoke') else 'All Clear' }}"
+
+      security_status:
+        friendly_name: 'Security System'
+        value_template: '{{ "Armed" if is_state("input_boolean.secure_mode", "on") else "Disarmed" }}'
+        icon_template: '{%- if is_state("input_boolean.secure_mode", "on") %}mdi:lock{% else %}mdi:lock-open{%- endif %}'
+
+      garage_motion:
+        friendly_name: "Garage Motion"
+        value_template: "{{ 'open' if is_state('sensor.garage_dome_sensor', 'motion') else 'clear' }}"
+
+      washer_status:
+        friendly_name: "Washer Status"
         value_template: >-
-            {%- if states.device_tracker.katherinestonesiphone.attributes.battery %}
-                {{ states.device_tracker.katherinestonesiphone.attributes.battery | round(1) }}
-            {% else %}
-                {{ states.sensor.kat_iphone_batt.state }}
-            {%- endif %}
-        icon_template: '{%- if is_state("sensor.kat_iphone_batt", "unknown") %}mdi:battery-unknown{%- elif is_state_attr("device_tracker.katherinestonesiphone", "battery_status", "Charging") %}mdi:battery-charging{%- elif  states.device_tracker.katherinestonesiphone.attributes.battery <= 5 %}mdi:battery-outline{%- elif states.device_tracker.katherinestonesiphone.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.katherinestonesiphone.attributes.battery|float / 10)|round*10}}{%- endif %}'
+          {% if states('sensor.washer_power') | float > 2 %}
+            running
+          {% else %}
+            idle
+          {%endif %}
+        icon_template: mdi:washing-machine
+
+
+      

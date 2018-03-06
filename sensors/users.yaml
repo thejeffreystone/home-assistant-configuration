@@ -1,0 +1,45 @@
+- platform: mqtt
+  name: "Jeff Destination"
+  state_topic: "jeff/driving/destination"
+- platform: mqtt
+  name: "Jeff Status"
+  state_topic: "jeff/location/status"
+- platform: template
+  sensors:
+    jeff_lstatus:
+      friendly_name: Jeff is
+      unit_of_measurement: ''
+      value_template: >-
+          {%- if is_state("sensor.jeff_status", "moving") %}
+            moving
+          {% else %}
+            stationary
+          {%- endif %}
+      icon_template: >-
+        {%- if is_state("sensor.jeff_status", "moving") %}
+          mdi:bike
+        {% else %}
+          mdi:map-marker
+        {%- endif %}
+- platform: template
+  sensors:
+    family_presence:
+      friendly_name: Family Presence
+      unit_of_measurement: ''
+      value_template: >-
+          {%- if is_state("sensor.jeff_presence", "present") %}
+                Home
+            {% elif is_state("sensor.kat_presence", "present") %}
+                Home
+            {% else %}
+                Away
+            {%- endif %}
+      icon_template: >-
+        {%- if is_state("sensor.family_presence", "Home") %}
+          mdi:home
+        {%- elif is_state("sensor.family_presence", "Away") %}
+          mdi:home-outline
+        {% else %}
+          mdi:sync-alert
+        {%- endif %}
+

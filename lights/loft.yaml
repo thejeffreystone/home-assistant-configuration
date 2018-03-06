@@ -1,0 +1,10 @@
+- platform: mqtt
+  name: "Loft Lamp"
+  state_topic: "smartthings/Loft Lamp/switch"
+  command_topic: "smartthings/Loft Lamp/switch"
+  brightness_state_topic: "smartthings/Loft Lamp/level"
+  brightness_command_topic: "smartthings/Loft Lamp/level"
+  brightness_scale: 101
+  payload_on: "on"
+  payload_off: "off"
+  retain: true

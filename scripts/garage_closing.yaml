@@ -1,0 +1,11 @@
+garage_closing:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "INFO: Garage Closing"
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: Garage is Closing
+

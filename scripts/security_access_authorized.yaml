@@ -1,0 +1,13 @@
+security_access_authorized:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Access Authorized: Security Measures Standing Down"
+  #- service: notify.jeff_ios
+  #  data:
+  #    message: 'Access Authorized: Security Measures Standing Down'
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: Access Authorized. Security response has been canceled

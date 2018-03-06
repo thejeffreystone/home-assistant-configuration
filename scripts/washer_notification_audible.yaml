@@ -1,0 +1,10 @@
+washer_notification_audible:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.audible_notifications
+    state: "on"
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: The Washing Machine has stopped
+

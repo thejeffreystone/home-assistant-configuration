@@ -1,0 +1,15 @@
+fire_alarm_kitchen:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Smoke Detected: Kitchen"
+  - delay:
+      minutes: 1
+  - service: notify.jeff_ios
+    data:
+      message: 'Smoke Detected in Kitchen.'
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: Attention. Smoke detected in the kitchen. 

@@ -1,0 +1,54 @@
+- platform: mqtt
+  name: "Text Notify Kat"
+  command_topic: "kat/notify/text"
+  state_topic: "kat/notify/text"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Audibly Notify Kat"
+  command_topic: "kat/notify/audio"
+  state_topic: "kat/notify/audio"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Text Notify Jeff"
+  command_topic: "jeff/notify/text"
+  state_topic: "jeff/notify/text"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Audibly Notify Jeff"
+  command_topic: "jeff/notify/audio"
+  state_topic: "jeff/notify/audio"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Text Notify House"
+  command_topic: "house/notify/text"
+  state_topic: "house/notify/text"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Audibly Notify House"
+  command_topic: "house/notify/audio"
+  state_topic: "house/notify/audio"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
