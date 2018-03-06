@@ -1,9 +1,16 @@
 known_devices.yaml
 secrets.yaml
+*ios.conf
 *.log
 *.db
+*.xml
+*.sqlite
+*.txt
 icloud/
 www/
 tts/
 deps/
+*DS_Store
+._*
+.uuid
 !.gitignore
