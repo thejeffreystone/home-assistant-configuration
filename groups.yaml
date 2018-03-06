@@ -19,7 +19,7 @@ security:
   entities:
     - group.security_system
     - group.security_alerts
-    - group.doors 
+    - group.all_doors 
     - group.motion_sensors
     - group.fire
       
@@ -144,6 +144,15 @@ Motion Sensors:
   - binary_sensor.garage_dome_sensor
 
 Doors:
+  - binary_sensor.back_door
+  - binary_sensor.front_door
+  - binary_sensor.laundry_room_door
+  - binary_sensor.attic_door
+
+All Doors:
+  control: hidden
+  name: Doors
+  entities:
   - binary_sensor.back_door
   - binary_sensor.front_door
   - binary_sensor.laundry_room_door
