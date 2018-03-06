@@ -1,0 +1,35 @@
+- platform: mqtt
+  name: "Back Door"
+  state_topic: "smartthings/Back Door/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: door
+- platform: mqtt
+  name: "Garage Door"
+  state_topic: "smartthings/Garage Door/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: garage_door
+- platform: mqtt
+  name: "Front Door"
+  state_topic: "smartthings/Front Door/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: door
+- platform: mqtt
+  name: "Laundry Room Door"
+  state_topic: "smartthings/Laundry Room Door/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: door
+- platform: mqtt
+  name: "Attic Door" # Dome Door Sensor
+  state_topic: "smartthings/Attic Door/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: door

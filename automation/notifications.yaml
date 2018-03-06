@@ -1,0 +1,44 @@
+
+#
+#
+# Notifications
+#
+#
+#####################
+
+- alias: Turn Off Audible Notifications at 8pm
+  trigger:
+  - platform: time
+    hours: 20
+    minutes: 0
+    seconds: 0
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.audible_notifications
+
+
+- alias: Turn Off Audible Notifications at 7pm
+  trigger:
+  - platform: time
+    hours: 19
+    minutes: 0
+    seconds: 0
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.audible_notifications
+
+
+- alias: Turn On Audible Notifications at 8am
+  trigger:
+  - platform: time
+    hours: 8
+    minutes: 0
+    seconds: 0
+  action:
+  - entity_id: input_boolean.audible_notifications
+    service: input_boolean.turn_on
+    

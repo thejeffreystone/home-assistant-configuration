@@ -1,0 +1,67 @@
+
+#
+#
+# Daily Triggers
+#
+#
+#####################
+- alias: Good Morning
+  trigger:
+  - platform: time
+    hours: 5
+    minutes: 15
+    seconds: 0
+  action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_normal
+  - service: notify.ios_jeffreystonesiphone
+    data:
+      message: Good Morning, Anchorage House is up and online.
+
+- alias: Good Night
+  trigger:
+  - platform: time
+    hours: 22
+    minutes: 0
+    seconds: 0
+  action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_night
+  - service: notify.jeff_ios
+    data:
+      message: House shutting down for the night, Good Night
+
+- alias: Sunset Front Porch on
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:30:00
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.front_porch
+
+- alias: Sunrise Front Porch off
+  trigger:
+  - platform: sun
+    event: sunrise
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.front_porch
+
+- alias: Sunset Inside on
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:00:00
+  action:
+    service: script.inside_all_on
+
+- alias: Sunrise Inside off
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 00:30:00
+  action:
+  - service: script.inside_all_off

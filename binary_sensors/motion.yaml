@@ -1,0 +1,7 @@
+- platform: mqtt
+  name: "Garage Dome Sensor" # Dome Motion Sensor
+  state_topic: "smartthings/Garage Motion/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: motion

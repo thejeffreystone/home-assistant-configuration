@@ -1,0 +1,10 @@
+tornado_warning:
+  name: Tornado Warning!
+  done_message: Tornado Alarm Canceled
+  entity_id: input_boolean.tornado_alarm
+  state: 'on'
+  repeat: 2
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - jeff_ios

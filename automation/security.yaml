@@ -1,0 +1,236 @@
+
+#
+#
+# Security
+#
+# For all these automations the condition should be 
+#
+# - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#
+#
+#####################
+
+- alias: Nightly Lockdown
+  trigger:
+  - platform: time
+    hours: 23
+    minutes: 00
+    seconds: 0
+  condition:
+  - condition: state
+    entity_id: sensor.jeff_presence
+    state: 'present'
+  - condition: state
+    entity_id: sensor.kat_presence
+    state: 'present'
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: script.lockdown
+
+
+- alias: Morning Standby
+  trigger:
+  - platform: time
+    hours: 5
+    minutes: 30
+    seconds: 0
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.family_status
+      state: 'home'
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'on'
+  action:
+  - service: script.standby
+
+# - alias: Security Check - Away
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.house_mode
+#     from: home
+#     to: away
+#   action:
+#   - service: script.security_check_zones
+#   - service: script.security_check_garage
+
+- alias: Security Check
+  trigger:
+  - platform: state
+    entity_id: input_boolean.secure_mode
+    to: 'on'
+  action:
+  - service: homeassistant.turn_on
+    entity_id: script.security_check_zones
+  - service: homeassistant.turn_on
+    entity_id: script.security_check_garage
+  - service: script.security_check_verified
+
+- alias: Security Breach
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door
+    to: open
+  - platform: state
+    entity_id: binary_sensor.zone_status
+    to: open
+  - platform: state
+    entity_id: binary_sensor.garage_motion
+    to: motion
+  condition:
+  - condition: state
+    entity_id: input_boolean.secure_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.security_alarm
+
+# - alias: Security Breach Garage Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.garage_door_contact
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_garage_door
+
+# - alias: Security Breach Garage Motion
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.garage_motion
+#     to: motion
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_garage_motion
+
+# - alias: Security Breach Front Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.front_door
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_front_door
+
+# - alias: Security Breach Back Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.zone_3
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_back_door
+
+
+# - alias: Security Breach Landry Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.Laundry_room_door
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_laundry_door
+
+- alias: Security Access Granted
+  trigger:
+  - platform: state
+    entity_id: sensor.house_mode
+    to: home
+  - platform: state
+    entity_id: sensor.family_status
+    to: home
+  condition:
+  - condition: state
+    entity_id: input_boolean.secure_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.security_alarm
+
+- alias: Security Alarm Activated
+  trigger:
+    platform: state
+    entity_id: input_boolean.security_alarm
+    to: 'on'
+  action:
+  - service: homeassistant.turn_on
+    entity_id: script.security_sound_alarm_intro
+  - service: homeassistant.turn_on
+    entity_id: script.security_sound_alarm
+  - service: homeassistant.turn_on
+    entity_id: script.security_report
+
+
+- alias: Security Alarm Deactivated
+  trigger:
+    platform: state
+    entity_id: input_boolean.security_alarm
+    to: 'off'
+  action:
+  - service: homeassistant.turn_off
+    entity_id: script.security_sound_alarm
+  - service: script.access_authorized    
+  - service: script.standby
+  - service: homeassistant.turn_off
+    entity_id: script.security_sound_alarm_intro
+  - service: homeassistant.turn_off
+    entity_id: script.security_report
+
+- alias: Security Issue Resolved
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door
+    to: closed
+  - platform: state
+    entity_id: sensor.zone_status
+    to: closed
+  condition:
+  - condition: state
+    entity_id: binary_sensor.garage_door
+    state: 'closed'
+  - condition: state
+    entity_id: sensor.zone_status
+    state: 'closed'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.security_issue
+
+- alias: Late Arrival Lockdown
+  trigger:
+  - platform: state
+    entity_id: sensor.jeff_presence
+    to: 'present'
+  - platform: state
+    entity_id: sensor.jeff_presence
+    to: 'present'
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  - condition: time
+    after: '23:00:00'
+    before: '05:00:00'
+  action:
+  - service: script.lockdown_delay
+

@@ -1,0 +1,10 @@
+jeff_heading_home:
+  name: Jeff will be home in {{states.sensor.jeff_ett_home.attributes.duration_in_traffic}}.
+  done_message: Jeff is home
+  entity_id: input_boolean.jeff_heading_home
+  state: 'on'
+  repeat: 20
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - ios_katherinestonesiphone

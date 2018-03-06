@@ -1,0 +1,10 @@
+garage_issue:
+  name: Garage is open
+  done_message: Garage is closed
+  entity_id: input_boolean.garage_issue
+  state: 'on'
+  repeat: 5
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - jeff_ios

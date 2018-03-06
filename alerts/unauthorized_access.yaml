@@ -1,0 +1,10 @@
+unauthorized_access:
+  name: Unauthorized Access
+  done_message: Access Authorized
+  entity_id: input_boolean.security_alarm
+  state: 'on'
+  repeat: 2
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - jeff_ios

@@ -1,0 +1,10 @@
+kat_heading_home:
+  name: Kat will be home in {{states.sensor.kat_ett_home.attributes.duration_in_traffic}}.
+  done_message: Kat is home
+  entity_id: input_boolean.kat_heading_home
+  state: 'on'
+  repeat: 20
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - jeff_ios

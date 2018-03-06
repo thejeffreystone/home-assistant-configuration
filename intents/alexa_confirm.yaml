@@ -1,0 +1,17 @@
+>
+          {% set responses = [
+          "OK",
+          "Sure",
+          "If you insist",
+          "Done",
+          "I can do that",
+          "Leave it to me",
+          "Consider it done",
+          "As you wish",
+          "By your command",
+          "Affirmative",
+          "I will",
+          "No Problem"
+          ] %}
+          {% set rindex =  (range(0, (responses | length - 1) )|random) -%}
+          {{responses[rindex]}}

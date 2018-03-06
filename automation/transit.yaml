@@ -1,0 +1,47 @@
+#
+#
+# Transit
+#
+############
+
+- alias: Jeff eta home
+  trigger:
+  - platform: state
+    entity_id: sensor.jeff_destination
+    to: Home
+  action:
+  # - service: notify.ios_katherinestonesiphone
+  #   data:
+  #     message: Jeff will be home in {{states.sensor.jeff_ett_home.attributes.duration_in_traffic}}.
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.jeff_heading_home
+
+- alias: Jeff no destination
+  trigger:
+  - platform: state
+    entity_id: sensor.jeff_status
+    to: 'moving'
+  condition:
+  - condition: state
+    entity_id: sensor.jeff_destination
+    state: Arrived
+  action:
+  - service: script.jeff_destination_na
+
+- alias: Jeff is stationary
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.jeff_velocity
+    below: 1
+  action:
+  - service: script.jeff_is_stationary
+
+- alias: Jeff is moving
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.jeff_velocity
+    above: 0
+  action:
+  - service: script.jeff_is_moving
+
+

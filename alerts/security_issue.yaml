@@ -1,0 +1,10 @@
+security_issue:
+  name: Security Issue Prevented Lockdown
+  done_message: Security Issue Resolved
+  entity_id: input_boolean.security_issue
+  state: 'on'
+  repeat: 2
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - jeff_ios
