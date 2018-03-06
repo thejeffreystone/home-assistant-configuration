@@ -1,7 +1,0 @@
-alias: "Jeff Status Moving"
-trigger:
-  platform: mqtt
-  topic: anchoragehouse/jeffrey/status
-  payload: 'moving'
-action:
-  service: script.jeff_is_moving

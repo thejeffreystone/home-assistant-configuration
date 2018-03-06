@@ -1,6 +1,0 @@
-alias: "Sunrise Outside off"
-trigger:
-  platform: sun
-  event: sunrise
-action:
-  - service: script.outside_all_off

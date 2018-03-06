@@ -1,7 +1,0 @@
-alias: "Jeff Status Stationary"
-trigger:
-  platform: mqtt
-  topic: anchoragehouse/jeffrey/status
-  payload: 'stationary'
-action:
-  service: script.jeff_is_stationary
