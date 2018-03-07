@@ -1,10 +1,12 @@
 
-Anchorage House - [Home Assistant](https://home-assistant.io/) Configuration
+## Anchorage House - [Home Assistant](https://home-assistant.io/) Configuration
 
 This repo contains the working [Home Assistant](https://home-assistant.io/) configuration for **Anchorage House**. Below are links to the devices currently being used, blog posts, and other HA enthusists that provided inspiration and configs to help build this config. All of the code is free to use.
 
 The configuration was migrated from a old PC to a RaspberryPi 3 back in 2017. The old configutation is stored in branch V1-config for anyone that wants to see the old version. 
 
+Read about the work over on my [blog](https://medium.com/@thejeffreystone)
+ 
 #### Devices:
 * Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
 * [Honeywell Wifi Thermostat](http://a.co/cqvrljP)
@@ -34,4 +36,3 @@ The configuration was migrated from a old PC to a RaspberryPi 3 back in 2017. Th
 * MQTT (For Smartthings and Owntracks)
 * Google Maps (For Traffic/Travel Times)
 * [Smartthings-MQTT-Bridge](https://github.com/stjohnjohnson/smartthings-mqtt-bridge)
-</div>
