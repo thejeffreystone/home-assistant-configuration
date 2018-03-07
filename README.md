@@ -29,7 +29,8 @@ Read about the continuing work to automate **everything** over on my [blog](http
 * ChromeCast
 * Roku Streaming Stick
 * [NeoTec USB SDR](http://a.co/giwQvX1) For getting data from Accurite temperture and humidty sensors
-* [Accurite Temp and Humidty Sensors](http://a.co/hcppyvF)  
+* [Accurite Temp and Humidty Sensors](http://a.co/hcppyvF)
+* [Sonoff Wifi Switches](http://a.co/dh5hCZu)  
 
 #### Integrations:
 * Amazon Echo
