@@ -1,28 +1,10 @@
-<h1 align="center">
-  <br>
-  Anchorage House - [Home Assistant](https://home-assistant.io/) Configuration
-</h1>
-<p><font size="3">
-	This repo contains the working [Home Assistant](https://home-assistant.io/) configuration for <strong>Anchorage House</strong>. Below are links to the devices currently being used, blog posts, and other HA enthusists that provided inspiration and configs to help build this config. All of the code is free to use.</p>
-<p>
-	The configuration was migrated from a old PC to a RaspberryPi 3 back in 2017. The old configutation is stored in branch V1-config for anyone that wants to see the old version.</p> 
-<hr>
-<div align="center"><a name="menu"></a>
-  <h4>
-    <a href="https://medium.com/@thejeffreystone">
-      Blog
-    </a>
-    <span> | </span>
-    <a href="https://github.com/thejeffreystone/home-assistant-configuration#devices">
-      Devices
-    </a>
-    <span> | </span>
-    <a href="https://github.com/thejeffreystone/home-assistant-configuration/issues">
-      Todo List
-    </a>
-  </h4>
-</div>
-<div><a name="devices"></a>
+
+Anchorage House - [Home Assistant](https://home-assistant.io/) Configuration
+
+This repo contains the working [Home Assistant](https://home-assistant.io/) configuration for **Anchorage House**. Below are links to the devices currently being used, blog posts, and other HA enthusists that provided inspiration and configs to help build this config. All of the code is free to use.
+
+The configuration was migrated from a old PC to a RaspberryPi 3 back in 2017. The old configutation is stored in branch V1-config for anyone that wants to see the old version. 
+
 #### Devices:
 * Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
 * [Honeywell Wifi Thermostat](http://a.co/cqvrljP)
@@ -44,9 +26,7 @@
 * AppleTv
 * ChromeCast
 * Roku Streaming Stick
-</div>
 
-<div><a name="integrations"></a>
 #### Integrations:
 * Amazon Echo
 * IFTTT
