@@ -5,7 +5,7 @@ This repo contains the working [Home Assistant](https://home-assistant.io/) conf
 
 The configuration was migrated from a old PC to a RaspberryPi 3 back in 2017. The old configutation is stored in branch V1-config for anyone that wants to see the old version. 
 
-Read about the work over on my [blog](https://medium.com/@thejeffreystone)
+Read about the continuing work to automate **everything** over on my [blog](https://medium.com/@thejeffreystone)
  
 #### Devices:
 * Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
@@ -21,13 +21,15 @@ Read about the work over on my [blog](https://medium.com/@thejeffreystone)
 * [GoControl Z-Wave Garage Door Opener](http://a.co/iw3H4zQ)
 * [ZWave Door Sensor]( http://a.co/4Uj8d5r)
 * [Sonoff WiFi Wireless Smart Switch ]( http://a.co/9v8KnBT)
-* Levitron Plug in ZWave Dimmer
-* Levitron ZWave Switch
-* Dome Motion Sensor
-* Dome Door Window Sensor
+* [Levitron Plug in ZWave Dimmer](http://a.co/8wOv1Gs)
+* [Levitron ZWave Switch](http://a.co/1z9EeS3) I prefer these over the GE Ones
+* [Dome Motion Sensor](http://a.co/aFlzEmf)
+* [Dome Door Window Sensor](http://a.co/eo4DsIk)
 * AppleTv
 * ChromeCast
 * Roku Streaming Stick
+* [NeoTec USB SDR](http://a.co/giwQvX1) For getting data from Accurite temperture and humidty sensors
+* [Accurite Temp and Humidty Sensors](http://a.co/hcppyvF)  
 
 #### Integrations:
 * Amazon Echo
@@ -36,3 +38,4 @@ Read about the work over on my [blog](https://medium.com/@thejeffreystone)
 * MQTT (For Smartthings and Owntracks)
 * Google Maps (For Traffic/Travel Times)
 * [Smartthings-MQTT-Bridge](https://github.com/stjohnjohnson/smartthings-mqtt-bridge)
+* [RTL_433](https://github.com/merbanan/rtl_433)
