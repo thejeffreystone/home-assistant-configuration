@@ -22,7 +22,7 @@
     </a>
   </h4>
 </div>
-<a name="devices"></a>
+<div><a name="devices"></a>
 #### Devices:
 * Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
 * [Honeywell Wifi Thermostat](http://a.co/cqvrljP)
@@ -44,12 +44,14 @@
 * AppleTv
 * ChromeCast
 * Roku Streaming Stick
+</div>
 
-<a name="integrations"></a>
-#### Integrations
+<div><a name="integrations"></a>
+#### Integrations:
 * Amazon Echo
 * IFTTT
 * Owntracks
 * MQTT (For Smartthings and Owntracks)
 * Google Maps (For Traffic/Travel Times)
 * [Smartthings-MQTT-Bridge](https://github.com/stjohnjohnson/smartthings-mqtt-bridge)
+</div>
