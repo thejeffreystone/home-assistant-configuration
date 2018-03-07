@@ -121,7 +121,7 @@ scene: !include scenes.yaml
 input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml
 zone: !include zones.yaml
-ios: !include ios.yaml
+#ios: !include ios.yaml
 
 duckdns:
   domain: !secret duckdns_domain
