@@ -103,8 +103,10 @@ settings:
   view: yes
   icon: mdi:settings
   entities:
-    - group.automations
-    - group.notifications
+    - group.house_notifications
+    - group.presence_notifications
+    - group.event_notifications
+    - group.skylar_alarms
 
 #################################################################################
 ### Grops ###
@@ -384,4 +386,17 @@ Pollen Alerts:
 Trash Schedule:
   - input_select.trash_pickup
   - input_select.recycle_pickup
+  - input_boolean.trash_notification
+
+House Notifications:
+  - input_boolean.audible_notifications
+
+Skylar Alarms:
+  - input_boolean.skylar_dressed_alarm
+
+Presence Notifications:
+  - input_boolean.text_notify_jeff
+  - input_boolean.text_notify_kat
+
+Event Notifications:
   - input_boolean.trash_notification

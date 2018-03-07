@@ -1,4 +1,4 @@
-skylar_dressed_notifications:
+skylar_dressed_alarm:
   sequence:
   - condition: state
     entity_id: sensor.family_status

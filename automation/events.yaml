@@ -78,6 +78,9 @@
   - condition: state
     entity_id: input_boolean.guest_mode
     state: 'off'
+  - condition: state
+    entity_id: input_boolean.skylar_dressed_alarm
+    state: 'on'
   action:
-  - service: script.skylar_dressed_notification
+  - service: script.skylar_dressed_alarm
   

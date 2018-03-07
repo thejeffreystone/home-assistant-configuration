@@ -72,6 +72,6 @@ washer_notification:
 washer_running:
   name: Washer Running
   icon: mdi:speaker-wireless
-skylar_notifications:
-  name: Skylar Audible Notifications
+skylar_dressed_alarm:
+  name: Skylar Dressed Alarm
   icon: mdi:speaker-wireless
