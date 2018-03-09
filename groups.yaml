@@ -172,7 +172,7 @@ Family:
 Jeffrey:
   control: hidden
   entities:
-  - device_tracker.jeffrey_377fadfe9d7e410fb71bd84c06547c00
+  - sensor.jeff_location
   - sensor.jeff_destination
   - sensor.jeff_iphone_batt
   - sensor.jeff_ett_home
@@ -189,7 +189,7 @@ Jeffrey Location:
 Katherine:
   control: hidden
   entities:
-  - device_tracker.kat_2f1c672110dd491ea7dca9833d1c6cf5
+  - sensor.kat_location
   - sensor.kat_iphone_batt
   - sensor.kat_ett_home
   - input_boolean.kat_heading_home
