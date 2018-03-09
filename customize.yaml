@@ -88,22 +88,20 @@ sensor.pws_alerts:
 # Jeff #
 
 device_tracker.owntracks_jeffreystonesiphone:
-  #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
 sensor.jeffrey_location:
-  #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
+sensor.jeff_location:
+  entity_picture: !secret JEFF_ICON
 sensor.jeff_destination:
   icon: mdi:google-maps
   name: "Jeffs Destination"
 device_tracker.jeffreystonesiphone:
-  #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
 device_tracker.jeffrey_377fadfe9d7e410fb71bd84c06547c00:
-  #icon: mdi:human-male
   entity_picture: !secret JEFF_ICON
   friendly_name: Jeff
 sensor.jeff_iphone_batt:
@@ -129,11 +127,9 @@ sensor.jeff_ipad:
 
 # Kat  ##
 device_tracker.katherinestonesiphone:
-  #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
 device_tracker.kat_2f1c672110dd491ea7dca9833d1c6cf5:
-  #icon: mdi:human-female
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
 sensor.kat_iphone_batt:

@@ -3,6 +3,7 @@ secrets.yaml
 entity_registry.yaml
 .HA_VERSION
 zones.yaml
+sensors/location.yaml
 *ios.conf
 *.log
 *.db
