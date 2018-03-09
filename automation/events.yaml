@@ -65,8 +65,8 @@
 - alias: Get Dressed Skylar
   trigger:
   - platform: time
-    hours: 8
-    minutes: 0
+    hours: 7
+    minutes: 58
     seconds: 0
   condition:
   - condition: time
