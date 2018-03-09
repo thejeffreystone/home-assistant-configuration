@@ -3,6 +3,9 @@ kat_is_home_audible:
     - condition: state
       entity_id: input_boolean.audible_notifications
       state: "on"
+    - condition: state
+      entity_id: sensor.jeff_presence
+      state: 'present'
     - service: tts.google_say
       data:
         entity_id: media_player.hass_speaker
