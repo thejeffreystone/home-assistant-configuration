@@ -7,4 +7,4 @@ tornado_warning:
   can_acknowledge: True
   skip_first: False
   notifiers:
-  - jeff_ios
+  - all_ios
