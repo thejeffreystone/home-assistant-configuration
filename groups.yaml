@@ -184,6 +184,7 @@ Jeffrey Location:
   entities:
   - device_tracker.owntracks_jeffreystonesiphone
   - device_tracker.jeffreystonesiphone
+  - device_tracker.jeffrey_377fadfe9d7e410fb71bd84c06547c00
   
 Katherine:
   control: hidden
