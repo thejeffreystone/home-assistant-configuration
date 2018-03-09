@@ -15,8 +15,8 @@
     jeff_iphone_batt:
       unit_of_measurement: '%'
       value_template: >-
-          {%- if states.device_tracker.jeffreystonesiphone.attributes.battery %}
-              {{ states.device_tracker.jeffreystonesiphone.attributes.battery | round(1) }}
+          {%- if states.device_tracker.jeffrey_377fadfe9d7e410fb71bd84c06547c00.attributes.battery %}
+              {{ states.device_tracker.jeffrey_377fadfe9d7e410fb71bd84c06547c00.attributes.battery | round(1) }}
           {% else %}
               {{ states.sensor.jeff_iphone_batt.state }}
           {%- endif %}
@@ -24,8 +24,8 @@
     kat_iphone_batt:
       unit_of_measurement: '%'
       value_template: >-
-          {%- if states.device_tracker.katherinestonesiphone.attributes.battery %}
-              {{ states.device_tracker.katherinestonesiphone.attributes.battery | round(1) }}
+          {%- if states.device_tracker.kat_2f1c672110dd491ea7dca9833d1c6cf5.attributes.battery %}
+              {{ states.device_tracker.kat_2f1c672110dd491ea7dca9833d1c6cf5.attributes.battery | round(1) }}
           {% else %}
               {{ states.sensor.kat_iphone_batt.state }}
           {%- endif %}
