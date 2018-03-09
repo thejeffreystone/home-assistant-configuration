@@ -9,6 +9,10 @@
   - platform: state
     entity_id: sensor.jeff_destination
     to: Home
+  condition:
+  - condition: state
+    entity_id: input_boolean.text_notify_kat
+    state: 'on'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.jeff_heading_home
