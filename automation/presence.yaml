@@ -70,7 +70,7 @@
     platform: zone
     zone: zone.summit
   action:
-  - service: script.jeff_destination_arrived
+  - service: script.jeff_destination_na
   - service: script.jeff_at_work_notification
 
 - alias: Kat Arrives Home Notification

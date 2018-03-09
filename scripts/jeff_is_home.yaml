@@ -1,6 +1,6 @@
 jeff_is_home:
   sequence:
-    - service: script.jeff_destination_arrived
+    - service: script.jeff_destination_na
     - service: script.driveway_on
     - service: input_boolean.turn_off
       entity_id: input_boolean.jeff_heading_home 

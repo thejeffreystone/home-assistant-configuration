@@ -1,0 +1,7 @@
+kat_destination_na:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "kat/driving/destination"
+        payload: "na"
+        retain: true

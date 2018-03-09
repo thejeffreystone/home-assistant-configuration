@@ -1,6 +1,9 @@
 - platform: mqtt
   name: "Jeff Destination"
   state_topic: "jeff/driving/destination"
+- platform: mqtt
+  name: "Kat Destination"
+  state_topic: "kat/driving/destination"
 - platform: template
   sensors:
     family_presence:
