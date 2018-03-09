@@ -22,7 +22,7 @@
 ##### Jeff Traffic Alerts
 - alias: Enable Jeff Bad Traffic Home
   trigger:
-  - platform: mumeric_state
+  - platform: numeric_state
     entity_id: sensor.jeff_ett_home
     above: 59
   condition:
@@ -38,7 +38,7 @@
 
 - alias: Disabling Jeff Bad Traffic Home
   trigger:
-  - platform: mumeric_state
+  - platform: numeric_state
     entity_id: sensor.jeff_ett_home
     below: 40
   condition:
