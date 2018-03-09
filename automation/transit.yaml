@@ -17,3 +17,35 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.jeff_heading_home
 
+
+
+##### Jeff Traffic Alerts
+- alias: Enable Jeff Bad Traffic Home
+  trigger:
+  - platform: mumeric-state
+    entity_id: sensor.jeff_ett_home
+    above: 59
+  condition:
+  - condition: state
+    entity_id: sensor.jeff_location
+    state: 'Summit'
+  condition:
+  - condition: state
+    entity_id: input_boolean.jeff_traffic_alerts
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.jeff_traffic_alert_home
+
+- alias: Disabling Jeff Bad Traffic Home
+  trigger:
+  - platform: mumeric-state
+    entity_id: sensor.jeff_ett_home
+    below: 40
+    condition:
+  - condition: state
+    entity_id: input_boolean.jeff_traffic_alert_home
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.jeff_traffic_alert_home

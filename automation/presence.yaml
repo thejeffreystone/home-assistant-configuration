@@ -72,6 +72,8 @@
   action:
   - service: script.jeff_destination_na
   - service: script.jeff_at_work_notification
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.jeff_traffic_alert_home
 
 - alias: Kat Arrives Home Notification
   trigger:

@@ -75,3 +75,9 @@ washer_running:
 skylar_dressed_alarm:
   name: Skylar Dressed Alarm
   icon: mdi:speaker-wireless
+jeff_traffic_alerts:
+  name: Jeff Traffic Alerts
+  icon: mdi:bell-plus
+jeff_traffic_alert_home:
+  name: Jeff Traffic Alert Home
+  icon: mdi:traffic-light
