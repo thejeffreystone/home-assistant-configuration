@@ -190,6 +190,7 @@ Katherine:
   control: hidden
   entities:
   - sensor.kat_location
+  - sensor.kat_destination
   - sensor.kat_iphone_batt
   - sensor.kat_ett_home
   - input_boolean.kat_heading_home

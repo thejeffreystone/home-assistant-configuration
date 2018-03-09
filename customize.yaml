@@ -149,6 +149,9 @@ sensor.kat_mini:
   icon: mdi:desktop-mac
 sensor.kat_ipad:
   icon: mdi:tablet-ipad
+sensor.kat_destination:
+  icon: mdi:google-maps
+  name: "Jeffs Destination"
 
 # Device ## 
 device_tracker.gateway2f3bca:
