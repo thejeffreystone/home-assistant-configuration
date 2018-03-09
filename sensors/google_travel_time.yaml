@@ -1,12 +1,12 @@
 - platform: google_travel_time
   name: "Jeff ETT Home"
   api_key: !secret google_api
-  origin: device_tracker.owntracks_jeffreystonesiphone
+  origin: device_tracker.jeffrey_377fadfe9d7e410fb71bd84c06547c00
   destination: zone.home
 - platform: google_travel_time
   name: "Kat ETT Home"
   api_key: !secret google_api
-  origin: device_tracker.katherinestonesiphone
+  origin: device_tracker.kat_2f1c672110dd491ea7dca9833d1c6cf5
   destination: zone.home
 - platform: google_travel_time
   name: "Home To Summit"
