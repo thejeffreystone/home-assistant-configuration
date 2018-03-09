@@ -29,7 +29,6 @@
   - condition: state
     entity_id: sensor.jeff_location
     state: 'Summit'
-  condition:
   - condition: state
     entity_id: input_boolean.jeff_traffic_alerts
     state: 'on'
@@ -42,7 +41,7 @@
   - platform: mumeric-state
     entity_id: sensor.jeff_ett_home
     below: 40
-    condition:
+  condition:
   - condition: state
     entity_id: input_boolean.jeff_traffic_alert_home
     state: 'on'

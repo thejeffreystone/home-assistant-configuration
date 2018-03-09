@@ -1,7 +1,7 @@
 jeff_bad_traffic_home:
   name: Traffic Bad! Currently {{states.sensor.jeff_ett_home.attributes.duration_in_traffic}} mins home!
   done_message: Canceling Traffic Alert
-  entity_id: jeff_traffic_alert_home
+  entity_id: input_boolean.jeff_traffic_alert_home
   state: 'on'
   repeat: 10
   can_acknowledge: True
