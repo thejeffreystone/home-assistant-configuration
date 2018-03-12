@@ -42,7 +42,7 @@
       entity_id: sun.sun
       state: 'below_horizon'
   action:
-    - service: sript.house_lights_up
+    - service: script.house_lights_up
       
   
 # - alias: "Movie Resumed - Lights Off"
