@@ -35,7 +35,7 @@
     milliseconds: 0
 - platform: moon
 - platform: pollen
-  zip_code: 30017
+  zip_code: "30017"
   monitored_conditions:
     - allergy_average_forecasted
     - allergy_average_historical
