@@ -4,7 +4,7 @@ washer_finished_notification:
     entity_id: input_boolean.washer_notification
     state: 'on'
   - delay:
-      minutes: 3
+      minutes: 45
   - service: notify.all_ios
     data:
       message: "Washer is done"
