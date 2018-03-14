@@ -33,3 +33,10 @@
   payload_off: "closed"
   retain: true
   device_class: door
+- platform: mqtt
+  name: "Washer Door" # Dome Door Sensor
+  state_topic: "smartthings/Washer Door/contact"
+  payload_on: "open"
+  payload_off: "closed"
+  retain: true
+  device_class: door

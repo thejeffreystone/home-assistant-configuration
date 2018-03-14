@@ -8,6 +8,12 @@
   name: "Kitchen Smoke Battery"
   state_topic: "smartthings/Kitchen Smoke/battery"
 - platform: mqtt
+  name: "Attic Door Battery"
+  state_topic: "smartthings/Attic Door/battery"
+- platform: mqtt
+  name: "Washer Door Battery"
+  state_topic: "smartthings/Washer Door/battery"
+- platform: mqtt
   name: "Back Door Battery"
   state_topic: "smartthings/Back Door/battery"
 - platform: template
