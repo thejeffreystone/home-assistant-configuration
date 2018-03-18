@@ -79,6 +79,21 @@ media_player:
   - platform: vlc
     name: hass_speaker
     arguments: '--alsa-audio-device=hw:0,0'
+  - platform: yamaha
+    host: 192.168.7.56
+    source_ignore:
+      - "AUX"
+      - "HDMI2"
+    source_names:
+      HDMI1: "BluRay"
+      HDMI3: "Xbox"
+      HDMI4: "Roku"
+      HDMI5: "AppleTv"
+    zone_ignore:
+      - "Zone_2"
+    zone_names:
+      Main_Zone: "Theater"
+
 
 tts:
   - platform: google
