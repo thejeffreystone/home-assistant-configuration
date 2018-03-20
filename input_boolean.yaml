@@ -81,3 +81,6 @@ jeff_traffic_alerts:
 jeff_traffic_alert_home:
   name: Jeff Traffic Alert Home
   icon: mdi:traffic-light
+tornado_watch:
+  name: Tornado Watch
+  icon: mdi:message-alert

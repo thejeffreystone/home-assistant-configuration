@@ -72,3 +72,19 @@
     entity_id: sensor.pws_alerts
   action:
     - service: script.wxalert_tile
+
+alias: "Weather Watch Tornado"
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.pws_alerts
+    above: 1
+condition:
+   condition: or
+   conditions:
+     - condition: template
+       value_template: '{{ states.sensor.pws_alerts.attributes.Description == "Tornado Watch" }}'
+     - condition: template
+       value_template: '{{ states.sensor.pws_alerts.attributes.Description_TOW == "Tornado Watch" }}'
+action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.tornado_watch
