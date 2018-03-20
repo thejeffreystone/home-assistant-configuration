@@ -52,8 +52,8 @@ media:
   entities:
     - group.tvs
     - group.gaming
-    - media_player.tsr6750_a3ed2f
-    - media_player.apple_tv
+    - media_player.yamaha_receiver_theater
+    - media_player.apple_tv_2
     - media_player.living_room_tv
     - media_player.roku_5s6719003683
     - media_player.guest_tv
