@@ -77,7 +77,7 @@
   trigger:
     - platform: numeric_state
       entity_id: sensor.pws_alerts
-      above: 1
+      above: 0
   condition:
     condition: or
     conditions:
