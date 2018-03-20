@@ -79,9 +79,9 @@
       tornado_warning:
         friendly_name: 'Tornado Warning'
         value_template: >-
-          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Tornado Warning") %}
+          {%-  if is_state("states.sensor.pws_alerts.attributes.Description", "Tornado Warning") %}
             active
-          {% elif is_state("sensor.pws_alerts.attributes.Description_TOR", "Tornado Warning") %}
+          {% elif is_state("states.sensor.pws_alerts.attributes.Description_TOR", "Tornado Warning") %}
             active
           {% else %}
             inactive
@@ -91,9 +91,9 @@
       tornado_watch:
         friendly_name: 'Tornado Watch'
         value_template: >-
-          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Tornado Watch") %}
+          {%-  if is_state("states.sensor.pws_alerts.attributes.Description", "Tornado Watch") %}
             active
-          {% elif is_state("sensor.pws_alerts.attributes.Description_TOW", "Tornado Watch") %}
+          {% elif is_state("states.sensor.pws_alerts.attributes.Description_TOW", "Tornado Watch") %}
             active
           {% else %}
             inactive
@@ -103,9 +103,9 @@
       tstorm_warning:
         friendly_name: 'T-Storm Warning'
         value_template: >-
-          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Severe Thunderstorm Warning") %}
+          {%-  if is_state("states.sensor.pws_alerts.attributes.Description", "Severe Thunderstorm Warning") %}
             active
-          {% elif is_state("sensor.pws_alerts.attributes.Description_WRN", "Severe Thunderstorm Warning") %}
+          {% elif is_state("states.sensor.pws_alerts.attributes.Description_WRN", "Severe Thunderstorm Warning") %}
             active
           {% else %}
             inactive
@@ -115,9 +115,9 @@
       storm_statement:
         friendly_name: 'Storm Statement'
         value_template: >-
-          {%-  if is_state("sensor.pws_alerts.attributes.Description", "Severe Weather Statement") %}
+          {%-  if is_state("states.sensor.pws_alerts.attributes.Description", "Severe Weather Statement") %}
             active
-          {% elif is_state("sensor.pws_alerts.attributes.Description_SVR", "Severe Weather Statement") %}
+          {% elif is_state("states.sensor.pws_alerts.attributes.Description_SVR", "Severe Weather Statement") %}
             active
           {% else %}
             inactive
