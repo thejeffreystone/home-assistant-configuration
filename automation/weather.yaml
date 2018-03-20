@@ -43,7 +43,7 @@
     entity_id: input_boolean.tornado_alarm
     to: 'off'
   action:
-    - service: script.kill_audible_alarm
+    - service: script.chromecast_stop_media
     - service: homeassistant.turn_off
       entity_id: script.tornado_alarm
 
@@ -53,7 +53,6 @@
     entity_id: input_boolean.tornado_alarm
     to: "on"
   action:
-    - service: script.tornado_warning
     - service: homeassistant.turn_on
       entity_id: script.tornado_alarm
 
@@ -75,9 +74,8 @@
 
 - alias: "Weather Watch Tornado"
   trigger:
-    - platform: numeric_state
+    - platform: state
       entity_id: sensor.pws_alerts
-      above: 0
   condition:
     condition: or
     conditions:
