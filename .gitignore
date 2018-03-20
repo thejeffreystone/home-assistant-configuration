@@ -4,6 +4,9 @@ entity_registry.yaml
 .HA_VERSION
 zones.yaml
 sensors/location.yaml
+scripts/tornado_alarm.yaml
+scripts/test_alarm.yaml
+scripts/security_alarm.yaml
 *ios.conf
 *.log
 *.db
