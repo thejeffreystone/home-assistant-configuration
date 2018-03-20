@@ -103,7 +103,7 @@
       tstorm_warning:
         friendly_name: 'T-Storm Warning'
         value_template: >-
-          {%-  if is_state("states.sensor.pws_alerts.attributes.Description", "Severe Thunderstorm Warning") %}
+          {%-  if states.sensor.pws_alerts.attributes.Description == "Severe Thunderstorm Warning" %}
             active
           {% elif is_state("states.sensor.pws_alerts.attributes.Description_WRN", "Severe Thunderstorm Warning") %}
             active
@@ -115,7 +115,7 @@
       storm_statement:
         friendly_name: 'Storm Statement'
         value_template: >-
-          {%-  if is_state("states.sensor.pws_alerts.attributes.Description", "Severe Weather Statement") %}
+          {%-  if states.sensor.pws_alerts.attributes.Description == "Wind Advisory" %}
             active
           {% elif is_state("states.sensor.pws_alerts.attributes.Description_SVR", "Severe Weather Statement") %}
             active
