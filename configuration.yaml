@@ -83,7 +83,21 @@ media_player:
     host: 192.168.7.56
     source_ignore:
       - "AUX"
+      - "V-AUX"
       - "HDMI2"
+      - "AV1"
+      - "AV2"
+      - "AV3"
+      - "AV4"
+      - "AV5"
+      - "AV6"
+      - "SiriusXM"
+      - "Pandora"
+      - "Rhapsody"
+      - "TURNER"
+      - "AUDIO1"
+      - "AUDIO2"
+      - "SERVER"
     source_names:
       HDMI1: "BluRay"
       HDMI3: "Xbox"
