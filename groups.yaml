@@ -392,6 +392,7 @@ Trash Schedule:
 
 House Notifications:
   - input_boolean.audible_notifications
+  - input_boolean.garage_notifications
 
 Skylar Alarms:
   - input_boolean.skylar_dressed_alarm
@@ -402,3 +403,7 @@ Presence Notifications:
 
 Event Notifications:
   - input_boolean.trash_notification
+  - input_boolean.washer_notification
+
+Weather Notifications:
+  - input_boolean.tornado_watch
