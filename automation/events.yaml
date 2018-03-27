@@ -56,10 +56,6 @@
     entity_id: binary_sensor.washer_door
     from: 'off'
     to: 'on'
-  condition:
-  - condition: state
-    entity_id: input_boolean.washer_notification
-    state: 'on'
   action:
   - service: homeassistant.turn_off
     entity_id: script.washer_finished_notification
