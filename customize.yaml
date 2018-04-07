@@ -201,6 +201,7 @@ switch.loft_lamp:
 cover.garage_door:
   device_class: garage
   friendly_name: Garage Door
+  homebridge_cover_type: garage_door
 switch.master_fan:
   friendly_name: "Master Box Fan"
   icon: mdi:power-plug
