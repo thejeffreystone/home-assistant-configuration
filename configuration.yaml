@@ -39,7 +39,9 @@ device_tracker:
     username: !secret ICLOUD_USER
     password: !secret ICLOUD_PASS
     track_new_devices: yes
-  - platform: geofency
+  - platform: google_maps
+    username: !secret GV_USER
+    password: !secret GV_PASS
   - platform: owntracks
     track_new_devices: yes
   #- platform: bluetooth_tracker
