@@ -1,6 +1,0 @@
-family_is_away:
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: "house/family/status"
-      payload_template: "away"

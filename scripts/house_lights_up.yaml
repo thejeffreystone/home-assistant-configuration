@@ -1,9 +1,0 @@
-house_lights_up:
-  sequence:
-  - delay:
-      seconds: 3
-  - condition: state
-    entity_id: media_player.apple_tv
-    state: "idle"
-  - service: scene.turn_on
-    entity_id: scene.livingroom_normal

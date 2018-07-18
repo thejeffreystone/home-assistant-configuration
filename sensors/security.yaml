@@ -1,9 +1,0 @@
-- platform: mqtt
-  name: "Lockdown Status"
-  state_topic: "house/lockdown/status"
-- platform: mqtt
-  name: "Kitchen Smoke"
-  state_topic: "smartthings/Kitchen Smoke/smoke"
-  payload_on: "smoke"
-  payload_off: "clear"
-  retain: true

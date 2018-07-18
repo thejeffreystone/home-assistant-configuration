@@ -1,9 +1,0 @@
-skylar_dressed_alarm:
-  sequence:
-  - condition: state
-    entity_id: sensor.family_status
-    state: home
-  - service: tts.google_say
-    data:
-      entity_id: media_player.hass_speaker
-      message: Good morning Skylar it is time to get dressed
