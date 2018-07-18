@@ -1,0 +1,8 @@
+jeff_at_work_notification:
+  sequence:
+    - condition: state
+      entity_id: input_boolean.text_notify_kat
+      state: "on"
+    - service: notify.ios_katherinestonesiphone
+      data:
+        message: Jeff has arrived at Summit

@@ -1,0 +1,110 @@
+
+#
+#
+# Presence Automations
+#
+#
+#####################
+
+- alias: Family Has arrived
+  trigger:
+  - entity_id: sensor.family_presence
+    from: Away
+    platform: state
+    to: Home
+  action:
+  - service: script.standby
+  - service: script.driveway_on
+  - service: script.vacation_canceled
+  - service: script.appliances_on
+  - service: script.family_is_home
+
+- alias: Family Has Left
+  trigger:
+  - entity_id: sensor.family_presence
+    from: Home
+    platform: state
+    to: Away
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: script.lockdown
+  - service: script.appliances_off
+  - service: script.family_is_away
+
+- alias: Jeff Arrives Home
+  trigger:
+  - entity_id: sensor.jeff_presence
+    from: 'not present'
+    platform: state
+    to: 'present'
+  action:
+  - service: script.jeff_destination_na
+  - service: script.driveway_on
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.jeff_heading_home
+ 
+- alias: Jeff Arrives At Summit
+  trigger:
+  - entity_id: device_tracker.jeffreystonesiphone
+    event: enter
+    platform: zone
+    zone: zone.summit
+  action:
+  - service: script.jeff_destination_na
+  #- service: script.jeff_at_work_notification
+
+- alias: Jeff Leaves Summit
+  trigger:
+  - entity_id: device_tracker.jeffreystonesiphone
+    event: leave
+    platform: zone
+    zone: zone.summit
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.jeff_traffic_alert_home
+
+- alias: Kat Arrives Home
+  trigger:
+  - entity_id: sensor.kat_presence
+    from: 'not present'
+    platform: state
+    to: 'present'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.kat_heading_home
+  - service: script.driveway_on
+
+- alias: Kat Arrives at Zoo
+  trigger:
+  - platform: zone
+    event: enter
+    zone: zone.zoo_atlanta
+    entity_id: device_tracker.katherinestonesiphone
+  condition:
+  - condition: state
+    entity_id: input_boolean.text_notify_jeff
+    state: 'on'
+  action:
+  - service: notify.ios_jeffreystonesiphone
+    data:
+      message: Kat is at Zoo Atlanta
+
+- alias: Kat Leaves Zoo Notification
+  trigger:
+  - platform: zone
+    event: leave
+    zone: zone.zoo_atlanta
+    entity_id: device_tracker.katherinestonesiphone
+  condition:
+  - condition: state
+    entity_id: input_boolean.text_notify_jeff
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.kat_heading_home
+
+
+

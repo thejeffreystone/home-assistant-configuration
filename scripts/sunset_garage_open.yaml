@@ -1,0 +1,8 @@
+sunset_garage_open:
+  sequence:
+    - condition: state
+      entity_id: binary_sensor.garage_door
+      state: "on"
+    - service: script.driveway_all_on
+
+        

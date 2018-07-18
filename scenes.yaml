@@ -1,0 +1,40 @@
+- name: livingroom normal
+  entities:
+    light.tower_lamp:
+      state: on
+      brightness: 250
+    light.front_lamp:
+      state: on
+      brightness: 250
+- name: livingroom dim
+  entities:
+    light.tower_lamp:
+      state: on
+      brightness: 40
+    light.front_lamp:
+      state: on
+      brightness: 40
+- name: livingroom night
+  entities:
+    light.tower_lamp:
+      state: on
+      brightness: 10
+    light.front_lamp:
+      state: off
+- name: dim kitchen
+  entities:
+    light.kitchen_cabinets:
+      state: on
+      brightness: 10
+    light.kitchen_light_strip:
+      state: off
+- name: normal kitchen
+  entities:
+    light.kitchen_cabinets:
+      state: on
+      brightness: 250
+    light.kitchen_light_strip:
+      state: on
+
+
+

@@ -1,0 +1,6 @@
+chime_off:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: "smartthings/Dome Siren/status"
+      payload_template: "off"

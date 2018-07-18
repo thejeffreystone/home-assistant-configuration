@@ -1,0 +1,57 @@
+- platform: systemmonitor
+  resources:
+  - type: disk_use_percent
+    arg: /
+  - type: memory_use_percent
+  - type: network_in
+    arg: eth0
+  - type: network_out
+    arg: eth0
+  - type: last_boot
+  - type: load_15m
+  - type: processor_use
+  - type: since_last_boot
+- platform: cpuspeed
+  name: CPU
+- platform: time_date
+  display_options:
+  - 'time'
+  - 'date'
+  - 'date_time'
+  - 'time_date'
+  - 'time_utc'
+  - 'beat'
+- platform: cert_expiry
+  host: !secret BASEURL
+  name: Lets Encrypt Expiration
+- platform: command_line
+  name: "HA Uptime"
+  command: echo "$(($(date +%s) - $(date -d "$(head -n1 /home/homeassistant/.homeassistant/home-assistant.log | cut -d' ' -f-2)" +%s)))"
+  scan_interval: 720
+  value_template: >-
+    {% set uptime = value | int %}
+    {% set seconds = uptime % 60 %}
+    {% set minutes = ((uptime % 3600) / 60) | int %}
+    {% set hours = ((uptime % 86400) / 3600) | int %}
+    {% set days = (uptime / 86400) | int %}
+    {%- if days > 0 -%}
+      {%- if days == 1 -%}
+        1 day
+      {%- else -%}
+        {{ days }} days
+      {%- endif -%}
+      {{ ', ' }}
+    {%- endif -%}
+    {{ '%02d' % hours }}:{{ '%02d' % minutes }}
+- platform: command_line
+  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+  name: Current HA Version
+- platform: command_line
+  name: Installed version
+  command: "head -5 /home/homeassistant/.homeassistant/.HA_VERSION"
+- platform: command_line
+  name: ha_v2db
+  command: "ls -sh /home/homeassistant/.homeassistant/home-assistant_v2.db | cut -f1 -d ' '"
+- platform: command_line
+  name: ha_log
+  command: "ls -sh /home/homeassistant/.homeassistant/home-assistant.log | cut -f1 -d ' '"

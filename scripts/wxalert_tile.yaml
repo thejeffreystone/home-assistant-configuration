@@ -1,0 +1,17 @@
+wxalert_tile:
+  sequence:
+    ## Dismiss any current alert so the UI isn't filled 
+    ## up with these if there are more then one.
+    ## Only show the latest alert
+  - service: persistent_notification.dismiss
+    data:
+      notification_id: "wxalert"
+    ## Create a new persistant notification in the UI for a new alert
+  - service_template: >
+      {% if states.sensor.pws_alerts.attributes.Message %}
+        persistent_notification.create
+      {% endif %}
+    data_template:
+      notification_id: "wxalert"
+      message: '{{ states.sensor.pws_alerts.attributes.Message }}'
+      title: '{{ states.sensor.pws_alerts.attributes.Description }}'

@@ -1,0 +1,26 @@
+alarm_mode:
+  name: alarm mode
+  options:
+   - home_armed
+   - away_armed
+   - disarmed
+trash_pickup:
+  name: Trash Pickup
+  options:
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+  initial: Tuesday
+  icon: mdi:delete-variant 
+recycle_pickup:
+  name: Recycle Pickup
+  options:
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+  initial: Tuesday
+  icon: mdi:delete-variant

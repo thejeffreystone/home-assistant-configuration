@@ -1,0 +1,6 @@
+chromecast_media_stop:
+  sequence:
+  - service: media_player.media_stop
+    data:
+      entity_id: media_player.living_room_tv
+      

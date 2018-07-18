@@ -1,0 +1,99 @@
+#
+#
+# Events
+#
+############
+
+#- alias: Trash Morning Notification
+#  trigger:
+#  - platform: time
+#    hours: 6
+#    minutes: 0
+#    seconds: 0
+#  condition:
+#  - condition: time
+#    weekday:
+#    - tue
+#  - condition: state
+#    entity_id: input_boolean.vacation_mode
+#    state: 'off'
+#  - condition: state
+#    entity_id: input_boolean.trash_notification
+#    state: 'on'
+#  action:
+#  - service: notify.all_ios
+#    data:
+#      message: Don't forget to it is Trash Day
+
+#- alias: Washer Running 
+#  trigger:
+#  - platform: numeric_state
+#    entity_id: sensor.washer_power
+#    above: 100
+#  action:
+#  - service: input_boolean.turn_on
+#    entity_id: input_boolean.washer_running
+
+#- alias: Washer Complete 
+#  trigger:
+#  - platform: state
+#    entity_id: sensor.washer_status
+#    from: 'running'
+#    to: 'idle'
+#  condition:
+#  - condition: state
+#    entity_id: input_boolean.washer_running
+#    state: 'on'
+#  action:
+#  - service: input_boolean.turn_off
+#    entity_id: input_boolean.washer_running
+#  - service: input_boolean.turn_on
+#    entity_id: input_boolean.washer_notification
+
+#- alias: Washer Emptied   
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.washer_door
+#    from: 'off'
+#    to: 'on'
+#  action:
+#  - service: homeassistant.turn_off
+#    entity_id: script.washer_finished_notification
+#  - service: input_boolean.turn_off
+#    entity_id: input_boolean.washer_notification
+
+#- alias: Washer Notification 
+#  trigger:
+#  - platform: state
+#    entity_id: input_boolean.washer_notification
+#    to: 'on'
+#  condition:
+#  - condition: state
+#    entity_id: sensor.family_status
+#    state: home
+#  action:
+#  - service: homeassistant.turn_on
+#    entity_id: script.washer_finished_notification
+  
+#- alias: Get Dressed Skylar
+#  trigger:
+#  - platform: time
+#   hours: 7
+#    minutes: 58
+#    seconds: 0
+#  condition:
+#  - condition: time
+#    weekday:
+#    - mon
+#    - tue
+#    - wed 
+#    - thu
+#  - condition: state
+#    entity_id: input_boolean.guest_mode
+#    state: 'off'
+#  - condition: state
+#    entity_id: input_boolean.skylar_dressed_alarm
+#    state: 'on'
+#  action:
+#  - service: script.skylar_dressed_alarm
+  

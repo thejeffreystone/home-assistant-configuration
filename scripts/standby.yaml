@@ -1,0 +1,20 @@
+standby:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: "off"
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.secure_mode
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.security_issue
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.security_alarm
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.security_breach_warning
+  - service: notify.jeff_ios
+    data:
+      message: Anchorage House in Standby

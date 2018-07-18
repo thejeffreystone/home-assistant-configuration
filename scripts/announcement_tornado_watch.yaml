@@ -1,0 +1,11 @@
+annc_tornado_watch:
+  sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - service: notify.ios_all
+      data:
+        message: Tornado Watch Issued for Anchorage House

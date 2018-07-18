@@ -1,0 +1,20 @@
+
+#
+#
+# DoorAutomations
+#
+#
+#####################
+
+# - alias: Door Opened
+#   trigger:
+#   - platform: state
+#     entity_id: group.doors
+#     from: 'off'
+#     to: 'on'
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.audible_notifications
+#     state: 'on'
+#   action:
+#   - service: shell_command.door_chime

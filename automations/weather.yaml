@@ -1,0 +1,125 @@
+#
+#
+# Weather
+#
+############
+
+- alias: Cloudy porch on early
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:30:00
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_cloud_coverage
+    above: 70
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.front_porch_left
+  - service: switch.turn_on
+    data:
+      entity_id: switch.front_porch_right
+
+- alias: Kill Audible Tornado Alarm
+  trigger:
+  - platform: state
+    entity_id: input_boolean.tornado_alarm
+    to: 'off'
+  action:
+    - service: script.chromecast_media_stop
+    - service: homeassistant.turn_off
+      entity_id: script.tornado_alarm
+
+- alias: Sound Audible Tornado Alarm
+  trigger:
+  - platform: state
+    entity_id: input_boolean.tornado_alarm
+    to: "on"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: script.tornado_alarm
+
+- alias: Tornado Warning
+  trigger:
+  - platform: state
+    entity_id: sensor.tornado_warning
+    to: "active"
+  action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.tornado_alarm
+    - service: script.wxalert_tile
+    - service: notify.ios_all
+      data:
+        message: Tornado Warning Issued for Anchorage House!!!!
+
+- alias: Tornado Watch Issued
+  trigger:
+  - platform: state
+    entity_id: sensor.tornado_watch
+    to: "active"
+  action:
+    - service: script.wxalert_tile
+    - service: notify.ios_all
+      data:
+        message: Tornado Watch Issued
+    - service: script.annc_tornado_watch
+    
+- alias: TStorm Warning Issued
+  trigger:
+  - platform: state
+    entity_id: sensor.tstorm_warning
+    to: "active"
+  action:
+    - service: script.wxalert_tile
+    - service: notify.ios_all
+      data:
+        message: Severe Thunderstorm Warning Issued
+    - service: script.annc_tstorm_warning
+
+- alias: Severe Statement Issued
+  trigger:
+  - platform: state
+    entity_id: sensor.storm_statement
+    to: "active"
+  action:
+    - service: script.wxalert_tile
+    - service: notify.ios_all
+      data:
+        message: Severe Weather Statement Issued
+    - service: script.annc_storm_statement
+
+- alias: TStorm Watch Issued
+  trigger:
+  - platform: state
+    entity_id: sensor.tstorm_watch
+    to: "active"
+  action:
+    - service: script.wxalert_tile
+    - service: notify.ios_all
+      data:
+        message: Severe Thunderstorm Watch Issued
+    - service: script.annc_tstorm_watch
+
+#- alias: Wx Alert Notification
+#  trigger:
+#  - platform: state
+#    entity_id: sensor.pws_alerts
+#  action:
+#    - service: script.wxalert_tile
+
+- alias: "Weather Watch Tornado"
+  trigger:
+    - platform: state
+      entity_id: sensor.pws_alerts
+  condition:
+    condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ states.sensor.pws_alerts.attributes.Description == "Tornado Watch" }}'
+    - condition: template
+      value_template: '{{ states.sensor.pws_alerts.attributes.Description_TOW == "Tornado Watch" }}'
+  action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.tornado_watch
+    - service: script.wxalert_tile

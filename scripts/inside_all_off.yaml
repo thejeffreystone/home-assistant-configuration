@@ -1,0 +1,12 @@
+inside_all_off:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: "Turning inside lights off"
+  - service: light.turn_off
+    data:
+      entity_id: light.tower_lamp
+  - service: light.turn_off
+    data:
+      entity_id: light.front_lamp

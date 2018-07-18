@@ -1,0 +1,7 @@
+jeff_destination_none:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "jeff/driving/destination"
+        payload: "none"
+        retain: true

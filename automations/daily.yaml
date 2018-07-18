@@ -1,0 +1,81 @@
+
+#
+#
+# Daily Triggers
+#
+#
+#####################
+- alias: Good Morning
+  trigger:
+  - platform: time
+    hours: 5
+    minutes: 15
+    seconds: 0
+  action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_dim
+  - service: scene.turn_on
+    entity_id: scene.dim_kitchen
+
+- alias: Good Morning
+  trigger:
+  - platform: time
+    hours: 7
+    minutes: 0
+    seconds: 0
+  action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_normal
+  - service: scene.turn_on
+    entity_id: scene.normal_kitchen
+  
+- alias: Good Night
+  trigger:
+  - platform: time
+    hours: 22
+    minutes: 30
+    seconds: 0
+  action:
+  - service: scene.turn_on
+    entity_id: scene.livingroom_night
+  - service: light.turn_off
+    data:
+      entity_id: light.loft_lamp
+  - service: script.turn_on
+    entity_id: script.driveway_off
+
+- alias: Outside Lights on at Sunset 
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:30:00
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.front_porch
+  - service: script.sunset_garage_open
+
+- alias: Outside Lights off at Sunrise
+  trigger:
+  - platform: sun
+    event: sunrise
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.front_porch
+
+- alias: Inside on at Sunset
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:00:00
+  action:
+    service: script.inside_all_on
+
+- alias: Inside off at Sunrise
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 00:30:00
+  action:
+  - service: script.inside_all_off

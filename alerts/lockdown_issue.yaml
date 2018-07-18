@@ -1,0 +1,10 @@
+lockdown_issue:
+  name: Issue Prevented Lockdown...Please Check
+  done_message: Issue Resolved...Anchorage House Ready
+  entity_id: input_boolean.lockdown_issue
+  state: 'on'
+  repeat: 2
+  can_acknowledge: True
+  skip_first: False
+  notifiers:
+  - jeff_ios

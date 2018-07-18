@@ -1,0 +1,4 @@
+lockdown:
+  sequence:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.secure_mode

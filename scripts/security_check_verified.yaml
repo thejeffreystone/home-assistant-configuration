@@ -1,0 +1,11 @@
+security_check_verified:
+  sequence:
+  - delay: '00:00:05'
+  - condition: state
+    entity_id: input_boolean.security_issue
+    state: 'off'
+  - service: notify.jeff_ios
+    data:
+      message: "Anchorage House Secured"
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.security_check

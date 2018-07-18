@@ -1,0 +1,7 @@
+close_garage:
+  sequence:
+  - condition: state
+    entity_id: cover.garage_door
+    state: "open"
+  - service: cover.close_cover
+    entity_id: cover.garage_door

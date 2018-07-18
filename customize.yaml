@@ -1,0 +1,301 @@
+### CUSTOMIZE ###
+
+# Speedtest #
+sensor.speedtest_ping:
+  icon: mdi:speedometer
+  friendly_name: Ping
+sensor.speedtest_download:
+  icon: mdi:download
+  friendly_name: Download
+sensor.speedtest_upload:
+  icon: mdi:upload
+  friendly_name: Upload
+
+
+# Weather #
+sensor.dark_sky_summary:
+  icon: mdi:leaf
+  friendly_name: Conditions
+sensor.dark_sky_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: 'Outdoor Temperature'
+sensor.dark_sky_apparent_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: 'Apparent Temperature'
+sensor.dark_sky_precip:
+  icon: mdi:weather-pouring
+  friendly_name: Precipitation
+sensor.dark_sky_precip_probability:
+  icon: mdi:weather-pouring
+  friendly_name: Precipitation Chance
+sensor.dark_sky_precip_intensity:
+  icon: mdi:weather-pouring
+  friendly_name: Precip Intensity
+sensor.dark_sky_humidity:
+  icon: mdi:water-percent
+  friendly_name: 'Outdoor Humidity'
+sensor.dark_sky_cloud_coverage:
+  icon: mdi:weather-cloudy
+  friendly_name: Cloud Coverage
+sensor.dark_sky_nearest_storm_distance:
+  icon: mdi:weather-lightning
+  friendly_name: Nearest Storm Distance
+sensor.dark_sky_nearest_storm_bearing:
+  icon: mdi:compass-outline
+  friendly_name: Nearest Storm Bearing
+sensor.dark_sky_wind_speed:
+  icon: mdi:weather-windy
+  friendly_name: Wind Speed
+sensor.pws_wind_mph:
+  icon: mdi:weather-windy
+  friendly_name: Wind Speed
+sensor.pws_wind_gust_mph:
+  icon: mdi:weather-windy
+  friendly_name: Wind Gusts
+sensor.pws_precip_today_in:
+  icon: mdi:gauge
+  friendly_name: Rain Gauge
+sensor.dark_sky_wind_bearing:
+  icon: mdi:compass-outline
+  friendly_name: Wind Direction
+sensor.pws_wind_dir:
+  icon: mdi:compass-outline
+  friendly_name: Wind Direction
+sensor.dark_sky_ozone:
+  icon: mdi:cloud
+sensor.dark_sky_pressure:
+  icon: mdi:weight
+  friendly_name: Pressure
+sensor.dark_sky_dew_point:
+  icon: mdi:thermometer
+  friendly_name: Dew Point
+sensor.dark_sky_visability:
+  icon: mdi:eye-outline
+  friendly_name: Visability
+sensor.dark_sky_daily_low_temperature:
+  friendly_name: Todays Low
+  icon: thermometer-lines
+sensor.dark_sky_daily_high_temperature:
+  friendly_name: Todays High
+  icon: thermometer-lines
+sensor.dark_sky_daily_max_precip_intensity:
+  friendly_name: Rain Intensity
+  icon: gauge
+sensor.pws_alerts:
+  friendly_name: "Weather Alerts"
+  icon: mdi:alert
+
+# Jeff #
+
+sensor.jeffrey_location:
+  entity_picture: !secret JEFF_ICON
+  friendly_name: Jeff
+sensor.jeff_location:
+  entity_picture: !secret JEFF_ICON
+sensor.jeff_destination:
+  icon: mdi:google-maps
+  name: "Jeffs Destination"
+device_tracker.jeffreystonesiphone:
+  entity_picture: !secret JEFF_ICON
+  friendly_name: Jeff
+sensor.jeff_iphone_batt:
+  friendly_name: "Jeff's iPhone Battery"
+sensor.jeff_ett_home:
+  friendly_name: "Jeff's ETA Home"
+  icon: mdi:car
+device_tracker.jeffreystonesipad:
+  icon: mdi:tablet-ipad
+  friendly_name: "Jeff's iPad"
+device_tracker.jeffreysmbp:
+  icon: mdi:laptop-mac
+  friendly_name: "Jeff's MacBook"
+device_tracker.jstonemac:
+  icon: mdi:laptop-mac
+  friendly_name: "Jeff's Work Mac"
+device_tracker.jeffreysapple_watch:
+  friendly_name: "Jeff's Watch"
+  icon: mdi:watch
+
+
+# Kat  ##
+device_tracker.katherinestonesiphone:
+  entity_picture: !secret KAT_ICON
+  friendly_name: Kat
+sensor.kat_location:
+  entity_picture: !secret KAT_ICON
+sensor.kat_iphone_batt:
+  friendly_name: "Kat's iPhone Battery"
+device_tracker.katherinesipad:
+  icon: mdi:tablet-ipad
+  friendly_name: "Kat's Ipad"
+device_tracker.katherinesmini:
+  icon: mdi:desktop-mac
+  friendly_name: "Kat's Mini"
+sensor.kat_ett_home:
+  friendly_name: "Kat's ETA Home"
+  icon: mdi:car
+sensor.kat_destination:
+  icon: mdi:google-maps
+  name: "Jeffs Destination"
+
+# Device ## 
+device_tracker.gateway2f3bca:
+  icon: mdi:nest-thermostat
+  friendly_name: Honeywell
+sensor.appletv:
+  icon: mdi:apple
+sensor.roku:
+  icon: mdi:television
+sensor.xboxone:
+  icon: mdi:xbox
+sensor.chromecast:
+  icon: mdi:cast
+sensor.samsungtv:
+  icon: mdi:television
+sensor.amazon_dot_lr:
+  icon: mdi:amazon
+sensor.amazon_dot_kn:
+  icon: mdi:amazon
+sensor.honeywell:
+  icon: mdi:thermostat
+sensor.smartthings:
+  icon: mdi:router-wireless
+sensor.eero_loft:
+  icon: mdi:router-wireless
+sensor.eero_livingroom:
+  icon: mdi:router-wireless
+media_player.roku_5s6719003683:
+  friendly_name: Roku Living Room
+  icon: mdi:youtube-tv
+device_tracker.00a0dea3ed2f:
+  friendly_name: Yamaha AV
+  icon: mdi:surround-sound
+
+
+# Switches and Lights  ##
+switch.fireplace_lights:
+  icon: mdi:spotlight-beam
+switch.tower_lamp:
+  icon: mdi:lightbulb
+switch.driveway_light:
+  icon: mdi:lightbulb
+switch.side_door:
+  icon: mdi:lightbulb
+switch.front_porch:
+  icon: mdi:lightbulb
+switch.front_lamp:
+  icon: mdi:lightbulb
+switch.loft_lamp:
+  icon: mdi:lightbulb
+cover.garage_door:
+  device_class: garage
+  friendly_name: Garage Door
+  homebridge_cover_type: garage_door
+switch.loft_fan:
+  friendly_name: "Loft Box Fan"
+  icon: mdi:fan
+switch.house_secured:
+  name: House Secured
+  icon: mdi:lock
+switch.vacation_mode:
+  name: Vacation Mode
+  icon: mdi:airplane-takeoff
+switch.guest_mode:
+  name: Guest Mode
+  icon: mdi:account-multiple
+switch.notifications_to_kat:
+  name: Notify Katherine
+  icon: mdi:telegram
+switch.notifications_to_jeff:
+  name: Notify Jeff
+  icon: mdi:telegram
+switch.automations:
+  name: automations
+  icon: mdi:home-automation
+switch.kitchen_cabinets:
+  icon: mdi:lightbulb
+switch.kitchen_light_strip:
+  icon: mdi:lightbulb
+switch.garage_alarm:
+  name: Garage Door Alarm
+  icon: mdi:alert
+input_select.trash_pickup:
+  name: Trash Pickup
+  icon: mdi:delete-variant
+input_select.recycle_pickup:
+  name: Recycle Pickup
+  icon: mdi:delete-variant
+switch.trash_notification:
+  name: Trash Notifications
+  icon: mdi:telegram
+switch.master_bedroom_fan:
+  icon: mdi:fan
+
+
+# Travel Times  ##
+sensor.home_to_summit:
+  friendly_name: "Home to Summit"
+  icon: mdi:car
+sensor.home_to_zoo:
+  friendly_name: "Home to Zoo Atlanta"
+  icon: mdi:car
+
+
+# Various Sensors  ##
+sensor.kitchen_fire:
+  name: Kitchen Smoke Detector
+  icon: mdi:tower-fire
+sensor.smoke_kitchen:
+  icon: mdi:fire
+sensor.family_status:
+  icon: mdi:home
+  name: Family Status
+sensor.ha_uptime:
+  friendly_name: HA Uptime
+  icon: mdi:clock-start
+sensor.installed_version:
+  friendly_name: Installed
+  icon: mdi:folder-download
+sensor.lets_encrypt_expiration:
+  friendly_name: Lets Encrypt Expiration
+  icon: mdi:timelapse
+sensor.current_ha_version:
+  friendly_name: Latest Release
+  icon: mdi:github-circle
+sensor.connected_clients:
+  friendly_name: Connections
+  icon: mdi:lan-connect
+zwave.aeotec_zw090_zstick_gen5_us:
+  friendly_name: Zwave USB Hub
+sensor.ha_v2db:
+  friendly_name: HA Database
+  icon: mdi:file
+sensor.ha_log:
+  friendly_name: HA Log
+  icon: mdi:file
+sensor.accurite_back_porch_temperature:
+  friendly_name: Back Porch Temp
+  icon: mdi:thermometer
+  unit_of_measurement: '°F'
+sensor.accurite_back_porch_humidity:
+  friendly_name: Back Porch Humidity
+  icon: mdi:water-percent
+  unit_of_measurement: '%'
+sensor.accurite_garage_temperature:
+  friendly_name: Garage Temp
+  icon: mdi:thermometer
+  unit_of_measurement: '°F'
+sensor.accurite_garage_humidity:
+  friendly_name: Garage Humidity
+  icon: mdi:water-percent
+  unit_of_measurement: '%'
+binary_sensor.garage_dome_sensor:
+  friendly_name: Garage Motion
+sensor.washer_power:
+  friendly_name: Washer Power
+  icon: mdi:power-plug
+  unit_of_measurement: 'w'
+sensor.washer:
+  icon: mdi:power-plug
+
+

@@ -1,0 +1,284 @@
+
+#
+#
+# Security
+#
+# For all these automations the condition should be 
+#
+# - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#
+#
+#####################
+
+- alias: Nightly Lockdown
+  trigger:
+  - platform: time
+    hours: 23
+    minutes: 00
+    seconds: 0
+  condition:
+  - condition: state
+    entity_id: sensor.jeff_presence
+    state: 'present'
+  - condition: state
+    entity_id: sensor.kat_presence
+    state: 'present'
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: script.lockdown
+
+- alias: Morning Standby
+  trigger:
+  - platform: time
+    hours: 5
+    minutes: 30
+    seconds: 0
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.family_presence
+      state: 'Home'
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'on'
+  action:
+  - service: script.standby
+
+- alias: Activate Security
+  trigger:
+  - platform: state
+    entity_id: input_boolean.secure_mode
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.security_check
+
+- alias: Deactivate Security
+  trigger:
+  - platform: state
+    entity_id: input_boolean.secure_mode
+    from: 'on'
+    to: 'off'
+  action:
+  - service: script.standby
+
+- alias: Security Precheck
+  trigger:
+  - platform: state
+    entity_id: input_boolean.security_check
+    from: 'off'
+    to: 'on'
+  action:
+  - service: script.security_check_zones
+  - service: script.security_check_garage
+  - service: script.security_check_verified
+  - service: script.lockdown_aborted
+ 
+- alias: Security Breach
+  trigger:
+  - platform: state
+    entity_id: group.all_doors
+    to: 'On'
+  - platform: state
+    entity_id: binary_sensor.garage_dome_sensor
+    to: 'On'
+  condition:
+  - condition: state
+    entity_id: input_boolean.secure_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.security_breach_warning
+
+- alias: Security Alarm Countdown
+  trigger:
+  - platform: state
+    entity_id: input_boolean.security_breach_warning
+    from: 'off'
+    to: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.security_issue
+
+- alias: Security Issue Canceled
+  trigger:
+  - platform: state
+    entity_id: input_boolean.security_breach_warning
+    from: 'on'
+    to: 'off'
+  action:
+  - service: script.turn_off
+    entity_id: script.security_issue
+
+- alias: Security Alarm Canceled
+  trigger:
+  - platform: state
+    entity_id: input_boolean.security_alarm
+    from: 'on'
+    to: 'off'
+  action:
+  - service: script.turn_off
+    entity_id: script.security_issue
+  - service: script.security_alarm_off
+  - service: script.turn_off
+    entity_id: script.security_alarm_delay
+
+# - alias: Security Breach Garage Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.garage_door_contact
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_garage_door
+
+# - alias: Security Breach Garage Motion
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.garage_motion
+#     to: motion
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_garage_motion
+
+# - alias: Security Breach Front Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.front_door
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_front_door
+
+# - alias: Security Breach Back Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.zone_3
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_back_door
+
+
+# - alias: Security Breach Landry Door
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.Laundry_room_door
+#     to: open
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.secure_mode
+#     state: 'on'
+#   action:
+#   - service: script.security_warning_laundry_door
+
+- alias: Security Access Granted
+  trigger:
+  - platform: state
+    entity_id: sensor.jeff_presence
+    to: 'present'
+  - platform: state
+    entity_id: sensor.kat_presence
+    to: 'present'
+  - platform: state
+    entity_id: sensor.family_presence
+    to: 'Home'
+  condition:
+  - condition: state
+    entity_id: input_boolean.secure_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.security_alarm
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.security_breach_warning
+  - service: script.turn_off
+    entity_id: script.security_alarm_delay
+
+# - alias: Security Alarm Activated Home 
+#   trigger:
+#     platform: state
+#     entity_id: input_boolean.security_alarm
+#     to: 'on'
+#   condition:
+#   - condition: state
+#     entity_id: sensor.family_presence
+#     state: 'Home'
+#   action:
+#   - service: script.security_alarm_on
+
+- alias: Security Alarm Activated Away 
+  trigger:
+    platform: state
+    entity_id: input_boolean.security_alarm
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sensor.family_presence
+    state: 'Away'
+  action:
+  - service: script.turn_on
+    entity_id: script.security_alarm_delay
+
+# - alias: Security Issue
+#   trigger:
+#     platform: state
+#     entity_id: input_boolean.security_issue
+#     to: 'on'
+#   action:
+#   - service: homeassistant.turn_on
+#     entity_id: script.security_report
+
+
+# - alias: Security Issue Resolved
+#   trigger:
+#   - platform: state
+#     entity_id: group.all_doors
+#     to: 'off'
+#   condition:
+#   - condition: state
+#     entity_id: cover.garage_door
+#     state: 'off'
+#   - condition: state
+#     entity_id: group.doors
+#     state: 'off'
+#   action:
+#   - service: input_boolean.turn_off
+#     entity_id: input_boolean.security_issue
+
+- alias: Late Arrival Lockdown
+  trigger:
+  - platform: state
+    entity_id: sensor.jeff_presence
+    to: 'present'
+  - platform: state
+    entity_id: sensor.kat_presence
+    to: 'present'
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  - condition: time
+    after: '23:00:00'
+    before: '05:00:00'
+  action:
+  - service: script.lockdown_delay
+

@@ -1,0 +1,8 @@
+appliances_off:
+  sequence:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.master_bedroom_fan
+  - service: switch.turn_off
+    data:
+      entity_id: switch.loft_box_fan
