@@ -6,23 +6,35 @@ homeassistant:
   unit_system: imperial
   time_zone: America/New_York
   customize: !include customize.yaml
+  auth_providers:
+    - type: homeassistant
+  packages: !include_dir_named packages
+
+system_health:
+
+default_config:
+
+person:
 
 frontend:
-  themes:
-    blue:
-      primary-color: "#356AA0"
+  themes: !include_dir_merge_named themes
+  javascript_version: latest
 
 http:
   api_password: !secret MY_API_PASS
   #ssl_certificate: !secret SSL_CERT
   #ssl_key: !secret SSL_KEY
   #base_url: !secret BASEURL
-  cors_allowed_origins:
-    - https://google.com
-    - https://home-assistant.io
+  ssl_certificate: !secret ahsl_ssl_cert
+  ssl_key: !secret ahsl_ssl_key
+  base_url: !secret ahsl_base_url
   use_x_forwarded_for: True
+  trusted_proxies:
+    - 127.0.0.1
+    - ::1
   trusted_networks:
     - 127.0.0.1
+  #  - 192.168.7.0/24
   ip_ban_enabled: True
   login_attempts_threshold: 5
 
@@ -31,13 +43,6 @@ config:
 cloud:
   alexa:
     filter:
-      include_entities:
-      - sensor.accurite_back_porch_temperature
-      - sensor.accurite_garage_temperature
-      - sensor.kat_location
-      - sensor.jeff_location
-      - sensor.jeff_ett_home
-      - sensor.kat_ett_home
       include_domains:
       - switch
       - light
@@ -45,6 +50,8 @@ cloud:
       - scene
       - script
       - input_boolean
+      - climate
+      - sensor
       exclude_domains:
       - group
       - alert
@@ -67,9 +74,29 @@ cloud:
         description: Jeffs arrival in minutes
       sensor.kat_ett_home:
         name: Kats Arrival
-        description: Katss arrival in minutes
+        description: Kats arrival in minutes
+      sensor.accurite_garage_humidity:
+        name: Garage Humidity
+        description: Garage Humidity
 
 alexa:
+
+# homekit:
+#   filter:
+#     include_domains:
+#     - switch
+#     - light
+#     - cover
+#     - scene
+#     - input_boolean
+#     - climate
+#     - sensor
+#     - binary_sensor    
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api
+    name: Grayson
 
 conversation:
 
@@ -78,144 +105,199 @@ device_tracker:
     username: !secret ICLOUD_USER
     password: !secret ICLOUD_PASS
     track_new_devices: yes
-  - platform: eero_tracker
-    consider_home: 300
-    interval_seconds: 60 # Recommended...do not set this lower than 25, we don't want to DDOS Eero
-  
+  - platform: owntracks
+    track_new_devices: yes
+  - platform: life360
+    username: !secret life360_username
+    password: !secret life360_password
+    max_gps_accuracy: 200
+    prefix: life360
+    show_as_state: driving, moving, places
+
+#calendar:
+#  - platform: caldav
+#    url: !secret icloud_cal
+#    username: !secret icloud_cal_user
+#    password: !secret icloud_cal_pass
+#     calendars:
+#       - 'JKS Calendar' 
+
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+
+
+# geo_location:
+#   - platform: usgs_earthquakes_feed
+#     feed_type: 'past_day_all_earthquakes'
+
 discovery:
 
 updater:
+  #include_used_components: true
 
 sun:
 
+#https://home-assistant.io/components/recorder/
 recorder:
-  purge_keep_days: 5
+  purge_keep_days: 2
   exclude:
     domains:
       - automation
       - weblink
       - updater
     entities:
-      - sun.sun 
-      - sensor.last_boot 
+      - sun.sun # Don't record sun data
+      - sensor.last_boot # Comes from 'systemmonitor' sensor platform
       - sensor.date
+#  purge_interval: 1
+#  purge_keep_days: 3
 
+logbook:
+  exclude:
+    entities:
+      - sensor.last_boot
+      - sensor.date
+      - sensor.ha_log
+      - sensor.ha_uptime
+      - sensor.cpu
+      - sensor.date_time
+      - sensor.ha_v2db
+      - sensor.internet_time
+      - sensor.last_boot_2
+      - sensor.load_15m
+      - sensor.memory_use_percent
+      - sensor.network_in_eth0
+      - sensor.network_out_eth0
+      - sensor.processor_use
+      - sensor.time
+      - sensor.time_date
+      - sensor.time_utc
+
+
+#https://home-assistant.io/components/logger/
 logger:
-  default: warn
+  default: info
+#
+#  logs:
+#    homeassistant.components.sensor.template: critical
+#    homeassistant.components.cover: critical
 
 history:
 
 cast:
-  
-media_player:
-  - platform: apple_tv
-    host: 192.168.7.58
-    login_id: !secret apple_tv_login
-    credentials: !secret apple_cred
-  - platform: roku
-    host: 192.168.7.52
-    name: roku living room
-  - platform: yamaha
-    host: 192.168.7.56
-    source_ignore:
-      - "AUX"
-      - "V-AUX"
-      - "AV1"
-      - "AV2"
-      - "AV3"
-      - "AV4"
-      - "AV5"
-      - "AV6"
-      - "SiriusXM"
-      - "Pandora"
-      - "Rhapsody"
-      - "TURNER"
-      - "AUDIO1"
-      - "AUDIO2"
-      - "SERVER"
-    source_names:
-      HDMI1: "BluRay"
-      HDMI2: "Chromecast"
-      HDMI3: "Xbox"
-      HDMI4: "Roku"
-      HDMI5: "AppleTv"
-    zone_ignore:
-      - "Zone_2"
-    zone_names:
-      Main_Zone: "Theater"
 
-
-tts:
-  - platform: google
-    cache: true
-    cache_dir: /tmp/tts
-    time_memory: 300
-
-notify:
-  - platform: ios
-  - name: all_ios
-    platform: group
-    services:
-      - service: ios_jeffreystonesiphone
-      - service: ios_jeffreystonesipad
-      - service: ios_katherinestonesiphone
-  - name: jeff_ios
-    platform: group
-    services:
-      - service: ios_jeffreystonesiphone
-      - service: ios_jeffreystonesipad
+speedtestdotnet:
  
 mqtt:
- broker: !secret MQTT_HOST
+ broker: 192.168.7.67
  port: 1883
  username: !secret MQTT_USER
  password: !secret MQTT_PASS
+
+camera:
+  - platform: mjpeg
+    name: Garage Door Cam 
+    mjpeg_url: !secret garage_cam
+
+media_player:
+  - platform: vlc
+    name: hass_speaker
+    arguments: '--alsa-audio-device=hw:0,0'
+    
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg    
+
+splunk:
+  host: 192.168.7.40
+  token: !secret splunkit
+  port: 8088
+
+cloudflare:
+  email: !secret cloudflare_user
+  api_key: !secret cloudflare_api
+  zone: !secret cloudflare_zone
+  records:
+    - ah
+
 
 
 ### Includes ###
 alert: !include_dir_merge_named alerts/
 group: !include groups.yaml
-automation: !include_dir_merge_list automations/
+automation: !include automations.yaml
 sensor: !include_dir_merge_list sensors
 binary_sensor: !include_dir_merge_list binary_sensors
 light: !include_dir_merge_list lights
 switch: !include_dir_merge_list switches
-script: !include_dir_merge_named scripts/
+script: !include scripts.yaml
 intent_script: !include intents/intents.yaml
 scene: !include scenes.yaml
 input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml
 zone: !include zones.yaml
 
+python_script:
+
+#duckdns:
+#  domain: !secret duckdns_domain
+#  access_token: !secret duckdns_token
+
 ### Devices and Services
 
-cover:
-  - platform: mqtt
-    name: "Garage Door"
-    state_topic: 'smartthings/Garage Door/contact'
-    command_topic: 'smartthings/Garage Door/door'
-    state_open: 'open'
-    state_closed: 'closed'
-    payload_open: 'open'
-    payload_close: 'closed'
-    retain: true
-    optimistic: true
+# Disabled due to bug that causes too many open files - Need to track it down
+# cover: 
+#   - platform: myq
+#     username: !secret myq_user
+#     password: !secret myq_pass
+#     type: chamberlain
 
 climate:
   platform: honeywell
   username: !secret HONEYWELL_USER
   password: !secret HONEYWELL_PASS
-  name: First Floor
   region: us
   scan_interval: 600
 
 map:
-  
-### Custom Commands
 
+# zwave:
+#   usb_path: /dev/ttyACM0
+#   network_key: !secret zwave_key
+
+
+### Custom Commands
 shell_command:
   alarm_off: pkill mpg123
   tornado_alarm: mpg123 /media/audio/Tornado_Siren.mp3
   door_chime: mpg123 /media/audio/Store_Door_Chime.mp3
   security_alarm: mpg123 /media/audio/security_siren.mp3
   security_alarm_intro: mpg123 /media/audio/Siren_Noise.mp3
+  welcome_haunted: mpg123 /media/audio/Welcome-Hunted.mp3
+  haunted_guest_welcome: mpg123 /media/audio/haunted_guest_welcome.mp3
+  haunted_mansion_preshow_full: mpg123 /media/audio/haunted_mansion_preshow_full.mp3
+  haunted_mansion_preshow_short: mpg123 /media/audio/haunted_mansion_preshow_short.mp3
+  haunted_mansion_hurry_back_short: mpg123 /media/audio/haunted_mansion_hurry_back_short.mp3
+  haunted_mansion_hurry_back_full: mpg123 /media/audio/haunted_mansion_hurry_back_full.mp3
+  happily_ever_after: mpg123 /media/audio/Happily_Ever_After_Audio.mp3
+  boo_to_you: mpg123 /media/audio/boo_to_you_audio.mp3
+  haunted_mansion_ride: mpg123 /media/audio/haunted_mansion_ride.mp3
+  wishes_preshow: mpg123 /media/audio/wishes_5_min.mp3
+  welcome_show: mpg123 /media/audio/welcome_show.mp3
+  monorail_waiting: mpg123 /media/audio/monorail_waiting.mp3
+  monorail_mk: mpg123 /media/audio/monorail.mp3
+  monorail_resort: mpg123 /media/audio/monorail_resort.mp3
+  welcome_to_mk: mpg123 /media/audio/welcome_magic_kingdom.mp3
+  welcome_show_crowd: mpg123 /media/audio/welcome_show_crowd.mp3
+  spaceship_earth_ride: mpg123 /media/audio/spaceship_earth_ride.mp3
+  dance_it: mpg123 /media/audio/move_it_shake_dance_audio.mp3
+  hass_vol_up: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')+5]%
+  hass_vol_dn: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')-5]%
+  reset_alexa_cookie: /home/homeassistant/bin/resetalexacookie
+  tiki_room_audio: mpg123 /media/audio/tiki_room_audio.mp3
+  illuminations_audio: mpg123 /media/audio/illuminations.mp3
+  mk_audio: mpg123 /media/audio/magic_kingdom.mp3
+  usps: python3 /home/homeassistant/bin/usps.py 
+  backup: python /home/homeassistant/bin/dropbox.py
+

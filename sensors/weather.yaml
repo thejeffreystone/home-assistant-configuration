@@ -1,5 +1,7 @@
 - platform: darksky
   api_key: !secret FORCAST_API_KEY
+  forecast:
+    - 0
   monitored_conditions:
     - summary
     - icon
@@ -9,6 +11,8 @@
     - precip_intensity
     - precip_probability
     - temperature
+    - temperature_high
+    - temperature_low
     - apparent_temperature
     - dew_point
     - wind_speed
@@ -30,15 +34,11 @@
     seconds: 0
     milliseconds: 0
 - platform: moon
-# - platform: pollen
-#   zip_code: "30017"
-#   monitored_conditions:
-#     - allergy_average_forecasted
-#     - allergy_average_historical
-#     - allergy_index_today
-#     - allergy_index_tomorrow
-#     - allergy_index_yesterday
-#     - disease_average_forecasted
+- platform: pollen
+  zip_code: "30017"
+  monitored_conditions:
+    - allergy_index_today
+    - asthma_index_today
 ## Accurite 158 - Back Porch
 - platform: mqtt
   name: "Accurite Back Porch Temperature"
@@ -70,64 +70,105 @@
 - platform: mqtt
   name: "Accurite Garage lupdate"
   state_topic: "house/accurite-10968/lastupdate"
+- platform: nws_alerts
+  zone_id: 'GAZ034'
+# - platform: rest
+#   resource: https://api.weather.gov/alerts/active/count
+#   name: NWS Alert Count Raw
+#   value_template: >
+#    {% if value_json is defined and value_json.zones.GAZ034 is defined %}
+#      {{ value_json.zones.GAZ034 }}
+#    {% else %}
+#      0
+#    {% endif %}
+#   headers:
+#     User-Agent: Homeassistant
+#     Accept: application/ld+json
+#   scan_interval: 60
+
+# - platform: template
+#   sensors:
+#   nws_alert_count_filtered:
+#     friendly_name: NWS Alert Count
+#     entity_id: sensor.nws_alert_count_raw
+#     value_template: >
+#      {% if is_state('sensor.nws_alert_count_raw', 'unavailable') or is_state('sensor.nws_alert_count_raw', 'unknown') %}
+#        {{ states.sensor.nws_alert_count_filtered.state }}
+#      {% else %}
+#        {{ states.sensor.nws_alert_count_raw.state }}
+#      {% endif %}
+
+# - platform: rest
+#   resource: https://api.weather.gov/alerts/active?zone=GAZ034
+#   name: NWS Alert Event Raw
+#   value_template: >
+#    {% if value_json.features[0] is defined %}
+#      {{ value_json['features'][0]['properties'].event }}
+#    {% else %}
+#      None
+#    {% endif %}
+#   json_attributes:
+#   - features
+#   headers:
+#     User-Agent: Homeassistant
+#     Accept: application/geo+json
+#   scan_interval: 60
+
+# - platform: template
+#   sensors:
+#   nws_alert_event_filtered:
+#     friendly_name: NWS Alert Event
+#     entity_id: sensor.nws_alert_event_raw
+#     value_template: >
+#      {% if is_state('sensor.nws_alert_event_raw', 'unavailable') or is_state('sensor.nws_alert_event_raw', 'unknown') %}
+#        {{ states.sensor.nws_alert_event_filtered.state }}
+#      {% else %}
+#        {{ states.sensor.nws_alert_event_raw.state }}
+#      {% endif %}
+
+# - platform: template
+#   sensors:
+#     nws_alert_event_2:
+#       friendly_name: NWS Alert Event 2
+#       entity_id: sensor.nws_alert_event_raw
+#       value_template: >
+#        {% if state_attr('sensor.nws_alert_event_raw', 'features')[1] is defined %}
+#          {{ state_attr('sensor.nws_alert_event_raw', 'features')[1]['properties'].event }}
+#        {% else %}
+#          None
+#        {% endif %}
+#     nws_alert_event_3:
+#       friendly_name: NWS Alert Event 3
+#       entity_id: sensor.nws_alert_event_raw
+#       value_template: >
+#        {% if state_attr('sensor.nws_alert_event_raw', 'features')[2] is defined %}
+#          {{ state_attr('sensor.nws_alert_event_raw', 'features')[2]['properties'].event }}
+#        {% else %}
+#          None
+#        {% endif %}
+
 - platform: template
   sensors:
-      tornado_warning:
-        friendly_name: 'Tornado Warning'
-        value_template: >-
-          {%-  if states.sensor.pws_alerts.attributes.Description == "Tornado Warning" %}
-            active
-          {% elif states.sensor.pws_alerts.attributes.Description_TOR == "Tornado Warning" %}
-            active
+    clothing_forecast:
+      friendly_name: "Clothing Forecast"
+      unit_of_measurement: ''
+      value_template: >-
+          {%- if states('sensor.dark_sky_daytime_high_temperature_0')|float > 63 %}
+            {%- if states('sensor.dark_sky_daytime_high_temperature_0')|float < 80 %}
+              Nice
+            {% elif states('sensor.dark_sky_daytime_high_temperature_0')|float > 95 %}
+              Hot
+            {% else %}
+              Toasty
+            {%- endif %}
+          {% elif states('sensor.dark_sky_daytime_high_temperature_0')|float < 64 %}
+            {%- if states('sensor.dark_sky_daytime_high_temperature_0')|float < 32 %}
+              Freezing
+            {% elif states('sensor.dark_sky_daytime_high_temperature_0')|float > 50 %}
+              Chilly
+            {% else %}
+              Cold
+            {%- endif %}
           {% else %}
-            inactive
+           Unknown
           {%- endif %}
-        icon_template: mdi:message-alert
-
-      tornado_watch:
-        friendly_name: 'Tornado Watch'
-        value_template: >-
-          {%-  if states.sensor.pws_alerts.attributes.Description == "Tornado Watch" %}
-            active
-          {% elif states.sensor.pws_alerts.attributes.Description_TOW == "Tornado Watch" %}
-            active
-          {% else %}
-            inactive
-          {%- endif %}
-        icon_template: mdi:message-alert
-
-      tstorm_warning:
-        friendly_name: 'T-Storm Warning'
-        value_template: >-
-          {%-  if states.sensor.pws_alerts.attributes.Description == "Severe Thunderstorm Warning" %}
-            active
-          {% elif states.sensor.pws_alerts.attributes.Description_WRN == "Severe Thunderstorm Warning" %}
-            active
-          {% else %}
-            inactive
-          {%- endif %}
-        icon_template: mdi:message-alert 
-
-      tstorm_watch:
-        friendly_name: 'T-Storm Watch'
-        value_template: >-
-          {%-  if states.sensor.pws_alerts.attributes.Description == "Severe Thunderstorm Watch" %}
-            active
-          {% elif states.sensor.pws_alerts.attributes.Description_SEW == "Severe Thunderstorm Watch" %}
-            active
-          {% else %}
-            inactive
-          {%- endif %}
-        icon_template: mdi:message-alert 
-
-      storm_statement:
-        friendly_name: 'Storm Statement'
-        value_template: >-
-          {%-  if states.sensor.pws_alerts.attributes.Description == "Severe Weather Statement" %}
-            active
-          {% elif states.sensor.pws_alerts.attributes.Description_SVR == "Severe Weather Statement" %}
-            active
-          {% else %}
-            inactive
-          {%- endif %}
-        icon_template: mdi:message-alert   

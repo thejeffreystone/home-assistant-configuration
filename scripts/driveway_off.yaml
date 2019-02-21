@@ -1,8 +1,0 @@
-# Turn off Driveway lights after 2minute delay
-driveway_off:
-  sequence:
-  - service: switch.turn_off
-    entity_id: switch.driveway_light
-  - service: switch.turn_off
-    entity_id: switch.side_door
-  

@@ -1,34 +1,75 @@
-- name: livingroom normal
+- name: normal livingroom lighting
   entities:
-    light.tower_lamp:
+    light.tower_lamp_2:
       state: on
       brightness: 250
     light.front_lamp:
       state: on
       brightness: 250
-- name: livingroom dim
+    light.table_lamp:
+      state: on
+      brightness: 250
+
+- name: dimished livingroom lighting
   entities:
-    light.tower_lamp:
+    light.tower_lamp_2:
+      state: on
+      brightness: 40
+    light.front_lamp:
+      state: off
+    light.table_lamp:
+      state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: illuminations livingroom lighting two
+  entities:
+    light.tower_lamp_2:
       state: on
       brightness: 40
     light.front_lamp:
       state: on
       brightness: 40
-- name: livingroom night
+    light.table_lamp:
+      state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: illuminations livingroom lighting three
   entities:
-    light.tower_lamp:
+    light.tower_lamp_2:
+      state: on
+      brightness: 40
+    light.front_lamp:
+      state: on
+      brightness: 40
+    light.table_lamp:
+      state: on
+      brightness: 40
+    switch.fireplace_lights:
+      state: off
+
+- name: night time livingroom lighting
+  entities:
+    light.tower_lamp_2:
       state: on
       brightness: 10
     light.front_lamp:
       state: off
-- name: dim kitchen
+    light.table_lamp:
+      state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: diminished kitchen lighting
   entities:
     light.kitchen_cabinets:
       state: on
       brightness: 10
     light.kitchen_light_strip:
       state: off
-- name: normal kitchen
+
+- name: normal kitchen lighting
   entities:
     light.kitchen_cabinets:
       state: on
@@ -36,5 +77,80 @@
     light.kitchen_light_strip:
       state: on
 
+- name: haunted preshow
+  entities:
+    light.kitchen_cabinets:
+      state: off
+    light.kitchen_light_strip:
+      state: off
+    switch.upstairs_light:
+      state: off
+    light.tower_lamp_2:
+      state: on
+      brightness: 40
+    light.front_lamp:
+      state: on
+      brightness: 40
+    light.table_lamp:
+      state: on
+      brightness: 40
+    switch.fireplace_lights:
+      state: off
 
+- name: haunted lights out
+  entities:
+    light.kitchen_cabinets:
+      state: off
+    light.kitchen_light_strip:
+      state: off
+    switch.upstairs_light:
+      state: off
+    light.tower_lamp_2:
+      state: off
+    light.front_lamp:
+      state: off
+    light.table_lamp:
+      state: off
+    switch.fireplace_lights:
+      state: off
 
+- name: jeff light on
+  entities:
+    light.jeff_light:
+      state: on
+
+- name: jeff light off
+  entities:
+    light.jeff_light:
+      state: off
+
+- name: jeff wake up
+  entities:
+    light.jeff_light:
+      state: on
+      brightness: 20
+
+- name: jeff bedtime
+  entities:
+    light.jeff_light:
+      state: on
+      brightness: 40
+
+- name: jeff night light
+  entities:
+    light.jeff_light:
+      state: on
+      brightness: 10
+
+# - name: santa protocol
+#   entities:
+#     switch.christmas_tree:
+#       state: on
+#     switch.upstairs_christmas_tree:
+#       state: on
+#     light.tower_lamp:
+#       state: on
+#       brightness: 10
+#     light.front_lamp:
+#       state: on
+#       brightness: 10

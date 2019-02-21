@@ -1,23 +1,60 @@
-known_devices.yaml
-secrets.yaml
-entity_registry.yaml
-.HA_VERSION
-zones.yaml
-sensors/location.yaml
-scripts/tornado_alarm.yaml
-scripts/test_alarm.yaml
-scripts/security_alarm.yaml
-*ios.conf
+# Ignore everything explicitly
+*
+
+# Whitelist files/folders with !, these will not be ignored.
+!*.yaml
+!.gitignore
+!*.md
+!packages/
+!templates/
+!binary_sensors/
+!sensors/
+!switches/
+!lights/
+!python_scripts/
+!alerts/
+
+
+# Then because I'm paranoid...
+# Ignore folders.
+.storage
+.cloud
+.google.token
+icloud/
+www/
+tts/
+deps/
+hadashboards/
+intents/
+
+# Ignore these dot and conf files
+*.conf
 *.log
 *.db
 *.xml
 *.sqlite
 *.txt
-icloud/
-www/
-tts/
-deps/
+.HA_VERSION
 *DS_Store
 ._*
 .uuid
-!.gitignore
+eero.session
+eero_tracker_instantiate.py
+Icon
+.dropbox
+.google.token
+.homekit.state
+.spotify-token-cache
+
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+entity_registry.yaml
+zones.yaml
+sensors/location.yaml
+google_calendars.yaml
+packages/events.yaml
+packages/presence.yaml
+scripts.yaml

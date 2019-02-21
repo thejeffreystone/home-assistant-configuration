@@ -1,4 +1,0 @@
-- platform: mqtt
-  name: "Master Bedroom Fan"
-  state_topic: "smartthings/Master Bedroom Fan/power"
-  retain: true

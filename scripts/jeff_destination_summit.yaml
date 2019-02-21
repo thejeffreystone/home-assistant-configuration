@@ -1,7 +1,0 @@
-jeff_destination_summit:
-  sequence:
-    - service: mqtt.publish
-      data:
-        topic: "jeff/driving/destination"
-        payload: "Summit"
-        retain: true

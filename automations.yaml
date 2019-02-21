@@ -1,0 +1,693 @@
+- id: backup_hass
+  alias: Backup Hass
+  trigger:
+  - platform: time 
+    at: '05:00:00'
+  action:
+  - service: script.add_logbook_entry
+    data_template:
+      name: Backup
+      message: is running 
+  - service: shell_command.backup
+  - service: script.twitter_notify
+    data:
+      message: "I just kicked off a backup of #homeassistant to ensure I live on. Do you backup? "
+- id: net_speed_report
+  alias: Network Speed Report
+  trigger:
+  - platform: time 
+    at: '11:15:00'
+  action:
+  - service: script.twitter_notify
+    data:
+      message: "According to my latest speed tests Anchorage House is getting {{ states.sensor.network_down.state}} Mbps down and {{ states.sensor.network_up.state}} Mbps up thanks to #ATTFiber. "
+- id: time_to_leave_summit
+  alias: Time to Leave Jeff
+  initial_state: true
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.home_summit
+    above: 50
+  condition:
+  - condition: state
+    entity_id: sensor.jeff_location
+    state: Home
+  - condition: time
+    after: '05:30:00'
+    before: '07:00:00'
+  - condition: state
+    entity_id: input_boolean.jeff_traffic_alerts
+    state: 'on'
+  action:
+  - service: notify.jeff_ios
+    data:
+      message: Currently {{states.sensor.home_to_summit.attributes.duration | round}}
+        mins to Work. Leave.
+  - service: notify.twitter
+    data:
+      message: "Looks like traffic is bad out there so I let @thejeffreystone know. "
+- id: hvac_cool_on
+  alias: hvac cool on
+  trigger:
+  - above: 76
+    entity_id: climate.first_floor
+    platform: numeric_state
+    value_template: '{{ state.attributes.termperature }}'
+  condition:
+  - above: 83
+    condition: numeric_state
+    entity_id: sensor.dark_sky_apparent_temperature
+  action:
+  - service: script.climate_set_cool
+  - data:
+      message: "The Temperature is a bit warm at Anchorage House, so Im turning
+        on the AC. "
+    service: script.twitter_notify
+  initial_state: true
+- id: hvac_off
+  alias: hvac off
+  trigger:
+  - above: '55'
+    below: '80'
+    entity_id: sensor.dark_sky_apparent_temperature
+    platform: numeric_state
+  condition:
+  - above: '60'
+    below: '78'
+    condition: numeric_state
+    entity_id: climate.first_floor
+  action:
+  - service: script.climate_turn_off
+  - data:
+      message: "The Temperature outside is perfect for opening windows at Anchorage
+        House, so Im turning off the HVAC. "
+    service: script.twitter_notify
+  initial_state: true
+- id: hvac_heat_on
+  alias: hvac heat on
+  trigger:
+  - below: 62
+    entity_id: climate.first_floor
+    platform: numeric_state
+    value_template: '{{ state.attributes.termperature }}'
+  condition:
+  - below: 50
+    condition: numeric_state
+    entity_id: sensor.dark_sky_apparent_temperature
+  action:
+  - service: script.climate_set_heat
+  - data:
+      message: "The Temperature is a bit chilly at Anchorage House, so Im turning
+        on the Heat. "
+    service: script.twitter_notify
+  initial_state: true
+
+- id: coffee_time
+  alias: Coffee Time
+  initial_state: true
+  trigger:
+  - platform: time
+    at: 05:15:00
+  action:
+  - service: scene.turn_on
+    entity_id: scene.diminshed_livingroom_lighting
+  - service: scene.turn_on
+    entity_id: scene.diminished_kitchen_lighting
+- id: good_morning
+  alias: Good Morning
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '07:00:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.normal_livingroom_lighting
+  - service: scene.turn_on
+    entity_id: scene.normal_kitchen_lighting
+  - service: switch.turn_off
+    entity_id: switch.rainbow_light
+  - service: scene.turn_on
+    entity_id: scene.jeff_light_on
+  - service: script.twitter_notify
+    data:
+      message: 'Good Morning! Time to rise and shine at Anchorage House. '
+- id: skylar_bedtime
+  alias: Skylar Bedtime
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '19:15:00'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.rainbow_light
+- id: jeff_lights_out
+  alias: Jeff lights out
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.jeff_light_off
+- id: jeff_bedtime
+  alias: Jeff bedtime
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '22:00:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.jeff_bedtime
+- id: jeff_night_light
+  alias: Jeff night light
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '22:30:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.jeff_night_light
+- id: jeff_light_on
+  alias: Jeff Light On
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '20:00:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.jeff_light_on
+- id: jeff_alarm
+  alias: Jeff alarm
+  initial_state: true
+  trigger:
+  - platform: time
+    at: 05:15:00
+  action:
+  - service: scene.turn_on
+    entity_id: scene.jeff_night_light
+- id: jeff_wake_up
+  alias: Jeff wake up
+  initial_state: true
+  trigger:
+  - platform: time
+    at: 05:30:00
+  action:
+  - service: scene.turn_on
+    entity_id: scene.jeff_wake_up
+- id: good_night
+  alias: Good Night
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '22:30:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.night_time_livingroom_lighting
+  - service: light.turn_off
+    data:
+      entity_id: light.loft_lamp
+  - service: script.turn_on
+    entity_id: script.driveway_off
+  - service: switch.turn_off
+    entity_id: switch.incense
+  - service: light.turn_off
+    data:
+      entity_id: light.kitchen_light_strip
+  - service: light.turn_off
+    data:
+      entity_id: light.kitchen_cabinets
+  - service: script.twitter_notify
+    data:
+      message: 'Good Night from Anchorage House. '
+- id: outside_lights_on_sunset
+  alias: Outside Lights on at Sunset
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:30:00
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.front_porch
+  - service: script.sunset_garage_open
+  - service: script.twitter_notify
+    data:
+      message: "Its getting dark at Anchorage House, so Im turning on the outside
+        lights. "
+- id: outside_lights_off_sunrise
+  alias: Outside Lights off at Sunrise
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunrise
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.front_porch
+  - service: script.twitter_notify
+    data:
+      message: "The sun is up at Anchorage House, so Im turning off the outside
+        lights. "
+- id: inside_on_sunset
+  alias: Inside on at Sunset
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:00:00
+  action:
+    service: script.inside_all_on
+- id: inside_off_sunrise
+  alias: Inside off at Sunrise
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 00:30:00
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_cloud_coverage
+    below: 50
+  action:
+  - service: script.inside_all_off
+  - service: scene.turn_on
+    entity_id: scene.jeff_light_off
+- id: door_chime
+  alias: Door Chine
+  trigger:
+  - entity_id: binary_sensor.laundry_room_door
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.laundry_room_door
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.front_door
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.front_door
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.back_door
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.back_door
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.attic_door
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.attic_door
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.audible_notifications
+    state: 'on'
+  action:
+  - service: shell_command.door_chime
+  initial_state: true
+
+- id: ha_start
+  alias: HA Startup
+  initial_state: true
+  trigger:
+  - platform: homeassistant
+    event: start
+  action:
+    service: frontend.set_theme
+    data:
+      name: midnight-AH
+- id: close_garage_lights_out
+  alias: Close Garage at lights out
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '22:30:00'
+  condition:
+  - condition: state
+    entity_id: cover.cargo_bay
+    state: open
+  action:
+  - service: script.close_garage
+- id: garage_open_sunset
+  alias: Garage Open At Sunset
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunset
+  condition:
+  - condition: state
+    entity_id: cover.cargo_bay
+    state: open
+  action:
+  - service: script.driveway_on
+- id: garage_open_after_sunset
+  alias: Garage Opening Driveway Lights On
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: cover.cargo_bay
+    from: closed
+    to: open
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: script.driveway_on
+- id: garage_closed_lights_off
+  alias: Garage Closing Driveway Lights Off
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: cover.cargo_bay
+    from: open
+    to: closed
+  action:
+  - service: script.turn_on
+    entity_id: script.driveway_off
+- id: turn_off_audible_notifications
+  alias: Turn Off Audible Notifications at 730pm
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '19:30:00'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.audible_notifications
+- id: turn_off_audible_notifications_guests
+  alias: Turn Off Audible Notifications at 7pm
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '19:00:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.audible_notifications
+- id: turn_on_audible_notifications
+  alias: Turn On Audible Notifications at 7am
+  initial_state: true
+  trigger:
+  - platform: time
+    at: 07:00:00
+  action:
+  - entity_id: input_boolean.audible_notifications
+    service: input_boolean.turn_on
+- id: nightly_lockdown
+  alias: Nightly Lockdown
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition:
+  - condition: state
+    entity_id: device_tracker.jeffreystonesiphone
+    state: home
+  - condition: state
+    entity_id: device_tracker.katherinestonesiphone
+    state: home
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: script.lockdown
+- id: morning_standby
+  alias: Morning Standby
+  initial_state: true
+  trigger:
+  - platform: time
+    at: 05:30:00
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'on'
+  action:
+  - service: script.standby
+- id: jeff_eta_home
+  alias: Jeff eta home
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: sensor.jeff_destination
+    to: Home
+  condition:
+  - condition: state
+    entity_id: sensor.notification_mode
+    state: Normal
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.jeff_travel_monitor
+- id: enable_bad_traffic_home_jeff
+  alias: Enable Jeff Bad Traffic Home
+  initial_state: true
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.jeff_ett_home
+    above: 59
+  condition:
+  - condition: state
+    entity_id: sensor.jeff_location
+    state: Summit
+  - condition: state
+    entity_id: input_boolean.jeff_traffic_alerts
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.jeff_traffic_alert_home
+  - service: nscript.twitter_notify
+    data:
+      message: "Looks like traffic is bad out there so I let @thejeffreystone know. "
+- id: disable_bad_traffic_home_jeff
+  alias: Disabling Jeff Bad Traffic Home
+  initial_state: true
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.jeff_ett_home
+    below: 40
+  - platform: state
+    entity_id: sensor.jeff_destination
+    to: Home
+  condition:
+  - condition: state
+    entity_id: input_boolean.jeff_traffic_alert_home
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.jeff_traffic_alert_home
+- id: enable_vacation_mode
+  alias: Enable Vacation Mode
+  initial_state: true
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.jeff_ett_home
+    above: 180
+  - platform: numeric_state
+    entity_id: sensor.kat_ett_home
+    above: 180
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.jeff_ett_home
+    above: 180
+  - condition: numeric_state
+    entity_id: sensor.kat_ett_home
+    above: 180
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.vacation_mode
+- id: '1550107919204'
+  alias: Family Is Home
+  trigger:
+  - platform: webhook
+    webhook_id: family_is_home
+  condition: []
+  action:
+  - service: script.family_is_home
+- id: '1550108034209'
+  alias: Family Is Away
+  trigger:
+  - platform: webhook
+    webhook_id: ''
+  condition: []
+  action:
+  - service: script.family_is_away
+- id: family_has_arrived
+  alias: Family Has arrived
+  trigger:
+  - entity_id: sensor.family_status
+    from: Away
+    platform: state
+    to: Home
+  - entity_id: device_tracker.jeffreystonesiphone
+    event: enter
+    platform: zone
+    zone: zone.home
+  - entity_id: device_tracker.katherinestonesiphone
+    event: enter
+    platform: zone
+    zone: zone.home
+  - entity_id: binary_sensor.jeffrey_presence
+    from: 'Off'
+    platform: state
+    to: 'On'
+  - entity_id: binary_sensor.kat_presence
+    from: 'Off'
+    platform: state
+    to: 'On'
+  - entity_id: device_tracker.hass_jeffsiphone
+    event: enter
+    platform: zone
+    zone: zone.home
+  condition:
+  - condition: state
+    entity_id: sensor.family_status
+    state: Away
+  action:
+  - service: script.driveway_on
+  - service: script.vacation_canceled
+  - service: script.appliances_on
+  - service: script.standby
+  initial_state: true
+- id: family_has_left
+  alias: Family Has Left
+  initial_state: true
+  trigger:
+  - entity_id: sensor.family_status
+    from: Home
+    platform: state
+    to: Away
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: script.appliances_off
+  - service: script.security_check_garage
+  - service: script.security_check_zones
+  - service: script.lockdown
+- id: jeff_is_home
+  alias: Jeff is Home
+  trigger:
+  - entity_id: device_tracker.jeffreystonesiphone
+    event: enter
+    platform: zone
+    zone: zone.home
+  - entity_id: binary_sensor.jeffrey_presence
+    from: 'Off'
+    platform: state
+    to: 'On'
+  - entity_id: device_tracker.hass_jeffsiphone
+    event: enter
+    platform: zone
+    zone: zone.home
+  action:
+  - service: script.family_is_home
+  - service: script.jeff_is_home
+  - service: script.jeff_destination_na
+  - service: script.driveway_on
+  - entity_id: input_boolean.jeff_travel_monitor
+    service: input_boolean.turn_off
+  initial_state: true
+- id: jeff_arrives_summit
+  alias: Jeff Arrives At Summit
+  trigger:
+  - entity_id: device_tracker.jeffreystonesiphone
+    event: enter
+    platform: zone
+    zone: zone.summit
+  - entity_id: device_tracker.hass_jeffsiphone
+    event: enter
+    platform: zone
+    zone: zone.summit
+  action:
+  - service: script.jeff_destination_na
+  initial_state: true
+- id: jeff_leaves_summit
+  alias: Jeff Leaves Summit
+  initial_state: true
+  trigger:
+  - entity_id: device_tracker.jeffreystonesiphone
+    event: leave
+    platform: zone
+    zone: zone.summit
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.jeff_traffic_alert_home
+- id: kat_is_home
+  alias: Kat is Home
+  initial_state: true
+  trigger:
+  - entity_id: device_tracker.katherinestonesiphone
+    event: enter
+    platform: zone
+    zone: zone.home
+  - entity_id: binary_sensor.kat_presence
+    from: 'Off'
+    platform: state
+    to: 'On'
+  action:
+  - service: script.family_is_home
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.kat_travel_monitor
+  - service: script.driveway_on
+- id: kat_arrives_zoo
+  alias: Kat Arrives at Zoo
+  initial_state: true
+  trigger:
+  - platform: zone
+    event: enter
+    zone: zone.zoo_atlanta
+    entity_id: device_tracker.katherinestonesiphone
+  condition:
+  - condition: state
+    entity_id: input_boolean.text_notify_jeff
+    state: 'on'
+  action:
+  - service: notify.jeff_ios
+    data:
+      message: Kat arrived at Zoo Atlanta
+  - service: tts.google_say
+    data:
+      entity_id: media_player.hass_speaker
+      message: Kat has arrived at the Zoo
+- id: kat_leaves_zoo
+  alias: Kat Leaves Zoo Notification
+  initial_state: true
+  trigger:
+  - platform: zone
+    event: leave
+    zone: zone.zoo_atlanta
+    entity_id: device_tracker.katherinestonesiphone
+  condition:
+  - condition: state
+    entity_id: input_boolean.text_notify_jeff
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.kat_travel_monitor
+- id: '1550109528753'
+  alias: Jeff Is Heading Home
+  trigger:
+  - platform: webhook
+    webhook_id: jeff_heading_home
+  condition: []
+  action:
+  - service: script.jeff_destination_home
+

@@ -1,0 +1,42 @@
+ >
+  {% macro getIntro() %}
+    {{- [
+       "Woohoo! ",
+       "BAM! ",
+       "Look at that! "
+       ] | random -}}
+  {% endmacro %}
+  {% macro getVersion() %}
+    @homeassistant version {{ states.sensor.current_ha_version.state }} is out.
+  {% endmacro %}
+  {%- macro getRandomSnark() -%}
+    {{- [
+      " It’s like Patch Tuesday, but with less fail. #homeassistant",
+      " Get in my SD Card! #homeassistant",
+      " Shut up and take my ones and zeros! #homeassistant",
+      " Seriously, you want some of this! #homeassistant",
+      " Friends dont let friends update #homeassistant without reading breaking changes. ",
+      " If you are not running #homeassistant now is the best time to get started. Visit https://www.home-assistant.io"
+      ] | random -}}
+  {%- endmacro -%}
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      It is {{ now().strftime("%I:%M %p") }}.
+      {{ getIntro() }}
+      {{ getVersion() }}
+      {{ getRandomSnark() }}
+      
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
+
+  
+
+  

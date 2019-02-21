@@ -1,0 +1,7 @@
+# - platform: mqtt
+#   name: "Tornado Alarm"
+#   state_topic: "smartthings/Tornado Alarm/switch"
+#   command_topic: "smartthings/Tornado Alarm/switch"
+#   payload_on: "on"
+#   payload_off: "off"
+#   retain: true

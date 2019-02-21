@@ -1,7 +1,0 @@
-jeff_destination_zoo:
-  sequence:
-    - service: mqtt.publish
-      data:
-        topic: "jeff/driving/destination"
-        payload: "Zoo"
-        retain: true

@@ -1,0 +1,14 @@
+- platform: alpha_vantage
+  api_key: !secret alpha_vantage
+  symbols:
+    - symbol: SIRI
+      name: Sirius
+    - symbol: BAC
+      name: BoA
+    - symbol: INTC
+      name: Intel
+    - symbol: DIS
+      name: Disney
+    - symbol: BKS 
+      name: Barnes & Noble
+

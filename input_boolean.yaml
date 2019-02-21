@@ -1,5 +1,5 @@
-secure_mode:
-  name: Secure Mode
+sentry_mode:
+  name: Sentry Mode
   icon: mdi:security
 vacation_mode:
   name: Vacation Mode
@@ -12,12 +12,6 @@ automations:
   icon: mdi:home-automation
 trash_notification:
   name: Trash Notification
-  icon: mdi:telegram
-notifications_kat:
-  name: Notifications to Kat
-  icon: mdi:telegram
-notifications_jeff:
-  name: Notifications to Jeff
   icon: mdi:telegram
 welcome_greeting:
   name: Welcome Greeting
@@ -55,24 +49,12 @@ presence_notifications_jeff:
 presence_notifications_kat:
   name: Send Kat Presence Texts
   icon: mdi:telegram
-garage_issue:
-  name: Garage Issue
-  icon: mdi:alert
-security_issue:
-  name: Security Issue
-  icon: mdi:comment-alert
 kat_heading_home:
   name: Kat Heading Home
   icon: mdi:car
 jeff_heading_home:
   name: Jeff Heading Home
   icon: mdi:car
-washer_notification:
-  name: Washer Notification
-  icon: mdi:speaker-wireless
-washer_running:
-  name: Washer Running
-  icon: mdi:speaker-wireless
 skylar_dressed_alarm:
   name: Skylar Dressed Alarm
   icon: mdi:speaker-wireless
@@ -85,15 +67,39 @@ jeff_traffic_alert_home:
 tornado_watch:
   name: Tornado Watch
   icon: mdi:message-alert
-security_check:
-  name: Security Check
-  icon: mdi:lock-reset
 garage_after_dark:
   name: Garage Open After Dark
   icon: mdi:message-alert
 lockdown_issue:
   name: Lockdown Issue
   icon: mdi:lock-reset
-security_breach_warning:
-  name: Security Breach Warning
-  icon: mdi:clock-alert-outline
+kat_travel_monitor:
+  name: Kat Travel Monitor
+  icon: mdi:car
+jeff_travel_monitor:
+  name: Jeff Travel Monitor
+  icon: mdi:car
+notifications_audio:
+  name: Audio Notifications
+  icon: mdi:speaker-wireless
+text_notifications:
+  name: Text Notifications
+  icon: mdi:telegram
+presence_text_notifications:
+  name: Presence Texts
+  icon: mdi:telegram
+presence_audio_notifications:
+  name: Presence Audio
+  icon: mdi:speaker-wireless
+shuffle_spotify:
+  name: Shuffle Playlists
+  icon: mdi:shuffle-variant
+security_issue:
+  name: Security Issue
+  icon: mdi:alert-circle-outline
+weather_reports:
+  name: Weather Info 
+traffic_reports:
+  name: traffic_reports
+sun_reports:
+  name: Sun Reports 

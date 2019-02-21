@@ -1,0 +1,4 @@
+- platform: workday
+  country: US
+  province: GA
+  workdays: [mon, tue, wed, thu, fri]

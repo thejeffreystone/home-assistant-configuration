@@ -1,0 +1,200 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   NWS Alerts
+#   @description    :   NWS Alerts
+#   @original       :   https://github.com/Vasiley/Home-Assistant-Main/blob/master/packages/weather_alerts_nws.yaml
+###############################################################################
+
+homeassistant:
+  customize:
+    package.node_anchors:
+      customize: &customize
+        package: 'weather_alerts'
+    sensor.nws_alert_count:
+      friendly_name: Alerts
+      icon: mdi:alert-outline
+
+group:
+  alerts_card:
+   name: Alerts
+   entities:
+     - sensor.nws_alerts
+
+### You first need to find either your NWS Zone ID or County ID. I’m not sure which is better but I used my Zone ID here.
+### You can find your Zone ID by going to https://alerts.weather.gov/ 7, scroll down to your state and click on the “zone list” then look for the entry for your county.
+### I recommond useing both
+
+#I’ve taken much of the underlying work here and created a custom component for nws alerts sensor.
+#The sensor can be created by adding the nws_alerts.py file to <config_directory>/custom_components/sensor/ and adding the following to your sensor definitions:
+
+sensor:
+  - platform: nws_alerts
+    zone_id: 'GAZ034'
+
+automation:
+  - alias: 'NWS Weather Alert Pop Up Control'
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: sensor.nws_alerts
+    condition:
+      - condition: template
+        value_template: '{{states.sensor.nws_alerts.state | int > 0}}'
+      - condition: template
+        value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
+    action:
+      service: script.nws_popup_on_wx_alert
+      data_template:
+        title: >
+          {% if states.sensor.nws_alerts.attributes.title.split(' - ')[5] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[5] }}"
+          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[4] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[4] }}"
+          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[3] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[3] }}"
+          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[2] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[2] }}"
+          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[1] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[1] }}"
+          {% else %}
+            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[0] }}"
+          {% endif %}
+        message: >
+          {% if states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[5] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[5] }}"
+          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[4] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[4] }}"
+          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[3] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[3] }}"
+          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[2] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[2] }}"
+          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[1] is defined %}
+            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[1] }}"
+          {% else %}
+            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[0] }}"
+          {% endif %}
+
+  - alias: NWS Notification Weather Alert
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: sensor.nws_alerts
+    condition:
+      - condition: template
+        value_template: '{{states.sensor.nws_alerts.state | int > 0}}'
+      - condition: template
+        value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
+    action:
+      - service: notify.all_ios
+        data_template:
+          message: >
+            {% if states.sensor.nws_alerts.attributes.title.split(' - ')[5] is defined %}
+              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[5] }}"
+            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[4] is defined %}
+              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[4] }}"
+            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[3] is defined %}
+              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[3] }}"
+            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[2] is defined %}
+              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[2] }}"
+            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[1] is defined %}
+              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[1] }}"
+            {% else %}
+              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[0] }}"
+            {% endif %}
+
+  - alias: NWS Announce Weather Alert
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: sensor.nws_alerts
+    condition:
+      condition: and
+      conditions:
+        - condition: template
+          value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
+        - condition: template
+          value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
+        - condition: template
+          value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title) or ('Flood' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
+    action:
+      - service: script.voice_notify
+        data_template:
+          message: >
+            {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
+             The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}
+            {% else %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}
+            {% endif %}
+      - delay: '00:00:15'
+      - service: script.voice_notify
+        data_template:
+          message: >
+            {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}
+            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}
+            {% else %}
+              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}
+            {% endif %}
+
+  - alias: NWS Announce Weather Alert for Tornado
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: sensor.nws_alerts
+    condition:
+      condition: and
+      conditions:
+        - condition: template
+          value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
+        - condition: template
+          value_template: "{{ 'Tornado' in states.sensor.nws_alerts.attributes.title and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
+    action:
+      - service: script.alert_notify
+        data_template:
+          message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
+      - delay: '00:00:15'
+      - service: script.alert_notify
+        data_template:
+          message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
+      - delay: '00:00:15'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.tornado_alarm
+      - service: script.text_notify_all
+        data_template:
+          message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
+
+script:
+  nws_popup_on_wx_alert:
+    alias: NWS Weather Alert Pop Up
+    sequence:
+        ## Dismiss any current alert so the UI isn't filled
+        ## up with these if there are more then one.
+        ## Only show the latest alert
+      - service: persistent_notification.dismiss
+        data:
+          notification_id: "nwswxalert"
+        ## Create a new persistant notification in the UI for a new alert
+      - service_template: >
+          {% if states.sensor.nws_alerts.state != '0' %}
+            persistent_notification.create
+          {% endif %}
+        data_template:
+          notification_id: "nwswxalert"
+          message: "{{ message }}"
+          title: '{{ title }}'

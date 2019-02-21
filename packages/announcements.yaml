@@ -1,0 +1,119 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Announcements
+#   @description    :   Just Normal Announcements. 
+###############################################################################
+
+script:
+  
+  annc_storm_statement:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - service: notify.ios_all
+      data:
+        message: Severe Storm Statement Issued for Anchorage House
+  annc_tstorm_watch:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - service: notify.ios_all
+      data:
+        message: Severe Thunderstorm Watch Issued for Anchorage House
+  annc_tstorm_warning:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - service: notify.ios_all
+      data:
+        message: Severe Thunderstorm Warning Issued for Anchorage House
+  annc_tornado_watch:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - service: notify.ios_all
+      data:
+        message: Tornado Watch Issued for Anchorage House
+  annc_security_issue:
+    sequence:
+    - condition: state
+      entity_id: group.family
+      state: 'on'
+    - service: tts.google_say
+      data:
+        entity_id: media_player.hass_speaker
+        message: Unauthorized Access
+  annc_tornado_warning:
+    sequence:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - service: script.alert_notify
+      data_template:
+        message: "Tornado Warning has been Issued"
+        greeting: "no"
+
+automation:
+  - id: prebed_routine
+    alias: Prebed Routine
+    trigger:
+    - platform: time
+      at: '19:00:00'
+    action:
+    - service: script.prebed_routine
+  - id: nightly_report
+    alias: Nightly Report
+    trigger:
+    - platform: time
+      at: '18:45:00'
+    action:
+    - service: script.nightly_report
+  - id: good_morning_report
+    alias: Good Morning Report
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 07:45:00
+    action:
+    - service: script.morning_report
+    - service: script.twitter_notify
+      data:
+        message: 'I just provided a morning briefing including weather, and traffic
+          conditions to the residents of Anchorage House. '
+  - id: skylar_morning_greeting
+    alias: Skylar Morning Greeting
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 07:58:00
+    condition:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    - condition: state
+      entity_id: input_boolean.skylar_dressed_alarm
+      state: 'on'
+    action:
+    - service: script.skylar_morning_greeting
+

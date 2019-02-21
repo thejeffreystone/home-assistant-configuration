@@ -1,11 +1,17 @@
-- platform: speedtest
-  minute: 30
-  hour:
-    - 0
-    - 6
-    - 12
-    - 18
-  monitored_conditions:
-    - ping
-    - download
-    - upload
+# - platform: speedtest
+#   minute: 30
+#   hour:
+#     - 0
+#     - 6
+#     - 12
+#     - 18
+#   monitored_conditions:
+#     - ping
+#     - download
+#     - upload
+- platform: mqtt
+  name: "network down"
+  state_topic: "house/speedtest/down"
+- platform: mqtt
+  name: "network up"
+  state_topic: "house/speedtest/up"

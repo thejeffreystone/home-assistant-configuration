@@ -1,5 +1,5 @@
 - platform: mqtt
-  name: "Loft Fan"
+  name: "Master Fan"
   command_topic: "cmnd/sonoff/power"
   state_topic: "stat/sonoff/POWER"
   qos: 1

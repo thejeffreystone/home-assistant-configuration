@@ -1,7 +1,0 @@
-jeff_destination_na:
-  sequence:
-    - service: mqtt.publish
-      data:
-        topic: "jeff/driving/destination"
-        payload: "na"
-        retain: true

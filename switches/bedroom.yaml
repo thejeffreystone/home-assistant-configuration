@@ -1,0 +1,8 @@
+- platform: mqtt
+  name: "Rainbow Light"
+  state_topic: "smartthings/Rainbow Light/switch"
+  command_topic: "smartthings/Rainbow Light/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+

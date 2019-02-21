@@ -1,4 +1,0 @@
-security_sound_alarm_intro:
-  sequence:
-  - delay: '00:01:30'
-  - service: script.security_alarm_on

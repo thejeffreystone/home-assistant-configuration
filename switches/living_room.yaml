@@ -5,3 +5,10 @@
   payload_on: "on"
   payload_off: "off"
   retain: true
+- platform: mqtt
+  name: "Incense"
+  state_topic: "smartthings/Incense/switch"
+  command_topic: "smartthings/Incense/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true

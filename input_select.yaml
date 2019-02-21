@@ -1,9 +1,3 @@
-alarm_mode:
-  name: alarm mode
-  options:
-   - home_armed
-   - away_armed
-   - disarmed
 trash_pickup:
   name: Trash Pickup
   options:
@@ -24,3 +18,12 @@ recycle_pickup:
     - Friday
   initial: Tuesday
   icon: mdi:delete-variant
+spotify_source:
+  name: Spotify Source
+  options:
+    - Everywhere
+    - Living Room
+    - Master Bedroom
+    - Kitchen
+  initial: Everywhere
+  icon: mdi:speaker-wireless

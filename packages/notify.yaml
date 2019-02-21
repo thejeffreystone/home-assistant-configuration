@@ -1,0 +1,213 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Notify
+#   @description    :   A Collection of Notification Scripts and Configs. 
+#                       Package modified from https://github.com/skalavala/smarthome/blob/master/packages/notify.yaml
+###############################################################################
+#homeassistant:
+#ifttt:
+#  key: !secret IFTTT_API_KEY
+
+tts:
+  - platform: google
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+
+notify:
+  - platform: ios
+  - name: all_ios
+    platform: group
+    services:
+      - service: ios_jeffreystonesiphone
+      - service: ios_jeffreystonesipad
+      - service: ios_katherinestonesiphone
+  - name: jeff_ios
+    platform: group
+    services:
+      - service: ios_jeffreystonesiphone
+      - service: ios_jeffreystonesipad
+  - name: 'Master Bedroom Echo'  
+    platform: command_line
+    command: "/home/homeassistant/bin/alexa_wrapper -d 'Master Bedroom'"
+  - name: 'Living Room Echo'  
+    platform: command_line
+    command: "/home/homeassistant/bin/alexa_wrapper -d 'Living Room'"
+  - name: 'Kitchen Echo'  
+    platform: command_line
+    command: "/home/homeassistant/bin/alexa_wrapper -d 'Kitchen'"
+  - name: 'All Echo'  
+    platform: command_line
+    command: "/home/homeassistant/bin/alexa_wrapper -d 'All'"
+  - name: twitter
+    platform: twitter
+    consumer_key: !secret twitter_consumer_key
+    consumer_secret: !secret twitter_consumer_secret
+    access_token: !secret twitter_access_token
+    access_token_secret: !secret twitter_access_secret
+  
+
+script:
+
+###############################################################################
+# Txt Notify
+# Conditions:
+#   => Only Announce when people are home.
+#   => Only Announce when Audible Notifications are on
+###############################################################################
+  text_notify_all:
+    sequence:
+      - service: notify.all_ios
+        data_template:
+          message: >
+            {{ message }}
+
+  text_notify_jeff:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_jeff
+        state: 'on'
+      - service: notify.jeff_ios
+        data_template:
+          message: >
+            {{ message }}
+
+  text_notify_kat:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_kat
+        state: 'on'
+      - service: notify.kat_ios
+        data_template:
+          message: >
+            {{ message }}
+
+###############################################################################
+# Alert Notify
+# Conditions:
+#   => Vacation mode should be off
+# Services:
+#   => Audible 
+#   => iOS 
+###############################################################################
+  alert_notify:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - service: tts.google_say
+        data_template:
+          entity_id: media_player.hass_speaker
+          message: >
+            {{ message }}
+
+
+###############################################################################
+# Voice Notify
+# Conditions:
+#   => Only Announce when people are home.
+#   => Only Announce when Audible Notifications are on
+###############################################################################
+
+  voice_notify:
+    sequence:
+      - condition: template
+        value_template: '{{ states.input_boolean.audible_notifications.state == "on" }}'
+      - condition: state
+        entity_id: sensor.family_status
+        state: 'Home'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - service: tts.google_say
+        data_template:
+          entity_id: media_player.hass_speaker
+          message: >
+            {% set msg = "" %}
+            {% macro getGreeting() %}
+              {% if greeting | default('yes', true ) == "yes" %}
+                {% if now().hour|int < 12 %}
+                  Good morning.
+                {% elif now().hour|int < 18 %}
+                  Good afternoon.
+                {% else %}
+                  Good evening.
+                {% endif %}
+              {% endif %}
+            {% endmacro %}
+            {% set msg = msg + getGreeting() %}
+            {% set msg = msg + " " + message %}
+            {{ msg }}
+
+
+###############################################################################
+# Twitter
+###############################################################################
+
+  twitter_notify:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #homeassistant #iot #itscomingfrominsidethehouse" %}
+            {{ msg }}
+
+  twitter_snark:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: !include ../templates/twitter_snark.yaml
+
+  twitter_github:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #smarthome #iot " %}
+            {{ msg }}
+
+  twitter_new_ha:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: !include ../templates/twitter_new_ha.yaml
+###############################################################################
+# Morning Report
+###############################################################################
+  morning_report:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/morning_report.yaml
+
+###############################################################################
+# Skylar Get Dressed
+###############################################################################
+  skylar_morning_greeting:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/skylar_morning.yaml
+###############################################################################
+# Nightly Report
+###############################################################################
+  nightly_report:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/nightly_report.yaml
+
+###############################################################################
+# Prebed Routing
+###############################################################################
+  prebed_routine:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: >
+            Bed time is in 30 mins. If you are taking a bath now is the time to get in the tub, otherwise time to put on pajamas and brush teeth. 

@@ -1,0 +1,10 @@
+kat_heading_home:
+  name: Kat will be home in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.
+  done_message: Kat Travel Monitor Disabled
+  entity_id: input_boolean.kat_travel_monitor
+  state: 'on'
+  repeat: 20
+  can_acknowledge: false
+  skip_first: False
+  notifiers:
+  - jeff_ios

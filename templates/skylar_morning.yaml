@@ -1,0 +1,66 @@
+ >
+  {% macro getIntro() %}
+    Skylar. 
+  {% endmacro %}
+  {% macro getDressed() %}
+    {% if is_state("sensor.birthday_skylar", "0") %}
+      First, Happy Birthday Skylar! Second, even birthday boys have to get dressed. So get to it. 
+    {% else %} 
+      It is time to get dressed.
+    {% endif %}
+  {% endmacro %}
+  {% macro getSchoolDay() %}
+    {% if is_state("calendar.skylar_school", "on") %}
+      Because you have school today!
+      {% if states.calendar.skylar_school.attributes.description == "early-release" %}
+        And guess what? It is early release!
+      {% endif %}
+      {% if is_state("sensor.weekday", "fri") %} 
+        Plus, it is fun Friday! 
+      {% endif %} 
+    {% endif %}
+  {% endmacro %}
+  {% macro getClothesSuggestion() %}
+    {% if is_state("sensor.clothing_forecast", "Freezing") %}
+      It is going to be freezing today so I suggest wearing long pants, and a heavy coat.
+    {% elif is_state("sensor.clothing_forecast","Cold") %}
+      It is going to be cold today so I suggest wearing long pants and a light jacket.
+    {% elif is_state("sensor.clothing_forecast", "Chilly") %}
+      It is going to be chilly today so I suggest wearing at least long pants.
+    {% elif is_state("sensor.clothing_forecast", "Nice") %}
+      It is going to be nice today so I suggest wearing shorts.
+    {% elif is_state("sensor.clothing_forecast", "Toasty") %}
+      It is going to be a bit warm today so I suggest wearing shorts. 
+    {% elif is_state("sensor.clothing_forecast", "Hot") %}
+      It is going to be hot today so I suggest wearing shorts.
+    {% else %}
+    {% endif %} 
+  {% endmacro %}
+  {%- macro getRandomClosing() -%}
+    {{- [
+       "Cowabunga, Dude.",
+       "Don't forget to be nice to your friends.",
+       "Make it a great day!"
+       ] | random -}}
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    It is {{ now().strftime("%I:%M %p") }}.
+    {{ getIntro() }}
+    {{ getDressed() }}
+    {{ getSchoolDay() }}
+    {{ getClothesSuggestion() }}
+    
+    
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}

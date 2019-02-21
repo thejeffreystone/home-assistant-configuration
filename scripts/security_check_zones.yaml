@@ -1,8 +1,0 @@
-security_check_zones:
-  sequence:
-  - condition: state
-    entity_id: group.doors
-    state: 'on'
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.security_issue
-

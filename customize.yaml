@@ -81,9 +81,6 @@ sensor.dark_sky_daily_high_temperature:
 sensor.dark_sky_daily_max_precip_intensity:
   friendly_name: Rain Intensity
   icon: gauge
-sensor.pws_alerts:
-  friendly_name: "Weather Alerts"
-  icon: mdi:alert
 
 # Jeff #
 
@@ -170,7 +167,16 @@ media_player.roku_5s6719003683:
 device_tracker.00a0dea3ed2f:
   friendly_name: Yamaha AV
   icon: mdi:surround-sound
-
+media_player.pn60e550_pn60e550:
+  name: Samsung TV 
+  icon: mdi:television
+media_player.hass_speaker:
+  name: AH Speaker
+  icon: mdi:speaker
+media_player.yamaha_receiver_theater:
+  icon: mdi:audio-video
+switch.main_theater:
+  icon: mdi:audio-video
 
 # Switches and Lights  ##
 switch.fireplace_lights:
@@ -185,7 +191,7 @@ switch.front_porch:
   icon: mdi:lightbulb
 switch.front_lamp:
   icon: mdi:lightbulb
-switch.loft_lamp:
+switch.upstairs_light:
   icon: mdi:lightbulb
 cover.garage_door:
   device_class: garage
@@ -230,7 +236,14 @@ switch.trash_notification:
   icon: mdi:telegram
 switch.master_bedroom_fan:
   icon: mdi:fan
-
+switch.incense:
+  icon: mdi:flower
+switch.christmas_tree_lights:
+  icon: mdi:lightbulb
+switch.christmas_lights:
+  icon: mdi:lightbulb
+switch.rainbow_light:
+  icon: mdi:lightbulb
 
 # Travel Times  ##
 sensor.home_to_summit:
@@ -297,5 +310,9 @@ sensor.washer_power:
   unit_of_measurement: 'w'
 sensor.washer:
   icon: mdi:power-plug
-
-
+binary_sensor.dome_doorwindow_sensor_sensor:
+  device_class: Door
+sensor.security_protocol:
+  icon: mdi:security
+sensor.notification_mode:
+  icon: mdi:bell

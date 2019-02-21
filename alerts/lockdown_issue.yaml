@@ -4,7 +4,7 @@ lockdown_issue:
   entity_id: input_boolean.lockdown_issue
   state: 'on'
   repeat: 2
-  can_acknowledge: True
+  can_acknowledge: false
   skip_first: False
   notifiers:
   - jeff_ios
