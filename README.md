@@ -19,6 +19,12 @@ Hassbian is the flavor of Home Assistant powering Anchorage House. Currently it 
 The old configurations are stored in branches for anyone that wants to see the previous iterations. However, the only branch guaranteed to work with the current version of Home Assistant is master.
 
 Read about the continuing work to automate **everything** over on my [blog](https://medium.com/@thejeffreystone). But be warned, it really hasn't been updated in a while. Feel free to reachout if you have questions. I love this stuff. 
+
+One last thing. Everything in this configuration is a combination of the things I want out of a home automation system flavored with the inspiration from other using Home Assistant. In some cases I took someone else's idea and made it my own, or I just completely stole it. So I would be remiss if I didn't acknowledge those that inpired this journey. If you like what you see here, please checkout their configs as well. I owe them thanks for sharing their work.  
+
+* [CCOSTAN](https://github.com/CCOSTAN/Home-AssistantConfig#logo) / [https://www.vCloudInfo.com](https://www.vCloudInfo.com)
+* [Isabella Gross Alström](https://isabellaalstrom.github.io/)
+* [Mahasri Kalavala](https://github.com/skalavala/smarthome)
  
 #### Devices:
 
