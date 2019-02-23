@@ -247,7 +247,7 @@ python_script:
 ### Devices and Services
 
 # Disabled due to bug that causes too many open files - Need to track it down
-# cover: 
+# cover:
 #   - platform: myq
 #     username: !secret myq_user
 #     password: !secret myq_pass
