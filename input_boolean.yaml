@@ -103,3 +103,16 @@ traffic_reports:
   name: traffic_reports
 sun_reports:
   name: Sun Reports 
+tweet_system:
+  name: Tweet System
+  icon: mdi:twitter
+tweet_ha_releases:
+  name: Tweet HA Releases
+  icon: mdi:twitter
+tweet_iss:
+  name: Tweet ISS Sightings
+  icon: mdi:twitter
+tweet_snark:
+  name: Tweet Snark
+  icon: mdi:twitter
+
