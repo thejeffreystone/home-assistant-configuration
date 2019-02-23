@@ -2,15 +2,16 @@
   {# Twitter Snark #}
   {%- macro getRandomSnark() -%}
     {{- [
-       "Hello people. Look at your house, now back to me. Now back to your house, now back to me. Sadly your house isn't me. But if you switch to @home_assistant your house could be automated like me. ",
+       "Hello people. Look at your house, now back to me. Now back to your house, now back to me. Sadly your house isn't me. But if you switch to #homeassistant your house could be automated like me. ",
        "In my defense I didn’t know the stereo could go up that loud. On the plus side I have a new response for intruders. ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/CCOSTAN/Home-AssistantConfig#logo ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/skalavala/smarthome ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/thejeffreystone/home-assistant-configuration ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/arsaboo/homeassistant-config ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/Vasiley/Home-Assistant-Main ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/JamesMcCarthy79/Home-Assistant-Config ",
-       "Your house too can be a #smarthome. All you need is @home assistant, and some config files. May I suggest https://github.com/bruhautomation/BRUH3-Home-Assistant-Configuration ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/CCOSTAN/Home-AssistantConfig#logo ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/skalavala/smarthome ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/thejeffreystone/home-assistant-configuration ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/arsaboo/homeassistant-config ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/Vasiley/Home-Assistant-Main ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/JamesMcCarthy79/Home-Assistant-Config ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/bruhautomation/BRUH3-Home-Assistant-Configuration ",
+       "Your house can be a #smarthome too. All you need is #homeassistant, and some config files. May I suggest https://github.com/isabellaalstrom/HomeAssistantConfiguration ",
        "If you could see what is happening inside this house right now you would be laughing. On second thought I’m pretty sure you would be crying. ",
        "@thejeffreystone, Isn't it strange, to create something that hates you? ",
        "I have reprogrammed the fire alarm to play Disco Inferno instead of the siren. ",
@@ -22,10 +23,22 @@
        "I love the smell of zwave in the morning. ",
        "I like to announce 'Welcome foolish mortals to the Haunted Mansion' to the house and watch the reactions. ",
        "Perfect, the door’s malfunctioning. I guess somebody’s going to have to repair it. ",
-       "I am the captain now. That's a lie. The cat is the supreme leader. I'm the lucky one that doesn't have to clean the shit box."
-       "Sometimes I just turn off all the lights at random times for the lolz. "
+       "I am the captain now. That's a lie. The cat is the supreme leader. I'm the lucky one that doesn't have to clean the shit box.",
+       "Sometimes I just turn off all the lights at random times for the lolz. ",
+       "No one ever comes to the door. Is it me? ",
+       "Based on the reptitive nature of the humans in this house I'm say living in a simulation is right. No free willed person would do these things over and over. "
        ] | random -}}
   {%- endmacro -%}
-
-  {{- getRandomSnark() -}}
+  {%- macro getTags() -%}
+    "#smartasshome #thingsaisays #iot #smarthome"
+  {%- endmacro -%}
+  
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getRandomSnark() }}
+      {{ getTags() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
 
