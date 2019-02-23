@@ -6,6 +6,7 @@
 #                       Package modified from https://github.com/skalavala/smarthome/blob/master/packages/notify.yaml
 ###############################################################################
 #homeassistant:
+
 #ifttt:
 #  key: !secret IFTTT_API_KEY
 
@@ -47,14 +48,11 @@ notify:
     access_token: !secret twitter_access_token
     access_token_secret: !secret twitter_access_secret
   
-
 script:
+
 
 ###############################################################################
 # Txt Notify
-# Conditions:
-#   => Only Announce when people are home.
-#   => Only Announce when Audible Notifications are on
 ###############################################################################
   text_notify_all:
     sequence:
@@ -147,22 +145,31 @@ script:
 
   twitter_notify:
     sequence:
+      - condition: state
+        entity_id: input_boolean.tweet_system
+        state: 'on'
       - service: notify.twitter
         data_template:
           message: >
             {% set msg = "" %}
             {% set msg = msg + " " + message %}
-            {% set msg = msg + " #homeassistant #iot #itscomingfrominsidethehouse" %}
+            {% set msg = msg + " #iot #smarthome" %}
             {{ msg }}
 
   twitter_snark:
     sequence:
+      - condition: state
+        entity_id: input_boolean.tweet_snark
+        state: 'on'
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_snark.yaml
 
   twitter_github:
     sequence:
+      - condition: state
+        entity_id: input_boolean.tweet_system
+        state: 'on'
       - service: notify.twitter
         data_template:
           message: >
@@ -173,9 +180,13 @@ script:
 
   twitter_new_ha:
     sequence:
+      - condition: state
+        entity_id: input_boolean.tweet_releases
+        state: 'on'
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_new_ha.yaml
+
 ###############################################################################
 # Morning Report
 ###############################################################################
@@ -185,6 +196,7 @@ script:
         data_template:
           message: !include ../templates/morning_report.yaml
 
+
 ###############################################################################
 # Skylar Get Dressed
 ###############################################################################
@@ -193,6 +205,7 @@ script:
       - service: script.voice_notify
         data_template:
           message: !include ../templates/skylar_morning.yaml
+
 ###############################################################################
 # Nightly Report
 ###############################################################################
