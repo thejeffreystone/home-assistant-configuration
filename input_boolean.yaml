@@ -115,4 +115,6 @@ tweet_iss:
 tweet_snark:
   name: Tweet Snark
   icon: mdi:twitter
-
+washer_notification:
+  name: Washer Notification
+  icon: mdi:speaker-wireless

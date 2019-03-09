@@ -33,7 +33,6 @@
     minutes: 5
     seconds: 0
     milliseconds: 0
-- platform: moon
 - platform: pollen
   zip_code: "30017"
   monitored_conditions:
@@ -70,82 +69,6 @@
 - platform: mqtt
   name: "Accurite Garage lupdate"
   state_topic: "house/accurite-10968/lastupdate"
-- platform: nws_alerts
-  zone_id: 'GAZ034'
-# - platform: rest
-#   resource: https://api.weather.gov/alerts/active/count
-#   name: NWS Alert Count Raw
-#   value_template: >
-#    {% if value_json is defined and value_json.zones.GAZ034 is defined %}
-#      {{ value_json.zones.GAZ034 }}
-#    {% else %}
-#      0
-#    {% endif %}
-#   headers:
-#     User-Agent: Homeassistant
-#     Accept: application/ld+json
-#   scan_interval: 60
-
-# - platform: template
-#   sensors:
-#   nws_alert_count_filtered:
-#     friendly_name: NWS Alert Count
-#     entity_id: sensor.nws_alert_count_raw
-#     value_template: >
-#      {% if is_state('sensor.nws_alert_count_raw', 'unavailable') or is_state('sensor.nws_alert_count_raw', 'unknown') %}
-#        {{ states.sensor.nws_alert_count_filtered.state }}
-#      {% else %}
-#        {{ states.sensor.nws_alert_count_raw.state }}
-#      {% endif %}
-
-# - platform: rest
-#   resource: https://api.weather.gov/alerts/active?zone=GAZ034
-#   name: NWS Alert Event Raw
-#   value_template: >
-#    {% if value_json.features[0] is defined %}
-#      {{ value_json['features'][0]['properties'].event }}
-#    {% else %}
-#      None
-#    {% endif %}
-#   json_attributes:
-#   - features
-#   headers:
-#     User-Agent: Homeassistant
-#     Accept: application/geo+json
-#   scan_interval: 60
-
-# - platform: template
-#   sensors:
-#   nws_alert_event_filtered:
-#     friendly_name: NWS Alert Event
-#     entity_id: sensor.nws_alert_event_raw
-#     value_template: >
-#      {% if is_state('sensor.nws_alert_event_raw', 'unavailable') or is_state('sensor.nws_alert_event_raw', 'unknown') %}
-#        {{ states.sensor.nws_alert_event_filtered.state }}
-#      {% else %}
-#        {{ states.sensor.nws_alert_event_raw.state }}
-#      {% endif %}
-
-# - platform: template
-#   sensors:
-#     nws_alert_event_2:
-#       friendly_name: NWS Alert Event 2
-#       entity_id: sensor.nws_alert_event_raw
-#       value_template: >
-#        {% if state_attr('sensor.nws_alert_event_raw', 'features')[1] is defined %}
-#          {{ state_attr('sensor.nws_alert_event_raw', 'features')[1]['properties'].event }}
-#        {% else %}
-#          None
-#        {% endif %}
-#     nws_alert_event_3:
-#       friendly_name: NWS Alert Event 3
-#       entity_id: sensor.nws_alert_event_raw
-#       value_template: >
-#        {% if state_attr('sensor.nws_alert_event_raw', 'features')[2] is defined %}
-#          {{ state_attr('sensor.nws_alert_event_raw', 'features')[2]['properties'].event }}
-#        {% else %}
-#          None
-#        {% endif %}
 
 - platform: template
   sensors:

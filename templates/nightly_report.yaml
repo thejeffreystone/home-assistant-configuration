@@ -8,24 +8,29 @@
     {% endif %}
   {% endmacro %}
   {% macro getBirthdays() %}
-    {% if states.sensor.birthday_skylar.state | int < 2 %}
+    {% if states.sensor.birthday_skylar.state | int == 1 %}
       Tomorrow is Skylar's Birthday.
     {% endif %}
-    {% if states.sensor.birthday_jeff.state | int < 2 %}
+    {% if states.sensor.birthday_skylar.state | int > 1 %}
+        {% if states.sensor.birthday_skylar.state | int < 5 %}
+          Skylar's birthday is in {{states.sensor.birthday_skylar.state}} days!
+        {% endif %}
+    {% endif %}
+    {% if states.sensor.birthday_jeff.state | int == 1 %}
       Tomorrow is Jeff's Birthday.
     {% endif %}
-    {% if states.sensor.birthday_kat.state | int < 2 %}
+    {% if states.sensor.birthday_kat.state | int == 1 %}
       Tomorrow is Katherine's Birthday.
     {% endif %}
-    {% if states.sensor.anniversary_our_wedding.state | int < 2 %}
+    {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
       Tomorrow is Jeff and Katherine's Wedding Anniversary. 
     {% endif %}
   {% endmacro %}
   {% macro getHolidays() %}
-    {% if states.sensor.holiday_halloween.state | int < 2 %}
+    {% if states.sensor.holiday_halloween.state | int == 1 %}
       Tomorrow is Halloween. Hope you have picked out a costume.
     {% endif %}
-    {% if states.sensor.holiday_christmas.state | int < 2 %}
+    {% if states.sensor.holiday_christmas.state | int == 1 %}
       Tomorrow is Christmas. It's practically here!
     {% endif %}
   {% endmacro %}

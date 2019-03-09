@@ -1,0 +1,5 @@
+- platform: github
+  access_token: !secret github_token
+  repositories:
+    - path: 'thejeffreystone/home-assistant-configuration'
+

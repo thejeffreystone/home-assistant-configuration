@@ -79,7 +79,7 @@ cloud:
         name: Garage Humidity
         description: Garage Humidity
 
-alexa:
+#alexa:
 
 # homekit:
 #   filter:
@@ -113,6 +113,11 @@ device_tracker:
     max_gps_accuracy: 200
     prefix: life360
     show_as_state: driving, moving, places
+  #- platform: eero_tracker
+  #  consider_home: 300
+  #  interval_seconds: 60
+  #  track_new_devices: yes
+  #  only_macs: "50:dc:e7:5b:10:69, b0:ee:7b:94:31:21, e8:b2:ac:4c:8c:01, 7c:1c:4e:2e:62:30, 90:18:7c:84:46:ed, 48:ba:4e:65:d3:ff, d0:e7:82:ef:a6:1f, 28:18:78:74:79:10, e8:ab:fa:02:03:53, 48:d6:d5:42:e8:86, 60:f8:1d:be:20:46, 68:54:fd:d5:ae:3d, 00:d0:2d:2f:3b:ca, 6c:70:9f:00:ef:3f, 5c:cf:7f:af:04:50, 68:54:fd:29:20:87, 64:52:99:93:f1:b3, 7c:2e:bd:4f:3e:ff"
 
 #calendar:
 #  - platform: caldav
@@ -141,6 +146,7 @@ sun:
 
 #https://home-assistant.io/components/recorder/
 recorder:
+  #db_url: sqlite:///data/home-assistant_v2.db
   purge_keep_days: 2
   exclude:
     domains:
@@ -155,36 +161,32 @@ recorder:
 #  purge_keep_days: 3
 
 logbook:
-  exclude:
-    entities:
-      - sensor.last_boot
-      - sensor.date
-      - sensor.ha_log
-      - sensor.ha_uptime
-      - sensor.cpu
-      - sensor.date_time
-      - sensor.ha_v2db
-      - sensor.internet_time
-      - sensor.last_boot_2
-      - sensor.load_15m
-      - sensor.memory_use_percent
-      - sensor.network_in_eth0
-      - sensor.network_out_eth0
-      - sensor.processor_use
-      - sensor.time
-      - sensor.time_date
-      - sensor.time_utc
+  include:
+    domains:
+      - sensor
+      - switch
+      - media_player
+      - light
+      - automation
+      - script
+      - input_boolean
 
 
 #https://home-assistant.io/components/logger/
 logger:
-  default: info
-#
-#  logs:
+  default: warning
+  logs:
+    homeassistant.components.sensor.alpha_vantage: debug
 #    homeassistant.components.sensor.template: critical
 #    homeassistant.components.cover: critical
 
 history:
+  include:
+    domains:
+      - sensor
+      - switch
+      - media_player
+      - light
 
 cast:
 
@@ -210,9 +212,9 @@ ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg    
 
 splunk:
-  host: 192.168.7.40
-  token: !secret splunkit
-  port: 8088
+ host: 192.168.7.40
+ token: !secret splunkit
+ port: 8088
 
 cloudflare:
   email: !secret cloudflare_user
@@ -248,10 +250,10 @@ python_script:
 
 # Disabled due to bug that causes too many open files - Need to track it down
 # cover:
-#   - platform: myq
-#     username: !secret myq_user
-#     password: !secret myq_pass
-#     type: chamberlain
+#   platform: myq
+#   username: !secret myq_user
+#   password: !secret myq_pass
+#   type: chamberlain
 
 climate:
   platform: honeywell
@@ -298,6 +300,6 @@ shell_command:
   tiki_room_audio: mpg123 /media/audio/tiki_room_audio.mp3
   illuminations_audio: mpg123 /media/audio/illuminations.mp3
   mk_audio: mpg123 /media/audio/magic_kingdom.mp3
-  usps: python3 /home/homeassistant/bin/usps.py 
+  usps: python /home/homeassistant/bin/usps.py 
   backup: python /home/homeassistant/bin/dropbox.py
 

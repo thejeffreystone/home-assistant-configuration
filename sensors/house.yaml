@@ -1,0 +1,4 @@
+- platform: mqtt
+  name: "Washer Status"
+  state_topic: "house/washer/status"
+

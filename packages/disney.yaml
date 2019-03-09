@@ -56,8 +56,8 @@ automation:
       entity_id: input_boolean.tiki_room_audio
       to: 'off'
     action:
-    - service: script.turn_off
-      entity_id: script.tiki_room_audio
+    - service: media_player.media_stop
+      entity_id: media_player.hass_speaker
     - service: script.turn_on
       entity_id: script.kill_this_ride
   - id: illuminations_on
@@ -335,6 +335,8 @@ script:
     - service: shell_command.mk_audio
   kill_this_ride:
     sequence:
+    - service: media_player.media_stop
+      entity_id: media_player.hass_speaker
     - service: shell_command.alarm_off
     - service: script.turn_off
       data:
@@ -492,7 +494,12 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: shell_command.tiki_room_audio
+    #- service: shell_command.tiki_room_audio
+    - service: media_player.play_media
+      entity_id: media_player.hass_speaker
+      data:
+        media_content_id: /media/audio/tiki_room_audio.mp3
+        media_content_type: "music"
   happy_ever_after:
     sequence:
     - condition: state

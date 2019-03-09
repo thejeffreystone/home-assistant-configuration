@@ -1,11 +1,4 @@
 - platform: mqtt
-  name: "Fireplace Lights"
-  state_topic: "smartthings/Fireplace Lights/switch"
-  command_topic: "smartthings/Fireplace Lights/switch"
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
-- platform: mqtt
   name: "Incense"
   state_topic: "smartthings/Incense/switch"
   command_topic: "smartthings/Incense/switch"

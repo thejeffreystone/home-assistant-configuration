@@ -1,3 +1,65 @@
+- id: washer_running
+  alias: Washer Running 
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.aeotec_dsc06106_smart_energy_switch_power
+    above: 100
+  action:
+  - service: script.washer_running
+
+- id: washer_complete
+  alias: Washer Complete 
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.aeotec_dsc06106_smart_energy_switch_power
+    below: 5
+  condition:
+  - condition: state
+    entity_id: sensor.washer_status
+    state: 'running'
+  action:
+  - service: script.washer_complete
+
+- id: washer_emptied
+  alias: Washer Emptied   
+  trigger:
+  - platform: state
+    entity_id:  binary_sensor.ecolink_door_window_sensor_sensor
+    from: 'off'
+    to: 'on'
+  action:
+  - service: script.washer_idle
+
+# - id: washer_notification
+#   alias: Washer Notification 
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.washer_status
+#     from: "running"
+#     to: "idle"
+#   condition:
+#   - condition: state
+#     entity_id: sensor.family_status
+#     state: home
+#   - platform: state
+#     entity_id: input_boolean.washer_notification
+#     to: 'on'
+#   action:
+#   - service: homeassistant.turn_on
+#     entity_id: script.washer_finished_notification
+  
+- id: turn_of_disney
+  alias: Turn Off Disney 
+  trigger:
+    - platform: state 
+      entity_id: media_player.hass_speaker
+      from: 'playing'
+      to: idle 
+  action:
+    - service: input_boolean.turn_off 
+      entity_id: input_boolean.tiki_room_audio
+
+
 - id: backup_hass
   alias: Backup Hass
   trigger:
@@ -49,14 +111,17 @@
 - id: hvac_cool_on
   alias: hvac cool on
   trigger:
-  - above: 76
+  - above: 78
     entity_id: climate.first_floor
     platform: numeric_state
-    value_template: '{{ state.attributes.termperature }}'
+    value_template: '{{ states.climate.first_floor.attributes.current_temperature }}'
   condition:
   - above: 83
     condition: numeric_state
     entity_id: sensor.dark_sky_apparent_temperature
+  - condition: state 
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
   action:
   - service: script.climate_set_cool
   - data:
@@ -76,6 +141,7 @@
     below: '78'
     condition: numeric_state
     entity_id: climate.first_floor
+    value_template: '{{ states.climate.first_floor.attributes.current_temperature }}'
   action:
   - service: script.climate_turn_off
   - data:
@@ -86,14 +152,17 @@
 - id: hvac_heat_on
   alias: hvac heat on
   trigger:
-  - below: 62
+  - below: 61
     entity_id: climate.first_floor
     platform: numeric_state
-    value_template: '{{ state.attributes.termperature }}'
+    value_template: '{{ states.climate.first_floor.attributes.current_temperature }}'
   condition:
   - below: 50
     condition: numeric_state
     entity_id: sensor.dark_sky_apparent_temperature
+  - state: 'off'
+    condition: state
+    entity_id: input_boolean.vacation_mode
   action:
   - service: script.climate_set_heat
   - data:
@@ -155,6 +224,10 @@
   trigger:
   - platform: time
     at: '22:00:00'
+  condition:
+  - condition: state
+    entity_id: light.jeff_light
+    state: 'on'
   action:
   - service: scene.turn_on
     entity_id: scene.jeff_bedtime
@@ -164,6 +237,10 @@
   trigger:
   - platform: time
     at: '22:30:00'
+  condition:
+  - condition: state
+    entity_id: light.jeff_light
+    state: 'on'
   action:
   - service: scene.turn_on
     entity_id: scene.jeff_night_light
@@ -229,7 +306,7 @@
   action:
   - service: switch.turn_on
     data:
-      entity_id: switch.front_porch
+      entity_id: switch.leviton_dz15s_1bz_decora_smart_switch_switch
   - service: script.sunset_garage_open
   - service: script.twitter_notify
     data:
@@ -244,7 +321,7 @@
   action:
   - service: switch.turn_off
     data:
-      entity_id: switch.front_porch
+      entity_id: switch.leviton_dz15s_1bz_decora_smart_switch_switch
   - service: script.twitter_notify
     data:
       message: "The sun is up at Anchorage House, so Im turning off the outside
@@ -276,35 +353,35 @@
 - id: door_chime
   alias: Door Chine
   trigger:
-  - entity_id: binary_sensor.laundry_room_door
+  - entity_id: binary_sensor.ecolink_door_window_sensor_sensor_3
     from: 'off'
     platform: state
     to: 'on'
-  - entity_id: binary_sensor.laundry_room_door
+  - entity_id: binary_sensor.ecolink_door_window_sensor_sensor_3
     from: 'on'
     platform: state
     to: 'off'
-  - entity_id: binary_sensor.front_door
+  - entity_id: binary_sensor.ecolink_door_window_sensor_sensor_2
     from: 'off'
     platform: state
     to: 'on'
-  - entity_id: binary_sensor.front_door
+  - entity_id: binary_sensor.ecolink_door_window_sensor_sensor_2
     from: 'on'
     platform: state
     to: 'off'
-  - entity_id: binary_sensor.back_door
+  - entity_id: binary_sensor.ecolink_door_window_sensor_sensor_4
     from: 'off'
     platform: state
     to: 'on'
-  - entity_id: binary_sensor.back_door
+  - entity_id: binary_sensor.ecolink_door_window_sensor_sensor_4
     from: 'on'
     platform: state
     to: 'off'
-  - entity_id: binary_sensor.attic_door
+  - entity_id:  binary_sensor.dome_door_window_sensor_sensor_2
     from: 'off'
     platform: state
     to: 'on'
-  - entity_id: binary_sensor.attic_door
+  - entity_id:  binary_sensor.dome_door_window_sensor_sensor_2
     from: 'on'
     platform: state
     to: 'off'
@@ -579,9 +656,11 @@
     state: 'off'
   action:
   - service: script.appliances_off
+  - service: script.inside_all_off
   - service: script.security_check_garage
   - service: script.security_check_zones
   - service: script.lockdown
+  - service: script.lockdown_issue
 - id: jeff_is_home
   alias: Jeff is Home
   trigger:

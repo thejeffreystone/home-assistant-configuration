@@ -1,6 +1,0 @@
-- platform: mqtt
-  name: "Kitchen Smoke"
-  state_topic: "smartthings/Kitchen Smoke/smoke"
-  payload_available: "smoke"
-  payload_not_available: "clear"
-

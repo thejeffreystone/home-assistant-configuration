@@ -7,11 +7,11 @@
        ] | random -}}
   {% endmacro %}
   {% macro getVersion() %}
-    @homeassistant version {{ states.sensor.current_ha_version.state }} is out.
+    #homeassistant version {{ states.sensor.current_ha_version.state }} is out.
   {% endmacro %}
   {%- macro getRandomSnark() -%}
     {{- [
-      " It’s like Patch Tuesday, but with less fail. #homeassistant",
+      " It’s like Patch Tuesday, but without the fail. #homeassistant",
       " Get in my SD Card! #homeassistant",
       " Shut up and take my ones and zeros! #homeassistant",
       " Seriously, you want some of this! #homeassistant",
@@ -27,7 +27,6 @@
 
   {# a macro to call all macros :)  #}
     {%- macro mother_of_all_macros() -%}
-      It is {{ now().strftime("%I:%M %p") }}.
       {{ getIntro() }}
       {{ getVersion() }}
       {{ getRandomSnark() }}

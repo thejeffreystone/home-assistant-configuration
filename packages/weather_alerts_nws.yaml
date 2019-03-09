@@ -86,7 +86,7 @@ automation:
       - condition: template
         value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
     action:
-      - service: notify.all_ios
+      - service: notify.jeff_ios
         data_template:
           message: >
             {% if states.sensor.nws_alerts.attributes.title.split(' - ')[5] is defined %}
@@ -116,7 +116,7 @@ automation:
         - condition: template
           value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
         - condition: template
-          value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title) or ('Flood' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
+          value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
     action:
       - service: script.voice_notify
         data_template:

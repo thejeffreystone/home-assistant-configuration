@@ -29,3 +29,14 @@ House Conditions:
   - sensor.accurite_back_porch_humidity
   - sensor.accurite_garage_temperature
   - sensor.accurite_garage_humidity
+
+External Doors:
+  - binary_sensor.dome_door_window_sensor_sensor
+  - binary_sensor.ecolink_door_window_sensor_sensor_2
+  - binary_sensor.ecolink_door_window_sensor_sensor_3
+  - binary_sensor.ecolink_door_window_sensor_sensor_4
+  - binary_sensor.ecolink_garage_door_tilt_sensor_sensor
+
+Internal Doors:
+  - binary_sensor.dome_door_window_sensor_sensor_2
+

@@ -1,14 +1,28 @@
 - platform: alpha_vantage
   api_key: !secret alpha_vantage
   symbols:
-    - symbol: SIRI
-      name: Sirius
-    - symbol: BAC
-      name: BoA
-    - symbol: INTC
-      name: Intel
+    #- symbol: SIRI
+    #  name: Sirius
+    #- symbol: BAC
+    #  name: BoA
+    #- symbol: INTC
+    #  name: Intel
     - symbol: DIS
       name: Disney
-    - symbol: BKS 
-      name: Barnes & Noble
-
+    #- symbol: BKS 
+    #  name: Barnes & Noble
+- platform: mqtt
+  name: "Disney"
+  state_topic: "stock/DIS/price"
+- platform: mqtt
+  name: "BoA"
+  state_topic: "stock/BAC/price"
+- platform: mqtt
+  name: "Intel"
+  state_topic: "stock/INTC/price"
+- platform: mqtt
+  name: "Sirius"
+  state_topic: "stock/SIRI/price"
+- platform: mqtt
+  name: "Barnes and Nobel"
+  state_topic: "stock/BKS/price"

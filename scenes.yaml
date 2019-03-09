@@ -1,12 +1,33 @@
+- name : test
+  entities:
+    light.tower_lamp_2:
+      state: on
+      brightness: 250
+      color_name: "blue"
+
+- name : test2
+  entities:
+    light.tower_lamp_2:
+      state: on
+      brightness: 250
+      color_name: "soft white"
+
+- name : test3
+  entities:
+    light.tower_lamp_2:
+      state: on
+      brightness: 250
+      hs_color: "195,0"
+
 - name: normal livingroom lighting
   entities:
     light.tower_lamp_2:
       state: on
       brightness: 250
-    light.front_lamp:
+    light.front_lamp_2:
       state: on
       brightness: 250
-    light.table_lamp:
+    light.table_lamp_2:
       state: on
       brightness: 250
 
@@ -15,11 +36,11 @@
     light.tower_lamp_2:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_lamp_2:
       state: off
-    light.table_lamp:
+    light.table_lamp_2:
       state: off
-    switch.fireplace_lights:
+    switch.ge_12722_on_off_relay_switch_switch:
       state: off
 
 - name: illuminations livingroom lighting two
@@ -27,12 +48,12 @@
     light.tower_lamp_2:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_lamp_2:
       state: on
       brightness: 40
-    light.table_lamp:
+    light.table_lamp_2:
       state: off
-    switch.fireplace_lights:
+    switch.ge_12722_on_off_relay_switch_switch:
       state: off
 
 - name: illuminations livingroom lighting three
@@ -40,13 +61,13 @@
     light.tower_lamp_2:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_lamp_2:
       state: on
       brightness: 40
-    light.table_lamp:
+    light.table_lamp_2:
       state: on
       brightness: 40
-    switch.fireplace_lights:
+    switch.ge_12722_on_off_relay_switch_switch:
       state: off
 
 - name: night time livingroom lighting
@@ -54,36 +75,36 @@
     light.tower_lamp_2:
       state: on
       brightness: 10
-    light.front_lamp:
+    light.front_lamp_2:
       state: off
-    light.table_lamp:
+    light.table_lamp_2:
       state: off
-    switch.fireplace_lights:
+    switch.ge_12722_on_off_relay_switch_switch:
       state: off
 
 - name: diminished kitchen lighting
   entities:
-    light.kitchen_cabinets:
+    light.front_room_level:
       state: on
       brightness: 10
-    light.kitchen_light_strip:
+    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
       state: off
 
 - name: normal kitchen lighting
   entities:
-    light.kitchen_cabinets:
+    light.front_room_level:
       state: on
       brightness: 250
-    light.kitchen_light_strip:
+    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
       state: on
 
 - name: haunted preshow
   entities:
-    light.kitchen_cabinets:
+    light.front_room_level:
       state: off
-    light.kitchen_light_strip:
+    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
       state: off
-    switch.upstairs_light:
+    switch.ge_14291_in_wall_smart_switch_switch_2:
       state: off
     light.tower_lamp_2:
       state: on
@@ -94,16 +115,16 @@
     light.table_lamp:
       state: on
       brightness: 40
-    switch.fireplace_lights:
+    switch.ge_12722_on_off_relay_switch_switch:
       state: off
 
 - name: haunted lights out
   entities:
-    light.kitchen_cabinets:
+    light.front_room_level:
       state: off
-    light.kitchen_light_strip:
+    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
       state: off
-    switch.upstairs_light:
+    switch.ge_14291_in_wall_smart_switch_switch_2:
       state: off
     light.tower_lamp_2:
       state: off
@@ -111,7 +132,7 @@
       state: off
     light.table_lamp:
       state: off
-    switch.fireplace_lights:
+    switch.ge_12722_on_off_relay_switch_switch:
       state: off
 
 - name: jeff light on
