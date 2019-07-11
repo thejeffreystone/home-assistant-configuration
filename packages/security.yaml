@@ -1,0 +1,330 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   03/13/2019
+#   @package        :   Security
+#   @description    :   Everything related to security functions. 
+###############################################################################
+
+input_boolean:
+  sentry_mode:
+    name: Sentry Mode
+    icon: mdi:security
+  vacation_mode:
+    name: Vacation Mode
+    icon: mdi:airplane-takeoff
+  guest_mode:
+    name: Guest Mode
+    icon: mdi:account-multiple
+  security_alarm:
+    name: Security Alarm
+    icon: mdi:speaker-wireless
+  fire_alarm:
+    name: Fire Alarm
+    icon: mdi:speaker-wireless
+  garage_after_dark:
+    name: Garage Open After Dark
+    icon: mdi:message-alert
+  lockdown_issue:
+    name: Lockdown Issue
+    icon: mdi:lock-reset
+  security_issue:
+    name: Security Issue
+    icon: mdi:alert-circle-outline
+
+automation:
+  - id: enable_vacation_mode
+    alias: Enable Vacation Mode
+    initial_state: true
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.jeff_ett_home
+      above: 180
+    - platform: numeric_state
+      entity_id: sensor.kat_ett_home
+      above: 180
+    condition:
+    - condition: numeric_state
+      entity_id: sensor.jeff_ett_home
+      above: 180
+    - condition: numeric_state
+      entity_id: sensor.kat_ett_home
+      above: 180
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.vacation_mode
+  
+  - id: morning_standby
+    alias: Morning Standby
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 05:30:00
+    condition:
+      condition: or
+      conditions:
+      - condition: state
+        entity_id: sensor.family_status
+        state: Home
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'on'
+    action:
+    - service: script.standby
+
+  - id: nightly_lockdown
+    alias: Nightly Lockdown
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '23:00:00'
+    condition:
+    - condition: state
+      entity_id: device_tracker.jeffreystonesiphone
+      state: home
+    - condition: state
+      entity_id: device_tracker.katherinestonesiphone
+      state: home
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'off'
+    action:
+    - service: script.lockdown
+
+  - id: garage_open_sunset
+    alias: Garage Open At Sunset
+    initial_state: true
+    trigger:
+    - platform: sun
+      event: sunset
+    condition:
+    - condition: state
+      entity_id: binary_sensor.garage_door
+      state: "on"
+    action:
+    - service: script.driveway_on
+
+  - id: close_garage_lights_out
+    alias: Close Garage at lights out
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '22:30:00'
+    condition:
+    - condition: state
+      entity_id: binary_sensor.garage_door
+      state: "on"
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.security_issue
+
+  - id: door_chime
+    alias: Door Chine
+    trigger:
+    - entity_id: binary_sensor.front_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.front_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id: binary_sensor.laundry_room_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.laundry_room_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id: binary_sensor.attic_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.attic_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id:  binary_sensor.back_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id:  binary_sensor.back_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'off'
+    action:
+    - service: shell_command.door_chime
+    initial_state: true
+
+  - id: security_breach_door
+    alias: Security Breach Doors
+    trigger:
+    - entity_id: binary_sensor.front_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.front_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id: binary_sensor.back_door_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.back_door_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id: binary_sensor.laundry_room_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.laundry_room_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id:  binary_sensor.side_door_contact_2
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id:  binary_sensor.side_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id:  binary_sensor.attic_door_contact_2
+      from: 'on'
+      platform: state
+      to: 'off'
+    - entity_id:  binary_sensor.garage_door
+      from: 'on'
+      platform: state
+      to: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.sentry_mode
+      state: 'on'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.security_issue
+    initial_state: true
+
+script:
+  lockdown_issue:
+    sequence:
+    - condition: state
+      entity_id: group.external_doors
+      state: "on"
+    - condition: state
+      entity_id: sensor.family_status
+      state: "Away"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.lockdown_issue
+
+  security_check_garage:
+    sequence:
+    - condition: state
+      entity_id: cover.cargo_bay
+      state: open
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.lockdown_issue
+  
+  security_check_zones:
+    sequence:
+    - condition: state
+      entity_id: group.doors
+      state: 'on'
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.lockdown_issue
+
+  lockdown:
+    sequence:
+    - condition: state
+      entity_id: group.external_doors
+      state: "off"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.sentry_mode
+
+  standby:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.sentry_mode
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.security_issue
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.security_alarm
+
+  visitors_here:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.guest_mode
+    - service: shell_command.haunted_guest_welcome
+
+  visitors_gone:
+    sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.guest_mode
+
+  notification_security_alarm_audio:
+    sequence:
+    - service: shell_command.security_alarm
+
+  
+
+  notification_sentry_mode_activated_audio:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: media_player.hass_speaker
+      state: 'idle'
+    - service: tts.google_say
+      entity_id: media_player.hass_speaker
+      data_template:
+        message: "Sentry mode activated"
+
+  notification_sentry_mode_deactivated_audio:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: media_player.hass_speaker
+      state: 'idle'
+    - service: tts.google_say
+      entity_id: media_player.hass_speaker
+      data_template:
+        message: "Sentry mode deactivated"
+  
+  notification_sentry_mode_deactiviated_text:
+    sequence:
+    - service: notify.jeff_ios
+      data:
+        message: Sentry Mode Deactivated
+  
+  notification_sentry_mode_activiated_text:
+    sequence:
+    - service: notify.jeff_ios
+      data:
+        message: Sentry Mode Activated
+
+  vacation_canceled:
+    sequence:
+    - data:
+        entity_id: input_boolean.vacation_mode
+      service: input_boolean.turn_off
