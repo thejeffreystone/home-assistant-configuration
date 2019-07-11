@@ -11,7 +11,7 @@
 #  key: !secret IFTTT_API_KEY
 
 tts:
-  - platform: google
+  - platform: google_translate
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
@@ -29,6 +29,10 @@ notify:
     services:
       - service: ios_jeffreystonesiphone
       - service: ios_jeffreystonesipad
+  - name: kat_ios
+    platform: group
+    services:
+      - service: ios_katherinestonesiphone
   - name: 'Master Bedroom Echo'  
     platform: command_line
     command: "/home/homeassistant/bin/alexa_wrapper -d 'Master Bedroom'"
@@ -94,7 +98,7 @@ script:
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
-      - service: tts.google_say
+      - service: tts.google_translate_say
         data_template:
           entity_id: media_player.hass_speaker
           message: >
@@ -121,25 +125,11 @@ script:
       - condition: state
         entity_id: media_player.hass_speaker
         state: 'idle'
-      - service: tts.google_say
+      - service: tts.google_translate_say
         data_template:
           entity_id: media_player.hass_speaker
           message: >
-            {% set msg = "" %}
-            {% macro getGreeting() %}
-              {% if greeting | default('yes', true ) == "yes" %}
-                {% if now().hour|int < 12 %}
-                  Good morning.
-                {% elif now().hour|int < 18 %}
-                  Good afternoon.
-                {% else %}
-                  Good evening.
-                {% endif %}
-              {% endif %}
-            {% endmacro %}
-            {% set msg = msg + getGreeting() %}
-            {% set msg = msg + " " + message %}
-            {{ msg }}
+            {{message }}
 
 
 ###############################################################################
@@ -219,11 +209,48 @@ script:
           message: !include ../templates/nightly_report.yaml
 
 ###############################################################################
+# Weather Report
+###############################################################################
+  weather_report:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/weather_report.yaml
+
+###############################################################################
+# Traffic Report
+###############################################################################
+  traffic_report:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/traffic_report.yaml
+
+###############################################################################
+# Jeff ETA Report
+###############################################################################
+  jeff_eta_report:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/jeff_eta.yaml
+
+###############################################################################
+# Kat ETA Report
+###############################################################################
+  kat_eta_report:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/kat_eta.yaml
+
+###############################################################################
 # Prebed Routing
 ###############################################################################
   prebed_routine:
     sequence:
       - service: script.voice_notify
         data_template:
-          message: >
-            Bed time is in 30 mins. If you are taking a bath now is the time to get in the tub, otherwise time to put on pajamas and brush teeth. 
+          message: !include ../templates/skylar_night.yaml
+          # message: >
+          #   Bed time is in 30 mins. If you are taking a bath now is the time to get in the tub, otherwise time to put on pajamas and brush teeth. 
