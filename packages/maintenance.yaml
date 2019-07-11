@@ -1,0 +1,33 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Maintenance
+#   @description    :   Automations and scripts geared to Home Assistant and Home Automation Maintenance.
+###############################################################################
+# automation:
+#   - id: heal_zwave
+#     alias: Heal Zwave
+#     initial_state: true
+#     trigger:
+#     - platform: time
+#       at: '12:37:00'
+#     action:
+#       - service: zwave.heal_network
+#       - service: script.twitter_notify
+#         data_template:
+#           message: >-
+#             {{ [
+#             "This seems like a good time to heal the zwave network at Anchorage House. ",
+#             "Always working thanks to #homeassistant. Things are quiet, lets kick off a zwave heal. ",
+#             "Zwave is critical to the automation at Anchorage House. Well, if you consider making it so no one has to touch a switch critical. In order to keep things tip top, lets heal zwave. "
+#             ] | random }}
+
+
+  # - id: test_zwave
+  #   alias: test Zwave
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '00:02:17'
+  #   action:
+  #     service: zwave.test_network
