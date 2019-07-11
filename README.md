@@ -31,7 +31,7 @@ One last thing. Everything in this configuration is a combination of the things 
 None of the following links are affiliate links, and are included merely as reference. 
 
 * Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
-* [Honeywell Wifi Thermostat](http://a.co/cqvrljP)
+* [Ecobee Thermostat](https://www.ecobee.com/)
 * [Amazon Echo Dot](http://a.co/7VYHqvw)
 * Amazon Echo Gen 2
 * [Smartthings](http://a.co/2xWyXF5)
