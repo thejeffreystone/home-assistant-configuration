@@ -135,6 +135,11 @@ sensor.kat_destination:
   icon: mdi:google-maps
   name: "Jeffs Destination"
 
+# Skylar
+
+sensor.skylar_location:
+  entity_picture: !secret SKYLAR_ICON
+
 # Device ## 
 device_tracker.gateway2f3bca:
   icon: mdi:nest-thermostat
