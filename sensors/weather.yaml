@@ -26,18 +26,13 @@
     - hourly_summary
     - daily_summary
     - precip_intensity_max
-  update_interval:
+  scan_interval:
     # At least one of these must be specified:
     days: 0
     hours: 0
     minutes: 5
     seconds: 0
     milliseconds: 0
-- platform: pollen
-  zip_code: "30017"
-  monitored_conditions:
-    - allergy_index_today
-    - asthma_index_today
 ## Accurite 158 - Back Porch
 - platform: mqtt
   name: "Accurite Back Porch Temperature"
@@ -76,18 +71,18 @@
       friendly_name: "Clothing Forecast"
       unit_of_measurement: ''
       value_template: >-
-          {%- if states('sensor.dark_sky_daytime_high_temperature_0')|float > 63 %}
-            {%- if states('sensor.dark_sky_daytime_high_temperature_0')|float < 80 %}
+          {%- if states('sensor.dark_sky_daytime_high_temperature_0d')|float > 63 %}
+            {%- if states('sensor.dark_sky_daytime_high_temperature_0d')|float < 80 %}
               Nice
-            {% elif states('sensor.dark_sky_daytime_high_temperature_0')|float > 95 %}
+            {% elif states('sensor.dark_sky_daytime_high_temperature_0d')|float > 95 %}
               Hot
             {% else %}
               Toasty
             {%- endif %}
-          {% elif states('sensor.dark_sky_daytime_high_temperature_0')|float < 64 %}
-            {%- if states('sensor.dark_sky_daytime_high_temperature_0')|float < 32 %}
+          {% elif states('sensor.dark_sky_daytime_high_temperature_0d')|float < 64 %}
+            {%- if states('sensor.dark_sky_daytime_high_temperature_0d')|float < 32 %}
               Freezing
-            {% elif states('sensor.dark_sky_daytime_high_temperature_0')|float > 50 %}
+            {% elif states('sensor.dark_sky_daytime_high_temperature_0d')|float > 50 %}
               Chilly
             {% else %}
               Cold
