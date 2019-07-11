@@ -4,6 +4,8 @@
   command_topic: "smartthings/Tower Lamp/switch"
   brightness_state_topic: "smartthings/Tower Lamp/level"
   brightness_command_topic: "smartthings/Tower Lamp/level"
+  color_temp_command_topic: "smartthings/Tower Lamp/colorTemperature"
+  color_temp_state_topic: "smartthings/Tower Lamp/colorTemperature"
   brightness_scale: 101
   payload_on: "on"
   payload_off: "off"
@@ -24,6 +26,26 @@
   command_topic: "smartthings/Table Lamp/switch"
   brightness_state_topic: "smartthings/Table Lamp/level"
   brightness_command_topic: "smartthings/Table Lamp/level"
+  brightness_scale: 101
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+- platform: mqtt
+  name: "Master Bedroom Lamp"
+  state_topic: "smartthings/Jeff Lamp/switch"
+  command_topic: "smartthings/Jeff Lamp/switch"
+  brightness_state_topic: "smartthings/Jeff Lamp/level"
+  brightness_command_topic: "smartthings/Jeff Lamp/level"
+  brightness_scale: 101
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+- platform: mqtt
+  name: "Side Door Light"
+  state_topic: "smartthings/Side Door Light/switch"
+  command_topic: "smartthings/Side Door Light/switch"
+  brightness_state_topic: "smartthings/Side Door Light/level"
+  brightness_command_topic: "smartthings/Side Door Light/level"
   brightness_scale: 101
   payload_on: "on"
   payload_off: "off"
