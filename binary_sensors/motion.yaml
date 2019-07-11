@@ -1,0 +1,6 @@
+- platform: mqtt
+  name: "Garage Motion" # Dome Motion Sensor
+  state_topic: "smartthings/Garage Motion/contact"
+  payload_on: "active"
+  payload_off: "inactive"
+  device_class: motion
