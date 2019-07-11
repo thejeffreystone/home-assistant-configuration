@@ -5,3 +5,10 @@
   payload_on: "on"
   payload_off: "off"
   retain: true
+- platform: mqtt
+  name: "Living Room Fan"
+  state_topic: "smartthings/Living Room Fan/switch"
+  command_topic: "smartthings/Living Room Fan/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
