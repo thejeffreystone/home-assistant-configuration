@@ -33,6 +33,7 @@ camera:
 
 automation:
   - id: reset_usps
+    initial_state: true
     alias: Reset USPS 
     trigger:
     - platform: time
@@ -45,6 +46,7 @@ automation:
           message: Reset Mail Count 
   
   - id: get_usps
+    initial_state: true
     alias: Get USPS 
     trigger:
     - platform: time
@@ -74,9 +76,9 @@ automation:
         data_template:
           message: >
             {%- if states.sensor.usps_mail.state | int == 1 -%}
-              Attention: USPS is delivering {{ states.sensor.usps_mail.state }} piece of mail today.
+              USPS is delivering {{ states.sensor.usps_mail.state }} piece of mail today.
             {%- else -%}
-              Attention: USPS is delivering {{ states.sensor.usps_mail.state }} pieces of mail today.
+              USPS is delivering {{ states.sensor.usps_mail.state }} pieces of mail today.
             {%- endif -%}
       - service: notify.jeff_ios
         data_template:
@@ -107,7 +109,7 @@ automation:
         data_template:
           message: >
             {%- if states.sensor.usps_packages.state | int == 1 -%}
-              Attention: USPS is delivering {{ states.sensor.usps_packages.state }} package today.
+              USPS is delivering {{ states.sensor.usps_packages.state }} package today.
             {%- else -%}
-              Attention: USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
+              USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
             {%- endif -%}
