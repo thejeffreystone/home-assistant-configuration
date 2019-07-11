@@ -10,9 +10,15 @@ homeassistant:
     - type: homeassistant
   packages: !include_dir_named packages
 
+default_config:
+
+ssdp:
+
+zeroconf:
+
 system_health:
 
-default_config:
+mobile_app:
 
 person:
 
@@ -21,7 +27,7 @@ frontend:
   javascript_version: latest
 
 http:
-  api_password: !secret MY_API_PASS
+  #api_password: !secret MY_API_PASS
   #ssl_certificate: !secret SSL_CERT
   #ssl_key: !secret SSL_KEY
   #base_url: !secret BASEURL
@@ -32,66 +38,18 @@ http:
   trusted_proxies:
     - 127.0.0.1
     - ::1
-  trusted_networks:
-    - 127.0.0.1
-  #  - 192.168.7.0/24
   ip_ban_enabled: True
   login_attempts_threshold: 5
 
 config:
 
 cloud:
-  alexa:
-    filter:
-      include_domains:
-      - switch
-      - light
-      - cover
-      - scene
-      - script
-      - input_boolean
-      - climate
-      - sensor
-      exclude_domains:
-      - group
-      - alert
-      - automation
-    entity_config:
-      sensor.accurite_back_porch_temperature:
-        name: Back Porch
-        description: Back Porch Temperature
-      sensor.accurite_garage_temperature:
-        name: Garage
-        description: Garage Temperature
-      sensor.kat_location:
-        name: Kats Location
-        description: Kats Location
-      sensor.jeff_location:
-        name: Jeffs Location
-        description: Jeffs Location
-      sensor.jeff_ett_home:
-        name: Jeffs Arrival
-        description: Jeffs arrival in minutes
-      sensor.kat_ett_home:
-        name: Kats Arrival
-        description: Kats arrival in minutes
-      sensor.accurite_garage_humidity:
-        name: Garage Humidity
-        description: Garage Humidity
+  
 
-#alexa:
+wemo:
+  discovery: true
 
-# homekit:
-#   filter:
-#     include_domains:
-#     - switch
-#     - light
-#     - cover
-#     - scene
-#     - input_boolean
-#     - climate
-#     - sensor
-#     - binary_sensor    
+
 
 weather:
   - platform: darksky
@@ -101,31 +59,18 @@ weather:
 conversation:
 
 device_tracker:
-  - platform: icloud
-    username: !secret ICLOUD_USER
-    password: !secret ICLOUD_PASS
-    track_new_devices: yes
-  - platform: owntracks
-    track_new_devices: yes
-  - platform: life360
-    username: !secret life360_username
-    password: !secret life360_password
-    max_gps_accuracy: 200
-    prefix: life360
-    show_as_state: driving, moving, places
+  # - platform: icloud
+  #   username: !secret ICLOUD_USER
+  #   password: !secret ICLOUD_PASS
+  #   track_new_devices: yes
+  # - platform: owntracks
+  # 
   #- platform: eero_tracker
   #  consider_home: 300
   #  interval_seconds: 60
   #  track_new_devices: yes
   #  only_macs: "50:dc:e7:5b:10:69, b0:ee:7b:94:31:21, e8:b2:ac:4c:8c:01, 7c:1c:4e:2e:62:30, 90:18:7c:84:46:ed, 48:ba:4e:65:d3:ff, d0:e7:82:ef:a6:1f, 28:18:78:74:79:10, e8:ab:fa:02:03:53, 48:d6:d5:42:e8:86, 60:f8:1d:be:20:46, 68:54:fd:d5:ae:3d, 00:d0:2d:2f:3b:ca, 6c:70:9f:00:ef:3f, 5c:cf:7f:af:04:50, 68:54:fd:29:20:87, 64:52:99:93:f1:b3, 7c:2e:bd:4f:3e:ff"
 
-#calendar:
-#  - platform: caldav
-#    url: !secret icloud_cal
-#    username: !secret icloud_cal_user
-#    password: !secret icloud_cal_pass
-#     calendars:
-#       - 'JKS Calendar' 
 
 google:
   client_id: !secret google_client_id
@@ -133,18 +78,15 @@ google:
 
 
 
-# geo_location:
-#   - platform: usgs_earthquakes_feed
-#     feed_type: 'past_day_all_earthquakes'
-
 discovery:
+  enable:
+  - dlna_dmr
 
 updater:
   #include_used_components: true
 
 sun:
 
-#https://home-assistant.io/components/recorder/
 recorder:
   #db_url: sqlite:///data/home-assistant_v2.db
   purge_keep_days: 2
@@ -157,8 +99,7 @@ recorder:
       - sun.sun # Don't record sun data
       - sensor.last_boot # Comes from 'systemmonitor' sensor platform
       - sensor.date
-#  purge_interval: 1
-#  purge_keep_days: 3
+
 
 logbook:
   include:
@@ -171,14 +112,11 @@ logbook:
       - script
       - input_boolean
 
-
-#https://home-assistant.io/components/logger/
 logger:
   default: warning
   logs:
     homeassistant.components.sensor.alpha_vantage: debug
-#    homeassistant.components.sensor.template: critical
-#    homeassistant.components.cover: critical
+
 
 history:
   include:
@@ -193,10 +131,17 @@ cast:
 speedtestdotnet:
  
 mqtt:
- broker: 192.168.7.67
- port: 1883
- username: !secret MQTT_USER
- password: !secret MQTT_PASS
+  broker: 192.168.7.67
+  port: 1883
+  username: !secret MQTT_USER
+  password: !secret MQTT_PASS
+  discovery: true
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
 
 camera:
   - platform: mjpeg
@@ -223,7 +168,12 @@ cloudflare:
   records:
     - ah
 
+life360:
+  accounts:
+    - username: !secret life360_username
+      password: !secret life360_password
 
+media_extractor:
 
 ### Includes ###
 alert: !include_dir_merge_named alerts/
@@ -238,6 +188,7 @@ intent_script: !include intents/intents.yaml
 scene: !include scenes.yaml
 input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml
+input_datetime: !include input_datetime.yaml
 zone: !include zones.yaml
 
 python_script:
@@ -246,7 +197,7 @@ python_script:
 #  domain: !secret duckdns_domain
 #  access_token: !secret duckdns_token
 
-### Devices and Services
+### Services
 
 # Disabled due to bug that causes too many open files - Need to track it down
 # cover:
@@ -255,12 +206,8 @@ python_script:
 #   password: !secret myq_pass
 #   type: chamberlain
 
-climate:
-  platform: honeywell
-  username: !secret HONEYWELL_USER
-  password: !secret HONEYWELL_PASS
-  region: us
-  scan_interval: 600
+ecobee:
+  api_key: !secret ecobee_api
 
 map:
 
@@ -268,6 +215,9 @@ map:
 #   usb_path: /dev/ttyACM0
 #   network_key: !secret zwave_key
 
+googlehome:
+  devices:
+    - host: 192.168.7.97
 
 ### Custom Commands
 shell_command:
