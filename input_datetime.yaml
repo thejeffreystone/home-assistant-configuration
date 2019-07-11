@@ -1,0 +1,36 @@
+both_date_and_time:
+  name: Input with both date and time
+  has_date: true
+  has_time: true
+only_date:
+  name: Input with only date
+  has_date: true
+  has_time: false
+morning_report:
+  name: Morning Report
+  has_date: false
+  has_time: true
+nightly_report:
+  name: Nightly Report
+  has_date: false
+  has_time: true
+skylar_morning_report:
+  name: Skylar Dressed Announcement
+  has_date: false
+  has_time: true
+skylar_nightly_report:
+  name: Skylar Bedtime Announcement
+  has_date: false
+  has_time: true
+outisde_light_delay:
+  name: Outside Light Delay
+  has_date: false
+  has_time: true
+announcement_delay:
+  name: Announcement Delay
+  has_date: false
+  has_time: true
+kat_pill_reminder:
+  name: Kat Pill Reminder
+  has_date: false
+  has_time: true
