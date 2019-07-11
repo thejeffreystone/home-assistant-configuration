@@ -1,0 +1,10 @@
+garage_after_dark:
+  name: Garage is open...Please Check
+  done_message: Garage is closed
+  entity_id: input_boolean.garage_after_Dark
+  state: 'on'
+  repeat: 5
+  can_acknowledge: false
+  skip_first: False
+  notifiers:
+  - all_ios
