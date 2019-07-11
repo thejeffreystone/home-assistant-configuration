@@ -30,7 +30,7 @@ group:
 
 sensor:
   - platform: nws_alerts
-    zone_id: 'GAZ034'
+    zone_id: 'GAZ034,GAC135'
 
 automation:
   - alias: 'NWS Weather Alert Pop Up Control'
@@ -134,6 +134,11 @@ automation:
             {% else %}
               The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}
             {% endif %}
+      - service: script.twitter_notify
+        data_template:
+          message: '{{ [ "Anchorage House is battening down the hatches. Servere Weather is imminent. ", 
+          "The weather outside is getting intense, so I just made a weather announcement.", 
+          "Anchorage House monitors the NWS using #HomeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta " ] | random }}'
       - delay: '00:00:15'
       - service: script.voice_notify
         data_template:
@@ -163,11 +168,16 @@ automation:
         - condition: template
           value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
         - condition: template
-          value_template: "{{ 'Tornado' in states.sensor.nws_alerts.attributes.title and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
+          value_template: "{{ 'Tornado Warning' in states.sensor.nws_alerts.attributes.title}}"
     action:
       - service: script.alert_notify
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
+      - service: script.twitter_notify
+        data_template:
+          message: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. ", 
+          "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area.", 
+          "I just activated the internal Tornado Alarm at the request of the NWS. Thanks for the heads up @NWSAtlanta " ] | random }}'
       - delay: '00:00:15'
       - service: script.alert_notify
         data_template:
@@ -178,6 +188,32 @@ automation:
       - service: script.text_notify_all
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
+
+  - alias: Activate Tornado alarm 
+    initial_state: 'on'
+    trigger:
+    - platform: state
+      entity_id: input_boolean.tornado_alarm 
+      from: 'off'
+      to: 'on'
+    action:
+    - service: media_player.play_media
+      entity_id: media_player.hass_speaker
+      data:
+        media_content_id: /media/audio/Tornado_Siren.mp3
+        media_content_type: "music"
+
+  - alias: Deactivate Tornado alarm 
+    initial_state: 'on'
+    trigger:
+    - platform: state
+      entity_id: input_boolean.tornado_alarm 
+      from: 'on'
+      to: 'off'
+
+    action:
+    - service: media_player.media_stop
+      entity_id: media_player.hass_speaker
 
 script:
   nws_popup_on_wx_alert:
