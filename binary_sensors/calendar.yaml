@@ -2,3 +2,11 @@
   country: US
   province: GA
   workdays: [mon, tue, wed, thu, fri]
+- platform: tod
+  name: Night
+  after: sunset
+  before: sunrise
+- platform: tod
+  name: Day
+  after: sunrise
+  before: sunset
