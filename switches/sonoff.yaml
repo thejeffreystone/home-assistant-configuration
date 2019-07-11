@@ -1,5 +1,5 @@
 - platform: mqtt
-  name: "Master Fan"
+  name: "Rail Lights"
   command_topic: "cmnd/sonoff/power"
   state_topic: "stat/sonoff/POWER"
   qos: 1
