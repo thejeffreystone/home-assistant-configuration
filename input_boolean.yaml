@@ -1,12 +1,3 @@
-sentry_mode:
-  name: Sentry Mode
-  icon: mdi:security
-vacation_mode:
-  name: Vacation Mode
-  icon: mdi:airplane-takeoff
-guest_mode:
-  name: Guest Mode
-  icon: mdi:account-multiple
 automations:
   name: Automations
   icon: mdi:home-automation
@@ -27,12 +18,6 @@ tornado_alarm:
   icon: mdi:speaker-wireless
 tstorm_alarm:
   name: T-Storm Alarm
-  icon: mdi:speaker-wireless
-security_alarm:
-  name: Security Alarm
-  icon: mdi:speaker-wireless
-fire_alarm:
-  name: Fire Alarm
   icon: mdi:speaker-wireless
 text_notify_jeff:
   name: Send Jeff Texts
@@ -67,12 +52,6 @@ jeff_traffic_alert_home:
 tornado_watch:
   name: Tornado Watch
   icon: mdi:message-alert
-garage_after_dark:
-  name: Garage Open After Dark
-  icon: mdi:message-alert
-lockdown_issue:
-  name: Lockdown Issue
-  icon: mdi:lock-reset
 kat_travel_monitor:
   name: Kat Travel Monitor
   icon: mdi:car
@@ -94,9 +73,6 @@ presence_audio_notifications:
 shuffle_spotify:
   name: Shuffle Playlists
   icon: mdi:shuffle-variant
-security_issue:
-  name: Security Issue
-  icon: mdi:alert-circle-outline
 weather_reports:
   name: Weather Info 
 traffic_reports:
@@ -118,3 +94,9 @@ tweet_snark:
 washer_notification:
   name: Washer Notification
   icon: mdi:speaker-wireless
+play_weather_report:
+  name: Play Weather Report
+  icon: mdi:speaker-wireless
+new_ha_announcement:
+  name: New HA Announcement
+  icon: mdi:twitter
