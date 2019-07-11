@@ -1,6 +1,10 @@
  >
   {% macro getIntro() %}
-    Skylar. 
+    Skylar.
+    {{ [ "This is your friendly neighborhood smart home ",
+         "This is your digital life mate ",
+         "This is your cruise director ",
+       ] | random }} with your morning announcements.  
   {% endmacro %}
   {% macro getDressed() %}
     {% if is_state("sensor.birthday_skylar", "0") %}
@@ -15,9 +19,17 @@
       {% if states.calendar.skylar_school.attributes.description == "early-release" %}
         And guess what? It is early release!
       {% endif %}
-      {% if is_state("sensor.weekday", "fri") %} 
-        Plus, it is fun Friday! 
-      {% endif %} 
+      # {% if is_state("sensor.weekday", "fri") %} 
+      #   Plus, it is fun Friday! 
+      # {% endif %} 
+    {% endif %}
+  {% endmacro %}
+  {% macro getEvents() %}
+    {% if is_state("calendar.skylar_events", "on") %}
+      You have {{ states.calendar.skylar_events.attributes.message }} today!
+      # {% if is_state("sensor.weekday", "fri") %} 
+      #   Plus, it is fun Friday! 
+      # {% endif %} 
     {% endif %}
   {% endmacro %}
   {% macro getClothesSuggestion() %}
@@ -36,13 +48,6 @@
     {% else %}
     {% endif %} 
   {% endmacro %}
-  {%- macro getRandomClosing() -%}
-    {{- [
-       "Cowabunga, Dude.",
-       "Don't forget to be nice to your friends.",
-       "Make it a great day!"
-       ] | random -}}
-  {%- endmacro -%}
 
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
@@ -53,10 +58,10 @@
 
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
-    It is {{ now().strftime("%I:%M %p") }}.
     {{ getIntro() }}
     {{ getDressed() }}
     {{ getSchoolDay() }}
+    {{ getEvents() }}
     {{ getClothesSuggestion() }}
     
     

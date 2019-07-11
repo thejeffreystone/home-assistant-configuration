@@ -1,10 +1,20 @@
  >
+  {% macro getSnark() %}
+    {{ [ "Good evening, ",
+         "Before we shut this party down, ",
+         "Good Evening Anchorage House, "
+       ] | random }}
+    {{ [ "I thought you might like to know. ",
+         "I might have some bad news for you.",
+         "Just one more thing."
+       ] | random }}
+  {% endmacro %}
   {% macro getForecast() %}
-    The low tonight will be {{states.sensor.dark_sky_overnight_low_temperature_0.state | round}} degrees and there is a {{states.sensor.dark_sky_precip_probability_0.state|round}} percent chance of rain. 
+    The low tonight will be {{states.sensor.dark_sky_overnight_low_temperature_0d.state | round}} degrees and there is a {{states.sensor.dark_sky_precip_probability_0d.state|round}} percent chance of rain. 
   {% endmacro %}
   {% macro getTrashDay() %}
     {% if is_state("sensor.weekday", "mon") %}
-      Tomorrow is trash day!
+      Don't forget Tomorrow is trash day!
     {% endif %}
   {% endmacro %}
   {% macro getBirthdays() %}
@@ -29,6 +39,10 @@
   {% macro getHolidays() %}
     {% if states.sensor.holiday_halloween.state | int == 1 %}
       Tomorrow is Halloween. Hope you have picked out a costume.
+      {{ [ "I'll be going as a dumb home. ",
+         "I've prepped the scary music. Just in case.",
+         "I'll be going as HAL 9000."
+       ] | random }}
     {% endif %}
     {% if states.sensor.holiday_christmas.state | int == 1 %}
       Tomorrow is Christmas. It's practically here!
@@ -43,7 +57,7 @@
 
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
-    It is {{ now().strftime("%I:%M %p") }}.
+    {{ getSnark() }}
     {{ getForecast() }}
     {{ getTrashDay() }}
     {{ getBirthdays() }}
