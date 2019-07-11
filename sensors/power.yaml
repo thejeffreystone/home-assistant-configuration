@@ -1,0 +1,3 @@
+- platform: mqtt
+  name: "Washer"
+  state_topic: "smartthings/Washer/power"
