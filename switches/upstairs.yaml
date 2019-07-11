@@ -1,0 +1,7 @@
+- platform: mqtt
+  name: "Upstairs Fan"
+  state_topic: "smartthings/Upstairs Fan/switch"
+  command_topic: "smartthings/Upstairs Fan/switch"
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
