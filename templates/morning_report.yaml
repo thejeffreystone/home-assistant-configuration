@@ -1,7 +1,22 @@
  >
+  {% macro getGreeting() %}
+      {{ [ "Good morning Anchorage House. Rise and Shine. ",
+         "Good morning everyone. ",
+         "Good morning. The early bird gets the worm. And look over there. A worm. Wait, is that a snake. umm, someone might want to take care, ok, moving on.",
+         "Good morning. The early bird gets the worm.",
+         "Good morning from the bridge.",
+         "I hope I am not waking you, but I think this would be a good time for the morning report."
+       ] | random }}
+      {% if is_state("input_boolean.guest_mode", "on") %} 
+        {{ [ "And a special welcome to our guests. ",
+              "And good morning to our guests as well. ",
+              "Hey look at that, someone came to visit Anchorage House. Hope you slept well."
+       ] | random }}
+      {% endif %}
+  {% endmacro %}  
   {% macro getTodaysEvent() %}
     {% if is_state("sensor.holiday_halloween","0") %}
-      This is Hallowen, this is halloween. Happy Halloween!
+      This is Halloween, this is halloween. Happy Halloween!
     {% endif %}
     {% if is_state("sensor.holiday_christmas","0") %}
       Merry Christmas Everyone!
@@ -10,15 +25,18 @@
       Happy Anniversary! It has been an amazing {{ states.sensor.anniversary_our_wedding.attributes.years }} years!
     {% endif %}
     {% if is_state("calendar.holidays_in_united_states", "on") %}
-      Today is {{states.calendar.holidays_in_united_states.attributes.message}} 
+      Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
     {% endif %}
   {% endmacro %}
+  {% macro getCurrentConditions() %}
+     It's currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees according to Dark Sky. 
+     The back porch is {{states.sensor.accurite_back_porch_temperature.state|round}} degrees and
+     The inside temperature is {{states.climate.home.attributes.current_temperature|round}} degrees. The Climate is set to {{states.climate.home.state}}.
+  {% endmacro %}
   {% macro getForecast() %}
-     It's currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees. The high will be {{states.sensor.dark_sky_daytime_high_temperature_0.state|round}} degrees. There is a {{states.sensor.dark_sky_precip_probability_0.state|round}} percent chance of rain. 
+     The rest of the day should be {{states.sensor.dark_sky_summary_0d.state}} with a high of {{states.sensor.dark_sky_daytime_high_temperature_0d.state|round}} degrees. There is a {{states.sensor.dark_sky_precip_probability_0d.state|round}} percent chance of rain.  
   {% endmacro %}
-  {% macro getTraffic() %}
-    Under current traffic conditions it would take you {{states.sensor.home_to_zoo.state|round}} mins to get to Zoo Atlanta, and {{states.sensor.home_to_summit.state|round}} mins to get to Cox Automotive.
-  {% endmacro %}
+  
   {% macro getBirthdays() %}
     {% if states.calendar.birthdays.state == "on" %}
       Today is {{ states.calendar.birthdays.attributes.message }} birthday!
@@ -62,10 +80,10 @@
 
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
-    It is {{ now().strftime("%I:%M %p") }}.
+    {{ getGreeting() }}
     {{ getTodaysEvent() }}
+    {{ getCurrentConditions() }}
     {{ getForecast() }}
-    {{ getTraffic() }}
     {{ getBirthdays() }}
     {{ getAnniversary() }}
     {{ getHolidays() }}

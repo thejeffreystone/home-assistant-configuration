@@ -1,0 +1,22 @@
+ >
+  {% macro getIntro() %}
+    {% if is_state("sensor.kat_ett_home", "0") %} 
+        Kat is already home! 
+    {% else %}
+        Kat will be home in {{states.sensor.kat_ett_home}} minutes.
+    {% endif %} 
+  {% endmacro %}
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getIntro() }}
+    
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}

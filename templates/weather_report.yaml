@@ -1,0 +1,31 @@
+ >
+  {% macro getCurrent() %}
+     It's currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees according to Dark Sky. 
+     The back porch is {{states.sensor.accurite_back_porch_temperature.state|round}} degrees with a humidity of {{states.sensor.accurite_back_porch_humidity.state|round}} percent.
+     The garage is {{states.sensor.accurite_garage_temperature.state|round}} degrees with a humidity of {{states.sensor.accurite_garage_humidity.state|round}} percent.
+     The inside temperature is {{states.climate.home.attributes.current_temperature|round}} degrees and the Climate is set to {{states.climate.home.state}}.
+  {% endmacro %}
+  {% macro getTodayForecast() %}
+     The rest of the day should be {{states.sensor.dark_sky_summary_0d.state}} with a high of {{states.sensor.dark_sky_daytime_high_temperature_0d.state|round}} degrees. There is a {{states.sensor.dark_sky_precip_probability_0d.state|round}} percent chance of rain.  
+  {% endmacro %}
+  {% macro getForecast() %}
+     Looking into the future you can expect {{states.sensor.dark_sky_daily_summary.state}}.
+  {% endmacro %}
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getCurrent() }}
+    {{ getTodayForecast() }}
+    {{ getForecast() }}
+    
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}
+
+
