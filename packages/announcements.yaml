@@ -56,7 +56,7 @@ script:
     - condition: state
       entity_id: group.family
       state: 'on'
-    - service: tts.google_say
+    - service: tts.google_translate_say
       data:
         entity_id: media_player.hass_speaker
         message: Unauthorized Access
@@ -72,25 +72,39 @@ script:
 
 automation:
   - id: prebed_routine
-    alias: Prebed Routine
+    initial_state: true
+    alias: Skylar Nightly Announcements
     trigger:
-    - platform: time
-      at: '19:00:00'
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
     action:
     - service: script.prebed_routine
   - id: nightly_report
+    initial_state: true
     alias: Nightly Report
     trigger:
-    - platform: time
-      at: '18:45:00'
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
     action:
     - service: script.nightly_report
   - id: good_morning_report
     alias: Good Morning Report
     initial_state: true
     trigger:
-    - platform: time
-      at: 07:45:00
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
     action:
     - service: script.morning_report
     - service: script.twitter_notify
@@ -101,8 +115,8 @@ automation:
     alias: Skylar Morning Greeting
     initial_state: true
     trigger:
-    - platform: time
-      at: 07:58:00
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     condition:
     - condition: time
       weekday:
@@ -112,8 +126,21 @@ automation:
       - thu
       - fri
     - condition: state
-      entity_id: input_boolean.skylar_dressed_alarm
+      entity_id: input_boolean.audible_notifications
       state: 'on'
     action:
     - service: script.skylar_morning_greeting
+  - id: play_weather_report
+    alias: Play Weather Report
+    initial_state: true
+    trigger:
+      - entity_id: input_boolean.play_weather_report
+        from: 'Off'
+        platform: state
+        to: 'On'
+    action:
+    - service: script.turn_on
+      entity_id: script.weather_report
+    - service: script.voice_reports_off
+
 
