@@ -1,4 +1,110 @@
 - platform: mqtt
   name: "Washer Status"
   state_topic: "house/washer/status"
-
+- platform: history_stats
+  name: Speech time
+  entity_id: media_player.hass_speker
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: template
+  sensors:
+    sensor_count:
+      friendly_name: 'Number of Sensors'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['sensor'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
+    automation_count:
+      friendly_name: 'Number of Automations'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['automation'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
+    script_count:
+      friendly_name: 'Number of Scripts'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['script'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
+    binary_sensor_count:
+      friendly_name: 'Number of Binary Sensors'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['binary_sensor'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
+    tracker_count:
+      friendly_name: 'Number of Devices'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['device_tracker'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
+    lights_count:
+      friendly_name: 'Number of Lights'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['light'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
+    protect_count:
+      friendly_name: 'Number of Smoke Detectors'
+      entity_id: []
+      value_template: >
+        {% if states('group.protects') == 'on' %}
+        {% for e in states.group.protects.attributes.entity_id if states(e) == 'on'  %}
+        {% if loop.last %}
+        {{ loop.index }}
+        {% endif %}
+        {%- endfor -%}
+        {% else %}
+        0
+        {% endif %}
+    camera_count:
+      friendly_name: 'Number of online Cameras'
+      entity_id: []
+      value_template: >
+        {%- set domains = ['camera'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] -%}
+            {% if loop.first %}
+              {{loop.length}}
+            {% endif %}
+          {%- endfor -%}
+        {%- endfor -%}
