@@ -7,4 +7,4 @@ lockdown_issue:
   can_acknowledge: false
   skip_first: False
   notifiers:
-  - jeff_ios
+  - all_ios
