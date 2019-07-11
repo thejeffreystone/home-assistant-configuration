@@ -1,112 +1,112 @@
 - name : test
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 250
       color_name: "blue"
 
 - name : test2
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 250
       color_name: "soft white"
 
 - name : test3
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 250
       hs_color: "195,0"
 
 - name: normal livingroom lighting
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 250
-    light.front_lamp_2:
+    light.front_lamp:
       state: on
       brightness: 250
-    light.table_lamp_2:
+    light.table_lamp:
       state: on
       brightness: 250
 
 - name: dimished livingroom lighting
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp_2:
+    light.front_lamp:
       state: off
-    light.table_lamp_2:
+    light.table_lamp:
       state: off
-    switch.ge_12722_on_off_relay_switch_switch:
+    switch.fireplace_lights:
       state: off
 
 - name: illuminations livingroom lighting two
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp_2:
+    light.front_lamp:
       state: on
       brightness: 40
-    light.table_lamp_2:
+    light.table_lamp:
       state: off
-    switch.ge_12722_on_off_relay_switch_switch:
+    switch.fireplace_lights:
       state: off
 
 - name: illuminations livingroom lighting three
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp_2:
+    light.front_lamp:
       state: on
       brightness: 40
-    light.table_lamp_2:
+    light.table_lamp:
       state: on
       brightness: 40
-    switch.ge_12722_on_off_relay_switch_switch:
+    switch.fireplace_lights:
       state: off
 
 - name: night time livingroom lighting
   entities:
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 10
-    light.front_lamp_2:
+    light.front_lamp:
       state: off
-    light.table_lamp_2:
+    light.table_lamp:
       state: off
-    switch.ge_12722_on_off_relay_switch_switch:
+    switch.fireplace_lights:
       state: off
 
 - name: diminished kitchen lighting
   entities:
-    light.front_room_level:
+    light.kitchen_cabinets:
       state: on
       brightness: 10
-    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
+    light.kitchen_cabinet_lights:
       state: off
 
 - name: normal kitchen lighting
   entities:
-    light.front_room_level:
+    light.kitchen_cabinets:
       state: on
       brightness: 250
-    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
+    light.kitchen_cabinet_lights:
       state: on
 
 - name: haunted preshow
   entities:
-    light.front_room_level:
+    light.kitchen_cabinets:
       state: off
-    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
+    light.kitchen_cabinet_lights:
       state: off
     switch.ge_14291_in_wall_smart_switch_switch_2:
       state: off
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: on
       brightness: 40
     light.front_lamp:
@@ -115,53 +115,62 @@
     light.table_lamp:
       state: on
       brightness: 40
-    switch.ge_12722_on_off_relay_switch_switch:
+    switch.fireplace_lights:
       state: off
 
 - name: haunted lights out
   entities:
-    light.front_room_level:
+    light.kitchen_cabinets:
       state: off
-    light.leviton_dzpd3_2bw_decora_300w_plug_in_smart_dimmer_level:
+    light.kitchen_cabinet_lights:
       state: off
     switch.ge_14291_in_wall_smart_switch_switch_2:
       state: off
-    light.tower_lamp_2:
+    light.tower_lamp_4:
       state: off
     light.front_lamp:
       state: off
     light.table_lamp:
       state: off
-    switch.ge_12722_on_off_relay_switch_switch:
+    switch.fireplace_lights:
       state: off
 
 - name: jeff light on
   entities:
-    light.jeff_light:
+    light.master_bedroom_lamp:
       state: on
+      brightness: 100
 
 - name: jeff light off
   entities:
-    light.jeff_light:
+    light.master_bedroom_lamp:
       state: off
+      
 
 - name: jeff wake up
   entities:
-    light.jeff_light:
+    light.master_bedroom_lamp:
       state: on
       brightness: 20
 
 - name: jeff bedtime
   entities:
-    light.jeff_light:
+    light.master_bedroom_lamp:
       state: on
       brightness: 40
 
 - name: jeff night light
   entities:
-    light.jeff_light:
+    light.master_bedroom_lamp:
       state: on
       brightness: 10
+
+- name: house party protocol
+  entities:
+    switch.incense:
+      state: on
+    switch.artemis:
+      state: on
 
 # - name: santa protocol
 #   entities:
