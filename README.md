@@ -7,7 +7,7 @@ This is V4 of my config.
 
 #### Major Changes in v4:
 * Moved to Lovelace UI
-* Started migrating to packages to better organize sensors, scripts, and automations
+* Started migrating to packages to better organize sesnors, scripts, and automations
 * Continued work to streamline the config
 * Anchorage House now tweets throughout the day - [@anchoragehouse2](https://twitter.com/anchoragehouse2) 
 * Due to a required garage door opener replacement the GoControl ZWave Garage Opener has been replaced with Chamberlain MyQ 
