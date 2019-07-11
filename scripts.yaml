@@ -1,0 +1,346 @@
+washer_finished_notification_audible:
+  sequence:
+  - delay:
+      minutes: 15
+  - condition: state
+    entity_id: sensor.family_status
+    state: Home
+  - condition: state
+    entity_id: input_boolean.audible_notifications
+    state: 'on'
+  - condition: state
+    entity_id: sensor.washer_status
+    state: complete
+  - service: tts.google_translate_say
+    entity_id: media_player.hass_speaker
+    data_template:
+      message: Just a reminder. Washing machine needs to be emptied.
+girl_eyes_on_you:
+  sequence:
+  - service: media_player.play_media
+    entity_id: media_player.theater
+    data:
+      media_content_id: http://192.168.7.40/videos/Girl_EyesOnYou_H.mp4
+      media_content_type: video
+washer_idle:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: idle
+      retain: true
+washer_running:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: running
+      retain: true
+washer_complete:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: complete
+      retain: true
+add_logbook_entry:
+  alias: Add Logbook
+  sequence:
+  - service: logbook.log
+    data_template:
+      name: '{{ name }}
+
+        '
+      message: '{{ message }}
+
+        '
+test_twitter:
+  sequence:
+  - service: script.twitter_notify
+    data:
+      message: Just a test of my notification capabilities!
+climate_set_heat:
+  sequence:
+  - service: climate.set_operation_mode
+    data:
+      entity_id: climate.first_floor
+      operation_mode: heat
+climate_turn_off:
+  sequence:
+  - data:
+      entity_id: climate.first_floor
+      operation_mode: 'off'
+    service: climate.set_operation_mode
+climate_set_cool:
+  sequence:
+  - service: climate.set_operation_mode
+    data:
+      entity_id: climate.first_floor
+      operation_mode: cool
+normal_tower:
+  sequence:
+  - service: light.turn_on
+    data:
+      entity_id: light.tower_lamp_2
+      colorControl: blue
+close_garage:
+  sequence:
+  - condition: state
+    entity_id: cover.cargo_bay
+    state: open
+  - service: cover.close_cover
+    entity_id: cover.cargo_bay
+open_garage:
+  sequence:
+  - condition: state
+    entity_id: cover.cargo_bay
+    state: closed
+  - service: cover.open_cover
+    entity_id: cover.cargo_bay
+play_skylars_christmas_playlist:
+  sequence:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.spotify
+      volume_level: '0.40'
+  - service: media_player.select_source
+    data_template:
+      entity_id: media_player.spotify
+      source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
+        {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
+        {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
+        is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
+        {% endif %}
+
+        '
+  - service: media_player.play_media
+    data_template:
+      entity_id: media_player.spotify
+      media_content_type: playlist
+      media_content_id: spotify:user:spotify:playlist:2lmfykOn8EK0Ow8iH9XHLa
+  - service: media_player.shuffle_set
+    data:
+      entity_id: media_player.spotify
+      shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
+        is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}
+
+        '
+play_skylars_playlist:
+  sequence:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.spotify
+      volume_level: '0.40'
+  - service: media_player.select_source
+    data_template:
+      entity_id: media_player.spotify
+      source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
+        {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
+        {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
+        is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
+        {% endif %}'
+  - service: media_player.play_media
+    data_template:
+      entity_id: media_player.spotify
+      media_content_type: playlist
+      media_content_id: spotify:user:spotify:playlist:0hYKkmUpFFG37TtFX23cMM
+  - service: media_player.shuffle_set
+    data:
+      entity_id: media_player.spotify
+      shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
+        is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}'
+tornado_alarm:
+  sequence:
+  - service: shell_command.tornado_alarm
+sunset_garage_open:
+  sequence:
+  - condition: state
+    entity_id: binary_sensor.ecolink_garage_door_tilt_sensor_sensor
+    state: 'on'
+  - service: script.driveway_all_on
+jeff_destination_zoo:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: jeff/driving/destination
+      payload: Zoo
+      retain: true
+jeff_destination_summit:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: jeff/driving/destination
+      payload: Summit
+      retain: true
+jeff_destination_none:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: jeff/driving/destination
+      payload: none
+      retain: true
+jeff_destination_na:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: jeff/driving/destination
+      payload: na
+      retain: true
+jeff_destination_home:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: jeff/driving/destination
+      payload: Home
+      retain: true
+jeff_destination_harbins:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: jeff/driving/destination
+      payload: Harbins
+      retain: true
+jeff_at_work_notification:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.text_notify_kat
+    state: 'on'
+  - service: notify.ios_katherinestonesiphone
+    data:
+      message: Jeff has arrived at Summit
+inside_all_on:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      name: EVENT
+      message: Turning inside lights on.
+  - service: light.turn_on
+    data:
+      entity_id: light.tower_lamp_4
+  - service: light.turn_on
+    data:
+      entity_id: light.front_lamp
+  - service: switch.turn_on
+    data:
+      entity_id: switch.fireplace_lights
+  - service: light.turn_on
+    data:
+      entity_id: light.table_lamp
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_light_strip
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_cabinets
+  - service: scene.turn_on
+    data:
+      entity_id: scene.livingroom_normal
+inside_all_off:
+  sequence:
+  - event: LOGBOOK_ENTRY
+    event_data:
+      message: Turning inside lights off
+      name: EVENT
+  - data:
+      entity_id: light.tower_lamp_4
+    service: light.turn_off
+  - data:
+      entity_id: light.table_lamp
+    service: light.turn_off
+  - data:
+      entity_id: light.front_lamp
+    service: light.turn_off
+  - data:
+      entity_id: light.kitchen_cabinets
+    service: light.turn_off
+  - data:
+      entity_id: light.kitchen_cabinet_lights
+    service: light.turn_off
+  - entity_id: switch.fireplace_lights
+    service: switch.turn_off
+  - entity_id: switch.upstairs
+    service: switch.turn_off
+  - entity_id: light.jeff_lamp
+    service: light.turn_off
+all_fans_off:
+  sequence:
+  - data:
+      entity_id: switch.upstairs_fan
+    service: switch.turn_off
+  - data:
+      entity_id: switch.living_room_fan
+    service: switch.turn_off
+family_is_home:
+  sequence:
+  - condition: state
+    entity_id: sensor.family_status
+    state: Away
+  - service: mqtt.publish
+    data:
+      topic: house/family/status
+      payload_template: Home
+      retain: true
+family_is_away:
+  sequence:
+  - condition: state
+    entity_id: sensor.family_status
+    state: Home
+  - service: mqtt.publish
+    data:
+      topic: house/family/status
+      payload_template: Away
+      retain: true
+driveway_on:
+  sequence:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  - data:
+      entity_id: switch.driveway_light
+    service: switch.turn_on
+  - data:
+      entity_id: light.side_door_light_2
+    service: light.turn_on
+driveway_off:
+  sequence:
+  - delay:
+      seconds: 120
+  - condition: state
+    entity_id: binary_sensor.side_door
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.garage_door
+    state: 'off'
+  - service: switch.turn_off
+    entity_id: switch.driveway_light
+  - service: switch.turn_off
+    entity_id: light.side_door_light_2
+chromecast_media_stop:
+  sequence:
+  - service: media_player.media_stop
+    data:
+      entity_id: media_player.theater
+appliances_on:
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.box_fans
+appliances_off:
+  sequence:
+  - data:
+      entity_id: switch.box_fans
+    service: switch.turn_off
+  - data:
+      entity_id: switch.incense
+    service: switch.turn_off
+  - data:
+      entity_id: switch.artemis
+    service: switch.turn_off
+voice_reports_off:
+  sequence:
+  - delay:
+       minutes: 5
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.play_weather_report
+  - service: script.turn_off
+    entity_id: script.weather_report
