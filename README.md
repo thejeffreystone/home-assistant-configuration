@@ -14,11 +14,11 @@ This is V4 of my config.
 
 #### General Information about Anchorage House
 
-Hassbian is the flavor of Home Assistant powering Anchorage House. Currently it is running on a RaspberryPi 3. I also have a Ubuntu Server that handles running some other things like my 433mhz data collection, and Splunk for Home Assistant data analytics. And Smartthings is currently used as a dumb hub handling most of the zwave and zigbee devices.
+Hassbian is the flavor of Home Assistant powering Anchorage House. Currently it is running on a RaspberryPi 3. I also have a Ubuntu Server that handles running some other things like my 433mhz data collection, and Splunk for Home Assistant data analytics. And Smartthings is currently is used as a dumb hub handling most of the zwave and zigbee devices.
 
 The old configurations are stored in branches for anyone that wants to see the previous iterations. However, the only branch guaranteed to work with the current version of Home Assistant is master.
 
-Read about the continuing work to automate **everything** over on my [blog](http://www.jeffreystone.net). Feel free to reachout if you have questions. I love this stuff. 
+Read about the continuing work to automate **everything** over on my [blog](https://medium.com/@thejeffreystone). But be warned, it really hasn't been updated in a while. Feel free to reachout if you have questions. I love this stuff. 
 
 One last thing. Everything in this configuration is a combination of the things I want out of a home automation system flavored with the inspiration from other using Home Assistant. In some cases I took someone else's idea and made it my own, or I just completely stole it. So I would be remiss if I didn't acknowledge those that inpired this journey. If you like what you see here, please checkout their configs as well. I owe them thanks for sharing their work.  
 
@@ -31,8 +31,7 @@ One last thing. Everything in this configuration is a combination of the things 
 None of the following links are affiliate links, and are included merely as reference. 
 
 * Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
-* Google Home Hub
-* [Ecobee Thermostat](https://www.ecobee.com/)
+* [Honeywell Wifi Thermostat](http://a.co/cqvrljP)
 * [Amazon Echo Dot](http://a.co/7VYHqvw)
 * Amazon Echo Gen 2
 * [Smartthings](http://a.co/2xWyXF5)
