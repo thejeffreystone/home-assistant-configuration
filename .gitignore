@@ -31,3 +31,5 @@ secrets.yaml
 ip_bans.yaml
 ._*
 google_calendars.yaml
+known_devices*
+zones.yaml
