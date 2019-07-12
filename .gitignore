@@ -1,6 +1,7 @@
 # Ignore everything explicitly
 *
 
+
 # Whitelist files/folders with !, these will not be ignored.
 !*.yaml
 !.gitignore
@@ -26,36 +27,7 @@ tts/
 deps/
 hadashboards/
 intents/
-
-# Ignore these dot and conf files
-*.conf
-*.log
-*.db
-*.xml
-*.sqlite
-*.txt
-.HA_VERSION
-*DS_Store
-._*
-.uuid
-eero.session
-eero_tracker_instantiate.py
-Icon
-.dropbox
-.google.token
-.homekit.state
-.spotify-token-cache
-
-
-# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
-ip_bans.yaml
 secrets.yaml
-known_devices.yaml
-entity_registry.yaml
-zones.yaml
-sensors/location.yaml
+ip_bans.yaml
+._*
 google_calendars.yaml
-packages/events.yaml
-packages/presence.yaml
-known_devices.yaml-old.yaml
-packages/zigbe2mqtt.yaml
