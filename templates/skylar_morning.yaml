@@ -1,16 +1,20 @@
  >
   {% macro getIntro() %}
-    Skylar.
-    {{ [ "This is your friendly neighborhood smart home ",
-         "This is your digital life mate ",
-         "This is your cruise director ",
-       ] | random }} with your morning announcements.  
+    
+    {{ [ "Pardom me, Skylar,, ",
+         "Good morning Skylar, This is your digital life mate, Jarvis ",
+         "This is your cruise director with your morning announcements.",
+       ] | random }}   
   {% endmacro %}
   {% macro getDressed() %}
     {% if is_state("sensor.birthday_skylar", "0") %}
       First, Happy Birthday Skylar! Second, even birthday boys have to get dressed. So get to it. 
     {% else %} 
-      It is time to get dressed.
+      If you haven't gotten dressed,
+      {{ [ "It is time to get dressed. ",
+         "It is time to put some real clothes on. ",
+         "it is now time to change your underwear.",
+       ] | random }} 
     {% endif %}
   {% endmacro %}
   {% macro getSchoolDay() %}

@@ -1,12 +1,12 @@
  >
   {% macro getSnark() %}
     {{ [ "Good evening, ",
-         "Before we shut this party down, ",
+         "Pardon the interuption, ",
          "Good Evening Anchorage House, "
        ] | random }}
     {{ [ "I thought you might like to know. ",
-         "I might have some bad news for you.",
-         "Just one more thing."
+         "Here is the nightly report.",
+         "Before I call it a day I wanted to let you know,"
        ] | random }}
   {% endmacro %}
   {% macro getForecast() %}
@@ -14,7 +14,10 @@
   {% endmacro %}
   {% macro getTrashDay() %}
     {% if is_state("sensor.weekday", "mon") %}
-      Don't forget Tomorrow is trash day!
+      {{ [ "Don't forget tomorrow is Trash Day. ",
+         "I advise you move the trash cans to the curb for the weekly pickup. ",
+         " The trash and recycle should go out"
+       ] | random }}
     {% endif %}
   {% endmacro %}
   {% macro getBirthdays() %}

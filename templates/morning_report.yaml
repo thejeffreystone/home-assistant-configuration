@@ -2,10 +2,11 @@
   {% macro getGreeting() %}
       {{ [ "Good morning Anchorage House. Rise and Shine. ",
          "Good morning everyone. ",
-         "Good morning. The early bird gets the worm. And look over there. A worm. Wait, is that a snake. umm, someone might want to take care, ok, moving on.",
+         "Good morning. The early bird gets the worm. And look over there. A worm. Wait, is that a snake? umm,,,I don't like snakes. Someone might want to take care,, ok,,, moving on.",
          "Good morning. The early bird gets the worm.",
          "Good morning from the bridge.",
-         "I hope I am not waking you, but I think this would be a good time for the morning report."
+         "Pardom the interuption.",
+         "I hope I am not interupting, but I think this would be a good time for the morning report."
        ] | random }}
       {% if is_state("input_boolean.guest_mode", "on") %} 
         {{ [ "And a special welcome to our guests. ",
