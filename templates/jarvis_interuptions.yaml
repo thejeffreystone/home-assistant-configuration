@@ -1,0 +1,23 @@
+ >
+  {% macro getInteruption() %}
+    {{ [
+        "Pardon me,",
+        "Excuse me,",
+        "I do not mean to interupt, but.",
+        "I thought you might like to know."
+        ] | random }}
+  {% endmacro %}
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getInteruption() }}
+    
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}

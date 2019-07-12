@@ -1,0 +1,55 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   07/09/2019
+#   @package        :   Jarvis
+#   @description    :   Brining some Jarvis to Home Assistant
+###############################################################################
+
+automation:
+- id: guest_mode_feedback
+  alias: Guest Mode Audio Feedback
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.guest_mode
+      from: 'off'
+      to: 'on'
+  action:
+    - service: script.jarvis_voice
+      data_template:
+        message: >
+          {{ [
+          "Guest Mode has been enabled.",
+          "I have switched to the system to guest mode.",
+          "I have enabled guest mode. ",
+          "Guest Mode is on."
+          ] | random }}
+
+script:
+  activate_house_party_protocol:
+    sequence:
+    - service: script.jarvis_voice
+      data_template:
+        message: !include ../templates/jarvis_confirmations.yaml
+    - delay:
+        seconds: 3
+    - service: scene.turn_on
+      entity_id: scene.house_party_protocol
+    - service: script.jarvis_voice
+      data_template:
+        message: >
+          {{ [
+          "Anchorage House has been configured for a House Party.",
+          "Incense has been turned on.",
+          "I have enabled house party protocol."
+          ] | random }}
+
+  activate_guest_mode:
+    sequence:
+    - service: script.jarvis_voice
+      data_template:
+        message: !include ../templates/jarvis_confirmations.yaml
+    - delay:
+        seconds: 3
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.guest_mode
