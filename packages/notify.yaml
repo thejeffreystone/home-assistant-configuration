@@ -15,6 +15,13 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
+  - platform: amazon_polly
+    aws_access_key_id: !secret aws_key
+    aws_secret_access_key: !secret aws_secret
+    region_name: 'us-east-1'
+    text_type: ssml
+    voice: Brian
+    cache: True
 
 notify:
   - platform: ios
@@ -104,6 +111,17 @@ script:
           message: >
             {{ message }}
 
+  jarvis_alert:
+    sequence:
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: media_player.hass_speaker
+        message: >-
+          <speak>
+            {{ message }}
+          </speak>
+        cache: true
+
 
 ###############################################################################
 # Voice Notify
@@ -131,6 +149,32 @@ script:
           message: >
             {{message }}
 
+  jarvis_voice:
+    sequence:
+    - condition: template
+      value_template: '{{ states.input_boolean.audible_notifications.state == "on" }}'
+    - condition: state
+      entity_id: sensor.family_status
+      state: 'Home'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - wait_template: >-
+        {{ not is_state('media_player.hass_speaker', 'playing') }}
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: media_player.hass_speaker
+        # entity_id: >
+        #   {% if states.input_boolean.audible_notifications.state == 'on' %}
+        #   media_player.hass_speaker
+        #   {% else %}
+        #   media_player.googlehome0715, media_player.googlehomehub3492
+        #   {% endif %}
+        message: >-
+          <speak>
+            {{ message }}
+          </speak>
+        cache: true
 
 ###############################################################################
 # Twitter
@@ -185,7 +229,7 @@ script:
 ###############################################################################
   morning_report:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/morning_report.yaml
 
@@ -195,7 +239,7 @@ script:
 ###############################################################################
   skylar_morning_greeting:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/skylar_morning.yaml
 
@@ -204,7 +248,13 @@ script:
 ###############################################################################
   nightly_report:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/nightly_report.yaml
+
+  test_nightly_report:
+    sequence:
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/nightly_report.yaml
 
@@ -213,16 +263,25 @@ script:
 ###############################################################################
   weather_report:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/jarvis_confirmations.yaml
+      - delay:
+          seconds: 3
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/weather_report.yaml
+      - delay:
+          minutes: 5
+      - service: scriot.turn_off
+        entity_id: script.weather_report
 
 ###############################################################################
 # Traffic Report
 ###############################################################################
   traffic_report:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/traffic_report.yaml
 
@@ -231,7 +290,7 @@ script:
 ###############################################################################
   jeff_eta_report:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/jeff_eta.yaml
 
@@ -240,7 +299,7 @@ script:
 ###############################################################################
   kat_eta_report:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/kat_eta.yaml
 
@@ -249,7 +308,7 @@ script:
 ###############################################################################
   prebed_routine:
     sequence:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/skylar_night.yaml
           # message: >

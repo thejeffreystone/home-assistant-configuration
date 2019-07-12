@@ -1,8 +1,8 @@
 ###############################################################################
 #   @author         :   Jeffrey Stone 
 #   @date           :   03/13/2019
-#   @package        :   Disney
-#   @description    :   A little Imaginering to bring disney into our home.
+#   @package        :   Security
+#   @description    :   Everything related to security functions. 
 ###############################################################################
 
 input_boolean:

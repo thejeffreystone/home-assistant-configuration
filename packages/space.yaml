@@ -81,8 +81,12 @@ automation:
           - binary_sensor.iss
         to: 'on'
         from: 'off'
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
     action:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: !include ../templates/iss_report.yaml
             
