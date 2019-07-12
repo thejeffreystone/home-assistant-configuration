@@ -2,5 +2,12 @@
   access_token: !secret github_token
   repositories:
     - path: 'thejeffreystone/home-assistant-configuration'
-
+- platform: command_line
+  command: 'curl https://api.github.com/repos/thejeffreystone/home-assistant-configuration'
+  name: GitHub Stats
+  scan_interval: 20000
+  value_template: '{{ value_json.name }}'
+  json_attributes:
+  - open_issues
+  - stargazers_count
 

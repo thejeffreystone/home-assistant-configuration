@@ -1,10 +1,10 @@
-- platform: speedtest
-  scan_interval:
-    hours: 6
-  monitored_conditions:
-    - ping
-    - download
-    - upload
+#- platform: speedtest
+#  scan_interval:
+#    hours: 6
+#  monitored_conditions:
+#    - ping
+#    - download
+#    - upload
 - platform: mqtt
   name: "network down"
   state_topic: "house/speedtest/down"

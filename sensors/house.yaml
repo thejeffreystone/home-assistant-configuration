@@ -3,12 +3,52 @@
   state_topic: "house/washer/status"
 - platform: history_stats
   name: Speech time
-  entity_id: media_player.hass_speker
+  entity_id: media_player.hass_speaker
   state: 'playing'
   type: time
   end: '{{ now() }}'
   duration:
     hours: 24
+- platform: history_stats
+  name: AppleTV time
+  entity_id: media_player.apple_tv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Roku time
+  entity_id: media_player.bedroom
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Washer Time
+  entity_id: sensor.washer_status
+  state: 'running'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: min_max
+  name: Outside Temp Stats
+  entity_ids:
+  - sensor.accurite_back_porch_temperature
+- platform: min_max
+  name: Garage Temp Stats
+  entity_ids:
+  - sensor.accurite_garage_temperature
+- platform: min_max
+  name: Inside Temp Stats
+  entity_ids:
+  - sensor.craft_room_temperature
+  - sensor.kitchen_temperature
+  - sensor.living_room_temperature
+  - sensor.master_bedroom_temperature
+  - sensor.skylar_room_temperature
 - platform: template
   sensors:
     sensor_count:
