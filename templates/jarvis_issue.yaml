@@ -1,0 +1,23 @@
+ >
+  {% macro getIssue() %}
+    {{ [
+        "I have detected an issue!",
+        "We have a problem!",
+        "You might not like this.",
+        "There is something that needs your attention."
+        ] | random }}
+  {% endmacro %}
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getIssue() }}
+    
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}
