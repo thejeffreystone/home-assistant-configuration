@@ -57,3 +57,5 @@ sensors/location.yaml
 google_calendars.yaml
 packages/events.yaml
 packages/presence.yaml
+known_devices.yaml-old.yaml
+packages/zigbe2mqtt.yaml
