@@ -1,0 +1,165 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Events
+#   @description    :   Special Events.
+###############################################################################
+automation:
+  - id: refresh_special_event_sensors
+    alias: Refresh special event sensors
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '00:00:01'
+    - platform: homeassistant
+      event: start
+    action:
+    - service: python_script.special_events
+      data:
+        name: Skylar
+        type: birthday
+        date: 26/02/2014
+    - service: python_script.special_events
+      data:
+        name: Jeff
+        type: birthday
+        date: 02/09/1975
+    - service: python_script.special_events
+      data:
+        name: Kat
+        type: birthday
+        date: 18/09/1978
+    - service: python_script.special_events
+      data:
+        name: Our wedding
+        type: anniversary
+        date: 28/04/2001
+    - service: python_script.special_events
+      data:
+        name: Christmas
+        type: holiday
+        date: 25/12/2001
+    - service: python_script.special_events
+      data:
+        name: Halloween
+        type: holiday
+        date: 31/10/2001
+    - service: python_script.special_events
+      data:
+        name: Roadtrip
+        type: trip
+        date: 30/08/2019
+    - service: python_script.special_events
+      data:
+        name: Disney World
+        type: trip
+        date: 01/02/2020
+    - service: python_script.special_events
+      data:
+        name: Camping
+        type: trip
+        date: 09/10/2019
+  
+  - id: first_day_info
+    alias: First Day Info
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '00:10:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set day=states("sensor.date").split('-')[2] | int %}
+        {%- if day == 1 -%}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_github
+        data_template:
+          message: >-
+            "Its a new month, so this is a good time to remind you that I am powered by @homeassistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+
+  - id: tweet_new_ha_version
+    alias: Tweet New HA Version 
+    trigger:
+      - platform: state
+        entity_id: updater.updater
+    action:
+      - service: script.twitter_new_ha
+
+  - id: tweet_some_snark
+    alias: Tweet Some Snark
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_snark
+
+  - id: bot_info
+    alias: Bot Info
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '10:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set day=states("sensor.date").split('-')[2] | int %}
+        {%- if day == 15 -%}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notift
+        data_template:
+          message: >-
+            "This is a good time to remind you that I am a bot powered by @home_assistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+
+  - id: rex_manning_day_tweet_1
+    alias: Rex Manning Day Tweet One
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    condition:
+    - condition: state
+      entity_id: calendar.anchorage_holidays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.anchorage_holidays.attributes.message %}
+        {%- if event == 'Rex Manning Day' %}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: >-
+            "Happy Rex Manning Day! https://www.youtube.com/watch?v=30fw5My1QJM #damntheman #savetheempire"
+
+  - id: rex_manning_day_tweet_2
+    alias: Rex Manning Day Tweet Two
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    condition:
+    - condition: state
+      entity_id: calendar.anchorage_holidays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.anchorage_holidays.attributes.message %}
+        {%- if event == 'Rex Manning Day' %}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: >-
+            "We mustn't dwell. No, not today. We can't. Not on Rex Manning day! https://www.youtube.com/watch?v=szvt8iWJ0oo #damntheman #savetheempire"

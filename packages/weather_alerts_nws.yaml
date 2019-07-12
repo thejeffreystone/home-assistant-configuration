@@ -118,7 +118,7 @@ automation:
         - condition: template
           value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
     action:
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: >
             {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
@@ -140,7 +140,7 @@ automation:
           "The weather outside is getting intense, so I just made a weather announcement.", 
           "Anchorage House monitors the NWS using #HomeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta " ] | random }}'
       - delay: '00:00:15'
-      - service: script.voice_notify
+      - service: script.jarvis_voice
         data_template:
           message: >
             {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
@@ -170,7 +170,7 @@ automation:
         - condition: template
           value_template: "{{ 'Tornado Warning' in states.sensor.nws_alerts.attributes.title}}"
     action:
-      - service: script.alert_notify
+      - service: script.jarvis_alert
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
       - service: script.twitter_notify
@@ -179,7 +179,7 @@ automation:
           "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area.", 
           "I just activated the internal Tornado Alarm at the request of the NWS. Thanks for the heads up @NWSAtlanta " ] | random }}'
       - delay: '00:00:15'
-      - service: script.alert_notify
+      - service: script.jarvis_alert
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
       - delay: '00:00:15'

@@ -142,5 +142,22 @@ automation:
     - service: script.turn_on
       entity_id: script.weather_report
     - service: script.voice_reports_off
-
+  - id: guest_mode_feedback
+    alias: Guest Mode Audio Feedback
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.guest_mode
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.jarvis_voice
+        data_template:
+          message: >
+            {{ [
+            "Guest Mode has been enabled as you requested.",
+            "I have switched to the system to guest mode",
+            "I have enabled guest mode. ",
+            "System Guest Mode has been enabled."
+            ] | random }}
 

@@ -1,0 +1,109 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Presence
+#   @description    :   A Collection of Presence Related Trackers and Sensors 
+###############################################################################
+
+sensor:
+  - platform: template
+    sensors:
+      jeff_location:
+        friendly_name: "Jeff's Current Location"
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if is_state('device_tracker.jeffreystonesiphone', 'not_home') %}
+              {%- if states.device_tracker.life360_jeffrey_stone.attributes.moving == True %}
+                Flue Network
+              {%- elif states.device_tracker.life360_jeffrey_stone.attributes.driving == True %}
+                Flue Network
+              {% else %}
+                Lost
+              {%- endif %}
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Sprouts') %}
+              Grocery Store
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger Grayson') %}
+              Grocery Store
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger Snellville') %}
+              Grocery Store
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Home Depot') %}
+              Home Improvement Store
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Lowes') %}
+              Home Improvement Store
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Walmart') %}
+              Super Store
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Target') %}
+              Super Store
+            {% else %}
+              {{ states.device_tracker.jeffreystonesiphone.state }}
+            {%- endif %}
+  - platform: template
+    sensors:
+      skylar_location:
+        friendly_name: "Skylar's Current Location"
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if is_state('device_tracker.jeffreystonesiphone', 'home') and is_state('device_tracker.katherinestonesiphone', 'home')%}
+              home
+            {% else %}
+              Mortal Peril
+            {%- endif %}
+  - platform: template
+    sensors:
+      kat_location:
+        friendly_name: "Kat's Current Location"
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if is_state('device_tracker.katherinestonesiphone', 'not_home') %}
+              {%- if states.device_tracker.life360_kat_stone.attributes.moving == True %}
+                Flue Network
+              {% elif states.device_tracker.life360_kat_stone.attributes.driving == True %}
+                Flue Network
+              {% else %}
+                Lost
+              {%- endif %}
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Sprouts') %}
+              Grocery Store
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger Grayson') %}
+              Grocery Store
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger Snellville') %}
+              Grocery Store
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Home Depot') %}
+              Home Improvement Store
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Lowes') %}
+              Home Improvement Store
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Walmart') %}
+              Super Store
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Target') %}
+              Super Store
+            {% else %}
+              {{ states.device_tracker.katherinestonesiphone.state }}
+            {%- endif %}
+  - platform: mqtt
+    name: "Family Status"
+    state_topic: "house/family/status"
+    payload_available: "online"
+    payload_not_available: "offline"
+  - platform: template
+    sensors:
+      jeff_home:
+        value_template: >-
+          {{ is_state('device_tracker.jeffreystonesiphone', 'home')
+             or is_state('device_tracker.hass_jeffsiphone', 'home')
+             or is_state('device_tracker.life360_jeffrey_stone', 'home') }}
+  - platform: template
+    sensors:
+      kat_home:
+        value_template: >-
+          {{ is_state('device_tracker.katherinestonesiphone', 'home')
+             or is_state('device_tracker.life360_kat_stone', 'home') }}
+  - platform: template
+    sensors:
+      family_home:
+        value_template: >-
+          {{ is_state('device_tracker.jeffreystonesiphone', 'home')
+             or is_state('device_tracker.hass_jeffsiphone', 'home')
+             or is_state('device_tracker.life360_jeffrey_stone', 'home') 
+             or is_state('device_tracker.katherinestonesiphone', 'home')
+             or is_state('device_tracker.life360_kat_stone', 'home') 
+             or is_state('sensor.family_status', 'Home') }}

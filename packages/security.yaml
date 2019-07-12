@@ -120,38 +120,13 @@ automation:
   - id: door_chime
     alias: Door Chine
     trigger:
-    - entity_id: binary_sensor.front_door_contact_2
+    - platform: state
+      entity_id:
+      - binary_sensor.front_door_contact_2
+      - binary_sensor.laundry_room_door_contact_2
+      - binary_sensor.attic_door_contact_2
+      - binary_sensor.back_door_contact_2
       from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.front_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id: binary_sensor.laundry_room_door_contact_2
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.laundry_room_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id: binary_sensor.attic_door_contact_2
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.attic_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id:  binary_sensor.back_door_contact_2
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id:  binary_sensor.back_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
     condition:
     - condition: state
       entity_id: input_boolean.audible_notifications
@@ -166,51 +141,21 @@ automation:
   - id: security_breach_door
     alias: Security Breach Doors
     trigger:
-    - entity_id: binary_sensor.front_door_contact_2
+    - platform: state
+      entity_id:
+      - binary_sensor.front_door_contact_2
+      - binary_sensor.laundry_room_door_contact_2
+      - binary_sensor.attic_door_contact_2
+      - binary_sensor.back_door_contact_2
       from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.front_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id: binary_sensor.back_door_2
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.back_door_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id: binary_sensor.laundry_room_door_contact_2
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.laundry_room_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id:  binary_sensor.side_door_contact_2
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id:  binary_sensor.side_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id:  binary_sensor.attic_door_contact_2
-      from: 'on'
-      platform: state
-      to: 'off'
-    - entity_id:  binary_sensor.garage_door
-      from: 'on'
-      platform: state
-      to: 'off'
     condition:
     - condition: state
       entity_id: input_boolean.sentry_mode
       state: 'on'
     action:
+    - service: script.jarvis_notify
+      data_template:
+        message: "The {{ trigger.to_state.attributes.friendly_name }} has been opened."
     - service: input_boolean.turn_on
       entity_id: input_boolean.security_issue
     initial_state: true
