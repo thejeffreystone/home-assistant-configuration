@@ -1,14 +1,14 @@
  >
   {% macro getIntro() %}
-    Skylar.
-    {{ [ "This is your friendly neighborhood smart home ",
-         "This is your digital life mate ",
-         "This is your cruise director ",
-       ] | random }} with your end of day announcements. 
-    Bedtime is in thirty minutes. 
+    {{ [
+        "Pardon me,",
+        "Excuse me,",
+        "I do not mean to interupt, but,"
+        ] | random }}
+    Skylar. Bedtime is in thirty minutes. 
   {% endmacro %}
   {% macro getPrebedRoutine() %}
-    If you are taking a bath now is the time to get in the tub so you have time to brush teeth and read stories. 
+    If you are taking a bath now is the time to get in the tub, so you have time to brush teeth and read stories. 
     Otherwise it is time to put on your pajamas. 
   {% endmacro %}
   {% macro getReminders() %}

@@ -2,13 +2,29 @@
   name: "Washer Status"
   state_topic: "house/washer/status"
 - platform: history_stats
+  name: Jeff Driving Time
+  entity_id: sesnor.jeff_driving
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    days: 7
+- platform: history_stats
+  name: Kat Driving Time
+  entity_id: sesnor.kat_driving
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    days: 7
+- platform: history_stats
   name: Speech time
   entity_id: media_player.hass_speaker
   state: 'playing'
   type: time
   end: '{{ now() }}'
   duration:
-    hours: 24
+    days: 7
 - platform: history_stats
   name: AppleTV time
   entity_id: media_player.apple_tv
@@ -32,7 +48,7 @@
   type: time
   end: '{{ now() }}'
   duration:
-    hours: 24
+    days: 7
 - platform: min_max
   name: Outside Temp Stats
   entity_ids:

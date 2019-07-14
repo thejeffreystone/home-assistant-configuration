@@ -40,10 +40,6 @@
     entity_id: sensor.washer_status
     from: running
     to: complete
-  condition:
-  - condition: state
-    entity_id: input_boolean.washer_notification
-    state: 'on'
   action:
   - service: script.washer_finished_notification_audible
 - id: turn_off_disney
@@ -80,10 +76,6 @@
   - platform: time
     at: 05:00:00
   action:
-  - service: script.add_logbook_entry
-    data_template:
-      name: Backup
-      message: is running
   - service: shell_command.backup
   - service: script.twitter_notify
     data_template:
@@ -361,11 +353,11 @@
     data:
       name: midnight-AH
 - id: turn_off_audible_notifications
-  alias: Turn Off Audible Notifications at 730pm
+  alias: Turn Off Audible Notifications
   initial_state: true
   trigger:
   - platform: time
-    at: '19:30:00'
+    at: '20:30:00'
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.audible_notifications
@@ -406,7 +398,7 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.jeff_travel_monitor
 - id: enable_bad_traffic_home_jeff
-  alias: Enable Jeff Bad Traffic Home
+  alias: Notify Jeff - Bad Traffic
   initial_state: true
   trigger:
   - platform: numeric_state
@@ -462,170 +454,10 @@
   condition: []
   action:
   - service: script.family_is_away
-- id: family_has_arrived
-  alias: Family Has arrived
-  trigger:
-  - entity_id: sensor.family_status
-    from: Away
-    platform: state
-    to: Home
-  - entity_id: device_tracker.jeffreystonesiphone
-    event: enter
-    platform: zone
-    zone: zone.home
-  - entity_id: device_tracker.katherinestonesiphone
-    event: enter
-    platform: zone
-    zone: zone.home
-  - entity_id: binary_sensor.jeffrey_presence
-    from: 'Off'
-    platform: state
-    to: 'On'
-  - entity_id: binary_sensor.kat_presence
-    from: 'Off'
-    platform: state
-    to: 'On'
-  - entity_id: device_tracker.hass_jeffsiphone
-    event: enter
-    platform: zone
-    zone: zone.home
-  condition:
-  - condition: state
-    entity_id: sensor.family_status
-    state: Away
-  action:
-  - service: script.vacation_canceled
-  - service: script.appliances_on
-  - service: script.standby
-  - service: script.washer_finished_notification_audible
-  initial_state: true
-- id: family_has_left
-  alias: Family Has Left
-  initial_state: true
-  trigger:
-  - entity_id: sensor.family_status
-    from: Home
-    platform: state
-    to: Away
-  condition:
-  - condition: state
-    entity_id: input_boolean.guest_mode
-    state: 'off'
-  action:
-  - service: script.appliances_off
-  - service: script.inside_all_off
-  - service: script.security_check_garage
-  - service: script.security_check_zones
-  - service: script.lockdown
-  - service: script.lockdown_issue
-  - service: script.all_fans_off
-- id: jeff_is_home
-  alias: Jeff is Home
-  initial_state: true
-  trigger:
-  - entity_id: device_tracker.jeffreystonesiphone
-    event: enter
-    platform: zone
-    zone: zone.home
-  - entity_id: person.jeffrey
-    event: enter
-    platform: zone
-    zone: zone.home
-  action:
-  - service: script.family_is_home
-  - service: script.jeff_is_home
-  - service: script.jeff_destination_na
-  - service: script.driveway_on
-  - entity_id: input_boolean.jeff_travel_monitor
-    service: input_boolean.turn_off
-- id: jeff_arrives_summit
-  alias: Jeff Arrives At Summit
-  trigger:
-  - entity_id: device_tracker.jeffreystonesiphone
-    event: enter
-    platform: zone
-    zone: zone.summit
-  - entity_id: device_tracker.hass_jeffsiphone
-    event: enter
-    platform: zone
-    zone: zone.summit
-  action:
-  - service: script.jeff_destination_na
-  initial_state: true
-- id: jeff_leaves_summit
-  alias: Jeff Leaves Summit
-  initial_state: true
-  trigger:
-  - entity_id: device_tracker.jeffreystonesiphone
-    event: leave
-    platform: zone
-    zone: zone.summit
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.jeff_traffic_alert_home
-- id: kat_is_home
-  alias: Kat is Home
-  initial_state: true
-  trigger:
-  - entity_id: device_tracker.katherinestonesiphone
-    event: enter
-    platform: zone
-    zone: zone.home
-  - entity_id: person.katherine
-    event: enter
-    platform: zone
-    zone: zone.home
-  action:
-  - service: script.family_is_home
-  - service: script.driveway_on
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.kat_travel_monitor
-- id: kat_arrives_zoo
-  alias: Kat Arrives at Zoo
-  initial_state: true
-  trigger:
-  - platform: zone
-    event: enter
-    zone: zone.zoo_atlanta
-    entity_id: device_tracker.katherinestonesiphone
-  condition:
-  - condition: state
-    entity_id: input_boolean.text_notify_jeff
-    state: 'on'
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.kat_travel_monitor
-  - service: notify.jeff_ios
-    data:
-      message: Kat arrived at Zoo Atlanta
-  - service: tts.google_translate_say
-    data:
-      entity_id: media_player.hass_speaker
-      message: Kat has arrived at the Zoo
-- id: kat_leaves_zoo
-  alias: Kat Leaves Zoo Notification
-  initial_state: true
-  trigger:
-  - platform: zone
-    event: leave
-    zone: zone.zoo_atlanta
-    entity_id: device_tracker.katherinestonesiphone
-  condition:
-  - condition: state
-    entity_id: input_boolean.text_notify_jeff
-    state: 'on'
-  action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.kat_travel_monitor
-- id: '1550109528753'
-  alias: Jeff Is Heading Home
-  initial_state: true
-  trigger:
-  - platform: webhook
-    webhook_id: jeff_heading_home
-  condition: []
-  action:
-  - service: script.jeff_destination_home
+
+
+
+
 - id: '1558620708807'
   alias: Upstairs Cooling On
   initial_state: true
@@ -723,10 +555,6 @@
   trigger:
   - platform: template
     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.kat_pill_reminder', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-  condition:
-  - condition: state
-    entity_id: input_boolean.text_notify_kat
-    state: 'on'
   action:
   - data:
       message: Remember to take meds

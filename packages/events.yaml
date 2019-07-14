@@ -98,6 +98,16 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_snark
 
+  - id: tweet_some_stats
+    alias: Tweet Some Stats
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_stats
+
   - id: bot_info
     alias: Bot Info
     initial_state: true
@@ -113,7 +123,7 @@ automation:
         {%- endif -%}
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_notift
+      - service: script.twitter_notify
         data_template:
           message: >-
             "This is a good time to remind you that I am a bot powered by @home_assistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"

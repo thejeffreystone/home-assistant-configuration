@@ -1,6 +1,11 @@
  >
   {% macro getIntro() %}
-    Excuse me. I don't mean to interupt.
+    {{ [
+        "Pardon me,",
+        "Excuse me,",
+        "I do not mean to interupt, but.",
+        "I thought you might like to know."
+        ] | random }}
     {{ [
         "But the International Space Station is passing over. Wave.",
         "But The International Space Station just flew by.",

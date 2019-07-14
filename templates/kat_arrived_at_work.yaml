@@ -6,6 +6,7 @@
         "I do not mean to interupt, but.",
         "I thought you might like to know."
         ] | random }}
+    Katherine has arrived at work.
   {% endmacro %}
 
 

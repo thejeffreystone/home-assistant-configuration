@@ -6,15 +6,20 @@ washer_finished_notification_audible:
     entity_id: sensor.family_status
     state: Home
   - condition: state
-    entity_id: input_boolean.audible_notifications
-    state: 'on'
-  - condition: state
     entity_id: sensor.washer_status
     state: complete
-  - service: tts.google_translate_say
-    entity_id: media_player.hass_speaker
+  - service: script.jarvis_voice
     data_template:
-      message: Just a reminder. Washing machine needs to be emptied.
+      message: >
+        {%- macro washing_annc() -%}
+          {{ [
+          "Just a reminder. Washing machine needs to be emptied.",
+          "I'm sure you have more inportant things to do, but the washing machine needs to be emptied.",
+          "Looks like the washing machine has completed it's cycle.",
+          "Don't forget to move the clothes to the dryer."
+          ] | random }}
+        {%- endmacro -%}
+        {{washing_annc()}}
 girl_eyes_on_you:
   sequence:
   - service: media_player.play_media
@@ -43,40 +48,6 @@ washer_complete:
       topic: house/washer/status
       payload: complete
       retain: true
-add_logbook_entry:
-  alias: Add Logbook
-  sequence:
-  - service: logbook.log
-    data_template:
-      name: '{{ name }}
-
-        '
-      message: '{{ message }}
-
-        '
-test_twitter:
-  sequence:
-  - service: script.twitter_notify
-    data:
-      message: Just a test of my notification capabilities!
-climate_set_heat:
-  sequence:
-  - service: climate.set_operation_mode
-    data:
-      entity_id: climate.first_floor
-      operation_mode: heat
-climate_turn_off:
-  sequence:
-  - data:
-      entity_id: climate.first_floor
-      operation_mode: 'off'
-    service: climate.set_operation_mode
-climate_set_cool:
-  sequence:
-  - service: climate.set_operation_mode
-    data:
-      entity_id: climate.first_floor
-      operation_mode: cool
 normal_tower:
   sequence:
   - service: light.turn_on
@@ -97,58 +68,58 @@ open_garage:
     state: closed
   - service: cover.open_cover
     entity_id: cover.cargo_bay
-play_skylars_christmas_playlist:
-  sequence:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.spotify
-      volume_level: '0.40'
-  - service: media_player.select_source
-    data_template:
-      entity_id: media_player.spotify
-      source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
-        {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
-        {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
-        is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
-        {% endif %}
+# play_skylars_christmas_playlist:
+#   sequence:
+#   - service: media_player.volume_set
+#     data:
+#       entity_id: media_player.spotify
+#       volume_level: '0.40'
+#   - service: media_player.select_source
+#     data_template:
+#       entity_id: media_player.spotify
+#       source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
+#         {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
+#         {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
+#         is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
+#         {% endif %}
 
-        '
-  - service: media_player.play_media
-    data_template:
-      entity_id: media_player.spotify
-      media_content_type: playlist
-      media_content_id: spotify:user:spotify:playlist:2lmfykOn8EK0Ow8iH9XHLa
-  - service: media_player.shuffle_set
-    data:
-      entity_id: media_player.spotify
-      shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
-        is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}
+#         '
+#   - service: media_player.play_media
+#     data_template:
+#       entity_id: media_player.spotify
+#       media_content_type: playlist
+#       media_content_id: spotify:user:spotify:playlist:2lmfykOn8EK0Ow8iH9XHLa
+#   - service: media_player.shuffle_set
+#     data:
+#       entity_id: media_player.spotify
+#       shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
+#         is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}
 
-        '
-play_skylars_playlist:
-  sequence:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.spotify
-      volume_level: '0.40'
-  - service: media_player.select_source
-    data_template:
-      entity_id: media_player.spotify
-      source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
-        {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
-        {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
-        is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
-        {% endif %}'
-  - service: media_player.play_media
-    data_template:
-      entity_id: media_player.spotify
-      media_content_type: playlist
-      media_content_id: spotify:user:spotify:playlist:0hYKkmUpFFG37TtFX23cMM
-  - service: media_player.shuffle_set
-    data:
-      entity_id: media_player.spotify
-      shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
-        is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}'
+#         '
+# play_skylars_playlist:
+#   sequence:
+#   - service: media_player.volume_set
+#     data:
+#       entity_id: media_player.spotify
+#       volume_level: '0.40'
+#   - service: media_player.select_source
+#     data_template:
+#       entity_id: media_player.spotify
+#       source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
+#         {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
+#         {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
+#         is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
+#         {% endif %}'
+#   - service: media_player.play_media
+#     data_template:
+#       entity_id: media_player.spotify
+#       media_content_type: playlist
+#       media_content_id: spotify:user:spotify:playlist:0hYKkmUpFFG37TtFX23cMM
+#   - service: media_player.shuffle_set
+#     data:
+#       entity_id: media_player.spotify
+#       shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
+#         is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}'
 tornado_alarm:
   sequence:
   - service: shell_command.tornado_alarm
@@ -200,20 +171,15 @@ jeff_destination_harbins:
       topic: jeff/driving/destination
       payload: Harbins
       retain: true
-jeff_at_work_notification:
+kat_destination_na:
   sequence:
-  - condition: state
-    entity_id: input_boolean.text_notify_kat
-    state: 'on'
-  - service: notify.ios_katherinestonesiphone
+  - service: mqtt.publish
     data:
-      message: Jeff has arrived at Summit
+      topic: kat/driving/destination
+      payload: na
+      retain: true
 inside_all_on:
   sequence:
-  - event: LOGBOOK_ENTRY
-    event_data:
-      name: EVENT
-      message: Turning inside lights on.
   - service: light.turn_on
     data:
       entity_id: light.tower_lamp_4
@@ -237,10 +203,6 @@ inside_all_on:
       entity_id: scene.livingroom_normal
 inside_all_off:
   sequence:
-  - event: LOGBOOK_ENTRY
-    event_data:
-      message: Turning inside lights off
-      name: EVENT
   - data:
       entity_id: light.tower_lamp_4
     service: light.turn_off
@@ -344,3 +306,11 @@ voice_reports_off:
     entity_id: input_boolean.play_weather_report
   - service: script.turn_off
     entity_id: script.weather_report
+
+jeff_text_test:
+  sequence:
+  - service: script.text_notify
+    data_template:
+      who: "jeff"
+      title: "Test Text"
+      message: "This is just a test."

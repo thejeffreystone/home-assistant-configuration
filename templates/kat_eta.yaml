@@ -1,9 +1,51 @@
  >
   {% macro getIntro() %}
-    {% if is_state("sensor.kat_ett_home", "0") %} 
-        Kat is already home! 
+    {% if is_state("sensor.kat_location", "home") %} 
+        {{ [
+              "I am not sure why you are asking me,",
+              "You must be having vision problems.",
+              "I don't want to alarm you, but"
+              ] | random }}
+        Katherine is already home! 
     {% else %}
-        Kat will be home in {{states.sensor.kat_ett_home}} minutes.
+      {% if is_state("input_boolean.kat_travel_monitor", "on") %}
+        {%- if states.device_tracker.life360_kat_stone.attributes.moving == True %}
+           Katherine is currently heading home and will be here in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.  
+        {%- elif states.device_tracker.life360_kat_stone.attributes.driving == True %}
+          Katherine is currently heading home and will be here in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.  
+        {% else %}
+          {% if is_state("sensor.kat_location", "Lost") %}
+            Katherine is lost, but at last check was {{states.sensor.kat_ett_home.attributes.duration | round}} minutes from home. 
+          {% else %}
+            Katherine is currently at {{ states.sensor.kat_location.state }}.
+          {% endif %}
+        {% endif %}
+      {% else %}
+        {%- if states.device_tracker.life360_kat_stone.attributes.moving == True %}
+           Katherine is currenly moving, and
+          {{ [
+              "I am unable to determine her destination.",
+              "I am having trouble tracking her.",
+              "Her destination is currently unknown."
+              ] | random }}
+            At last check was {{states.sensor.kat_ett_home.attributes.duration | round}} minutes from home.
+        {%- elif states.device_tracker.life360_kat_stone.attributes.driving == True %}
+          Katherine is currenly moving, and
+          {{ [
+              "I am unable to determine her destination.",
+              "I am having trouble tracking her.",
+              "Her destination is currently unknown."
+              ] | random }}
+            At last check was {{states.sensor.kat_ett_home.attributes.duration | round}} minutes from home.
+        {% else %}
+          {% if is_state("sensor.kat_location", "Lost") %}
+            Katherine is lost, but at last check was {{states.sensor.kat_ett_home.attributes.duration | round}} minutes from home.
+          {% else %}
+            I have located Katherine. She is at {{ states.sensor.kat_location.state }}, and
+              at last check was {{states.sensor.kat_ett_home.attributes.duration | round}} minutes from home.
+          {% endif %}
+        {% endif %}
+      {% endif %} 
     {% endif %} 
   {% endmacro %}
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}

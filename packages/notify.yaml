@@ -31,6 +31,12 @@ notify:
       - service: ios_jeffreystonesiphone
       - service: ios_jeffreystonesipad
       - service: ios_katherinestonesiphone
+  - name: ios_parents
+    platform: group
+    services:
+      - service: ios_jeffreystonesiphone
+      - service: ios_jeffreystonesipad
+      - service: ios_katherinestonesiphone
   - name: jeff_ios
     platform: group
     services:
@@ -92,6 +98,65 @@ script:
           message: >
             {{ message }}
 
+  text_notify:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notifications
+        state: 'on'
+      - service_template: >
+            {% if who == 'jeff' %}
+              notify.jeff_ios
+            {% elif who == 'kat' %}
+              notify.kat_ios
+            {% elif who == 'skylar' %}
+              notify.skylar_ios
+            {% elif who == 'parents' %}
+              notify.ios_parents
+            {% else %}
+              notify.all_ios
+            {% endif %}
+        data_template:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          #data:
+          #   attachment:
+          #     url: "{{ url }}"
+          #     content-type: "{{ content_type }}"
+          #     hide-thumbnail: false
+          #  push:
+          #     sound: "{{ ios_sound }}"
+          #    badge: 0
+          #     category: "{{ ios_category }}"
+          #   entity_id: "{{ camera_entity }}"
+
+  text_alert:
+    sequence:
+      - service_template: >
+            {% if who == 'jeff' %}
+              notify.jeff_ios
+            {% elif who == 'kat' %}
+              notify.kat_ios
+            {% elif who == 'skylar' %}
+              notify.skylar_ios
+            {% elif who == 'parents' %}
+              notify.ios_parents
+            {% else %}
+              notify.all_ios
+            {% endif %}
+        data_template:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          #data:
+          #   attachment:
+          #     url: "{{ url }}"
+          #     content-type: "{{ content_type }}"
+          #     hide-thumbnail: false
+          #  push:
+          #     sound: "{{ ios_sound }}"
+          #    badge: 0
+          #     category: "{{ ios_category }}"
+          #   entity_id: "{{ camera_entity }}"
+
 ###############################################################################
 # Alert Notify
 # Conditions:
@@ -152,7 +217,7 @@ script:
   jarvis_voice:
     sequence:
     - condition: template
-      value_template: '{{ states.input_boolean.audible_notifications.state == "on" }}'
+      value_template: '{{ states.binary_sensor.quiet_time.state == "off" }}'
     - condition: state
       entity_id: sensor.family_status
       state: 'Home'
@@ -163,13 +228,12 @@ script:
         {{ not is_state('media_player.hass_speaker', 'playing') }}
     - service: tts.amazon_polly_say
       data_template:
-        entity_id: media_player.hass_speaker
-        # entity_id: >
-        #   {% if states.input_boolean.audible_notifications.state == 'on' %}
-        #   media_player.hass_speaker
-        #   {% else %}
-        #   media_player.googlehome0715, media_player.googlehomehub3492
-        #   {% endif %}
+        entity_id: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          media_player.hass_speaker
+          {% else %}
+          media_player.googlehome0715, media_player.googlehomehub3492
+          {% endif %}
         message: >-
           <speak>
             {{ message }}
@@ -182,9 +246,6 @@ script:
 
   twitter_notify:
     sequence:
-      - condition: state
-        entity_id: input_boolean.tweet_system
-        state: 'on'
       - service: notify.twitter
         data_template:
           message: >
@@ -195,18 +256,19 @@ script:
 
   twitter_snark:
     sequence:
-      - condition: state
-        entity_id: input_boolean.tweet_snark
-        state: 'on'
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_snark.yaml
+        
+
+  twitter_stats:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: !include ../templates/twitter_stats.yaml
 
   twitter_github:
     sequence:
-      - condition: state
-        entity_id: input_boolean.tweet_system
-        state: 'on'
       - service: notify.twitter
         data_template:
           message: >
@@ -217,9 +279,6 @@ script:
 
   twitter_new_ha:
     sequence:
-      - condition: state
-        entity_id: input_boolean.tweet_releases
-        state: 'on'
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_new_ha.yaml
@@ -265,15 +324,10 @@ script:
     sequence:
       - service: script.jarvis_voice
         data_template:
-          message: !include ../templates/jarvis_confirmations.yaml
-      - delay:
-          seconds: 3
-      - service: script.jarvis_voice
-        data_template:
           message: !include ../templates/weather_report.yaml
       - delay:
           minutes: 5
-      - service: scriot.turn_off
+      - service: script.turn_off
         entity_id: script.weather_report
 
 ###############################################################################
@@ -284,25 +338,70 @@ script:
       - service: script.jarvis_voice
         data_template:
           message: !include ../templates/traffic_report.yaml
+      - delay:
+          minutes: 2
+      - service: script.turn_off
+        entity_id: script.traffic_report
 
 ###############################################################################
-# Jeff ETA Report
+# Security Report
+###############################################################################
+  security_report:
+    sequence:
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/security_report.yaml
+      - delay:
+          minutes: 2
+      - service: script.turn_off
+        entity_id: script.security_report
+
+###############################################################################
+# Jeff Traffic Reports
 ###############################################################################
   jeff_eta_report:
     sequence:
       - service: script.jarvis_voice
         data_template:
           message: !include ../templates/jeff_eta.yaml
+      - delay:
+          minutes: 2
+      - service: script.turn_off
+        entity_id: script.jeff_eta_report
+
+  jeff_headed_home_annc:
+    sequence:
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/jeff_heading_home.yaml
+      - delay:
+          minutes: 2
+      - service: script.turn_off
+        entity_id: script.jeff_headed_home_annc
+
 
 ###############################################################################
-# Kat ETA Report
+# Kat Traffic Reports
 ###############################################################################
   kat_eta_report:
     sequence:
       - service: script.jarvis_voice
         data_template:
           message: !include ../templates/kat_eta.yaml
+      - delay:
+          minutes: 2
+      - service: script.turn_off
+        entity_id: script.kat_eta_report
 
+  kat_headed_home_annc:
+    sequence:
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/kat_heading_home.yaml
+      - delay:
+          minutes: 2
+      - service: script.turn_off
+        entity_id: script.kat_headed_home_annc
 ###############################################################################
 # Prebed Routing
 ###############################################################################

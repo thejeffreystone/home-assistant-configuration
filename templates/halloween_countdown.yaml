@@ -1,0 +1,27 @@
+ >
+  {# Halloween Countdown #}
+  {%- macro getCountDown() -%}
+    "Halloween is only {{ states.sensor.holiday_halloween.state }} days away! "
+    {{- [
+       " Have you picked a costume? I'm going as Disney's Haunted Mansion.",
+       " I'm going as a dumb home. Get it? "
+       ] | random -}}
+  {%- endmacro -%}
+  {%- macro getTags() -%}
+    #homeassistant #iot #smarthome
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+  
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getCountDown() }}
+      {{ getTags() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

@@ -40,9 +40,6 @@ kat_heading_home:
 jeff_heading_home:
   name: Jeff Heading Home
   icon: mdi:car
-skylar_dressed_alarm:
-  name: Skylar Dressed Alarm
-  icon: mdi:speaker-wireless
 jeff_traffic_alerts:
   name: Jeff Traffic Alerts
   icon: mdi:bell-plus
@@ -70,33 +67,33 @@ presence_text_notifications:
 presence_audio_notifications:
   name: Presence Audio
   icon: mdi:speaker-wireless
-shuffle_spotify:
-  name: Shuffle Playlists
-  icon: mdi:shuffle-variant
 weather_reports:
   name: Weather Info 
 traffic_reports:
   name: traffic_reports
 sun_reports:
   name: Sun Reports 
-tweet_system:
-  name: Tweet System
-  icon: mdi:twitter
-tweet_ha_releases:
-  name: Tweet HA Releases
-  icon: mdi:twitter
-tweet_iss:
-  name: Tweet ISS Sightings
-  icon: mdi:twitter
-tweet_snark:
-  name: Tweet Snark
-  icon: mdi:twitter
-washer_notification:
-  name: Washer Notification
-  icon: mdi:speaker-wireless
-play_weather_report:
-  name: Play Weather Report
-  icon: mdi:speaker-wireless
+#tweet_system:
+#   name: Tweet System
+#   icon: mdi:twitter
+# tweet_ha_releases:
+#   name: Tweet HA Releases
+#   icon: mdi:twitter
+# tweet_iss:
+#   name: Tweet ISS Sightings
+#   icon: mdi:twitter
+# tweet_snark:
+#   name: Tweet Snark
+#   icon: mdi:twitter
+# tweet_stats:
+#   name: Tweet Stats
+#   icon: mdi:twitter
+# washer_notification:
+#   name: Washer Notification
+#   icon: mdi:speaker-wireless
+# play_weather_report:
+#   name: Play Weather Report
+#   icon: mdi:speaker-wireless
 new_ha_announcement:
   name: New HA Announcement
   icon: mdi:twitter

@@ -10,3 +10,7 @@
   name: Day
   after: sunrise
   before: sunset
+- platform: tod
+  name: Quiet time
+  after: '22:00'
+  before: '07:00'

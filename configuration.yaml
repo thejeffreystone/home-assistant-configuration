@@ -65,11 +65,11 @@ device_tracker:
   #   track_new_devices: yes
   # - platform: owntracks
   # 
-  #- platform: eero_tracker
-  #  consider_home: 300
-  #  interval_seconds: 60
-  #  track_new_devices: yes
-  #  only_macs: "50:dc:e7:5b:10:69, b0:ee:7b:94:31:21, e8:b2:ac:4c:8c:01, 7c:1c:4e:2e:62:30, 90:18:7c:84:46:ed, 48:ba:4e:65:d3:ff, d0:e7:82:ef:a6:1f, 28:18:78:74:79:10, e8:ab:fa:02:03:53, 48:d6:d5:42:e8:86, 60:f8:1d:be:20:46, 68:54:fd:d5:ae:3d, 00:d0:2d:2f:3b:ca, 6c:70:9f:00:ef:3f, 5c:cf:7f:af:04:50, 68:54:fd:29:20:87, 64:52:99:93:f1:b3, 7c:2e:bd:4f:3e:ff"
+  # - platform: eero_tracker
+  #   consider_home: 300
+  #   interval_seconds: 60
+  #   track_new_devices: yes
+  #   only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
 
 
 google:

@@ -37,6 +37,12 @@ External Doors:
   - binary_sensor.laundry_room_door_contact_2
   - binary_sensor.garage_door
 
+Garage Doors:
+  - binary_sensor.side_door_contact_2
+  - binary_sensor.side_door
+  - binary_sensor.garage_door_contact_2
+  - binary_sensor.garage_door
+
 Internal Doors:
   - binary_sensor.attic_door_contact_2
 

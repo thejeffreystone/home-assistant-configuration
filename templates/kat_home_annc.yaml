@@ -7,6 +7,14 @@
         "I thought you might like to know."
         ] | random }}
   {% endmacro %}
+  {% macro getMessage() %}
+    {{ [
+        "Katherine has arrived.",
+        "Katherine is in the neighborhood.",
+        "Katherine is arriving.",
+        "Katherine has finally made it home."
+        ] | random }}
+  {% endmacro %}
 
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
@@ -18,7 +26,7 @@
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
     {{ getIntro() }}
-    
+    {{ getMessage() }}
   {%- endmacro -%}
   
   {# Call the macro  #}
