@@ -56,7 +56,11 @@ automation:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     action:
-    - service: script.prebed_routine
+    - service: script.ah_report
+      data:
+        call_interuption: 1
+        call_prebed_routine: 1
+  
   - id: nightly_report
     initial_state: true
     alias: Nightly Report
@@ -64,7 +68,14 @@ automation:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     action:
-    - service: script.nightly_report
+    - service: script.ah_report
+      data:
+        call_greeting: 1
+        call_evening_greeting: 1
+        call_weather_alerts: 1
+        call_overnight_forecast: 1
+        call_upcoming_holidays: 1
+        call_chores: 1
 
   - id: good_morning_report
     alias: Good Morning Report
@@ -73,11 +84,21 @@ automation:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     action:
-    - service: script.morning_report
+    - service: script.ah_report
+      data:
+        call_greeting: 1
+        call_morning_greeting: 1
+        call_weather_alerts: 1
+        call_todays_events: 1
+        call_current_conditions_outisde: 1
+        call_current_conditions_inside: 1
+        call_daily_forecast: 1
+        call_upcoming_birthdays: 1
     - service: script.twitter_notify
       data:
         message: 'I just provided a morning briefing including weather, and traffic
           conditions to the residents of Anchorage House. '
+  
   - id: skylar_morning_greeting
     alias: Skylar Morning Greeting
     initial_state: true
@@ -93,6 +114,12 @@ automation:
       - thu
       - fri
     action:
-    - service: script.skylar_morning_greeting
+    - service: script.ah_report
+      data:
+        call_interuption: 1
+        call_skylar_dressed: 1
+        call_school_today: 1
+        call_skylar_events: 1
+        call_clothes_suggestion: 1
   
 

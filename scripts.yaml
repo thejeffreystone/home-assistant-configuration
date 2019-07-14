@@ -8,18 +8,10 @@ washer_finished_notification_audible:
   - condition: state
     entity_id: sensor.washer_status
     state: complete
-  - service: script.jarvis_voice
-    data_template:
-      message: >
-        {%- macro washing_annc() -%}
-          {{ [
-          "Just a reminder. Washing machine needs to be emptied.",
-          "I'm sure you have more inportant things to do, but the washing machine needs to be emptied.",
-          "Looks like the washing machine has completed it's cycle.",
-          "Don't forget to move the clothes to the dryer."
-          ] | random }}
-        {%- endmacro -%}
-        {{washing_annc()}}
+  - service: script.ah_report
+    data:
+      call_interuption: 1
+      call_washer_needs_emptying: 1
 girl_eyes_on_you:
   sequence:
   - service: media_player.play_media
@@ -298,19 +290,10 @@ appliances_off:
   - data:
       entity_id: switch.artemis
     service: switch.turn_off
-voice_reports_off:
-  sequence:
-  - delay:
-       minutes: 5
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.play_weather_report
-  - service: script.turn_off
-    entity_id: script.weather_report
 
-jeff_text_test:
+jeff_speech_test:
   sequence:
-  - service: script.text_notify
-    data_template:
-      who: "jeff"
-      title: "Test Text"
-      message: "This is just a test."
+  - service: script.ah_report
+    data:
+      call_kat_location: 1
+      

@@ -217,18 +217,6 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.hass_speaker
   
-  - id: play_weather_report
-    alias: Play Weather Report
-    initial_state: true
-    trigger:
-      - entity_id: input_boolean.play_weather_report
-        from: 'Off'
-        platform: state
-        to: 'On'
-    action:
-    - service: script.turn_on
-      entity_id: script.weather_report
-    - service: script.voice_reports_off
 
 script:
   nws_popup_on_wx_alert:
