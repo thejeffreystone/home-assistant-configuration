@@ -64,19 +64,15 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.jarvis_voice
+      - service: script.ah_report
         data_template:
-          message: !include ../templates/jarvis_interuptions.yaml
-      - delay:
-          seconds: 2
-      - service: script.jarvis_notify
-        data_template:
-          message: >
+          usps: >-
             {%- if states.sensor.usps_mail.state | int == 1 -%}
               USPS is delivering {{ states.sensor.usps_mail.state }} piece of mail today.
             {%- else -%}
               USPS is delivering {{ states.sensor.usps_mail.state }} pieces of mail today.
             {%- endif -%}
+          call_interuption: 1
       - service: script.text_notify
         data_template:
           who: "jeff"
@@ -104,16 +100,12 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.jarvis_voice
+      - service: script.ah_report
         data_template:
-          message: !include ../templates/jarvis_interuptions.yaml
-      - delay:
-          seconds: 2
-      - service: script.jarvis_notify
-        data_template:
-          message: >
+          usps: >
             {%- if states.sensor.usps_packages.state | int == 1 -%}
               USPS is delivering {{ states.sensor.usps_packages.state }} package today.
             {%- else -%}
               USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
             {%- endif -%}
+          call_interuption: 1
