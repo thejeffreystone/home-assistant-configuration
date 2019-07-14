@@ -86,8 +86,9 @@ automation:
       - condition: template
         value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
     action:
-      - service: notify.jeff_ios
+      - service: script.text_notify
         data_template:
+          title: "Weather Alert for Anchorage House"
           message: >
             {% if states.sensor.nws_alerts.attributes.title.split(' - ')[5] is defined %}
               "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[5] }}"
@@ -185,9 +186,10 @@ automation:
       - delay: '00:00:15'
       - service: input_boolean.turn_on
         entity_id: input_boolean.tornado_alarm
-      - service: script.text_notify_all
+      - service: script.text_alert
         data_template:
-          message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
+          title: "Tornado Warning!"
+          message: "The National Weather Service Has issued a Tornado Warning for our area."
 
   - alias: Activate Tornado alarm 
     initial_state: 'on'
@@ -214,6 +216,19 @@ automation:
     action:
     - service: media_player.media_stop
       entity_id: media_player.hass_speaker
+  
+  - id: play_weather_report
+    alias: Play Weather Report
+    initial_state: true
+    trigger:
+      - entity_id: input_boolean.play_weather_report
+        from: 'Off'
+        platform: state
+        to: 'On'
+    action:
+    - service: script.turn_on
+      entity_id: script.weather_report
+    - service: script.voice_reports_off
 
 script:
   nws_popup_on_wx_alert:

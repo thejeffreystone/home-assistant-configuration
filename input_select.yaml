@@ -18,12 +18,3 @@ recycle_pickup:
     - Friday
   initial: Tuesday
   icon: mdi:delete-variant
-spotify_source:
-  name: Spotify Source
-  options:
-    - Everywhere
-    - Living Room
-    - Master Bedroom
-    - Kitchen
-  initial: Everywhere
-  icon: mdi:speaker-wireless

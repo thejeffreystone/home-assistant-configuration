@@ -1,14 +1,7 @@
  >
   {% macro getIntro() %}
-    {{ [
-        "Pardon me,",
-        "Excuse me,",
-        "I do not mean to interupt, but.",
-        "I thought you might like to know."
-        ] | random }}
+    
   {% endmacro %}
-
-
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
   {%- macro cleanup(data) -%}
     {%- for item in data.split("\n")  if item | trim != "" -%}

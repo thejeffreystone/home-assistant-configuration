@@ -2,7 +2,7 @@
   {% macro getIntro() %}
     
     {{ [ "Pardom me, Skylar,, ",
-         "Good morning Skylar, This is your digital life mate, Jarvis ",
+         "Good morning Skylar, This is your digital assistant, Jarvis ",
          "This is your cruise director with your morning announcements.",
        ] | random }}   
   {% endmacro %}

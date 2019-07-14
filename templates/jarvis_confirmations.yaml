@@ -1,12 +1,10 @@
  >
   {% macro getConfirmation() %}
     {{ [
-        "OK.",
-        "Sure.",
+        "Okay.", 
         "If you insist.",
-        "I can do that.",
+        "I am afraid I can't do that Dave,,,I am kidding,",
         "Leave it to me.",
-        "Consider it done.",
         "As you wish.",
         "By your command.",
         "Affirmative.",

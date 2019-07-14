@@ -1,5 +1,11 @@
  >
   {% macro getIntro() %}
+      {{ [
+        "You might not like what I have to say.",
+        "Are you sure you want to know?",
+        "I can tell you but you are probably not going to like it.",
+        "Here you go."
+        ] | random }}
       Under current traffic conditions 
   {% endmacro %}
   {% macro getTrafficZoo() %}

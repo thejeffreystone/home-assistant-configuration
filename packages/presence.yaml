@@ -37,6 +37,17 @@ sensor:
             {% else %}
               {{ states.device_tracker.jeffreystonesiphone.state }}
             {%- endif %}
+      jeff_driving:
+        friendly_name: "Jeff' Driving"
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if states.device_tracker.life360_jeffrey_stone.attributes.moving == True %}
+              on
+            {% elif states.device_tracker.life360_jeffrey_stone.attributes.driving == True %}
+              on
+            {% else %}
+              off
+            {% endif %}
   - platform: template
     sensors:
       skylar_location:
@@ -79,6 +90,19 @@ sensor:
             {% else %}
               {{ states.device_tracker.katherinestonesiphone.state }}
             {%- endif %}
+  - platform: template
+    sensors:
+      kat_driving:
+        friendly_name: "Kat Driving"
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if states.device_tracker.life360_kat_stone.attributes.moving == True %}
+              'on'
+            {% elif states.device_tracker.life360_kat_stone.attributes.driving == True %}
+              'on'
+            {% else %}
+              'off'
+            {% endif %}
   - platform: mqtt
     name: "Family Status"
     state_topic: "house/family/status"
@@ -107,3 +131,210 @@ sensor:
              or is_state('device_tracker.katherinestonesiphone', 'home')
              or is_state('device_tracker.life360_kat_stone', 'home') 
              or is_state('sensor.family_status', 'Home') }}
+
+automation:
+  - id: kat_arrives_zoo
+    alias: Kat Arrives at Zoo
+    initial_state: true
+    trigger:
+    - platform: zone
+      event: enter
+      zone: zone.zoo_atlanta
+      entity_id: device_tracker.katherinestonesiphone
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.kat_travel_monitor
+    - service: script.jarvis_voice
+      data_template:
+        message: !include ../templates/kat_arrived_at_work.yaml
+  - id: kat_leaves_zoo
+    alias: Kat Leaves Zoo Notification
+    initial_state: true
+    trigger:
+    - platform: zone
+      event: leave
+      zone: zone.zoo_atlanta
+      entity_id: device_tracker.katherinestonesiphone
+    condition:
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.kat_travel_monitor
+  - id: '1550109528753'
+    alias: Jeff Is Heading Home
+    initial_state: true
+    trigger:
+    - platform: webhook
+      webhook_id: jeff_heading_home
+    condition: []
+    action:
+    - service: script.jeff_destination_home
+
+  - id: family_has_arrived
+    alias: Family Has arrived
+    trigger:
+    - entity_id: sensor.family_status
+      from: Away
+      platform: state
+      to: Home
+    - entity_id: device_tracker.jeffreystonesiphone
+      event: enter
+      platform: zone
+      zone: zone.home
+    - entity_id: device_tracker.katherinestonesiphone
+      event: enter
+      platform: zone
+      zone: zone.home
+    - entity_id: binary_sensor.jeffrey_presence
+      from: 'Off'
+      platform: state
+      to: 'On'
+    - entity_id: binary_sensor.kat_presence
+      from: 'Off'
+      platform: state
+      to: 'On'
+    - entity_id: device_tracker.hass_jeffsiphone
+      event: enter
+      platform: zone
+      zone: zone.home
+    condition:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Away
+    action:
+    - service: script.vacation_canceled
+    - service: script.appliances_on
+    - service: script.standby
+    - service: script.washer_finished_notification_audible
+    initial_state: true
+  - id: family_has_left
+    alias: Family Has Left
+    initial_state: true
+    trigger:
+    - entity_id: sensor.family_status
+      from: Home
+      platform: state
+      to: Away
+    condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'off'
+    action:
+    - service: script.appliances_off
+    - service: script.inside_all_off
+    - service: script.security_check_garage
+    - service: script.security_check_zones
+    - service: script.lockdown
+    - service: script.lockdown_issue
+    - service: script.all_fans_off
+  - id: jeff_is_home
+    alias: Jeff is Home
+    initial_state: true
+    trigger:
+    - entity_id: device_tracker.jeffreystonesiphone
+      event: enter
+      platform: zone
+      zone: zone.home
+    # - entity_id: person.jeffrey
+    #   event: enter
+    #   platform: zone
+    #   zone: zone.home
+    action:
+    - service: script.family_is_home
+    - service: script.jeff_is_home
+    - service: script.jeff_destination_na
+    - service: script.driveway_on
+    - entity_id: input_boolean.jeff_travel_monitor
+      service: input_boolean.turn_off
+  - id: jeff_arrives_summit
+    alias: Jeff Arrives At Summit
+    trigger:
+    - entity_id: device_tracker.jeffreystonesiphone
+      event: enter
+      platform: zone
+      zone: zone.summit
+    - entity_id: device_tracker.hass_jeffsiphone
+      event: enter
+      platform: zone
+      zone: zone.summit
+    action:
+    - service: script.text_notify
+      data:
+        who: "kat"
+        message: "Jeff has arrived at Summit"
+    initial_state: true
+  - id: jeff_arrives_summit_notification
+    alias: Notify Kat Jeff At Summit
+    trigger:
+    - entity_id: device_tracker.jeffreystonesiphone
+      event: enter
+      platform: zone
+      zone: zone.summit
+    - entity_id: device_tracker.hass_jeffsiphone
+      event: enter
+      platform: zone
+      zone: zone.summit
+    action:
+    - service: script.jeff_destination_na
+    initial_state: true
+  - id: jeff_leaves_summit
+    alias: Jeff Leaves Summit
+    initial_state: true
+    trigger:
+    - entity_id: device_tracker.jeffreystonesiphone
+      event: leave
+      platform: zone
+      zone: zone.summit
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.jeff_traffic_alert_home
+  - id: kat_is_home
+    alias: Kat is Home
+    initial_state: true
+    trigger:
+    - entity_id: device_tracker.katherinestonesiphone
+      event: enter
+      platform: zone
+      zone: zone.home
+    - entity_id: person.katherine
+      event: enter
+      platform: zone
+      zone: zone.home
+    action:
+    - service: script.family_is_home
+    - service: script.driveway_on
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.kat_travel_monitor
+
+  - id: annc_arrival_jeff
+    alias: 'Announce Jeff Arrived'
+    trigger:
+      - platform: state
+        entity_id:
+          - device_tracker.jeffreystonesiphone
+        from: 'not_home'
+        to: 'home'
+    condition:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    action:
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/jeff_home_annc.yaml
+
+  - id: annc_arrival_kat
+    alias: 'Announce Kat Arrived'
+    trigger:
+      - platform: state
+        entity_id:
+          - device_tracker.katherinestonesiphone
+        from: 'not_home'
+        to: 'home'
+    condition:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    action:
+      - service: script.jarvis_voice
+        data_template:
+          message: !include ../templates/kat_home_annc.yaml

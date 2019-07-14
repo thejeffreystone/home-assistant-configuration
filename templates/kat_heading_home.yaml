@@ -6,9 +6,8 @@
         "I do not mean to interupt, but.",
         "I thought you might like to know."
         ] | random }}
+    Katherine appears to be headed home. Based on current traffic conditions she should be here in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.
   {% endmacro %}
-
-
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
   {%- macro cleanup(data) -%}
     {%- for item in data.split("\n")  if item | trim != "" -%}
