@@ -144,9 +144,11 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.kat_travel_monitor
-    - service: script.jarvis_voice
-      data_template:
-        message: !include ../templates/kat_arrived_at_work.yaml
+    - service: script.ah_report
+      data:
+        speech_message: 'Kat has arrived at worked.'
+        call_interuption: 1
+  
   - id: kat_leaves_zoo
     alias: Kat Leaves Zoo Notification
     initial_state: true
@@ -159,6 +161,11 @@ automation:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.kat_travel_monitor
+    - service: script.ah_report
+      data:
+        call_interuption: 1
+        call_kat_headed_home: 1
+  
   - id: '1550109528753'
     alias: Jeff Is Heading Home
     initial_state: true
@@ -168,6 +175,10 @@ automation:
     condition: []
     action:
     - service: script.jeff_destination_home
+    - service: script.ah_report
+      data:
+        call_interurption: 1
+        call_jeff_headed_home: 1
 
   - id: family_has_arrived
     alias: Family Has arrived
@@ -206,6 +217,7 @@ automation:
     - service: script.standby
     - service: script.washer_finished_notification_audible
     initial_state: true
+  
   - id: family_has_left
     alias: Family Has Left
     initial_state: true
@@ -226,6 +238,7 @@ automation:
     - service: script.lockdown
     - service: script.lockdown_issue
     - service: script.all_fans_off
+  
   - id: jeff_is_home
     alias: Jeff is Home
     initial_state: true
@@ -234,10 +247,6 @@ automation:
       event: enter
       platform: zone
       zone: zone.home
-    # - entity_id: person.jeffrey
-    #   event: enter
-    #   platform: zone
-    #   zone: zone.home
     action:
     - service: script.family_is_home
     - service: script.jeff_is_home
@@ -245,6 +254,7 @@ automation:
     - service: script.driveway_on
     - entity_id: input_boolean.jeff_travel_monitor
       service: input_boolean.turn_off
+  
   - id: jeff_arrives_summit
     alias: Jeff Arrives At Summit
     trigger:
@@ -262,6 +272,7 @@ automation:
         who: "kat"
         message: "Jeff has arrived at Summit"
     initial_state: true
+  
   - id: jeff_arrives_summit_notification
     alias: Notify Kat Jeff At Summit
     trigger:
@@ -276,6 +287,7 @@ automation:
     action:
     - service: script.jeff_destination_na
     initial_state: true
+  
   - id: jeff_leaves_summit
     alias: Jeff Leaves Summit
     initial_state: true
@@ -287,6 +299,7 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.jeff_traffic_alert_home
+  
   - id: kat_is_home
     alias: Kat is Home
     initial_state: true
@@ -304,37 +317,30 @@ automation:
     - service: script.driveway_on
     - service: input_boolean.turn_off
       entity_id: input_boolean.kat_travel_monitor
-
-  - id: annc_arrival_jeff
-    alias: 'Announce Jeff Arrived'
+  
+  - id: welcome_home
+    alias: Welcome Home
     trigger:
       - platform: state
         entity_id:
-          - device_tracker.jeffreystonesiphone
+          - person.jeffrey
+          - person.katherine
         from: 'not_home'
         to: 'home'
-    condition:
-    - condition: state
-      entity_id: sensor.family_status
-      state: Home
     action:
-      - service: script.jarvis_voice
+      - service: script.ah_report
         data_template:
-          message: !include ../templates/jeff_home_annc.yaml
-
-  - id: annc_arrival_kat
-    alias: 'Announce Kat Arrived'
-    trigger:
-      - platform: state
-        entity_id:
-          - device_tracker.katherinestonesiphone
-        from: 'not_home'
-        to: 'home'
-    condition:
-    - condition: state
-      entity_id: sensor.family_status
-      state: Home
-    action:
-      - service: script.jarvis_voice
-        data_template:
-          message: !include ../templates/kat_home_annc.yaml
+          welcome_home: >
+            {% set person = trigger.to_state.attributes.friendly_name %}
+            {%- macro greeting_sentence(person) -%}
+            {{ [
+              person + " has arrived.",
+              person + " is in the neighborhood.",
+              person + " is arriving.",
+              "My sensors are picking up the presence of additional humans. " ~ person +" has been identified as home.",
+              person + " has finally made it home."
+              ] | random }}
+            {%- endmacro -%}
+            {{greeting_sentence(person)}}
+          call_interuption: 1
+          
