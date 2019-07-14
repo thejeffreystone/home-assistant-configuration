@@ -82,11 +82,11 @@ automation:
         to: 'on'
         from: 'off'
     action:
-      - service: script.jarvis_voice
-        data_template:
-          message: !include ../templates/iss_report.yaml
+      - service: script.ah_report
+        data:
+          call_interuption: 1
+          call_iss: 1
             
-  
   - id: full_moon_tweet
     initial_state: true
     alias: 'Full Moon -Tweet'
