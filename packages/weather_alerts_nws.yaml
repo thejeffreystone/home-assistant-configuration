@@ -119,9 +119,9 @@ automation:
         - condition: template
           value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
     action:
-      - service: script.jarvis_voice
+      - service: script.ah_report
         data_template:
-          message: >
+          speech_message: >
             {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
               The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
             {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
@@ -141,9 +141,9 @@ automation:
           "The weather outside is getting intense, so I just made a weather announcement.", 
           "Anchorage House monitors the NWS using #HomeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta " ] | random }}'
       - delay: '00:00:15'
-      - service: script.jarvis_voice
+      - service: script.ah_report
         data_template:
-          message: >
+          speech_message: >
             {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
               The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
             {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}

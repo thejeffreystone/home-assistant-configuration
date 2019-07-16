@@ -75,6 +75,7 @@ automation:
         call_weather_alerts: 1
         call_overnight_forecast: 1
         call_upcoming_holidays: 1
+        call_reminders: 1
         call_chores: 1
 
   - id: good_morning_report
@@ -94,6 +95,8 @@ automation:
         call_current_conditions_inside: 1
         call_daily_forecast: 1
         call_upcoming_birthdays: 1
+        call_reminders: 1
+        call_chores: 1
     - service: script.twitter_notify
       data:
         message: 'I just provided a morning briefing including weather, and traffic
