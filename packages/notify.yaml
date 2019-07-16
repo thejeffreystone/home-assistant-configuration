@@ -496,13 +496,14 @@ script:
               It is going to be cold today so I suggest wearing long pants and a light jacket.
             {% elif is_state("sensor.clothing_forecast", "Chilly") %}
               It is going to be chilly today so I suggest wearing at least long pants.
-            {% elif is_state("sensor.clothing_forecast", "Nice") %}
-              It is going to be nice today so I suggest wearing shorts.
-            {% elif is_state("sensor.clothing_forecast", "Toasty") %}
-              It is going to be a bit warm today so I suggest wearing shorts. 
-            {% elif is_state("sensor.clothing_forecast", "Hot") %}
-              It is going to be hot today so I suggest wearing shorts.
+            # {% elif is_state("sensor.clothing_forecast", "Nice") %}
+            #   It is going to be nice today so I suggest wearing shorts.
+            # {% elif is_state("sensor.clothing_forecast", "Toasty") %}
+            #   It is going to be a bit warm today so I suggest wearing shorts. 
+            # {% elif is_state("sensor.clothing_forecast", "Hot") %}
+            #   It is going to be hot today so I suggest wearing shorts.
             {% else %}
+              It is going to {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
             {% endif %} 
           {% endmacro %}
           
@@ -513,13 +514,28 @@ script:
           {% endmacro %}	  
 
           {% macro chores() %}
-            Be sure to make your bed!
+            # Daily Morning Chore Reminders
+            {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
+              Don't forget to make your beds!
+            {% endif %}
+
             {% if is_state("sensor.weekday", "mon") %}
               {{ [ "Don't forget tomorrow is Trash Day. ",
                 "I advise you move the trash cans to the curb for the weekly pickup. ",
                 " The trash and recycle should go out"
               ] | random }}
             {% endif %}
+
+            {% if is_state("sensor.weekday", "tue") %}
+              {% if now().strftime('%H')|int < 17 %}
+                {{ [ "Don't forget to bring in the trash cans. ",
+                "The trash cans will feel lonely if you leave them out all night. ",
+                "The HOA will get mad if you leave those trash cans out on the street."
+              ] | random }}
+              {% endif %}
+              
+            {% endif %}
+            
             
           {% endmacro %}
 
