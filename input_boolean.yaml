@@ -73,27 +73,73 @@ traffic_reports:
   name: traffic_reports
 sun_reports:
   name: Sun Reports 
-#tweet_system:
-#   name: Tweet System
-#   icon: mdi:twitter
-# tweet_ha_releases:
-#   name: Tweet HA Releases
-#   icon: mdi:twitter
-# tweet_iss:
-#   name: Tweet ISS Sightings
-#   icon: mdi:twitter
-# tweet_snark:
-#   name: Tweet Snark
-#   icon: mdi:twitter
-# tweet_stats:
-#   name: Tweet Stats
-#   icon: mdi:twitter
-# washer_notification:
-#   name: Washer Notification
-#   icon: mdi:speaker-wireless
-# play_weather_report:
-#   name: Play Weather Report
-#   icon: mdi:speaker-wireless
 new_ha_announcement:
   name: New HA Announcement
   icon: mdi:twitter
+
+
+#####################
+# Chore List
+#####################
+# Everyday
+feed_fish:
+  name: Feed Fish 
+  icon: mdi:fishbowl
+wash_dishes:
+  name: Wash Dishes 
+  icon: mdi:dishwasher
+
+# Monday | Wednesday | Friday
+clean_litterbox:
+  name: Clean Litterbox
+  icon: mdi:cat 
+
+# Monday
+clean_towel_day:
+  name: Clean Towel Day  
+
+
+# Tuesday
+vacuum:
+  name: Vavuum Living Room
+ 
+dust:
+  name: Dust 
+  
+mop_kitchen:
+  name: Mop Kitchen  
+  
+ 
+
+
+
+# Friday
+clean_sheet_day:
+  name: Clean Sheet Day   
+ 
+
+
+# Weekend 
+clean_kitchen:
+  name: Clean Kitchen
+clean_bathrooms:
+  name: Clean Bathrooms 
+mow_yard:
+  name: Mow Yard 
+
+# Sunday
+menu_day:
+  name: Menu Day 
+
+# Monthly
+wash_mattress_protector:
+  name: Wash Mattress Protector 
+
+clean_fish_tank:
+  name: Clean Fish Tank 
+
+heartworm:
+  name: Heartworm
+  icon: mdi:dog-side
+
+
