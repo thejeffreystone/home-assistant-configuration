@@ -1,0 +1,121 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   07/15/2019
+#   @package        :   Twitter
+#   @description    :   Just some tweet stuff - @anchoragehouse2
+###############################################################################
+automation:
+
+  - id: first_day_info
+    alias: First Day Info
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '00:10:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set day=states("sensor.date").split('-')[2] | int %}
+        {%- if day == 1 -%}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_github
+        data_template:
+          message: >-
+            "Its a new month, so this is a good time to remind you that I am powered by @homeassistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+
+  - id: tweet_new_ha_version
+    alias: Tweet New HA Version 
+    trigger:
+      - platform: state
+        entity_id: updater.updater
+    action:
+      - service: script.twitter_new_ha
+
+  - id: tweet_some_snark
+    alias: Tweet Some Snark
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_snark
+
+  - id: tweet_some_stats
+    alias: Tweet Some Stats
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_stats
+
+  - id: bot_info
+    alias: Bot Info
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '10:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set day=states("sensor.date").split('-')[2] | int %}
+        {%- if day == 15 -%}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: >-
+            "This is a good time to remind you that I am a bot powered by @home_assistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+
+  - id: rex_manning_day_tweet_1
+    alias: Rex Manning Day Tweet One
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    condition:
+    - condition: state
+      entity_id: calendar.anchorage_holidays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.anchorage_holidays.attributes.message %}
+        {%- if event == 'Rex Manning Day' %}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: >-
+            "Happy Rex Manning Day! https://www.youtube.com/watch?v=30fw5My1QJM #damntheman #savetheempire"
+
+  - id: rex_manning_day_tweet_2
+    alias: Rex Manning Day Tweet Two
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    condition:
+    - condition: state
+      entity_id: calendar.anchorage_holidays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.anchorage_holidays.attributes.message %}
+        {%- if event == 'Rex Manning Day' %}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: >-
+            "We mustn't dwell. No, not today. We can't. Not on Rex Manning day! https://www.youtube.com/watch?v=szvt8iWJ0oo #damntheman #savetheempire"
