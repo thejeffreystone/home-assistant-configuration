@@ -458,8 +458,8 @@
 
 
 
-- id: '1558620708807'
-  alias: Upstairs Cooling On
+- id: upstairs_fan_on
+  alias: Upstairs Fan On
   initial_state: true
   trigger:
   - entity_id: binary_sensor.upstairs_occupancy
@@ -472,7 +472,7 @@
     entity_id: sensor.upstairs_temperature
   action:
   - data:
-      entity_id: switch.box_fans
+      entity_id: switch.upstairs_fan
     service: switch.turn_on
 - id: '1558630577206'
   alias: Garage Is Open at 9pm
@@ -517,34 +517,18 @@
   - data:
       entity_id: switch.living_room_fan
     service: switch.turn_on
-- id: '1562067557778'
-  alias: Upstairs Fan On
-  initial_state: true
-  trigger:
-  - entity_id: binary_sensor.upstairs_occupancy
-    from: 'Off'
-    platform: state
-    to: 'On'
-  condition:
-  - condition: state
-    entity_id: switch.upstairs_fan
-    state: 'Off'
-  action:
-  - data:
-      entity_id: switch.upstairs_fan
-    service: switch.turn_on
 - id: '1562067639239'
   alias: Upstairs Fan Off
   initial_state: true
   trigger:
   - entity_id: binary_sensor.upstairs_occupancy
-    from: 'On'
+    from: 'on'
     platform: state
-    to: 'Off'
+    to: 'off'
   condition:
   - condition: state
     entity_id: switch.upstairs_fan
-    state: 'On'
+    state: 'on'
   action:
   - data:
       entity_id: switch.upstairs_fan
@@ -559,6 +543,10 @@
   - data:
       message: Remember to take meds
     service: notify.kat_ios
+
+##########################
+# My Attempt at preventing twitter from being spammed with new HA tweets on reboot
+
 - id: new_ha
   alias: New HA
   initial_state: true
@@ -580,3 +568,4 @@
   - service: script.twitter_new_ha
   - service: input_boolean.turn_off
     entity_id: input_boolean.new_ha_announcement
+###########################
