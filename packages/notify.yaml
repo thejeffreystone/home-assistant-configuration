@@ -245,26 +245,6 @@ script:
           </speak>
         cache: true
   
-  # speech_jarvis:
-  # sequence:
-  #   - condition: state
-  #     entity_id: binary_sensor.quiet_time
-  #     state: 'off'
-
-  #   - service: tts.amazon_polly_say
-  #     data_template:
-  #       entity_id: >
-  #         {% if states.input_boolean.audible_notifications.state == 'on' %}
-  #           media_player.hass_speaker
-  #         {% else %}
-  #           media_player.googlehome0715, media_player.googlehomehub3492
-  #         {% endif %}
-  #       message: >-
-  #         <speak>
-  #           {{ message }}
-  #         </speak>
-  #       cache: true
-
   ah_report:
     sequence:
     - condition: or
@@ -302,6 +282,9 @@ script:
                 "No Problem.",
                 "I think I can handle that.",
                 "Working on it now.",
+                "Why not. It's not like I ever sleep.",
+                "As Always, a great pleasure watching you work.",
+                "I am afraid I can't do that Dave,,,I'm kidding.",
                 "Funny, I was just about to do that. "
                 ] | random }}
           {% endmacro %}
@@ -522,14 +505,22 @@ script:
             {% else %}
             {% endif %} 
           {% endmacro %}
+          
+          {% macro reminders() %}
+            {% if is_state("input_boolean.heartworm", "on") %}
+              Today is the day Winston gets his heartworm medicine. 
+            {% endif %}
+          {% endmacro %}	  
 
           {% macro chores() %}
+            Be sure to make your bed!
             {% if is_state("sensor.weekday", "mon") %}
               {{ [ "Don't forget tomorrow is Trash Day. ",
                 "I advise you move the trash cans to the curb for the weekly pickup. ",
                 " The trash and recycle should go out"
               ] | random }}
             {% endif %}
+            
           {% endmacro %}
 
           {% macro door_status() %}
@@ -797,6 +788,10 @@ script:
           {% if call_clothes_suggestion == 1 %}
             {{ clothes_suggestion() }}
           {% endif %}
+          
+          {% if call_reminders == 1 %}
+            {{ reminders() }}
+          {% endif %}	  
 
           {% if call_chores == 1 %}
             {{ chores() }}
@@ -889,40 +884,6 @@ script:
           message: !include ../templates/twitter_new_ha.yaml
 
 ###############################################################################
-# Morning Report
-###############################################################################
-  # morning_report:
-  #   sequence:
-  #     - service: script.jarvis_voice
-  #       data_template:
-  #         message: !include ../templates/morning_report.yaml
-
-
-###############################################################################
-# Skylar Get Dressed
-###############################################################################
-  # skylar_morning_greeting:
-  #   sequence:
-  #     - service: script.jarvis_voice
-  #       data_template:
-  #         message: !include ../templates/skylar_morning.yaml
-
-###############################################################################
-# Nightly Report
-###############################################################################
-  # nightly_report:
-  #   sequence:
-  #     - service: script.jarvis_voice
-  #       data_template:
-  #         message: !include ../templates/nightly_report.yaml
-
-  # test_nightly_report:
-  #   sequence:
-  #     - service: script.jarvis_voice
-  #       data_template:
-  #         message: !include ../templates/nightly_report.yaml
-
-###############################################################################
 # Weather Report
 ###############################################################################
   weather_report:
@@ -986,13 +947,3 @@ script:
       - service: script.ah_report
         data:
           call_kat_headed_home: 1
-###############################################################################
-# Prebed Routing
-###############################################################################
-  # prebed_routine:
-  #   sequence:
-  #     - service: script.jarvis_voice
-  #       data_template:
-  #         message: !include ../templates/skylar_night.yaml
-  #         # message: >
-  #         #   Bed time is in 30 mins. If you are taking a bath now is the time to get in the tub, otherwise time to put on pajamas and brush teeth. 
