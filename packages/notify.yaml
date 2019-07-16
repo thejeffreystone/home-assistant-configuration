@@ -534,7 +534,6 @@ script:
           {% endmacro %}	  
 
           {% macro chores() %}
-            # Daily Morning Chore Reminders
             {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
               Don't forget to make your beds!
             {% endif %}
