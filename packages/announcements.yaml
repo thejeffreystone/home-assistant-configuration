@@ -59,6 +59,7 @@ automation:
     - service: script.ah_report
       data:
         call_interuption: 1
+        call_time_annc: 1
         call_prebed_routine: 1
   
   - id: nightly_report
@@ -72,6 +73,7 @@ automation:
       data:
         call_greeting: 1
         call_evening_greeting: 1
+        call_time_annc: 1
         call_weather_alerts: 1
         call_overnight_forecast: 1
         call_upcoming_holidays: 1
@@ -89,6 +91,7 @@ automation:
       data:
         call_greeting: 1
         call_morning_greeting: 1
+        call_time_annc: 1
         call_weather_alerts: 1
         call_todays_events: 1
         call_current_conditions_outisde: 1
@@ -120,6 +123,7 @@ automation:
     - service: script.ah_report
       data:
         call_interuption: 1
+        call_time_annc: 1
         call_skylar_dressed: 1
         call_school_today: 1
         call_skylar_events: 1

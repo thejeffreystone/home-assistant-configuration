@@ -306,6 +306,8 @@ script:
                 "There is something that needs your attention."
                 ] | random }}
           {% endmacro %}
+
+      
           
           {% macro morning_greeting() %}
               {{ [ "Anchorage House. Rise and Shine. ",
@@ -330,6 +332,20 @@ script:
                 "Before I call it a day I wanted to let you know,",
                 "Anchorage House."
               ] | random }}
+          {% endmacro %}
+
+          {% macro time_annc() %}
+
+            {% if now().strftime('%H')|int < 12 %}
+              It is now {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
+
+            {% elif now().strftime('%H')|int > 12 %}
+              It is now {{ now().strftime('%H')|int - 12 }} {{ now().strftime('%M')|int }} PM.
+            
+            {% else %}
+
+            {% endif %}
+
           {% endmacro %}
 
           {% macro weather_alerts() %}
@@ -743,6 +759,10 @@ script:
 
           {% if call_evening_greeting == 1 %}
             {{ evening_greeting() }}
+          {% endif %}
+
+          {% if call_time_annc == 1 %}
+            {{ time_annc() }}
           {% endif %}
 
           {% if states.sensor.nws_alerts.state | int > 0 and call_weather_alerts == 1 %}
