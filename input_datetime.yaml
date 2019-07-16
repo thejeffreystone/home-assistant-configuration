@@ -34,3 +34,12 @@ kat_pill_reminder:
   name: Kat Pill Reminder
   has_date: false
   has_time: true
+coffee_time:
+  name: Coffee Time
+  has_date: false
+  has_time: true
+heartworm_reminder:
+  name: Heartworm Reminder
+  has_date: true
+  has_time: false
+
