@@ -282,9 +282,11 @@ script:
                 "No Problem.",
                 "I think I can handle that.",
                 "Working on it now.",
+                ",Oh, you were talking to me. Let me take care of that."
                 "Why not. It's not like I ever sleep.",
                 "As Always, a great pleasure watching you work.",
-                "I am afraid I can't do that Dave,,,I'm kidding.",
+                "I'm not even supposed to be here today.",
+                "Ah-Ah-Ah. You didn't say the magic word.",
                 "Funny, I was just about to do that. "
                 ] | random }}
           {% endmacro %}
@@ -294,6 +296,10 @@ script:
                 "Pardon me,",
                 "Excuse me,",
                 "I do not mean to interupt, but.",
+                "I hate to interrupt, but.",
+                "I beg your pardon",
+                "I don't mean to intrude, but",
+                "I'm sorry to interrupt, but.",
                 "I thought you might like to know."
                 ] | random }}
           {% endmacro %}
@@ -426,9 +432,6 @@ script:
             {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
               Tomorrow is Jeff and Katherine's Wedding Anniversary. 
             {% endif %} 
-            {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
-              Tomorrow is Jeff and Katherine's Wedding Anniversary. 
-            {% endif %}
           {% endmacro %}
 
           {% macro upcoming_holidays() %}
@@ -471,7 +474,8 @@ script:
           {% macro prebed_routine() %}
             Skylar,  
             {{ [ "It is time to get in the bath. ",
-                "I cannot comminicate with the tub otherwise I would have started the water for you already, but it's still bath time ",
+                "You only have thirty minutes until bedtime. That means you should be heading for the bathtub."
+                "I cannot comminicate with the bathtub otherwise I would have started the water for you already, so you will have to do it manually. It's bath time. ",
                 "My sensors are detecting a strange smell. I am running diagnostics, but in the mean time why don't you start a bath.",
               ] | random }} 
             If you go now there may be time for stories. Don't forget to brush your teeth. 
