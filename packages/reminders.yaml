@@ -1,0 +1,30 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   07/15/2019
+#   @package        :   Reminders
+#   @description    :   Autoamtions to set reminders
+###############################################################################
+
+automation:
+
+  # Massive automation to call all the reminder scripts.
+  - id: turn_reminders_on
+    alias: Turn Reminders On
+    initial_state: true
+    trigger:
+    - entity_id: calendar.reminders
+      from: 'off'
+      platform: state
+      to: 'on'
+    action:
+    - service: script.heartworm_on
+
+
+script:
+  # Check to see if heartworm is the reminder in the cal
+  heartworm_on:
+    sequence:
+      - condition: template
+        value_template: '{{ states.calendar.reminders.attributes.message == "Heartworm" }}'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.heartworm
