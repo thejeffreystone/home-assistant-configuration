@@ -25,7 +25,7 @@ washer_idle:
     data:
       topic: house/washer/status
       payload: idle
-      retain: true
+      retain: true=
 washer_running:
   sequence:
   - service: mqtt.publish
@@ -60,6 +60,107 @@ open_garage:
     state: closed
   - service: cover.open_cover
     entity_id: cover.cargo_bay
+front_door_lamp_test:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/hue
+      payload: 100
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/saturation
+      payload: 0
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/colorTemperature
+      payload: 2703
+      retain: true
+front_door_lamp_soft_white:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/hue
+      payload: 100
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/saturation
+      payload: 0
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/colorTemperature
+      payload: 2903
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/colorTemperature
+      payload: 2703
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Front Door Lamp/level
+      payload: 100
+      retain: true
+living_room_lamp_soft_white:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Living Room Lamp/hue
+      payload: 100
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Living Room Lamp/saturation
+      payload: 0
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Living Room Lamp/colorTemperature
+      payload: 2903
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Living Room Door Lamp/level
+      payload: 100
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Living Room Lamp/colorTemperature
+      payload: 2703
+      retain: true
+tower_lamp_soft_white:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Tower Lamp/hue
+      payload: 100
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Tower Lamp/saturation
+      payload: 0
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Tower Lamp/colorTemperature
+      payload: 2903
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Tower Lamp/level
+      payload: 100
+  - service: mqtt.publish
+    data:
+      topic: smartthings/Tower Lamp/colorTemperature
+      payload: 2703
+      retain: true
+reset_downstairs:
+  sequence:
+  - service: script.tower_lamp_soft_white
+  - service: script.living_room_lamp_soft_white
+  - service: script.front_door_lamp_soft_white
 # play_skylars_christmas_playlist:
 #   sequence:
 #   - service: media_player.volume_set
@@ -177,13 +278,13 @@ inside_all_on:
       entity_id: light.tower_lamp_4
   - service: light.turn_on
     data:
-      entity_id: light.front_lamp
+      entity_id: light.front_door_lamp
   - service: switch.turn_on
     data:
       entity_id: switch.fireplace_lights
   - service: light.turn_on
     data:
-      entity_id: light.table_lamp
+      entity_id: light.living_room_lamp
   - service: light.turn_on
     data:
       entity_id: light.kitchen_light_strip
@@ -199,10 +300,10 @@ inside_all_off:
       entity_id: light.tower_lamp_4
     service: light.turn_off
   - data:
-      entity_id: light.table_lamp
+      entity_id: light.living_room_lamp
     service: light.turn_off
   - data:
-      entity_id: light.front_lamp
+      entity_id: light.front_door_lamp
     service: light.turn_off
   - data:
       entity_id: light.kitchen_cabinets
