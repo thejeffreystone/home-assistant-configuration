@@ -22,9 +22,9 @@ sensor:
               {%- endif %}
             {% elif is_state('device_tracker.jeffreystonesiphone', 'Sprouts') %}
               Grocery Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger Grayson') %}
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger1') %}
               Grocery Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger Snellville') %}
+            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger2') %}
               Grocery Store
             {% elif is_state('device_tracker.jeffreystonesiphone', 'Home Depot') %}
               Home Improvement Store
@@ -75,9 +75,9 @@ sensor:
               {%- endif %}
             {% elif is_state('device_tracker.katherinestonesiphone', 'Sprouts') %}
               Grocery Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger Grayson') %}
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger1') %}
               Grocery Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger Snellville') %}
+            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger2') %}
               Grocery Store
             {% elif is_state('device_tracker.katherinestonesiphone', 'Home Depot') %}
               Home Improvement Store
@@ -249,7 +249,6 @@ automation:
       zone: zone.home
     action:
     - service: script.family_is_home
-    - service: script.jeff_is_home
     - service: script.jeff_destination_na
     - service: script.driveway_on
     - entity_id: input_boolean.jeff_travel_monitor
