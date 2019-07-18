@@ -2,52 +2,34 @@
 #   @author         :   Jeffrey Stone 
 #   @date           :   02/19/2019
 #   @package        :   Announcements
-#   @description    :   Just Normal Announcements. 
+#   @description    :   Daily Announcements. 
 ###############################################################################
 
-#script:
-  
-  # annc_storm_statement:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.vacation_mode
-  #     state: 'off'
-  #   - service: script.text_notify
-  #     data:
-  #       message: Severe Storm Statement Issued for Anchorage House
-  # annc_tstorm_watch:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.vacation_mode
-  #     state: 'off'
-  #   - service: script.text_notify
-  #     data:
-  #       message: Severe Thunderstorm Watch Issued for Anchorage House
-  # annc_tstorm_warning:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.vacation_mode
-  #     state: 'off'
-  #   - service: script.text_notify
-  #     data:
-  #       message: Severe Thunderstorm Warning Issued for Anchorage House
-  # annc_tornado_watch:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.vacation_mode
-  #     state: 'off'
-  #   - service: script.text_notify
-  #     data:
-  #       message: Tornado Watch Issued for Anchorage House
-  # annc_tornado_warning:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: sensor.family_status
-  #     state: Home
-  #   - service: script.alert_notify
-  #     data_template:
-  #       message: "Tornado Warning has been Issued"
 
+###############################
+# input_datetime - So the time report automation fires can be set in the UI
+###############################
+input_datetime:
+  morning_report:
+    name: Morning Report
+    has_date: false
+    has_time: true
+  nightly_report:
+    name: Nightly Report
+    has_date: false
+    has_time: true
+  skylar_morning_report:
+    name: Skylar Dressed Announcement
+    has_date: false
+    has_time: true
+  skylar_nightly_report:
+    name: Skylar Bedtime Announcement
+    has_date: false
+    has_time: true
+
+################################
+# Announcment Automation - fires at the time of the above input_datetimes
+################################
 automation:
   - id: prebed_routine
     initial_state: true
