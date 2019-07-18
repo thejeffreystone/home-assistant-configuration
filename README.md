@@ -18,7 +18,7 @@ This is V4 of my config.
 
 #### General Information about Anchorage House
 
-Hassbian is the flavor of Home Assistant powering Anchorage House. Currently it is running on a RaspberryPi 3. I also have a Ubuntu Server that handles running some other things like my 433mhz data collection, and Splunk for Home Assistant data analytics. And Smartthings is currently is used as a dumb hub handling most of the zwave and zigbee devices.
+Hassbian is the flavor of Home Assistant powering Anchorage House. Currently it is running on a RaspberryPi 3. I also have a Ubuntu Server that handles running some other things like my 433mhz data collection, and Splunk for Home Assistant data analytics. And Smartthings is currently used as a dumb hub handling most of the zwave and zigbee devices.
 
 The old configurations are stored in branches for anyone that wants to see the previous iterations. However, the only branch guaranteed to work with the current version of Home Assistant is master.
 
