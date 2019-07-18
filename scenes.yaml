@@ -24,10 +24,10 @@
     light.tower_lamp_4:
       state: on
       brightness: 250
-    light.front_lamp:
+    light.front_door_lamp:
       state: on
       brightness: 250
-    light.table_lamp:
+    light.living_room_lamp:
       state: on
       brightness: 250
 
@@ -36,9 +36,9 @@
     light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_ldoor_amp:
       state: off
-    light.table_lamp:
+    light.living_room_lamp:
       state: off
     switch.fireplace_lights:
       state: off
@@ -48,10 +48,10 @@
     light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_door_lamp:
       state: on
       brightness: 40
-    light.table_lamp:
+    light.living_room_lamp:
       state: off
     switch.fireplace_lights:
       state: off
@@ -61,10 +61,10 @@
     light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_door_lamp:
       state: on
       brightness: 40
-    light.table_lamp:
+    light.living_room_lamp:
       state: on
       brightness: 40
     switch.fireplace_lights:
@@ -75,9 +75,9 @@
     light.tower_lamp_4:
       state: on
       brightness: 10
-    light.front_lamp:
+    light.front_door_lamp:
       state: off
-    light.table_lamp:
+    light.living_room_lamp:
       state: off
     switch.fireplace_lights:
       state: off
@@ -109,10 +109,10 @@
     light.tower_lamp_4:
       state: on
       brightness: 40
-    light.front_lamp:
+    light.front_door_lamp:
       state: on
       brightness: 40
-    light.table_lamp:
+    light.living_room_lamp:
       state: on
       brightness: 40
     switch.fireplace_lights:
@@ -128,9 +128,9 @@
       state: off
     light.tower_lamp_4:
       state: off
-    light.front_lamp:
+    light.front_door_lamp:
       state: off
-    light.table_lamp:
+    light.living_room_lamp:
       state: off
     switch.fireplace_lights:
       state: off
