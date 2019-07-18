@@ -83,7 +83,7 @@ discovery:
   - dlna_dmr
 
 updater:
-  #include_used_components: true
+  include_used_components: true
 
 sun:
 
@@ -156,10 +156,10 @@ media_player:
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg    
 
-splunk:
- host: 192.168.7.40
- token: !secret splunkit
- port: 8088
+##splunk:
+# host: 192.168.7.40
+# token: !secret splunkit
+# port: 8088
 
 cloudflare:
   email: !secret cloudflare_user
@@ -215,9 +215,9 @@ map:
 #   usb_path: /dev/ttyACM0
 #   network_key: !secret zwave_key
 
-googlehome:
-  devices:
-    - host: 192.168.7.97
+#googlehome:
+#  devices:
+#    - host: 192.168.7.97
 
 ### Custom Commands
 shell_command:
