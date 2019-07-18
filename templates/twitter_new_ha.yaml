@@ -15,7 +15,7 @@
       " Get in my SD Card! #homeassistant",
       " Shut up and take my ones and zeros! #homeassistant",
       " Seriously, you want some of this! #homeassistant",
-      " Friends dont let friends update @home_assistant without reading breaking changes. ",
+      " Friends dont let friends update #homeassistant without reading breaking changes! ",
       " If you are not running #homeassistant now is the best time to get started. Visit https://www.home-assistant.io"
       ] | random -}}
   {%- endmacro -%}
