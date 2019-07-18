@@ -31,10 +31,10 @@ House Conditions:
   - sensor.accurite_garage_humidity
 
 External Doors:
-  - binary_sensor.side_door_contact_2
-  - binary_sensor.front_door_contact_2
-  - binary_sensor.back_door_contact_2
-  - binary_sensor.laundry_room_door_contact_2
+  - binary_sensor.side_door
+  - binary_sensor.front_door
+  - binary_sensor.back_door
+  - binary_sensor.laundry_room_door
   - binary_sensor.garage_door
 
 Garage Doors:
