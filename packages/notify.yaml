@@ -3,7 +3,8 @@
 #   @date           :   02/19/2019
 #   @package        :   Notify
 #   @description    :   A Collection of Notification Scripts and Configs. 
-#                       Package modified from https://github.com/skalavala/smarthome/blob/master/packages/notify.yaml
+#                       Package modified from https://github.com/skalavala/smarthome/blob/master/packages/notify.yaml with inspiration
+#			from https://github.com/CCOSTAN/Home-AssistantConfig/blob/master/config/script/speech_engine.yaml		
 ###############################################################################
 #homeassistant:
 
