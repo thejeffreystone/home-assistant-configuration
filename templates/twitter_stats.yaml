@@ -7,7 +7,7 @@
        "I am using {{ states.sensor.sensor_count.state }} sensors to power {{ states.sensor.automation_count.state}} automations and {{ states.sensor.script_count.state}} scripts to
        automate Anchorage House thanks to Home Assistant.",
        "My config on Github (https://github.com/thejeffreystone/home-assistant-configuration) has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stars and counting.  Currently with {{ states.sensor.github_stats.attributes.open_issues }} open #Todo items.",
-       "I am running Home Assistant version {{ states('sensor.ha_installed_version') }} (https://github.com/thejeffreystone/home-assistant-configuration)"
+       "I am running Home Assistant version {{ states.sensor.installed_version.state }} (https://github.com/thejeffreystone/home-assistant-configuration)"
        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration and currently has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stargazers. You could be one too.",
        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration .The last commit was {{ states.sensor.home_assistant_configuration.attributes.latest_commit_message}}.",
        "You can read about how I came to be and all the cool things I'm learning to do over at http://jeffreystone.net "
