@@ -25,7 +25,7 @@ washer_idle:
     data:
       topic: house/washer/status
       payload: idle
-      retain: true=
+      retain: true
 washer_running:
   sequence:
   - service: mqtt.publish
