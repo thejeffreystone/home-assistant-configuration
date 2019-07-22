@@ -21,7 +21,7 @@ homeassistant:
 
 binary_sensor:
   - platform: iss
-    show_on_map: true
+    show_on_map: false
 
 sensor:
   - platform: moon
