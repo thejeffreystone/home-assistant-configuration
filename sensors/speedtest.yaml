@@ -11,3 +11,13 @@
 - platform: mqtt
   name: "network up"
   state_topic: "house/speedtest/up"
+- platform: statistics
+  name: Internet Test Down
+  entity_id: sensor.network_down
+  max_age:
+    days: 7
+- platform: statistics
+  name: Internet Test Up
+  entity_id: sensor.network_up
+  max_age:
+    days: 7
