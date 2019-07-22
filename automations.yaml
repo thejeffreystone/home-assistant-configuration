@@ -10,7 +10,7 @@
 - id: washer_complete
   alias: Washer Complete
   trigger:
-  - below: '1'
+  - below: 3
     entity_id: sensor.washer
     platform: numeric_state
   condition:
@@ -25,7 +25,7 @@
   alias: Washer Emptied
   trigger:
   - platform: state
-    entity_id: binary_sensor.washer_door
+    entity_id: binary_sensor.washer_door_contact
     from: 'off'
     to: 'on'
   action:
@@ -47,7 +47,7 @@
   alias: Turn Off Disney
   trigger:
   - platform: state
-    entity_id: media_player.hass_speaker
+    entity_id: media_player.guest_tv
     from: playing
     to: idle
   action:
@@ -131,7 +131,7 @@
   - service: scene.turn_on
     entity_id: scene.diminished_kitchen_lighting
   - service: switch.turn_off
-    entity_id: switch.rainbow_light_4
+    entity_id: switch.rainbow_light_3
 - id: good_morning_workday
   alias: Good Morning Workday
   initial_state: true
@@ -148,7 +148,7 @@
   - service: scene.turn_on
     entity_id: scene.normal_kitchen_lighting
   - service: switch.turn_off
-    entity_id: switch.rainbow_light_4
+    entity_id: switch.rainbow_light_3
   - service: scene.turn_on
     entity_id: scene.jeff_light_on
   - service: script.twitter_notify
@@ -169,7 +169,9 @@
     state: 'off'
   action:
   - service: switch.turn_on
-    entity_id: switch.rainbow_light_4
+    entity_id: switch.rainbow_light_3
+  - service: light.turn_on
+    entity_id: light.table_lamp_2
 - id: jeff_lights_out
   alias: Jeff lights out
   initial_state: true
@@ -263,13 +265,14 @@
   action:
   - service: scene.turn_on
     entity_id: scene.night_time_livingroom_lighting
-  - service: light.turn_off
-    data:
-      entity_id: light.loft_lamp
+  - service: switch.turn_off
+    entity_id: switch.upstairs_fan
+  - service: switch.turn_off
+    entity_id: switch.upstairs
   - service: switch.turn_off
     entity_id: switch.incense
   - service: switch.turn_off
-    entity_id: switch.artemis
+    entity_id: switch.artemis_2
   - service: light.turn_off
     data:
       entity_id: light.kitchen_cabinet_lights
@@ -455,6 +458,21 @@
   action:
   - service: script.family_is_away
 
+- id: set_coffee_time
+  alias: set soffee time
+  trigger:
+    - platform: time
+      at: '00:02:15'
+  action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.coffee_time
+      data_template:
+        time: > 
+          {% if states.binary_sensor.workday_sensor.state == 'on' %}
+            05:15
+          {% else %}
+            07:15
+          {% endif %}
 
 
 

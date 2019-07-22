@@ -173,7 +173,7 @@ script:
         state: 'off'
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.hass_speaker
+          entity_id: media_player.guest_tv
           message: >
             {{ message }}
 
@@ -181,7 +181,7 @@ script:
     sequence:
     - service: tts.amazon_polly_say
       data_template:
-        entity_id: media_player.hass_speaker
+        entity_id: media_player.guest_tv
         message: >-
           <speak>
             {{ message }}
@@ -207,11 +207,11 @@ script:
         entity_id: input_boolean.vacation_mode
         state: 'off'
       - condition: state
-        entity_id: media_player.hass_speaker
+        entity_id: media_player.guest_tv
         state: 'idle'
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.hass_speaker
+          entity_id: media_player.guest_tv
           message: >
             {{message }}
 
@@ -230,19 +230,26 @@ script:
     - condition: state
       entity_id: input_boolean.vacation_mode
       state: 'off'
+    - service: media_player.turn_on
+      entity_id: media_player.guest_tv
     - wait_template: >-
-        {{ not is_state('media_player.hass_speaker', 'playing') }}
+        {{ not is_state('media_player.guest_tv', 'playing') }}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.guest_tv
+        volume_level: .65
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.hass_speaker
+          media_player.guest_tv, media_player.googlehome0715, media_player.googlehomehub3492
           {% else %}
-          media_player.googlehome0715, media_player.googlehomehub3492
+          media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
           {% endif %}
         message: >-
           <speak>
             {{ message }}
+            <break time="1.0s" />
           </speak>
         cache: true
   
@@ -317,8 +324,9 @@ script:
       
           
           {% macro morning_greeting() %}
-              {{ [ "Anchorage House. Rise and Shine. ",
-                "everyone. ",
+              {{ [ "Time to Rise and Shine. ",
+                "Let's do this thing.",
+                "Anchorage House."
                 "The early bird gets the worm. And look over there. A worm. Wait, is that a snake? umm,,,I don't like snakes. Someone might want to take care,, ok,,, moving on.",
                 "The early bird gets the worm.",
                 "from the bridge.",
@@ -335,8 +343,8 @@ script:
 
           {% macro evening_greeting() %}
             {{ [ "I thought you might like to know. ",
-                "Here is the nightly report.",
-                "Before I call it a day I wanted to let you know,",
+                "The day is almost over.",
+                "Before things start to quiet down,",
                 "Anchorage House."
               ] | random }}
           {% endmacro %}
@@ -391,7 +399,6 @@ script:
             {% endif %}
             {% if states.calendar.birthdays.state == "on" %}
               Today is {{ states.calendar.birthdays.attributes.message }} birthday!
-              # Add some snark
             {% endif %}
           {% endmacro %}
 
@@ -495,18 +502,12 @@ script:
               {% if states.calendar.skylar_school.attributes.description == "early-release" %}
                 And guess what? It is early release!
               {% endif %}
-              # {% if is_state("sensor.weekday", "fri") %} 
-              #   Plus, it is fun Friday! 
-              # {% endif %} 
             {% endif %}
           {% endmacro %}
 
           {% macro skylar_events() %}
             {% if is_state("calendar.skylar_events", "on") %}
               Skylar, You have {{ states.calendar.skylar_events.attributes.message }} today as well!
-              # {% if is_state("sensor.weekday", "fri") %} 
-              #   Plus, it is fun Friday! 
-              # {% endif %} 
             {% endif %}
           {% endmacro %}
 
@@ -517,14 +518,34 @@ script:
               It is going to be cold today so I suggest wearing long pants and a light jacket.
             {% elif is_state("sensor.clothing_forecast", "Chilly") %}
               It is going to be chilly today so I suggest wearing at least long pants.
-            # {% elif is_state("sensor.clothing_forecast", "Nice") %}
-            #   It is going to be nice today so I suggest wearing shorts.
-            # {% elif is_state("sensor.clothing_forecast", "Toasty") %}
-            #   It is going to be a bit warm today so I suggest wearing shorts. 
-            # {% elif is_state("sensor.clothing_forecast", "Hot") %}
-            #   It is going to be hot today so I suggest wearing shorts.
+            {% elif is_state("sensor.clothing_forecast", "Nice") %}
+              It is going to be           
+              {{ [ "nice outside",
+                "pretty nice outside "
+                "a good day to be outside ",
+                "rather enjoyable outside ",
+              ] | random }} 
+              today so I suggest wearing shorts.
+            {% elif is_state("sensor.clothing_forecast", "Toasty") %}
+              It is going to be a 
+              {{ [ "bit warm ",
+                "rather warm outside ",
+                "almost too hot outside ",
+                "a little warm ",
+              ] | random }} 
+              today so I suggest wearing shorts. 
+            {% elif is_state("sensor.clothing_forecast", "Hot") %}
+              It is going to be 
+              {{ [ "hot",
+                "hotter than the sun "
+                "hotter than hot, but in a lot of bad ways ",
+                "hotter than the sun outside ",
+                "super hot ",
+                "hotter than the inside of a volcano "
+              ] | random }} 
+              today so I suggest wearing shorts.
             {% else %}
-              It is going to {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+              It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
             {% endif %} 
           {% endmacro %}
           
