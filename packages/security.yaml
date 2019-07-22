@@ -143,10 +143,10 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door
-      - binary_sensor.laundry_room_door
-      - binary_sensor.attic_door
-      - binary_sensor.back_door
+      - binary_sensor.front_door_contact_2
+      - binary_sensor.laundry_room_door_contact_2
+      - binary_sensor.attic_door_contact_2
+      - binary_sensor.back_door_contact_2
       from: 'off'
       to: 'on'
       for: '00:01:00'
@@ -192,11 +192,11 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door
-      - binary_sensor.laundry_room_door
-      - binary_sensor.back_door
-      - binary_sensor.side_door
-      - binary_sensor.garage_door
+      - binary_sensor.front_door_contact_2
+      - binary_sensor.laundry_room_door_contact_2
+      - binary_sensor.back_door_contact_2
+      - binary_sensor.side_door_contact_2
+      - binary_sensor.garage_door_contact_2
       from: 'off'
     condition:
     - condition: state
@@ -347,10 +347,10 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - condition: state
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.guest_tv
   #     state: 'idle'
   #   - service: tts.google_say
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.guest_tv
   #     data_template:
   #       message: "Sentry mode activated"
 
@@ -360,10 +360,10 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - condition: state
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.guest_tv
   #     state: 'idle'
   #   - service: tts.google_say
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.guest_tv
   #     data_template:
   #       message: "Sentry mode deactivated"
   
