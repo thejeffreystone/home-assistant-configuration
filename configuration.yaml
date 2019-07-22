@@ -79,8 +79,8 @@ google:
 
 
 discovery:
-  enable:
-  - dlna_dmr
+  ignore:
+    - igd
 
 updater:
   include_used_components: true
@@ -114,8 +114,8 @@ logbook:
 
 logger:
   default: warning
-  logs:
-    homeassistant.components.sensor.alpha_vantage: debug
+  # logs:
+  #   homeassistant.components.sensor.alpha_vantage: debug
 
 
 history:
@@ -128,7 +128,7 @@ history:
 
 cast:
 
-speedtestdotnet:
+# speedtestdotnet:
  
 mqtt:
   broker: 192.168.7.67
@@ -151,7 +151,7 @@ camera:
 media_player:
   - platform: vlc
     name: hass_speaker
-    arguments: '--alsa-audio-device=hw:0,0'
+    arguments: '--alsa-audio-device=hw:0,1'
     
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg    
@@ -210,6 +210,14 @@ ecobee:
   api_key: !secret ecobee_api
 
 map:
+
+wwlln:
+  radius: 75
+  latitude: !secret MY_LATITUDE
+  longitude: !secret MY_LONGITUDE
+
+tplink:
+  discovery: true
 
 # zwave:
 #   usb_path: /dev/ttyACM0
