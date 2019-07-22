@@ -1,41 +1,43 @@
 - name : test
   entities:
-    light.tower_lamp_4:
+    group.rgb_lr:
       state: on
       brightness: 250
       color_name: "blue"
 
 - name : test2
   entities:
-    light.tower_lamp_4:
-      state: on
-      brightness: 250
-      color_name: "soft white"
+    group.rgb_lr:
+      state: off
+      color_temp: 369
 
 - name : test3
   entities:
-    light.tower_lamp_4:
+    group.rgb_lr:
       state: on
       brightness: 250
-      hs_color: "195,0"
+      color_temp: 369
+      #rgb_color: [255,255,255]
 
 - name: normal livingroom lighting
   entities:
-    light.tower_lamp_4:
+    group.rgb_lr:
       state: on
       brightness: 250
-    light.front_door_lamp:
-      state: on
-      brightness: 250
-    light.living_room_lamp:
-      state: on
-      brightness: 250
+      color_temp: 369
+    # light.front_door_lamp:
+    #   state: on
+    #   brightness: 250
+    # light.living_room_lamp:
+    #   state: on
+    #   brightness: 250
 
 - name: dimished livingroom lighting
   entities:
-    light.tower_lamp_4:
+    light.tower_lamp_2:
       state: on
       brightness: 40
+      color_temp: 369
     light.front_ldoor_amp:
       state: off
     light.living_room_lamp:
@@ -45,12 +47,14 @@
 
 - name: illuminations livingroom lighting two
   entities:
-    light.tower_lamp_4:
+    light.tower_lamp_2:
       state: on
       brightness: 40
+      color_temp: 369
     light.front_door_lamp:
       state: on
       brightness: 40
+      color_temp: 369
     light.living_room_lamp:
       state: off
     switch.fireplace_lights:
@@ -58,23 +62,26 @@
 
 - name: illuminations livingroom lighting three
   entities:
-    light.tower_lamp_4:
+    light.tower_lamp_2:
       state: on
       brightness: 40
+      color_temp: 369
     light.front_door_lamp:
       state: on
       brightness: 40
     light.living_room_lamp:
       state: on
       brightness: 40
+      color_temp: 369
     switch.fireplace_lights:
       state: off
 
 - name: night time livingroom lighting
   entities:
-    light.tower_lamp_4:
+    light.tower_lamp_2:
       state: on
       brightness: 10
+      color_temp: 369
     light.front_door_lamp:
       state: off
     light.living_room_lamp:
@@ -106,15 +113,15 @@
       state: off
     switch.ge_14291_in_wall_smart_switch_switch_2:
       state: off
-    light.tower_lamp_4:
+    group.rgb_lr:
       state: on
       brightness: 40
-    light.front_door_lamp:
-      state: on
-      brightness: 40
-    light.living_room_lamp:
-      state: on
-      brightness: 40
+    # light.front_door_lamp:
+    #   state: on
+    #   brightness: 40
+    # light.living_room_lamp:
+    #   state: on
+    #   brightness: 40
     switch.fireplace_lights:
       state: off
 
@@ -126,12 +133,12 @@
       state: off
     switch.ge_14291_in_wall_smart_switch_switch_2:
       state: off
-    light.tower_lamp_4:
+    group.rgb_lr:
       state: off
-    light.front_door_lamp:
-      state: off
-    light.living_room_lamp:
-      state: off
+    # light.front_door_lamp:
+    #   state: off
+    # light.living_room_lamp:
+    #   state: off
     switch.fireplace_lights:
       state: off
 
