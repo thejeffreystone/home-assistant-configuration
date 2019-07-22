@@ -31,11 +31,11 @@ House Conditions:
   - sensor.accurite_garage_humidity
 
 External Doors:
-  - binary_sensor.side_door
-  - binary_sensor.front_door
-  - binary_sensor.back_door
-  - binary_sensor.laundry_room_door
-  - binary_sensor.garage_door
+  - binary_sensor.side_door_contact_2
+  - binary_sensor.front_door_contact_2
+  - binary_sensor.back_door_contact_2
+  - binary_sensor.laundry_room_door_contact_2
+  - binary_sensor.garage_door_contact_2
 
 Garage Doors:
   - binary_sensor.side_door_contact_2
@@ -56,3 +56,8 @@ Disney Audio:
   - input_boolean.illuminations
   - input_boolean.boo_to_you
   - input_boolean.happy_ever_after
+
+rgb_lr:
+  - light.tower_lamp_2
+  - light.front_door_lamp
+  - light.living_room_lamp
