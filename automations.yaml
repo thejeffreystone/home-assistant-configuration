@@ -84,28 +84,13 @@
         intitiated a backup of my critical data. ", "With @home_assistant and the
         #dropbox component it is easy to backup your important config files. Lets
         do this thing! " ] | random }}'
-- id: net_speed_report
-  initial_state: true
-  alias: Network Speed Report
-  trigger:
-  - platform: time
-    at: '11:15:00'
-  action:
-  - service: script.twitter_notify
-    data_template:
-      message: '{{ [ "According to my latest speed tests Anchorage House is getting
-        {{ states.sensor.network_down.state}} Mbps down and {{ states.sensor.network_up.state}}
-        Mbps up thanks to #ATTFiber. ", "How fast is your internet? I just checked
-        am Im seeing {{ states.sensor.network_down.state}} Mbps down and {{ states.sensor.network_up.state}}
-        Mbps up. Beat that. ", "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
-        and is {{ states.sensor.network_down.state}} Mbps down and {{ states.sensor.network_up.state}}
-        Mbps up." ] | random }}'
-- id: coffee_time_workday
-  alias: Coffee Time Workday
+
+- id: coffee_time
+  alias: Coffee Time
   initial_state: true
   trigger:
-  - platform: time
-    at: 05:15:00
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.coffee_time', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
   condition:
     condition: state
     entity_id: binary_sensor.workday_sensor
@@ -115,25 +100,9 @@
     entity_id: scene.diminshed_livingroom_lighting
   - service: scene.turn_on
     entity_id: scene.diminished_kitchen_lighting
-- id: coffee_time_holiday
-  alias: Coffee Time Holiday
-  initial_state: true
-  trigger:
-  - platform: time
-    at: 07:30:00
-  condition:
-    condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  action:
-  - service: scene.turn_on
-    entity_id: scene.diminshed_livingroom_lighting
-  - service: scene.turn_on
-    entity_id: scene.diminished_kitchen_lighting
-  - service: switch.turn_off
-    entity_id: switch.rainbow_light_3
-- id: good_morning_workday
-  alias: Good Morning Workday
+
+- id: good_morning
+  alias: Good Morning
   initial_state: true
   trigger:
   - platform: time
@@ -157,6 +126,7 @@
         "Good Morning from Anchorage House. Glad to see everyone made it. ", "Birds
         are awake, and so is Anchorage House. Good morning everyone! " ] | random
         }}'
+
 - id: skylar_bedtime
   alias: Skylar Bedtime
   initial_state: true
