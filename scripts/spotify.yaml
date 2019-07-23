@@ -1,0 +1,52 @@
+# play_skylars_christmas_playlist:
+#   sequence:
+#   - service: media_player.volume_set
+#     data:
+#       entity_id: media_player.spotify
+#       volume_level: '0.40'
+#   - service: media_player.select_source
+#     data_template:
+#       entity_id: media_player.spotify
+#       source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
+#         {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
+#         {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
+#         is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
+#         {% endif %}
+
+#         '
+#   - service: media_player.play_media
+#     data_template:
+#       entity_id: media_player.spotify
+#       media_content_type: playlist
+#       media_content_id: spotify:user:spotify:playlist:2lmfykOn8EK0Ow8iH9XHLa
+#   - service: media_player.shuffle_set
+#     data:
+#       entity_id: media_player.spotify
+#       shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
+#         is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}
+
+#         '
+# play_skylars_playlist:
+#   sequence:
+#   - service: media_player.volume_set
+#     data:
+#       entity_id: media_player.spotify
+#       volume_level: '0.40'
+#   - service: media_player.select_source
+#     data_template:
+#       entity_id: media_player.spotify
+#       source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
+#         {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
+#         {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
+#         is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
+#         {% endif %}'
+#   - service: media_player.play_media
+#     data_template:
+#       entity_id: media_player.spotify
+#       media_content_type: playlist
+#       media_content_id: spotify:user:spotify:playlist:0hYKkmUpFFG37TtFX23cMM
+#   - service: media_player.shuffle_set
+#     data:
+#       entity_id: media_player.spotify
+#       shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
+#         is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}'
