@@ -183,7 +183,7 @@ sensor: !include_dir_merge_list sensors
 binary_sensor: !include_dir_merge_list binary_sensors
 light: !include_dir_merge_list lights
 switch: !include_dir_merge_list switches
-script: !include scripts.yaml
+script: !include_dir_merge_list scipts
 intent_script: !include intents/intents.yaml
 scene: !include scenes.yaml
 input_select: !include input_select.yaml
