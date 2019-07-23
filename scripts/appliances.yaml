@@ -1,0 +1,36 @@
+washer_finished_notification_audible:
+  sequence:
+  - delay:
+      minutes: 15
+  - condition: state
+    entity_id: sensor.family_status
+    state: Home
+  - condition: state
+    entity_id: sensor.washer_status
+    state: complete
+  - service: script.ah_report
+    data:
+      call_interuption: 1
+      call_washer_needs_emptying: 1
+
+washer_idle:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: idle
+      retain: true
+washer_running:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: running
+      retain: true
+washer_complete:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: complete
+      retain: true
