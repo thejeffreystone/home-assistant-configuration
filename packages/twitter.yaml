@@ -73,6 +73,23 @@ automation:
         data_template:
           message: >-
             "This is a good time to remind you that I am a bot powered by @home_assistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+  
+  - id: net_speed_report
+    initial_state: true
+    alias: Network Speed Report
+    trigger:
+    - platform: time
+      at: '11:15:00'
+    action:
+    - service: script.twitter_notify
+      data_template:
+        message: '{{ [ "According to my latest speed tests Anchorage House is getting
+          {{ states.sensor.internet_test_down_mean.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up_mean.attributes.max_value }}
+          Mbps up thanks to #ATTFiber. ", "How fast is your internet? I just checked
+          am Im seeing {{ states.sensor.internet_test_down_mean.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up_mean.attributes.max_value }}
+          Mbps up. Beat that. ", "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
+          and is {{ states.sensor.internet_test_down_mean.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up_mean.attributes.max_value }}
+          Mbps up." ] | random }}'
 
   - id: rex_manning_day_tweet_1
     alias: Rex Manning Day Tweet One
