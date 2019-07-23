@@ -18,5 +18,11 @@ coffee_time:
   name: Coffee Time
   has_date: false
   has_time: true
-
-
+good_morning:
+  name: Good Morning
+  has_date: false
+  has_time: true
+skylar_wakeup_call:
+  name: Skylar Wakeup
+  has_date: false
+  has_time: true
