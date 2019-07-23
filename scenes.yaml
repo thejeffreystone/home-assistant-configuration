@@ -1,3 +1,24 @@
+- name: test_dim_75
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 75
+      color_temp: 369
+
+- name: test_dim_50
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 50
+      color_temp: 369
+  
+- name: test_dim_25
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 25
+      color_temp: 369
+
 - name : test
   entities:
     group.rgb_lr:
@@ -178,6 +199,35 @@
       state: on
     switch.artemis:
       state: on
+
+- name: skylar lamp on
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 100
+
+- name: skylar lamp 75
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 75
+
+- name: skylar lamp 50
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 50
+
+- name: skylar lamp 25
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 25
+
+- name: skylar lamp off
+  entities:
+    light.table_lamp_2:
+      state: off
 
 # - name: santa protocol
 #   entities:
