@@ -347,10 +347,10 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - condition: state
-  #     entity_id: media_player.guest_tv
+  #     entity_id: media_player.hass_speaker
   #     state: 'idle'
   #   - service: tts.google_say
-  #     entity_id: media_player.guest_tv
+  #     entity_id: media_player.hass_speaker
   #     data_template:
   #       message: "Sentry mode activated"
 
@@ -360,10 +360,10 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - condition: state
-  #     entity_id: media_player.guest_tv
+  #     entity_id: media_player.hass_speaker
   #     state: 'idle'
   #   - service: tts.google_say
-  #     entity_id: media_player.guest_tv
+  #     entity_id: media_player.hass_speaker
   #     data_template:
   #       message: "Sentry mode deactivated"
   

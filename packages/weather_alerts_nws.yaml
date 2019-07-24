@@ -200,7 +200,7 @@ automation:
       to: 'on'
     action:
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/Tornado_Siren.mp3
         media_content_type: "music"
@@ -215,7 +215,7 @@ automation:
 
     action:
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   
 
 script:
@@ -237,3 +237,7 @@ script:
           notification_id: "nwswxalert"
           message: "{{ message }}"
           title: '{{ title }}'
+  
+  tornado_alarm:
+    sequence:
+      - service: shell_command.tornado_alarm

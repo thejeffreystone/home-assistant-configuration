@@ -57,7 +57,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
     - service: script.turn_on
       entity_id: script.kill_this_ride
   - id: illuminations_on
@@ -113,7 +113,7 @@ automation:
     - service: script.turn_on
       entity_id: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   - id: happy_ever_after_on
     alias: Happy Ever After On
     initial_state: true
@@ -135,7 +135,7 @@ automation:
     - service: script.turn_on
       entity_id: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   - id: haunted_mansion_on
     alias: Haunted Mansion On
     initial_state: true
@@ -156,7 +156,7 @@ automation:
     action:
     - service: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   - id: spaceship_earth_on
     alias: Spaceship Earth On
     initial_state: true
@@ -178,7 +178,7 @@ automation:
     - service: script.turn_on
       entity_id: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   - id: boo_to_you_show_on
     alias: Boo To You Show On
     initial_state: true
@@ -200,7 +200,7 @@ automation:
     - service: script.turn_on
       entity_id: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   - id: boo_to_you_on
     alias: Boo To You On
     initial_state: true
@@ -222,7 +222,7 @@ automation:
     - service: script.turn_on
       entity_id: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
   - id: holiday_wisher_on
     alias: Holiday Wishes On
     initial_state: true
@@ -244,7 +244,7 @@ automation:
     - service: script.turn_on
       entity_id: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
 
 script:
   kill_hurry_back:
@@ -303,10 +303,10 @@ script:
     #- service: shell_command.haunted_mansion_preshow_full
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .7
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/haunted_mansion_preshow_full.mp3
         media_content_type: "music"
@@ -358,7 +358,7 @@ script:
   kill_this_ride:
     sequence:
     - service: media_player.media_stop
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
     - service: shell_command.alarm_off
     - service: script.turn_off
       data:
@@ -410,10 +410,10 @@ script:
     #- service: shell_command.dance_it
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .7
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/move_it_shake_dance_audio.mp3
         media_content_type: "music"
@@ -428,10 +428,10 @@ script:
     #- service: shell_command.spaceship_earth_ride
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .7
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: media/audio/spaceship_earth_ride.mp3
         media_content_type: "music"
@@ -482,10 +482,10 @@ script:
     #- service: shell_command.welcome_show_crowd
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .7
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/welcome_show_crowd.mp3
         media_content_type: "music"
@@ -509,7 +509,7 @@ script:
       state: Home
     #- service: shell_command.holiday_wishes
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/wishes_5_min.mp3
         media_content_type: "music"
@@ -523,7 +523,7 @@ script:
       state: Home
     #- service: shell_command.boo_to_you
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/boo_to_you_audio.mp3
         media_content_type: "music"
@@ -537,7 +537,7 @@ script:
       state: Home
     #- service: shell_command.happily_ever_after
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/Happily_Ever_After_Audio.mp3
         media_content_type: "music"
@@ -551,7 +551,7 @@ script:
       state: Home
     #- service: shell_command.boo_to_you
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/boo_to_you_audio.mp3
         media_content_type: "music"
@@ -566,10 +566,10 @@ script:
     #- service: shell_command.tiki_room_audio
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .9
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/tiki_room_audio.mp3
         media_content_type: "music"
@@ -584,10 +584,10 @@ script:
     #- service: shell_command.happily_ever_after
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .7
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/Happily_Ever_After_Audio.mp3
         media_content_type: "music"
@@ -637,10 +637,10 @@ script:
     #- service: shell_command.illuminations_audio
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .7
     - service: media_player.play_media
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
       data:
         media_content_id: /media/audio/illuminations.mp3
         media_content_type: "music"

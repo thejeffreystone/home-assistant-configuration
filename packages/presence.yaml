@@ -12,7 +12,7 @@ sensor:
         friendly_name: "Jeff's Current Location"
         unit_of_measurement: ''
         value_template: >-
-            {%- if is_state('device_tracker.jeffreystonesiphone', 'not_home') %}
+            {%- if is_state('person.jeffrey', 'not_home') %}
               {%- if states.device_tracker.life360_jeffrey_stone.attributes.moving == True %}
                 Flue Network
               {%- elif states.device_tracker.life360_jeffrey_stone.attributes.driving == True %}
@@ -20,22 +20,22 @@ sensor:
               {% else %}
                 Lost
               {%- endif %}
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Sprouts') %}
+            {% elif is_state('person.jeffrey', 'Sprouts') %}
               Grocery Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger1') %}
+            {% elif is_state('person.jeffrey', 'Kroger1') %}
               Grocery Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Kroger2') %}
+            {% elif is_state('person.jeffrey', 'Kroger2') %}
               Grocery Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Home Depot') %}
+            {% elif is_state('person.jeffrey', 'Home Depot') %}
               Home Improvement Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Lowes') %}
+            {% elif is_state('person.jeffrey', 'Lowes') %}
               Home Improvement Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Walmart') %}
+            {% elif is_state('person.jeffrey', 'Walmart') %}
               Super Store
-            {% elif is_state('device_tracker.jeffreystonesiphone', 'Target') %}
+            {% elif is_state('person.jeffrey', 'Target') %}
               Super Store
             {% else %}
-              {{ states.device_tracker.jeffreystonesiphone.state }}
+              {{ states.person.jeffrey.state }}
             {%- endif %}
       jeff_driving:
         friendly_name: "Jeff' Driving"
@@ -54,7 +54,7 @@ sensor:
         friendly_name: "Skylar's Current Location"
         unit_of_measurement: ''
         value_template: >-
-            {%- if is_state('device_tracker.jeffreystonesiphone', 'home') and is_state('device_tracker.katherinestonesiphone', 'home')%}
+            {%- if is_state('person.jeffrey', 'home') and is_state('person.jeffrey', 'home')%}
               home
             {% else %}
               Mortal Peril
@@ -65,7 +65,7 @@ sensor:
         friendly_name: "Kat's Current Location"
         unit_of_measurement: ''
         value_template: >-
-            {%- if is_state('device_tracker.katherinestonesiphone', 'not_home') %}
+            {%- if is_state('person.katherine', 'not_home') %}
               {%- if states.device_tracker.life360_kat_stone.attributes.moving == True %}
                 Flue Network
               {% elif states.device_tracker.life360_kat_stone.attributes.driving == True %}
@@ -73,22 +73,22 @@ sensor:
               {% else %}
                 Lost
               {%- endif %}
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Sprouts') %}
+            {% elif is_state('person.katherine', 'Sprouts') %}
               Grocery Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger1') %}
+            {% elif is_state('person.katherine', 'Kroger1') %}
               Grocery Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Kroger2') %}
+            {% elif is_state('person.katherine', 'Kroger2') %}
               Grocery Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Home Depot') %}
+            {% elif is_state('person.katherine', 'Home Depot') %}
               Home Improvement Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Lowes') %}
+            {% elif is_state('person.katherine', 'Lowes') %}
               Home Improvement Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Walmart') %}
+            {% elif is_state('person.katherine', 'Walmart') %}
               Super Store
-            {% elif is_state('device_tracker.katherinestonesiphone', 'Target') %}
+            {% elif is_state('person.katherine', 'Target') %}
               Super Store
             {% else %}
-              {{ states.device_tracker.katherinestonesiphone.state }}
+              {{ states.person.katherine.state }}
             {%- endif %}
   - platform: template
     sensors:
@@ -140,7 +140,7 @@ automation:
     - platform: zone
       event: enter
       zone: zone.zoo_atlanta
-      entity_id: device_tracker.katherinestonesiphone
+      entity_id: person.katherine
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.kat_travel_monitor
@@ -156,7 +156,7 @@ automation:
     - platform: zone
       event: leave
       zone: zone.zoo_atlanta
-      entity_id: device_tracker.katherinestonesiphone
+      entity_id: person.katherine
     condition:
     action:
     - service: input_boolean.turn_on
@@ -187,23 +187,11 @@ automation:
       from: Away
       platform: state
       to: Home
-    - entity_id: device_tracker.jeffreystonesiphone
+    - entity_id: person.jeffrey
       event: enter
       platform: zone
       zone: zone.home
-    - entity_id: device_tracker.katherinestonesiphone
-      event: enter
-      platform: zone
-      zone: zone.home
-    - entity_id: binary_sensor.jeffrey_presence
-      from: 'Off'
-      platform: state
-      to: 'On'
-    - entity_id: binary_sensor.kat_presence
-      from: 'Off'
-      platform: state
-      to: 'On'
-    - entity_id: device_tracker.hass_jeffsiphone
+    - entity_id: person.katherine
       event: enter
       platform: zone
       zone: zone.home
@@ -243,7 +231,7 @@ automation:
     alias: Jeff is Home
     initial_state: true
     trigger:
-    - entity_id: device_tracker.jeffreystonesiphone
+    - entity_id: person.jeffrey
       event: enter
       platform: zone
       zone: zone.home
@@ -257,11 +245,7 @@ automation:
   - id: jeff_arrives_summit
     alias: Jeff Arrives At Summit
     trigger:
-    - entity_id: device_tracker.jeffreystonesiphone
-      event: enter
-      platform: zone
-      zone: zone.summit
-    - entity_id: device_tracker.hass_jeffsiphone
+    - entity_id: person.jeffrey
       event: enter
       platform: zone
       zone: zone.summit
@@ -275,11 +259,7 @@ automation:
   - id: jeff_arrives_summit_notification
     alias: Notify Kat Jeff At Summit
     trigger:
-    - entity_id: device_tracker.jeffreystonesiphone
-      event: enter
-      platform: zone
-      zone: zone.summit
-    - entity_id: device_tracker.hass_jeffsiphone
+    - entity_id: person.jeffrey
       event: enter
       platform: zone
       zone: zone.summit
@@ -291,7 +271,7 @@ automation:
     alias: Jeff Leaves Summit
     initial_state: true
     trigger:
-    - entity_id: device_tracker.jeffreystonesiphone
+    - entity_id: person.jeffrey
       event: leave
       platform: zone
       zone: zone.summit
@@ -303,10 +283,6 @@ automation:
     alias: Kat is Home
     initial_state: true
     trigger:
-    - entity_id: device_tracker.katherinestonesiphone
-      event: enter
-      platform: zone
-      zone: zone.home
     - entity_id: person.katherine
       event: enter
       platform: zone
@@ -343,3 +319,54 @@ automation:
             {{greeting_sentence(person)}}
           call_interuption: 1
           
+
+script:
+  jeff_destination_zoo:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: jeff/driving/destination
+        payload: Zoo
+        retain: true
+  jeff_destination_summit:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: jeff/driving/destination
+        payload: Summit
+        retain: true
+  jeff_destination_none:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: jeff/driving/destination
+        payload: none
+        retain: true
+  jeff_destination_na:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: jeff/driving/destination
+        payload: na
+        retain: true
+  jeff_destination_home:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: jeff/driving/destination
+        payload: Home
+        retain: true
+  jeff_destination_harbins:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: jeff/driving/destination
+        payload: Harbins
+        retain: true
+  kat_destination_na:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: kat/driving/destination
+        payload: na
+        retain: true

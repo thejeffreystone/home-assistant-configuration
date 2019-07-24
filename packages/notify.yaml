@@ -173,7 +173,7 @@ script:
         state: 'off'
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.guest_tv
+          entity_id: media_player.hass_speaker
           message: >
             {{ message }}
 
@@ -181,7 +181,7 @@ script:
     sequence:
     - service: tts.amazon_polly_say
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         message: >-
           <speak>
             {{ message }}
@@ -207,11 +207,11 @@ script:
         entity_id: input_boolean.vacation_mode
         state: 'off'
       - condition: state
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         state: 'idle'
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.guest_tv
+          entity_id: media_player.hass_speaker
           message: >
             {{message }}
 
@@ -231,18 +231,18 @@ script:
       entity_id: input_boolean.vacation_mode
       state: 'off'
     - service: media_player.turn_on
-      entity_id: media_player.guest_tv
+      entity_id: media_player.hass_speaker
     - wait_template: >-
-        {{ not is_state('media_player.guest_tv', 'playing') }}
+        {{ not is_state('media_player.hass_speaker', 'playing') }}
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: media_player.hass_speaker
         volume_level: .65
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.guest_tv, media_player.googlehome0715, media_player.googlehomehub3492
+          media_player.hass_speaker, media_player.googlehome0715, media_player.googlehomehub3492
           {% else %}
           media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
           {% endif %}
