@@ -39,7 +39,7 @@ http:
     - 127.0.0.1
     - ::1
   ip_ban_enabled: True
-  login_attempts_threshold: 5
+  login_attempts_threshold: 3
 
 config:
 
@@ -76,6 +76,12 @@ google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
 
+arlo:
+  username: !secret arlo_user
+  password: !secret arlo_pass
+
+alarm_control_panel:
+  - platform: arlo
 
 
 discovery:
@@ -114,7 +120,8 @@ logbook:
 
 logger:
   default: warning
-  # logs:
+  #logs:
+ 
   #   homeassistant.components.sensor.alpha_vantage: debug
 
 
@@ -147,11 +154,13 @@ camera:
   - platform: mjpeg
     name: Garage Door Cam 
     mjpeg_url: !secret garage_cam
+  - platform: arlo
+    ffmpeg_arguments: '-pred 1 -q:v 2'
 
 media_player:
   - platform: vlc
     name: hass_speaker
-    arguments: '--alsa-audio-device=hw:0,1'
+    arguments: '--alsa-audio-device=hw:0,0'
     
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg    
@@ -226,6 +235,9 @@ tplink:
 #googlehome:
 #  devices:
 #    - host: 192.168.7.97
+
+ifttt:
+  key: !secret IFTTT_API_KEY
 
 ### Custom Commands
 shell_command:

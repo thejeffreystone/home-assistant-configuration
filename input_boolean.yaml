@@ -76,6 +76,9 @@ sun_reports:
 new_ha_announcement:
   name: New HA Announcement
   icon: mdi:twitter
+showing_now:
+  name: Showing Now
+  icon: mdi:popcorn
 
 
 #####################

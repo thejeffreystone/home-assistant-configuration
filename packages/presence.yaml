@@ -204,6 +204,8 @@ automation:
     - service: script.appliances_on
     - service: script.standby
     - service: script.washer_finished_notification_audible
+    - service: alarm_control_panel.alarm_disarm
+      entity_id: alarm_control_panel.ah_base_station
     initial_state: true
   
   - id: family_has_left
@@ -226,6 +228,8 @@ automation:
     - service: script.lockdown
     - service: script.lockdown_issue
     - service: script.all_fans_off
+    - service: alarm_control_panel.alarm_arm_away
+      entity_id: alarm_control_panel.ah_base_station
   
   - id: jeff_is_home
     alias: Jeff is Home
@@ -298,10 +302,14 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - person.jeffrey
-          - person.katherine
+          - device_tracker.jeffreystonesiphone
+          - device_tracker.katherinestonesiphone
         from: 'not_home'
         to: 'home'
+    condition:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
     action:
       - service: script.ah_report
         data_template:

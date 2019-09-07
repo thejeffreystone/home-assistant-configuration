@@ -105,12 +105,17 @@
   alias: Good Morning
   initial_state: true
   trigger:
-  - platform: time
-    at: 06:30:00
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.good_morning', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
   condition:
-    condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: 'on'
+    - condition: state
+      entity_id: calendar.skylar_school
+      state: 'on'
   action:
   - service: scene.turn_on
     entity_id: scene.normal_livingroom_lighting
@@ -274,6 +279,9 @@
         Its the little things. ", "Its getting dark so let me spell out my name...
         Wait. Did I break into a random #Hamilton song? Pardon me. umm. I just turned
         on the outside lights at Anchorage House. " ] | random }}'
+  - service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.ah_base_station
+
 - id: outside_lights_off_sunrise
   alias: Outside Lights off at Sunrise
   initial_state: true
@@ -290,6 +298,9 @@
         lights. ", "I see the sun! Time to turn off the outside lights at Anchorage
         House. ", "Dawn has broken at Anchorage House. Turning off the outside lights.
         " ] | random }}'
+  - service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.ah_base_station
+
 - id: inside_on_sunset
   alias: Inside on at Sunset
   initial_state: true
@@ -330,7 +341,7 @@
   initial_state: true
   trigger:
   - platform: time
-    at: '20:30:00'
+    at: '19:30:00'
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.audible_notifications
@@ -352,7 +363,7 @@
   initial_state: true
   trigger:
   - platform: time
-    at: 07:00:00
+    at: 06:40:00
   action:
   - entity_id: input_boolean.audible_notifications
     service: input_boolean.turn_on
@@ -444,7 +455,23 @@
             07:15
           {% endif %}
 
-
+- id: set_good_morning_time
+  alias: set good morning time
+  trigger:
+    - platform: time
+      at: '05:55:00'
+  action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.good_morning
+      data_template:
+        time: > 
+          {% if states.calendar.skylar_school.attributes.offset_reached == True %}
+            06:00
+          {% elif states.binary_sensor.workday_sensor.state == 'on' %}
+            06:30
+          {% else %}
+            07:00
+          {% endif %}
 
 - id: upstairs_fan_on
   alias: Upstairs Fan On
@@ -531,6 +558,43 @@
   - data:
       message: Remember to take meds
     service: notify.kat_ios
+
+
+# - id: turn_off_ha_speaker
+#   alias: Turn Off HA Speaker
+#   trigger:
+#   - platform: state
+#     entity_id: media_player.hass_speaker
+#     from: 'playing'
+#     to: 'idle'
+#   action:
+#   - service: media_player.turn_off
+#     entity_id: media_player.hass_speaker
+#   initial_state: true
+
+- id: turn_off_kitchen_speaker
+  alias: Turn Off Kitchen Display
+  trigger:
+  - platform: state
+    entity_id: media_player.googlehomehub3492
+    from: 'playing'
+    to: 'idle'
+  action:
+  - service: media_player.turn_off
+    entity_id: media_player.googlehomehub3492
+  initial_state: true
+
+- id: turn_off_ha_speaker
+  alias: Turn Off HA Speaker
+  trigger:
+  - platform: state
+    entity_id: media_player.guest_tv
+    from: 'playing'
+    to: 'idle'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ha_speaker
+  initial_state: true
 
 ##########################
 # My Attempt at preventing twitter from being spammed with new HA tweets on reboot

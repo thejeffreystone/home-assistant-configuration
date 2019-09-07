@@ -321,3 +321,9 @@ sensor.security_protocol:
   icon: mdi:security
 sensor.notification_mode:
   icon: mdi:bell
+
+device_tracker.life360_jeffrey_stone:
+  friendly_name: Jeffrey
+
+evice_tracker.life360_kat_stone:
+  friendly_name: Katherine

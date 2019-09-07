@@ -121,7 +121,7 @@ driveway_off:
     state: 'off'
   - service: switch.turn_off
     entity_id: switch.driveway_light
-  - service: switch.turn_off
+  - service: light.turn_off
     entity_id: light.side_door_light_3
 chromecast_media_stop:
   sequence:
