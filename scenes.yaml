@@ -136,7 +136,7 @@
       state: off
     group.rgb_lr:
       state: on
-      brightness: 40
+      brightness_pct: 100 
     # light.front_door_lamp:
     #   state: on
     #   brightness: 40
@@ -165,31 +165,31 @@
 
 - name: jeff light on
   entities:
-    light.master_bedroom_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 100
 
 - name: jeff light off
   entities:
-    light.master_bedroom_lamp:
+    light.jeff_lamp:
       state: off
       
 
 - name: jeff wake up
   entities:
-    light.master_bedroom_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 20
 
 - name: jeff bedtime
   entities:
-    light.master_bedroom_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 40
 
 - name: jeff night light
   entities:
-    light.master_bedroom_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 10
 
@@ -241,3 +241,24 @@
 #     light.front_lamp:
 #       state: on
 #       brightness: 10
+
+
+#########################################
+# Haunted Manshion show scenes
+#
+# These scenes are used in the Haunted Mansion show that
+# takes place when requested
+
+- name : lr_cool_white
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100
+      rgb_color: [255,255,255]
+
+- name : lr_blue
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100
+      color_name: "blue"

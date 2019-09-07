@@ -102,6 +102,7 @@ automation:
       state: "on"
     action:
     - service: script.driveway_on
+    
 
   - id: close_garage_lights_out
     alias: Close Garage at lights out
@@ -347,10 +348,10 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - condition: state
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.theater
   #     state: 'idle'
   #   - service: tts.google_say
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.theater
   #     data_template:
   #       message: "Sentry mode activated"
 
@@ -360,10 +361,10 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - condition: state
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.theater
   #     state: 'idle'
   #   - service: tts.google_say
-  #     entity_id: media_player.hass_speaker
+  #     entity_id: media_player.theater
   #     data_template:
   #       message: "Sentry mode deactivated"
   

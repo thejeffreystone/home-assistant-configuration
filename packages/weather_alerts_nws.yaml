@@ -200,7 +200,7 @@ automation:
       to: 'on'
     action:
     - service: media_player.play_media
-      entity_id: media_player.hass_speaker
+      entity_id: media_player.theater
       data:
         media_content_id: /media/audio/Tornado_Siren.mp3
         media_content_type: "music"
@@ -215,7 +215,7 @@ automation:
 
     action:
     - service: media_player.media_stop
-      entity_id: media_player.hass_speaker
+      entity_id: media_player.theater
   
 
 script:

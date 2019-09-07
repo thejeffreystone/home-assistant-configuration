@@ -111,4 +111,34 @@ automation:
         call_skylar_events: 1
         call_clothes_suggestion: 1
   
+  - id: set_skylar_morning_report_time
+    alias: set skylar morning report time
+    trigger:
+    - platform: time
+      at: '05:50:00'
+    action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.skylar_morning_report
+      data_template:
+        time: >
+          {% if states.calendar.skylar_school.attributes.offset_reached == True %}
+            06:30
+          {% else %}
+            07:58
+          {% endif %}
 
+  - id: set_morning_report_time
+    alias: set morning report time 
+    trigger:
+    - platform: time
+      at: '05:50:30'
+    action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.morning_report
+      data_template:
+        time: >
+          {% if states.calendar.skylar_school.attributes.offset_reached == True %}
+            07:00
+          {% else %}
+            07:45
+          {% endif %}

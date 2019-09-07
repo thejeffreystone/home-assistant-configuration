@@ -65,6 +65,7 @@ notify:
     consumer_secret: !secret twitter_consumer_secret
     access_token: !secret twitter_access_token
     access_token_secret: !secret twitter_access_secret
+
   
 script:
 
@@ -171,17 +172,21 @@ script:
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
+      - service: switch.turn_on 
+        entity_id: switch.ha_speaker
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.hass_speaker
+          entity_id: media_player.guest_tv
           message: >
             {{ message }}
 
   jarvis_alert:
     sequence:
+    - service: switch.turn_on 
+      entity_id: switch.ha_speaker
     - service: tts.amazon_polly_say
       data_template:
-        entity_id: media_player.hass_speaker
+        entity_id: media_player.guest_tv
         message: >-
           <speak>
             {{ message }}
@@ -206,12 +211,14 @@ script:
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
-      - condition: state
-        entity_id: media_player.hass_speaker
+      # - service: switch.turn_on 
+      #   entity_id: switch.ha_speaker
+      # - condition: state
+        entity_id: media_player.guest_tv
         state: 'idle'
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.hass_speaker
+          entity_id: media_player.guest_tv
           message: >
             {{message }}
 
@@ -230,21 +237,27 @@ script:
     - condition: state
       entity_id: input_boolean.vacation_mode
       state: 'off'
-    - service: media_player.turn_on
-      entity_id: media_player.hass_speaker
-    - wait_template: >-
-        {{ not is_state('media_player.hass_speaker', 'playing') }}
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.hass_speaker
-        volume_level: .65
+    # - service: switch.turn_on 
+    #   entity_id: switch.ha_speaker 
+    # - service: media_player.turn_on
+    #   entity_id: media_player.guest_tv
+    # - service: media_player.volume_set
+    #   data_template:
+    #     entity_id: media_player.guest_tv
+    #     volume_level: >
+    #       {% if states.input_boolean.audible_notifications.state == 'on' %}
+    #       .65
+    #       {% else %}
+    #       .4
+    #       {% endif %}
+    # media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.hass_speaker, media_player.googlehome0715, media_player.googlehomehub3492
+          media_player.house
           {% else %}
-          media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
+          media_player.house
           {% endif %}
         message: >-
           <speak>
@@ -326,8 +339,10 @@ script:
           {% macro morning_greeting() %}
               {{ [ "Time to Rise and Shine. ",
                 "Let's do this thing.",
-                "Anchorage House."
-                "The early bird gets the worm. And look over there. A worm. Wait, is that a snake? umm,,,I don't like snakes. Someone might want to take care,, ok,,, moving on.",
+                "I hope you got some rest.",
+                "It's time to get the day started.",
+                "Glad to see everyone made it.",
+                "The early bird gets the worm. And look over there. A worm.",
                 "The early bird gets the worm.",
                 "from the bridge.",
                 "Pardom the interuption.",
@@ -482,8 +497,8 @@ script:
           {% macro prebed_routine() %}
             Skylar,  
             {{ [ "It is time to get in the bath. ",
-                "You only have thirty minutes until bedtime. That means you should be heading for the bathtub."
-                "I cannot comminicate with the bathtub otherwise I would have started the water for you already, so you will have to do it manually. It's bath time. ",
+                "You only have thirty minutes until bedtime. That means you should be heading for the bathtub.",
+                "I cannot comminicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath yourself. ",
                 "My sensors are detecting a strange smell. I am running diagnostics, but in the mean time why don't you start a bath.",
               ] | random }} 
             If you go now there may be time for stories. Don't forget to brush your teeth. 
@@ -497,7 +512,7 @@ script:
 
 
           {% macro school_today() %}
-            {% if is_state("calendar.skylar_school", "on") %}
+            {% if states.calendar.skylar_school.attributes.offset_reached == True %}
               Because you have school today!
               {% if states.calendar.skylar_school.attributes.description == "early-release" %}
                 And guess what? It is early release!
