@@ -1,7 +1,7 @@
 - id: washer_running
   alias: Washer Running
   trigger:
-  - above: 10
+  - above: 5
     entity_id: sensor.washer
     platform: numeric_state
   action:
@@ -100,6 +100,8 @@
     entity_id: scene.diminshed_livingroom_lighting
   - service: scene.turn_on
     entity_id: scene.diminished_kitchen_lighting
+  - service: alarm_control_panel.alarm_arm_home
+    entity_id: alarm_control_panel.ah_base_station
 
 - id: good_morning
   alias: Good Morning
@@ -147,6 +149,8 @@
     entity_id: switch.rainbow_light_3
   - service: light.turn_on
     entity_id: light.table_lamp_2
+  - service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.ah_base_station
 - id: jeff_lights_out
   alias: Jeff lights out
   initial_state: true
@@ -298,7 +302,7 @@
         lights. ", "I see the sun! Time to turn off the outside lights at Anchorage
         House. ", "Dawn has broken at Anchorage House. Turning off the outside lights.
         " ] | random }}'
-  - service: alarm_control_panel.alarm_disarm
+  - service: alarm_control_panel.alarm_arm_home
     entity_id: alarm_control_panel.ah_base_station
 
 - id: inside_on_sunset
@@ -497,7 +501,7 @@
     platform: time
   condition:
   - condition: state
-    entity_id: binary_sensor.garage_door
+    entity_id: binary_sensor.garage_door_contact_2
     state: 'on'
   action:
   - data:
@@ -507,7 +511,7 @@
   alias: Garage Closed
   initial_state: true
   trigger:
-  - entity_id: binary_sensor.garage_door
+  - entity_id: binary_sensor.garage_door_contact_2
     from: 'on'
     platform: state
     to: 'off'
@@ -543,6 +547,9 @@
   condition:
   - condition: state
     entity_id: switch.upstairs_fan
+    state: 'on'
+  - condition: state
+    entity_id: media_player.tsr_6750_a3ed2f
     state: 'on'
   action:
   - data:
@@ -588,12 +595,14 @@
   alias: Turn Off HA Speaker
   trigger:
   - platform: state
-    entity_id: media_player.guest_tv
+    entity_id: media_player.theater
     from: 'playing'
     to: 'idle'
   action:
   - service: switch.turn_off
     entity_id: switch.ha_speaker
+  - service: media_player.turn_off
+    entity_id: media_player.theater
   initial_state: true
 
 ##########################
@@ -604,7 +613,8 @@
   initial_state: true
   trigger:
     - platform: state
-      entity_id: updater.updater
+      entity_id: binary_sensor.updater
+      to: 'on'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.new_ha_announcement
