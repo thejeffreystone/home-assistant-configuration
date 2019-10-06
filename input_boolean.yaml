@@ -79,6 +79,8 @@ new_ha_announcement:
 showing_now:
   name: Showing Now
   icon: mdi:popcorn
+skylar_school:
+  name: Skylar at School
 
 
 #####################
