@@ -19,7 +19,7 @@
     days: 7
 - platform: history_stats
   name: Speech time
-  entity_id: media_player.guest_tv
+  entity_id: media_player.theater
   state: 'playing'
   type: time
   end: '{{ now() }}'
