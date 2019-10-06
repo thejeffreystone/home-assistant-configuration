@@ -26,3 +26,15 @@ skylar_wakeup_call:
   name: Skylar Wakeup
   has_date: false
   has_time: true
+christmas_show:
+  name: Christmas Show
+  has_date: false
+  has_time: true
+halloween_show:
+  name: Halloween Show
+  has_date: false
+  has_time: true
+good_night_routine:
+  name: Good Night Routine
+  has_date: false
+  has_time: true
