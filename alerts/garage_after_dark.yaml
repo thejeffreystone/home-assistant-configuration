@@ -1,7 +1,7 @@
 garage_after_dark:
   name: Garage is open...Please Check
   done_message: Garage is closed
-  entity_id: input_boolean.garage_after_Dark
+  entity_id: input_boolean.garage_after_dark
   state: 'on'
   repeat: 5
   can_acknowledge: false
