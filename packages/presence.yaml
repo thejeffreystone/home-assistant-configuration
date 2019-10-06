@@ -54,8 +54,14 @@ sensor:
         friendly_name: "Skylar's Current Location"
         unit_of_measurement: ''
         value_template: >-
-            {%- if is_state('person.jeffrey', 'home') and is_state('person.jeffrey', 'home')%}
+            {%- if is_state('input_boolean.skylar_school', 'on')%}
+              school
+            {%- elif is_state('sensor.jeff_location', 'home') and is_state('sensor.kat_location', 'home') and is_state('input_boolean.skylar_school', 'off')%}
               home
+            {%- elif is_state('sensor.jeff_location', 'Summit') and is_state('input_boolean.skylar_school', 'off')%}
+              {{ states.sensor.kat_location.state }}
+            {%- elif is_state('sensor.kat_location', 'Zoo Atlanta') and is_state('input_boolean.skylar_school', 'off')%}
+              {{ states.sensor.jeff_location.state }}
             {% else %}
               Mortal Peril
             {%- endif %}
@@ -180,6 +186,58 @@ automation:
         call_interurption: 1
         call_jeff_headed_home: 1
 
+  - id: skylar_at_school
+    alias: Skylar is at School
+    trigger:
+    - entity_id: device_tracker.life360_jeffrey_stone
+      event: enter
+      platform: zone
+      zone: zone.starling
+    - entity_id: device_tracker.life360_kat_stone
+      event: enter
+      platform: zone
+      zone: zone.starling
+    condition:
+      condition: time
+      after: '07:45:00'
+      before: '08:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.skylar_school
+    initial_state: true
+
+  - id: skylar_left_school
+    alias: Skylar left School
+    trigger:
+    - entity_id: device_tracker.life360_jeffrey_stone
+      event: leave
+      platform: zone
+      zone: zone.starling
+    - entity_id: device_tracker.life360_kat_stone
+      event: leave
+      platform: zone
+      zone: zone.starling
+    condition:
+      condition: time
+      after: '14:45:00'
+      before: '15:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.skylar_school
+    initial_state: true
+
   - id: family_has_arrived
     alias: Family Has arrived
     trigger:
@@ -204,7 +262,7 @@ automation:
     - service: script.appliances_on
     - service: script.standby
     - service: script.washer_finished_notification_audible
-    - service: alarm_control_panel.alarm_disarm
+    - service: alarm_control_panel.alarm_arm_home
       entity_id: alarm_control_panel.ah_base_station
     initial_state: true
   
