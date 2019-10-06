@@ -242,6 +242,7 @@ ifttt:
 ### Custom Commands
 shell_command:
   alarm_off: pkill mpg123
+  vlc_off: pkill vlc
   tornado_alarm: mpg123 /media/audio/Tornado_Siren.mp3
   door_chime: mpg123 /media/audio/Store_Door_Chime.mp3
   security_alarm: mpg123 /media/audio/security_siren.mp3
@@ -266,6 +267,7 @@ shell_command:
   welcome_to_mk: mpg123 /media/audio/welcome_magic_kingdom.mp3
   welcome_show_crowd: mpg123 /media/audio/welcome_show_crowd.mp3
   spaceship_earth_ride: mpg123 /media/audio/spaceship_earth_ride.mp3
+  this_is_halloween: cvlc /media/audio/This_is_Halloween.mp3
   dance_it: mpg123 /media/audio/move_it_shake_dance_audio.mp3
   hass_vol_up: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')+5]%
   hass_vol_dn: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')-5]%
