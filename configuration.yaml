@@ -82,7 +82,8 @@ arlo:
 
 alarm_control_panel:
   - platform: arlo
-
+    home_mode_name: home
+    away_mode_name: armed
 
 discovery:
   ignore:
@@ -110,13 +111,9 @@ recorder:
 logbook:
   include:
     domains:
-      - sensor
-      - switch
       - media_player
-      - light
       - automation
       - script
-      - input_boolean
 
 logger:
   default: warning
@@ -160,7 +157,7 @@ camera:
 media_player:
   - platform: vlc
     name: hass_speaker
-    arguments: '--alsa-audio-device=hw:0,0'
+    arguments: '--alsa-audio-device=hw:1,0'
     
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg    
@@ -226,8 +223,11 @@ wwlln:
   longitude: !secret MY_LONGITUDE
 
 tplink:
-  discovery: true
-
+  discovery: false
+  switch:
+    - host: 192.168.7.105
+    - host: 192.168.7.107
+    
 # zwave:
 #   usb_path: /dev/ttyACM0
 #   network_key: !secret zwave_key
@@ -255,7 +255,10 @@ shell_command:
   happily_ever_after: mpg123 /media/audio/Happily_Ever_After_Audio.mp3
   boo_to_you: mpg123 /media/audio/boo_to_you_audio.mp3
   haunted_mansion_ride: mpg123 /media/audio/haunted_mansion_ride.mp3
-  wishes_preshow: mpg123 /media/audio/wishes_5_min.mp3
+  holiday_wishes_preshow: mpg123 /media/audio/wishes_5_min.mp3
+  holiday_wishes: mpg123 /media/audio/holidaywishes.mp3
+  disney_springs_xmas: mpg123 /media/audio/disney_springs_xmas.mp3
+  american_adventure: mpg123 /media/audio/The_American_Adventure.mp3
   welcome_show: mpg123 /media/audio/welcome_show.mp3
   monorail_waiting: mpg123 /media/audio/monorail_waiting.mp3
   monorail_mk: mpg123 /media/audio/monorail.mp3
@@ -266,6 +269,9 @@ shell_command:
   dance_it: mpg123 /media/audio/move_it_shake_dance_audio.mp3
   hass_vol_up: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')+5]%
   hass_vol_dn: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')-5]%
+  normal_vol: amixer -c 0 set PCM 93%
+  tiki_vol: amixer -c 0 set PCM 95% 
+  full_vol: amixer -c 0 set PCM 100%
   reset_alexa_cookie: /home/homeassistant/bin/resetalexacookie
   tiki_room_audio: mpg123 /media/audio/tiki_room_audio.mp3
   illuminations_audio: mpg123 /media/audio/illuminations.mp3
