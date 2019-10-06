@@ -195,9 +195,9 @@
 
 - name: house party protocol
   entities:
-    switch.incense:
+    switch.incense_3:
       state: on
-    switch.artemis:
+    switch.artemis_2:
       state: on
 
 - name: skylar lamp on
