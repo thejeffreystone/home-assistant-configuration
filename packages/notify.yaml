@@ -214,8 +214,8 @@ script:
       # - service: switch.turn_on 
       #   entity_id: switch.ha_speaker
       # - condition: state
-        entity_id: media_player.guest_tv
-        state: 'idle'
+        # entity_id: media_player.guest_tv
+        # state: 'idle'
       - service: tts.google_translate_say
         data_template:
           entity_id: media_player.guest_tv
@@ -237,30 +237,31 @@ script:
     - condition: state
       entity_id: input_boolean.vacation_mode
       state: 'off'
-    # - service: switch.turn_on 
-    #   entity_id: switch.ha_speaker 
-    # - service: media_player.turn_on
-    #   entity_id: media_player.guest_tv
-    # - service: media_player.volume_set
-    #   data_template:
-    #     entity_id: media_player.guest_tv
-    #     volume_level: >
-    #       {% if states.input_boolean.audible_notifications.state == 'on' %}
-    #       .65
-    #       {% else %}
-    #       .4
-    #       {% endif %}
+    - service: switch.turn_on 
+      entity_id: switch.ha_speaker 
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          .65
+          {% else %}
+          .4
+          {% endif %}
     # media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.house
+          media_player.theater
           {% else %}
           media_player.house
           {% endif %}
         message: >-
           <speak>
+            <break time="5.0s" />
             {{ message }}
             <break time="1.0s" />
           </speak>
@@ -465,14 +466,16 @@ script:
                 "I'll be going as HAL 9000. The Pod Bay Doors are being installed today."
               ] | random }}
             {% elif states.sensor.holiday_halloween.state | int < 30 %}
-              {{ [ "There are only {{states.sensor.holiday_halloween.state}} days until Halloween.",
-                "Halloween is only {{states.sensor.holiday_halloween.state}} days away. It might not be enough time. ",
-                "Halloween is coming. {{states.sensor.holiday_halloween.state}} days and counting.",
-                "Only {{states.sensor.holiday_halloween.state}} days until Halloween.",
-                "You have {{states.sensor.holiday_halloween.state}} days until you need a costume."
+              There are only {{states.sensor.holiday_halloween.state}} days 
+              {{ [ "until Halloween.",
+                "until Halloween. It might not be enough time. ",
+                "and counting until the best holiday ever.",
+                "until you need a costume."
               ] | random }} 
+              
             {% else %}  
             {% endif %}
+
             {% if states.sensor.holiday_christmas.state | int == 1 %}
               Tomorrow is Christmas. It's practically here! Santa is coming tonight! Don't forget the cookies!
             {% elif states.sensor.holiday_christmas.state | int < 25 %}
