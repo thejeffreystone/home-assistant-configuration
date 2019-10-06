@@ -139,10 +139,10 @@ appliances_off:
       entity_id: switch.box_fans
     service: switch.turn_off
   - data:
-      entity_id: switch.incense
+      entity_id: switch.incense_3
     service: switch.turn_off
   - data:
-      entity_id: switch.artemis
+      entity_id: switch.artemis_2
     service: switch.turn_off
 
 
