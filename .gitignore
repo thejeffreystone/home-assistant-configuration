@@ -6,7 +6,6 @@
 !*.yaml
 !.gitignore
 !*.md
-!packages/
 !templates/
 !binary_sensors/
 !sensors/
@@ -28,6 +27,7 @@ www/
 tts/
 deps/
 hadashboards/
+packages/
 intents/
 secrets.yaml
 ip_bans.yaml
