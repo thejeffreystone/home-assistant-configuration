@@ -28,7 +28,7 @@ One last thing. Everything in this configuration is a combination of the things 
 
 * [CCOSTAN](https://github.com/CCOSTAN/Home-AssistantConfig#logo) / [https://www.vCloudInfo.com](https://www.vCloudInfo.com)
 * [Isabella Gross Alström](https://isabellaalstrom.github.io/)
-* [Mahasri Kalavala](https://github.com/skalavala/smarthome)
+* [Mahasri Kalavala](https://github.com/skalavala/mysmarthome)
  
 #### Devices:
 
