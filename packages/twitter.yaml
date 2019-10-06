@@ -84,11 +84,11 @@ automation:
     - service: script.twitter_notify
       data_template:
         message: '{{ [ "According to my latest speed tests Anchorage House is getting
-          {{ states.sensor.internet_test_down_mean.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up_mean.attributes.max_value }}
+          {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
           Mbps up thanks to #ATTFiber. ", "How fast is your internet? I just checked
-          am Im seeing {{ states.sensor.internet_test_down_mean.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up_mean.attributes.max_value }}
+          am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
           Mbps up. Beat that. ", "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
-          and is {{ states.sensor.internet_test_down_mean.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up_mean.attributes.max_value }}
+          and is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
           Mbps up." ] | random }}'
 
   - id: rex_manning_day_tweet_1
@@ -136,3 +136,30 @@ automation:
         data_template:
           message: >-
             "We mustn't dwell. No, not today. We can't. Not on Rex Manning day! https://www.youtube.com/watch?v=szvt8iWJ0oo #damntheman #savetheempire"
+
+  - id: Halloween Tweet
+    alias: Halloween Tweet
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set month= now().month | int %}
+        {%- if month == 10 -%}
+          true
+        {%- endif -%} 
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: '{{ [ "There are only {{states.sensor.holiday_halloween.state}} days until Halloween.",
+                "Halloween is only {{states.sensor.holiday_halloween.state}} days away. It might not be enough time. ",
+                "Halloween is coming. {{states.sensor.holiday_halloween.state}} days and counting.",
+                "Only {{states.sensor.holiday_halloween.state}} days until Halloween.",
+                "You have {{states.sensor.holiday_halloween.state}} days until you need a costume.",
+                "Only {{states.sensor.holiday_halloween.state}} days until Halloween. But who is counting. amirite?",
+                "Would it be cliche if I went as a haunted house for Halloween? Asking for a another house.",
+                "Just in case I wanted to be HAL 9000 for Halloween I ordered some Pod Bay Doors."
+              ] | random }}'
