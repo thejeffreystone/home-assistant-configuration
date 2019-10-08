@@ -6,7 +6,6 @@
 #
 #   I'm not sure where I got this, but it leverages a python script: https://github.com/thejeffreystone/home-assistant-configuration/blob/master/python_scripts/special_events.py
 #
-#   
 #   To create a sensor just create an automation to fire around midnight.
 #
 #   automation:
