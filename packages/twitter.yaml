@@ -26,13 +26,15 @@ automation:
           message: >-
             "Its a new month, so this is a good time to remind you that I am powered by @homeassistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
 
-  - id: tweet_new_ha_version
-    alias: Tweet New HA Version 
-    trigger:
-      - platform: state
-        entity_id: updater.updater
-    action:
-      - service: script.twitter_new_ha
+  #- id: tweet_new_ha_version
+  #  alias: Tweet New HA Version 
+  #  trigger:
+  #    - platform: state
+  #      entity_id: binary_sensor.updater
+  #      from: 'off'
+  #      to: 'on'
+  #  action:
+  #    - service: script.twitter_new_ha
 
   - id: tweet_some_snark
     alias: Tweet Some Snark
