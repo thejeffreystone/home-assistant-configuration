@@ -9,6 +9,7 @@
 !templates/
 !binary_sensors/
 !sensors/
+!packages/
 !switches/
 !lights/
 !python_scripts/
@@ -27,7 +28,6 @@ www/
 tts/
 deps/
 hadashboards/
-packages/
 intents/
 secrets.yaml
 ip_bans.yaml
