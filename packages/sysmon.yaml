@@ -51,12 +51,20 @@ sensor:
         {{ ', ' }}
       {%- endif -%}
       {{ '%02d' % hours }}:{{ '%02d' % minutes }}
-  - platform: command_line
-    command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
-    name: Current HA Version
-  - platform: command_line
+  - platform: template
+    sensors:
+      current_version_ha:
+        #command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+        friendly_name: Current HA Version
+        value_template: >-
+          {{ states.binary_sensor.attributes.newest_version }}
+  - platform: version
     name: Installed version
-    command: "head -5 /home/homeassistant/.homeassistant/.HA_VERSION"
+    source: local
+    #command: "head -5 /home/homeassistant/.homeassistant/.HA_VERSION"
+  - platform: version
+    name: Released Version
+    source: pypi 
   - platform: command_line
     name: ha_v2db
     command: "ls -sh /home/homeassistant/.homeassistant/home-assistant_v2.db | cut -f1 -d ' '"
