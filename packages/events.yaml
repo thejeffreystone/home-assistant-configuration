@@ -1,0 +1,44 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Events
+#   @description    :   Special Events.
+###############################################################################
+automation:
+  - id: refresh_special_event_sensors
+    alias: Refresh special event sensors
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '00:00:01'
+    - platform: homeassistant
+      event: start
+    action:
+    - service: python_script.special_events
+      data:
+        name: Skylar
+        type: birthday
+        date: !secret skylar_bday
+    - service: python_script.special_events
+      data:
+        name: Jeff
+        type: birthday
+        date: !secret jeff_bday
+    - service: python_script.special_events
+      data:
+        name: Kat
+        type: birthday
+        date: !secret kat_bday
+    - service: python_script.special_events
+      data:
+        name: Our wedding
+        type: anniversary
+        date: !secret wed_anniversary
+    - service: python_script.special_events
+      data:
+        name: Disney
+        type: trip
+        date: !secret disney_trip
+
+  
+  
