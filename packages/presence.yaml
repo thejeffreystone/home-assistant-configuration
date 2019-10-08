@@ -189,11 +189,11 @@ automation:
   - id: skylar_at_school
     alias: Skylar is at School
     trigger:
-    - entity_id: device_tracker.life360_jeffrey_stone
+    - entity_id: device_tracker.jeffreystonesiphone
       event: enter
       platform: zone
       zone: zone.starling
-    - entity_id: device_tracker.life360_kat_stone
+    - entity_id: device_tracker.katherinestonesiphone
       event: enter
       platform: zone
       zone: zone.starling
