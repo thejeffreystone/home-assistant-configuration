@@ -603,6 +603,7 @@
     entity_id: switch.ha_speaker
   - service: media_player.turn_off
     entity_id: media_player.theater
+  - service: script.kill_this_ride
   initial_state: true
 
 ##########################
@@ -612,9 +613,10 @@
   alias: New HA
   initial_state: true
   trigger:
-    - platform: state
-      entity_id: binary_sensor.updater
-      to: 'on'
+  - platform: state
+    entity_id: binary_sensor.updater
+    from: 'off'
+    to: 'on'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.new_ha_announcement
@@ -630,4 +632,6 @@
   - service: script.twitter_new_ha
   - service: input_boolean.turn_off
     entity_id: input_boolean.new_ha_announcement
+  - service: ifttt.trigger
+    data_template: {"event":"GitPost", "value1":"Home Assistant {{ states.binary_sensor.updater.attributes.newest_version }} is now available.", "value2":"{{ states.binary_sensor.updater.attributes.newest_version }}"}
 ###########################
