@@ -622,7 +622,21 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: shell_command.disney_springs_xmas
+    #- service: shell_command.disney_springs_xmas
+    - service: switch.turn_on 
+      entity_id: switch.ha_speaker 
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: >
+          .5
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/Disney_Springs_Xmas_Loop.mp3.mp3
+        media_content_type: "music"
   spaceship_earth_ride:
     sequence:
     - condition: state
@@ -894,4 +908,18 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: shell_command.this_is_halloween
+    #- service: shell_command.this_is_halloween
+    - service: switch.turn_on 
+      entity_id: switch.ha_speaker 
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: >
+          .5
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/This_is_Halloween.mp3
+        media_content_type: "music"
