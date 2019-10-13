@@ -253,31 +253,49 @@ shell_command:
   haunted_mansion_preshow_short: mpg123 /media/audio/haunted_mansion_preshow_short.mp3
   haunted_mansion_hurry_back_short: mpg123 /media/audio/haunted_mansion_hurry_back_short.mp3
   haunted_mansion_hurry_back_full: mpg123 /media/audio/haunted_mansion_hurry_back_full.mp3
-  happily_ever_after: mpg123 /media/audio/Happily_Ever_After_Audio.mp3
-  boo_to_you: mpg123 /media/audio/boo_to_you_audio.mp3
-  haunted_mansion_ride: mpg123 /media/audio/haunted_mansion_ride.mp3
+  happily_ever_after: cvlc --play-and-exit /media/audio/Happily_Ever_After_Audio.mp3
+  boo_to_you: cvlc --play-and-exit /media/audio/boo_to_you_audio.mp3
+  haunted_mansion_ride: cvlc --play-and-exit /media/audio/haunted_mansion_ride.mp3
   holiday_wishes_preshow: mpg123 /media/audio/wishes_5_min.mp3
-  holiday_wishes: mpg123 /media/audio/holidaywishes.mp3
-  disney_springs_xmas: mpg123 /media/audio/disney_springs_xmas.mp3
-  american_adventure: mpg123 /media/audio/The_American_Adventure.mp3
-  welcome_show: mpg123 /media/audio/welcome_show.mp3
+  holiday_wishes: cvlc --play-and-exit /media/audio/holidaywishes.mp3
+  disney_springs_xmas: cvlc --play-and-exit /media/audio/disney_springs_xmas.mp3
+  american_adventure: cvlc --play-and-exit /media/audio/The_American_Adventure.mp3
+  welcome_show: cvlc --play-and-exit /media/audio/welcome_show.mp3
   monorail_waiting: mpg123 /media/audio/monorail_waiting.mp3
   monorail_mk: mpg123 /media/audio/monorail.mp3
   monorail_resort: mpg123 /media/audio/monorail_resort.mp3
-  welcome_to_mk: mpg123 /media/audio/welcome_magic_kingdom.mp3
-  welcome_show_crowd: mpg123 /media/audio/welcome_show_crowd.mp3
-  spaceship_earth_ride: mpg123 /media/audio/spaceship_earth_ride.mp3
-  this_is_halloween: cvlc /media/audio/This_is_Halloween.mp3
-  dance_it: mpg123 /media/audio/move_it_shake_dance_audio.mp3
+  welcome_to_mk: cvlc --play-and-exit /media/audio/welcome_magic_kingdom.mp3
+  welcome_show_crowd: cvlc --play-and-exit /media/audio/welcome_show_crowd.mp3
+  spaceship_earth_ride: cvlc --play-and-exit /media/audio/spaceship_earth_ride.mp3
+  this_is_halloween: cvlc --play-and-exit /media/audio/This_is_Halloween.mp3
+  sleepy_hollow_audiobook: cvlc --play-and-exit /media/audio/the_legend_of_sleepy_hollow_read_along.mp3
+  dance_it: cvlc --play-and-exit /media/audio/move_it_shake_dance_audio.mp3
   hass_vol_up: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')+5]%
   hass_vol_dn: sudo amixer set PCM -- $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')-5]%
   normal_vol: amixer -c 0 set PCM 93%
   tiki_vol: amixer -c 0 set PCM 95% 
   full_vol: amixer -c 0 set PCM 100%
   reset_alexa_cookie: /home/homeassistant/bin/resetalexacookie
-  tiki_room_audio: mpg123 /media/audio/tiki_room_audio.mp3
-  illuminations_audio: mpg123 /media/audio/illuminations.mp3
-  mk_audio: mpg123 /media/audio/magic_kingdom.mp3
+  tiki_room_audio: cvlc --play-and-exit /media/audio/tiki_room_audio.mp3
+  illuminations_audio: cvlc --play-and-exit /media/audio/illuminations.mp3
+  mk_audio: cvlc --play-and-exit /media/audio/magic_kingdom.mp3
   usps: python /home/homeassistant/bin/usps.py 
   backup: python /home/homeassistant/bin/dropbox.py
 
+  # haunted noises
+
+  haunted_scream: mpg123 /media/audio/haunted/Scream.mp3
+  haunted_raven: mpg123 /media/audio/haunted/RavenSound.mp3
+  haunted_door: mpg123 /media/audio/haunted/OldDoorCreaking.mp3
+  haunted_howling: mpg123 /media/audio/haunted/Howling.mp3
+  haunted_seance_horn: mpg123 /media/audio/haunted/Haunted_Mansion_Seance_Horn.mp3
+  haunted_piano: mpg123 /media/audio/haunted/Haunted_Mansion_Piano.mp3
+  haunted_leotta: mpg123 /media/audio/haunted/Haunted_Mansion_Leotta.mp3
+  haunted_harp: mpg123 /media/audio/haunted/Haunted_Mansion_Harp.mp3
+  haunted_clock: mpg123 /media/audio/haunted/Haunted_Mansion_Clock.mp3
+  haunted_ballroom: mpg123 /media/audio/haunted/Haunted_Mansion_Ballroom.mp3
+  haunted_bells: mpg123 /media/audio/haunted/Jaunted_Bells-Chimming.mp3
+  haunted_laugh: mpg123 /media/audio/haunted/Evil_Laugh.mp3
+  haunted_door2: mpg123 /media/audio/haunted/CreakingDoorSpooky.mp3
+  haunted_chains: mpg123 /media/audio/haunted/ChainsRattling.mp3
+  haunted_laugh2: mpg123 /media/audio/haunted/BigLaugh.mp3
