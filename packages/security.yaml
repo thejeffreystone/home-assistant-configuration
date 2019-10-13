@@ -137,6 +137,7 @@ automation:
       state: 'off'
     action:
     - service: shell_command.door_chime
+    - service: script.reset_ha_speaker
     initial_state: true
 
   - id: door_opened_long
