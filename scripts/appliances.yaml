@@ -34,3 +34,10 @@ washer_complete:
       topic: house/washer/status
       payload: complete
       retain: true
+
+reset_ha_speaker:
+  sequence:
+  - delay:
+      seconds: 30
+  - service: switch.turn_off
+    entity_id: switch.ha_speaker
