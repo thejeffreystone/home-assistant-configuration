@@ -189,17 +189,17 @@ automation:
   - id: skylar_at_school
     alias: Skylar is at School
     trigger:
-    - entity_id: device_tracker.jeffreystonesiphone
+    - entity_id: device_tracker.life360_jeffrey_stone
       event: enter
       platform: zone
       zone: zone.starling
-    - entity_id: device_tracker.katherinestonesiphone
+    - entity_id: device_tracker.life360_kat_stone
       event: enter
       platform: zone
       zone: zone.starling
     condition:
       condition: time
-      after: '07:45:00'
+      after: '07:25:00'
       before: '08:30:00'
       weekday:
         - mon
