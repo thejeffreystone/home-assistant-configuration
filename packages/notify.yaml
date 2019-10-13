@@ -231,6 +231,9 @@ script:
         retain: true
     - condition: template
       value_template: '{{ states.binary_sensor.quiet_time.state == "off" }}'
+    - condition: state 
+      entity_id: binary_sensor.vlc_player
+      state: 'off'
     - condition: state
       entity_id: sensor.family_status
       state: 'Home'
