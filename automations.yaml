@@ -493,6 +493,7 @@
   - data:
       entity_id: switch.upstairs_fan
     service: switch.turn_on
+  
 - id: '1558630577206'
   alias: Garage Is Open at 9pm
   initial_state: true
@@ -550,7 +551,7 @@
     state: 'on'
   - condition: state
     entity_id: media_player.tsr_6750_a3ed2f
-    state: 'on'
+    state: 'off'
   action:
   - data:
       entity_id: switch.upstairs_fan
@@ -605,6 +606,8 @@
     entity_id: media_player.theater
   - service: script.kill_this_ride
   initial_state: true
+
+
 
 ##########################
 # My Attempt at preventing twitter from being spammed with new HA tweets on reboot
