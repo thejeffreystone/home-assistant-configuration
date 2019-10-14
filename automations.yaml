@@ -91,10 +91,6 @@
   trigger:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.coffee_time', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-  condition:
-    condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
   action:
   - service: scene.turn_on
     entity_id: scene.diminshed_livingroom_lighting
@@ -109,15 +105,6 @@
   trigger:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.good_morning', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-  condition:
-    condition: or
-    conditions:
-    - condition: state
-      entity_id: binary_sensor.workday_sensor
-      state: 'on'
-    - condition: state
-      entity_id: calendar.skylar_school
-      state: 'on'
   action:
   - service: scene.turn_on
     entity_id: scene.normal_livingroom_lighting
@@ -285,6 +272,21 @@
         on the outside lights at Anchorage House. " ] | random }}'
   - service: alarm_control_panel.alarm_arm_away
     entity_id: alarm_control_panel.ah_base_station
+
+- id: sunset
+  alias: Sunset
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunset
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.ah_base_station
+  - service: script.ah_report
+    data:
+      call_interuption: 1
+      call_dark_outside: 1
+      call_garage_door_status: 1
 
 - id: outside_lights_off_sunrise
   alias: Outside Lights off at Sunrise
@@ -474,7 +476,7 @@
           {% elif states.binary_sensor.workday_sensor.state == 'on' %}
             06:30
           {% else %}
-            07:00
+            07:25
           {% endif %}
 
 - id: upstairs_fan_on
@@ -621,20 +623,7 @@
     from: 'off'
     to: 'on'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.new_ha_announcement
-- id: new_ha_annc
-  alias: New HA Annc
-  initial_state: true
-  trigger:
-    - entity_id: input_boolean.new_ha_announcement
-      from: 'Off'
-      platform: state
-      to: 'On'
-  action:
   - service: script.twitter_new_ha
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.new_ha_announcement
   - service: ifttt.trigger
     data_template: {"event":"GitPost", "value1":"Home Assistant {{ states.binary_sensor.updater.attributes.newest_version }} is now available.", "value2":"{{ states.binary_sensor.updater.attributes.newest_version }}"}
 ###########################
