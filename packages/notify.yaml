@@ -421,6 +421,15 @@ script:
             {% endif %}
           {% endmacro %}
 
+          {%- macro dark_outside() -%}
+            {{ [
+                'The sun is offical down. Exterior Cameras are now motion acivated.',
+                'The sun has been ushered off the stage. Activate the perimiter cameras.',
+                'You are running out of daylight. Time to wrap up any outisde chores.',
+                'Switching to night mode! '
+            ]|random }}
+          {%- endmacro -%}
+
           {% macro current_conditions_outisde() %}
             It's currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees according to Dark Sky. 
             The back porch is {{states.sensor.accurite_back_porch_temperature.state|round}} degrees.
@@ -445,6 +454,13 @@ script:
           {% macro future_forecast() %}
             Looking into the future you can expect {{states.sensor.dark_sky_daily_summary.state}}.
           {% endmacro %}
+
+          {% macro freeze_warning() %}
+            {{ [ "The temperature is expexted to be near freezing. Might want to bering the lemon tree in. ",
+                "It appears that it will be cold tonigh. Think of the plants.",
+                "I suggest beinging in the plants otherwise the temperature might kill them."
+              ] | random }}
+          {% endmacro %}
           
           {% macro upcoming_birthdays() %}
             {% if states.sensor.birthday_skylar.state | int == 1 %}
@@ -464,9 +480,9 @@ script:
           {% macro upcoming_holidays() %}
             {% if states.sensor.holiday_halloween.state | int == 1 %}
               Tomorrow is Halloween. I hope you have picked out a costume.
-              {{ [ "I'll be going as a dumb home. ",
-                "I've prepped the scary music. Just in case.",
-                "I'll be going as HAL 9000. The Pod Bay Doors are being installed today."
+              {{ [ "I will be going as a dumb home. ",
+                "I have prepped the scary music. Just in case.",
+                "I will be going as HAL 9000. The Pod Bay Doors are being installed today."
               ] | random }}
             {% elif states.sensor.holiday_halloween.state | int < 30 %}
               There are only {{states.sensor.holiday_halloween.state}} days 
@@ -606,6 +622,20 @@ script:
               There are doors are open.
             {% else %}
               All doors are closed. 
+            {% endif %} 
+          {% endmacro %}
+
+          {% macro garage_door_status() %}
+            {% if is_state("binary_sensor.garage_door_contact_2", "on") %} 
+              {{ [ "The garage door is open. ",
+                "The pod bay doors are open. ",
+                "Someone forgot to close the garage."
+              ] | random }}
+            {% else %}
+              {{ [ "The garage door is closed. ",
+                "The cargo hold is sealed. ",
+                "Looks like the garage has been secured for."
+              ] | random }}
             {% endif %} 
           {% endmacro %}
 
@@ -819,6 +849,10 @@ script:
             {{ todays_events() }}
           {% endif %}
 
+          {% if call_dark_outside == 1 %}
+            {{ dark_outside() }}
+          {% endif %}
+
           {% if call_current_conditions_outside == 1 %}
             {{ current_conditions_outside() }}
           {% endif %}
@@ -841,6 +875,10 @@ script:
 
           {% if call_future_forecast == 1 %}
             {{ future_forecast() }}
+          {% endif %}
+
+          {% if call_freeze_warning == 1 %}
+            {{ freeze_warning() }}
           {% endif %}
 
           {% if call_upcoming_birthdays == 1 %}
@@ -881,6 +919,10 @@ script:
 
           {% if call_door_status == 1 %}
             {{ door_status() }}
+          {% endif %}
+
+          {% if call_garage_door_status == 1 %}
+            {{ garage_door_status() }}
           {% endif %}
 
           {% if call_jeff_location == 1 %}
