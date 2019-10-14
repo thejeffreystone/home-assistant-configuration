@@ -456,9 +456,9 @@ script:
           {% endmacro %}
 
           {% macro freeze_warning() %}
-            {{ [ "The temperature is expexted to be near freezing. Might want to bering the lemon tree in. ",
-                "It appears that it will be cold tonigh. Think of the plants.",
-                "I suggest beinging in the plants otherwise the temperature might kill them."
+            {{ [ "The temperature is expected to be near freezing. Someone might want to bring the lemon tree in. ",
+                "It appears that it will be cold tonight. Think of the poor plants.",
+                "I suggest bringing in the plants otherwise the temperature might kill them. And that will be on you."
               ] | random }}
           {% endmacro %}
           
