@@ -147,6 +147,10 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
   
+
+  #######################################
+  # Turn on / off Haunted Mansion show 
+
   - id: haunted_mansion_on
     alias: Haunted Mansion On
     initial_state: true
@@ -168,6 +172,9 @@ automation:
     - service: script.kill_this_ride
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
+  #######################################
+
+  
   - id: spaceship_earth_on
     alias: Spaceship Earth On
     initial_state: true
@@ -464,6 +471,9 @@ script:
     - service: scene.turn_on
       data:
         entity_id: scene.haunted_preshow
+  
+  ##############################################
+  # Haunted Mansion Show
   haunted_mansion_start:
     sequence:
     - condition: state
@@ -507,6 +517,8 @@ script:
       data:
         rgb_color: [255,255,255]
         brightness_pct: 25
+###############################################
+  
   kill_haunted_mansion:
     sequence:
     - service: shell_command.alarm_off
