@@ -423,8 +423,8 @@ script:
 
           {%- macro dark_outside() -%}
             {{ [
-                'The sun is offical down. Exterior Cameras are now motion acivated.',
-                'The sun has been ushered off the stage. Activate the perimiter cameras.',
+                'The sun is offically down. Exterior Cameras are now motion acivated.',
+                'The sun has been ushered off the stage. I have activated the perimiter cameras.',
                 'You are running out of daylight. Time to wrap up any outisde chores.',
                 'Switching to night mode! '
             ]|random }}
@@ -457,9 +457,9 @@ script:
 
           {% macro freeze_warning() %}
             {{ [ "The temperature is expected to be near freezing. Someone might want to bring the lemon tree in. ",
-                "It appears that it will be cold tonight. Think of the poor plants.",
-                "I suggest bringing in the plants otherwise the temperature might kill them. And that will be on you."
-              ] | random }}
+                 "It appears that it will be cold tonight. Think of the poor plants.",
+                 "I suggest bringing in the plants otherwise the temperature might kill them. And that will be on you."
+               ] | random }}
           {% endmacro %}
           
           {% macro upcoming_birthdays() %}
