@@ -186,6 +186,16 @@ automation:
         call_interurption: 1
         call_jeff_headed_home: 1
 
+  - id: jeff_heading_to_work
+    alias: Jeff Is Heading To Work
+    initial_state: true
+    trigger:
+    - platform: webhook
+      webhook_id: jeff_heading_work
+    condition: []
+    action:
+    - service: script.jeff_destination_summit
+
   - id: skylar_at_school
     alias: Skylar is at School
     trigger:
