@@ -249,7 +249,7 @@ shell_command:
   security_alarm_intro: mpg123 /media/audio/Siren_Noise.mp3
   welcome_haunted: mpg123 /media/audio/Welcome-Hunted.mp3
   haunted_guest_welcome: mpg123 /media/audio/haunted_guest_welcome.mp3
-  haunted_mansion_preshow_full: mpg123 /media/audio/haunted_mansion_preshow_full.mp3
+  haunted_mansion_preshow_full: cvlc --play-and-exit /media/audio/haunted_mansion_preshow_full.mp3
   haunted_mansion_preshow_short: mpg123 /media/audio/haunted_mansion_preshow_short.mp3
   haunted_mansion_hurry_back_short: mpg123 /media/audio/haunted_mansion_hurry_back_short.mp3
   haunted_mansion_hurry_back_full: mpg123 /media/audio/haunted_mansion_hurry_back_full.mp3
