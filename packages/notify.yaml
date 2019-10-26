@@ -423,8 +423,8 @@ script:
 
           {%- macro dark_outside() -%}
             {{ [
-                'The sun is offically down. Exterior Cameras are now motion acivated.',
-                'The sun has been ushered off the stage. I have activated the perimiter cameras.',
+                'The sun is officially down. Exterior Cameras are now motion acivated.',
+                'The sun has been ushered off the stage. I have armed the perimiter cameras.',
                 'You are running out of daylight. Time to wrap up any outisde chores.',
                 'Switching to night mode! '
             ]|random }}
@@ -634,7 +634,8 @@ script:
             {% else %}
               {{ [ "The garage door is closed. ",
                 "The cargo hold is sealed. ",
-                "Looks like the garage has been secured for."
+                "Looks like the garage has been secured.",
+                "The pod bay doors are closed. Do not ask me to open them."
               ] | random }}
             {% endif %} 
           {% endmacro %}
