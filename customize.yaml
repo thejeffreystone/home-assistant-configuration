@@ -115,7 +115,7 @@ device_tracker.jeffreysapple_watch:
 
 
 # Kat  ##
-device_tracker.katherinestonesiphone:
+device_tracker.iphone:
   entity_picture: !secret KAT_ICON
   friendly_name: Kat
 sensor.kat_location:
