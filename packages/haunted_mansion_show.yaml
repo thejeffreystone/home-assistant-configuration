@@ -1,0 +1,83 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   10/29/2019
+#   @package        :   Haunted Mansion Show
+#   @description    :   Config used to put on the Pre-show from Disney's Haunted Mansion in the living room 
+###############################################################################
+
+input_boolean:
+  haunted_mansion:
+    name: Haunted Mansion
+
+automation:
+  # Turn on Haunted Mansion Show when input_boolean is flipped on
+  - id: haunted_mansion_on
+    alias: Haunted Mansion On
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.haunted_mansion
+      to: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.haunted_mansion_start
+  # Turn off Haunted Mansion Show when input_boolean is flipped off
+  - id: haunted_mansion_off
+    alias: Haunted Mansion Off
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.haunted_mansion
+      to: 'off'
+    action:
+    - service: script.kill_this_ride
+    - service: media_player.media_stop
+      entity_id: media_player.ha_speaker
+
+script:
+  haunted_mansion_start:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - service: shell_command.normal_vol
+    - service: shell_command.haunted_mansion_preshow_full
+    - service: light.turn_on
+      entity_id: group.rgb_lr
+      data:
+        rgb_color: [255,255,255]
+    - delay: 00:01:06
+    - service: light.turn_on
+      entity_id: group.rgb_lr
+      data:
+        rgb_color: [73,119,255]
+    - delay: 00:00:15
+    - service: light.turn_on
+      entity_id: group.rgb_lr
+      data:
+        brightness_pct: 25
+    - delay: 00:00:37
+    - service: switch.turn_on
+      entity_id: switch.rail_lights
+    - service: switch.turn_off
+      entity_id: switch.rail_lights
+    - delay: 00:00:02
+    - service: scene.turn_on
+      data:
+        entity_id: scene.haunted_lights_out
+    - service: switch.turn_on
+      entity_id: switch.rail_lights
+    - service: switch.turn_off
+      entity_id: switch.rail_lights
+    - delay: 00:00:10
+    - service: light.turn_on
+      entity_id: group.rgb_lr
+      data:
+        rgb_color: [255,255,255]
+        brightness_pct: 25
+    - delay:
+        seconds: 160
+
