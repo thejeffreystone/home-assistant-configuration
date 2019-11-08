@@ -195,4 +195,17 @@ script:
     
 
   
-    
+sensor:
+  - platform: rest
+    name: Halloween Countdown
+    resource: !secret WA_HALLOWEEN
+    value_template: "{{ (value|replace(' days', '')) | int }}"
+    unit_of_measurement: Days
+    scan_interval: 43200
+
+  - platform: rest
+    name: Christmas Countdown
+    resource: !secret WA_XMAS
+    value_template: "{{ (value|replace(' days', '')) | int }}"
+    unit_of_measurement: Days
+    scan_interval: 43200    
