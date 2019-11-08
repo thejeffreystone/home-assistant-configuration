@@ -1,0 +1,268 @@
+- name: test_dim_75
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 75
+      color_temp: 369
+
+- name: test_dim_50
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 50
+      color_temp: 369
+  
+- name: test_dim_25
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 25
+      color_temp: 369
+
+- name : test
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness: 250
+      color_name: "blue"
+
+- name : test2
+  entities:
+    group.rgb_lr:
+      state: off
+      color_temp: 369
+
+- name : test3
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness: 250
+      color_temp: 369
+      #rgb_color: [255,255,255]
+
+- name: normal livingroom lighting
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness: 250
+      color_temp: 369
+    # light.front_door_lamp:
+    #   state: on
+    #   brightness: 250
+    # light.living_room_lamp:
+    #   state: on
+    #   brightness: 250
+
+- name: dimished livingroom lighting
+  entities:
+    light.0xb0ce18140003608a_light_2:
+      state: on
+      brightness: 40
+      color_temp: 369
+    light.0xb0ce181400051072_light_2:
+      state: off
+    light.0xb0ce181400051b4c_light_2:
+      state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: illuminations livingroom lighting two
+  entities:
+    light.tower_lamp_2:
+      state: on
+      brightness: 40
+      color_temp: 369
+    light.front_door_lamp:
+      state: on
+      brightness: 40
+      color_temp: 369
+    light.living_room_lamp:
+      state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: illuminations livingroom lighting three
+  entities:
+    light.tower_lamp_2:
+      state: on
+      brightness: 40
+      color_temp: 369
+    light.front_door_lamp:
+      state: on
+      brightness: 40
+    light.living_room_lamp:
+      state: on
+      brightness: 40
+      color_temp: 369
+    switch.fireplace_lights:
+      state: off
+
+# light.0xb0ce18140003608a_light_2 = Tower Lamp
+# light.0xb0ce181400051072_light_2 = Front Door Lamp
+# light0xb0ce181400051b4c_light_2 = Table Lampo
+
+- name: night time livingroom lighting
+  entities:
+    light.0xb0ce18140003608a_light_2:
+      state: on
+      brightness: 10
+      color_temp: 369
+    light.0xb0ce181400051072_light_2:
+      state: off
+    light.0xb0ce181400051b4c_light_2:
+      state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: diminished kitchen lighting
+  entities:
+    light.kitchen_cabinets:
+      state: on
+      brightness: 10
+    light.kitchen_cabinet_lights:
+      state: off
+
+- name: normal kitchen lighting
+  entities:
+    light.kitchen_cabinets:
+      state: on
+      brightness: 250
+    light.kitchen_cabinet_lights:
+      state: on
+
+- name: haunted preshow
+  entities:
+    light.kitchen_cabinets:
+      state: off
+    light.kitchen_cabinet_lights:
+      state: off
+    switch.ge_14291_in_wall_smart_switch_switch_2:
+      state: off
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100 
+    # light.front_door_lamp:
+    #   state: on
+    #   brightness: 40
+    # light.living_room_lamp:
+    #   state: on
+    #   brightness: 40
+    switch.fireplace_lights:
+      state: off
+
+- name: haunted lights out
+  entities:
+    light.kitchen_cabinets:
+      state: off
+    light.kitchen_cabinet_lights:
+      state: off
+    switch.ge_14291_in_wall_smart_switch_switch_2:
+      state: off
+    group.rgb_lr:
+      state: off
+    # light.front_door_lamp:
+    #   state: off
+    # light.living_room_lamp:
+    #   state: off
+    switch.fireplace_lights:
+      state: off
+
+- name: jeff light on
+  entities:
+    light.0xe20db9fffe004207_light:
+      state: on
+      brightness: 100
+
+- name: jeff light off
+  entities:
+    light.0xe20db9fffe004207_light:
+      state: off
+      
+
+- name: jeff wake up
+  entities:
+    light.0xe20db9fffe004207_light:
+      state: on
+      brightness: 20
+
+- name: jeff bedtime
+  entities:
+    light.0xe20db9fffe004207_light:
+      state: on
+      brightness: 40
+
+- name: jeff night light
+  entities:
+    light.0xe20db9fffe004207_light:
+      state: on
+      brightness: 10
+
+- name: house party protocol
+  entities:
+    switch.incense_3:
+      state: on
+    switch.artemis_2:
+      state: on
+
+- name: skylar lamp on
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 100
+
+- name: skylar lamp 75
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 75
+
+- name: skylar lamp 50
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 50
+
+- name: skylar lamp 25
+  entities:
+    light.table_lamp_2:
+      state: on
+      brightness: 25
+
+- name: skylar lamp off
+  entities:
+    light.table_lamp_2:
+      state: off
+
+# - name: santa protocol
+#   entities:
+#     switch.christmas_tree:
+#       state: on
+#     switch.upstairs_christmas_tree:
+#       state: on
+#     light.tower_lamp:
+#       state: on
+#       brightness: 10
+#     light.front_lamp:
+#       state: on
+#       brightness: 10
+
+
+#########################################
+# Haunted Manshion show scenes
+#
+# These scenes are used in the Haunted Mansion show that
+# takes place when requested
+
+- name : lr_cool_white
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100
+      rgb_color: [255,255,255]
+
+- name : lr_blue
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100
+      color_name: "blue"

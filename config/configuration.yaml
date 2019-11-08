@@ -1,0 +1,187 @@
+homeassistant:
+  name: Home
+  latitude: !secret MY_LATITUDE
+  longitude: !secret MY_LONGITUDE
+  elevation: 315
+  unit_system: imperial
+  time_zone: America/New_York
+  customize: !include customize.yaml
+  auth_providers:
+    - type: homeassistant
+  packages: !include_dir_named packages
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  base_url: !secret ahsl_base_url
+  ssl_certificate: !secret ahsl_ssl_cert
+  ssl_key: !secret ahsl_ssl_key
+
+ssdp:
+
+zeroconf:
+
+system_health:
+
+mobile_app:
+
+person:
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+# tts:
+#   - platform: google_translate
+
+cloud:
+  
+wemo:
+  discovery: true
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api
+    name: Grayson
+
+conversation:
+
+device_tracker:
+  # - platform: icloud
+  #   username: !secret ICLOUD_USER
+  #   password: !secret ICLOUD_PASS
+  #   track_new_devices: yes
+  # - platform: owntracks
+  # 
+  # - platform: eero_tracker
+  #   consider_home: 300
+  #   interval_seconds: 60
+  #   track_new_devices: yes
+  #   only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
+
+
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+arlo:
+  username: !secret arlo_user
+  password: !secret arlo_pass
+
+alarm_control_panel:
+  - platform: arlo
+    home_mode_name: home
+    away_mode_name: armed
+
+discovery:
+  ignore:
+    - igd
+
+updater:
+  include_used_components: true
+
+sun:
+
+recorder:
+  #db_url: sqlite:///data/home-assistant_v2.db
+  purge_keep_days: 2
+  exclude:
+    domains:
+      - automation
+      - weblink
+      - updater
+    entities:
+      - sun.sun # Don't record sun data
+      - sensor.last_boot # Comes from 'systemmonitor' sensor platform
+      - sensor.date
+
+
+logbook:
+  include:
+    domains:
+      - media_player
+      - automation
+      - script
+
+logger:
+  default: warning
+  #logs:
+ 
+  #   homeassistant.components.sensor.alpha_vantage: debug
+
+
+history:
+  include:
+    domains:
+      - sensor
+      - switch
+      - media_player
+      - light
+
+camera:
+  - platform: mjpeg
+    name: Garage Door Cam 
+    mjpeg_url: !secret garage_cam
+  - platform: arlo
+    ffmpeg_arguments: '-pred 1 -q:v 2'
+    
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg   
+
+life360:
+  accounts:
+    - username: !secret life360_username
+      password: !secret life360_password
+
+python_script:
+
+ecobee:
+  api_key: !secret ecobee_api
+
+map:
+
+wwlln:
+  radius: 75
+  latitude: !secret MY_LATITUDE
+  longitude: !secret MY_LONGITUDE
+
+tplink:
+  discovery: false
+  switch:
+    - host: 192.168.7.105
+    - host: 192.168.7.107
+
+ifttt:
+  key: !secret IFTTT_API_KEY 
+
+media_player:
+  - platform: spotify
+    client_id: !secret spotify_client
+    client_secret: !secret spotify_secret
+
+group: !include groups.yaml
+# automation: !include automations.yaml
+# script: !include scripts.yaml
+
+
+### Includes ###
+alert: !include_dir_merge_named alerts/
+automation: !include automations.yaml
+script: !include_dir_merge_named scripts
+#group: !include groups.yaml
+#automation: !include automations.yaml
+sensor: !include_dir_merge_list sensors
+binary_sensor: !include_dir_merge_list binary_sensors
+#light: !include_dir_merge_list lights
+light: !include lights.yaml
+#switch: !include_dir_merge_list switches
+switch: !include switches.yaml
+#script: !include_dir_merge_named scripts
+#intent_script: !include intents/intents.yaml
+scene: !include scenes.yaml
+input_select: !include input_select.yaml
+input_boolean: !include input_boolean.yaml
+input_datetime: !include input_datetime.yaml
+zone: !include zones.yaml

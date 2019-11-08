@@ -1,0 +1,79 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Sysmon
+#   @description    :   A collection of Home Assistant and Pi Sensors
+###############################################################################
+
+sensor:
+  - platform: systemmonitor
+    resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: network_in
+      arg: eth0
+    - type: network_out
+      arg: eth0
+    - type: last_boot
+    - type: load_15m
+    - type: processor_use
+    - type: last_boot
+  - platform: cpuspeed
+    name: CPU
+  - platform: time_date
+    display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'time_date'
+    - 'time_utc'
+    - 'beat'
+  # - platform: cert_expiry
+  #   host: !secret ahsl_base_url
+  #   name: SSL Cert Expiration
+  - platform: command_line
+    name: "HA Uptime"
+    command: echo "$(($(date +%s) - $(date -d "$(head -n1 /home/homeassistant/.homeassistant/home-assistant.log | cut -d' ' -f-2)" +%s)))"
+    scan_interval: 720
+    value_template: >-
+      {% set uptime = value | int %}
+      {% set seconds = uptime % 60 %}
+      {% set minutes = ((uptime % 3600) / 60) | int %}
+      {% set hours = ((uptime % 86400) / 3600) | int %}
+      {% set days = (uptime / 86400) | int %}
+      {%- if days > 0 -%}
+        {%- if days == 1 -%}
+          1 day
+        {%- else -%}
+          {{ days }} days
+        {%- endif -%}
+        {{ ', ' }}
+      {%- endif -%}
+      {{ '%02d' % hours }}:{{ '%02d' % minutes }}
+  - platform: template
+    sensors:
+      current_version_ha:
+        #command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+        friendly_name: Current HA Version
+        value_template: >-
+          {{ states.binary_sensor.attributes.newest_version }}
+  - platform: version
+    name: Installed version
+    source: local
+    #command: "head -5 /home/homeassistant/.homeassistant/.HA_VERSION"
+  - platform: version
+    name: Released Version
+    source: pypi
+  - platform: version
+    name: Released Hassio Ver
+    source: hassio 
+  - platform: command_line
+    name: ha_v2db
+    command: "ls -sh /home/homeassistant/.homeassistant/home-assistant_v2.db | cut -f1 -d ' '"
+  - platform: command_line
+    name: ha_log
+    command: "ls -sh /home/homeassistant/.homeassistant/home-assistant.log | cut -f1 -d ' '"
+  - platform: uptime
+    name: Time Online
+    unit_of_measurement: days

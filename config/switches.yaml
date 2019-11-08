@@ -1,0 +1,138 @@
+# Living Room
+
+- platform: mqtt
+  name: "Incense"
+  state_topic: "zwave2mqtt/incense/37/1/0"
+  command_topic: "zwave2mqtt/incense/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+- platform: mqtt
+  name: "Living Room Fan"
+  state_topic: "zwave2mqtt/livingroom_fan/37/1/0"
+  command_topic: "zwave2mqtt/livingroom_fan/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+  
+- platform: mqtt
+  name: "Fireplace Lights"
+  state_topic: "zwave2mqtt/fireplace_lights/37/1/0"
+  command_topic: "zwave2mqtt/fireplace_lights/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+# Notifications
+
+- platform: mqtt
+  name: "Text Notify Kat"
+  command_topic: "kat/notify/text"
+  state_topic: "kat/notify/text"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Audibly Notify Kat"
+  command_topic: "kat/notify/audio"
+  state_topic: "kat/notify/audio"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Text Notify Jeff"
+  command_topic: "jeff/notify/text"
+  state_topic: "jeff/notify/text"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Audibly Notify Jeff"
+  command_topic: "jeff/notify/audio"
+  state_topic: "jeff/notify/audio"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Text Notify House"
+  command_topic: "house/notify/text"
+  state_topic: "house/notify/text"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+- platform: mqtt
+  name: "Audibly Notify House"
+  command_topic: "house/notify/audio"
+  state_topic: "house/notify/audio"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: true
+
+
+# Outside
+
+- platform: mqtt
+  name: "Driveway Light"
+  state_topic: "zwave2mqtt/driveway_light/37/1/0"
+  command_topic: "zwave2mqtt/driveway_light/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+- platform: mqtt
+  name: "Front Porch"
+  state_topic: "zwave2mqtt/front_porch/37/1/0"
+  command_topic: "zwave2mqtt/front_porch/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+# Sonoff
+
+- platform: mqtt
+  name: "Rail Lights"
+  command_topic: "cmnd/sonoff/power"
+  state_topic: "stat/sonoff/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+
+# Upstairs
+
+- platform: mqtt
+  name: "Upstairs Fan"
+  state_topic: "zwave2mqtt/upstairs_fan/37/1/0"
+  command_topic: "zwave2mqtt/upstairs_fan/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+- platform: mqtt
+  name: "Theater Power"
+  state_topic: "zwave2mqtt/theater_power/37/1/0"
+  command_topic: "zwave2mqtt/theater_power/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+- platform: mqtt
+  name: "Upstairs"
+  state_topic: "zwave2mqtt/upstairs_light/37/1/0"
+  command_topic: "zwave2mqtt/upstairs_light/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+# Appliance
+
+- platform: mqtt
+  name: "Washer"
+  state_topic: "zwave2mqtt/washer/37/1/0"
+  command_topic: "zwave2mqtt/washer/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"

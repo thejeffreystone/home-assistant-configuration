@@ -1,0 +1,29 @@
+- platform: mqtt
+  name: "Washer"
+  state_topic: "zwave2mqtt/washer/50/1/0"
+  device_class: "power"
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Washer Power 1"
+  state_topic: "zwave2mqtt/washer/49/1/4"
+  device_class: "power"
+  unit_of_measurement: "W"
+
+- platform: mqtt
+  name: "Washer_Power"
+  state_topic: "zwave2mqtt/washer/50/1/8"
+  device_class: "power"
+  unit_of_measurement: "W"
+
+- platform: mqtt
+  name: "Washer Power 3"
+  state_topic: "zwave2mqtt/washer/50/1/9"
+  device_class: "power"
+  unit_of_measurement: "W"
+
+- platform: mqtt
+  name: "Washer Power kwh"
+  state_topic: "zwave2mqtt/washer/50/1/1"
+  device_class: "power"
+  unit_of_measurement: "kWh"

@@ -1,38 +1,41 @@
-# Ignore everything explicitly
-*
+# ignore my git update script
+update_git.py
 
 
-# Whitelist files/folders with !, these will not be ignored.
-!*.yaml
-!.gitignore
-!*.md
-!templates/
-!binary_sensors/
-!sensors/
-!packages/
-!switches/
-!lights/
-!python_scripts/
-!alerts/
-!scripts/
+# ignore hidden folders
+/config/.storage
+/config/.cloud
+/config/.google.token
+
+# ignore some directories.
+/config/icloud/
+/config/www/
+/config/tts/
+/config/deps/
+/config/hadashboards/
+/config/intents/
+/config/themes/
+/config/custom_components
 
 
-# Then because I'm paranoid...
-# Ignore folders.
-.storage
-.cloud
-.google.token
-.homekit.state
-icloud/
-www/
-tts/
-deps/
-hadashboards/
-intents/
-secrets.yaml
-ip_bans.yaml
-._*
-google_calendars.yaml
-known_devices*
-zones.yaml
-scripts/test.yaml
+# ignore any of these filesno matter where they are
+**.DS_Store
+**._*
+**.HA_VERSION
+**.pyc
+**.conf
+**.uuid
+**.txt
+**.log
+**.db
+**.sqlite
+**.xml
+**secrets*
+**known_devices.yaml
+**google_calendars.yaml
+**ip_bans.yaml
+**.spotify-token-cache
+**zones.yaml
+**test.yaml
+**.homekit*
+**.vscode
