@@ -123,10 +123,10 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door_contact_2
-      - binary_sensor.laundry_room_door_contact_2
-      - binary_sensor.attic_door_contact_2
-      - binary_sensor.back_door_contact_2
+      - binary_sensor.front_door
+      - binary_sensor.laundry_room_door
+      - binary_sensor.attic_door
+      - binary_sensor.back_door
       from: 'off'
     condition:
     - condition: state
@@ -136,8 +136,7 @@ automation:
       entity_id: input_boolean.guest_mode
       state: 'off'
     action:
-    - service: shell_command.door_chime
-    - service: script.reset_ha_speaker
+    - service: script.door_chime
     initial_state: true
 
   - id: door_opened_long
