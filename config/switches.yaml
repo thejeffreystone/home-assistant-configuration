@@ -136,3 +136,14 @@
   command_topic: "zwave2mqtt/washer/37/1/0/set"
   payload_on: "true"
   payload_off: "false"
+
+
+# alarm
+
+- platform: mqtt
+  name: "Alarm"
+  state_topic: "zwave2mqtt/nodeID_21/37/1/0"
+  command_topic: "zwave2mqtt/nodeID_21/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
