@@ -31,6 +31,9 @@ camera:
     name: USPS Mail Pictures
     still_image_url: !secret usps_camera_url
 
+
+automation:
+
 # Notify USPS mails via TTS, and iOS notification with attachment
 ###############################################################################
   - id: notify_usps_mail
