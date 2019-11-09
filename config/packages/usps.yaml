@@ -31,25 +31,6 @@ camera:
     name: USPS Mail Pictures
     still_image_url: !secret usps_camera_url
 
-automation:
-  - id: reset_usps
-    initial_state: true
-    alias: Reset USPS 
-    trigger:
-    - platform: time
-      at: '00:00:10'
-    action:
-      - service: shell_command.usps
-  
-  - id: get_usps
-    initial_state: true
-    alias: Get USPS 
-    trigger:
-    - platform: time
-      at: '10:00:00'
-    action:
-      - service: shell_command.usps
-
 # Notify USPS mails via TTS, and iOS notification with attachment
 ###############################################################################
   - id: notify_usps_mail
