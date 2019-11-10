@@ -1,0 +1,20 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Daily
+#   @description    :   Maint Automation that occurs every day
+###############################################################################
+automation:
+  # Reset Daily Weather Alerts at 3am
+  - id: reset_weather_alerts
+    alias: Reset Weather Alerts
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '03:00:01'
+    - platform: homeassistant
+      event: start
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.freeze_warning
+    
