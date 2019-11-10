@@ -116,7 +116,7 @@ automation:
       state: "on"
     action:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.security_issue
+      entity_id: input_boolean.garage_after_dark
 
   - id: door_chime
     alias: Door Chine
@@ -215,6 +215,32 @@ automation:
       entity_id: input_boolean.security_issue
     initial_state: true
 
+  - id: security_response_on
+    alias: Security Response On
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.security_issue
+      from: 'off'
+      to: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.security_response
+
+  - id: security_response_off
+    alias: Security Response Off
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.security_issue
+      from: 'on'
+      to: 'off'
+    action:
+    - service: script.turn_off
+      entity_id: script.security_response
+    - service: media_player.media_stop
+      entity_id: media_player.theater
+
   - id: sentry_mode_enabled
     alias: Sentry Mode Enabled Annoucement
     initial_state: true
@@ -249,7 +275,7 @@ automation:
           {{ [
           "Barn door protocol has been deactivated.",
           "I am no longer monitoring the access points. ",
-          "Sentry Mode has been switched off. "
+          "Sentry Mode has been disabled. "
           ] | random }}  
 
   - id: guest_mode_feedback
@@ -290,8 +316,8 @@ script:
   security_check_garage:
     sequence:
     - condition: state
-      entity_id: cover.cargo_bay
-      state: open
+      entity_id: binary_sensor.garage_door
+      state: 'on'
     - service: input_boolean.turn_on
       entity_id: input_boolean.lockdown_issue
   
@@ -342,44 +368,6 @@ script:
     sequence:
     - service: shell_command.security_alarm
 
-  # notification_sentry_mode_activated_audio:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.audible_notifications
-  #     state: 'on'
-  #   - condition: state
-  #     entity_id: media_player.theater
-  #     state: 'idle'
-  #   - service: tts.google_say
-  #     entity_id: media_player.theater
-  #     data_template:
-  #       message: "Sentry mode activated"
-
-  # notification_sentry_mode_deactivated_audio:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.audible_notifications
-  #     state: 'on'
-  #   - condition: state
-  #     entity_id: media_player.theater
-  #     state: 'idle'
-  #   - service: tts.google_say
-  #     entity_id: media_player.theater
-  #     data_template:
-  #       message: "Sentry mode deactivated"
-  
-  # notification_sentry_mode_deactiviated_text:
-  #   sequence:
-  #   - service: notify.jeff_ios
-  #     data:
-  #       message: Sentry Mode Deactivated
-  
-  # notification_sentry_mode_activiated_text:
-  #   sequence:
-  #   - service: notify.jeff_ios
-  #     data:
-  #       message: Sentry Mode Activated
-
   vacation_canceled:
     sequence:
     - data:
@@ -416,4 +404,61 @@ script:
     - service: input_boolean.turn_on
       entity_id: input_boolean.guest_mode
      
-
+  security_response:
+    sequence:
+    - delay:
+        seconds: 15
+    - service: script.jarvis_alert
+      data_template:
+        message: >
+          {{ [
+          ",Unathorized Access detected.",
+          ",Meat Popsicle detected. Attempting to verify."
+          ] | random }}
+          You now have 60 seconds to abandon Anchorage House.
+    - delay:
+        seconds: 15
+    - service: script.jarvis_alert
+      data_template:
+        message: >
+          {{ [
+          ",Just, what do you think you're doing, Dave?",
+          ",This is highly unusal."
+          ] | random }}
+          You have 45 seconds.
+    - delay:
+        seconds: 15
+    - service: script.jarvis_alert
+      data_template:
+        message: >
+          {{ [
+          ",I can't lie to you about your chances, but, you have my sympathies.",
+          ",I wouldn't do that if I was you."
+          ] | random }}
+          You have 30 seconds.
+    - delay:
+        seconds: 15
+    - service: script.jarvis_alert
+      data_template:
+        message: >
+          {{ [
+          "Danger. The emergency destruct system is now activated.",
+          "Danger. Counter Measures are now armed."
+          ] | random }}
+          You have 15 seconds.
+    - delay:
+        seconds: 15
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: .5
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/security_siren.mp3
+        media_content_type: "music"
+    
+    
+    
