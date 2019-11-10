@@ -197,13 +197,6 @@
       state: on
       brightness: 10
 
-- name: house party protocol
-  entities:
-    switch.incense_3:
-      state: on
-    switch.artemis_2:
-      state: on
-
 - name: skylar lamp on
   entities:
     light.table_lamp_2:

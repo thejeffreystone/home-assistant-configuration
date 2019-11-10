@@ -11,18 +11,6 @@ default_view:
 #################################################################################
 ### Grops ###
 
-House:
-  control: hidden
-  entities:
-  - sensor.notification_mode
-  - input_boolean.guest_mode
-  - input_boolean.vacation_mode
-
-Family:
-  - binary_sensor.jeffrey_presence
-  - binary_sensor.kat_presence
-  
-
 House Conditions:
   - climate.first_floor
   - sensor.accurite_back_porch_temperature
@@ -31,20 +19,18 @@ House Conditions:
   - sensor.accurite_garage_humidity
 
 External Doors:
-  - binary_sensor.side_door_contact_2
-  - binary_sensor.front_door_contact_2
-  - binary_sensor.back_door_contact_2
-  - binary_sensor.laundry_room_door_contact_2
-  - binary_sensor.garage_door_contact_2
+  - binary_sensor.side_door
+  - binary_sensor.front_door
+  - binary_sensor.back_door
+  - binary_sensor.laundry_room_door
+  - binary_sensor.garage_door
 
 Garage Doors:
-  - binary_sensor.side_door_contact_2
   - binary_sensor.side_door
-  - binary_sensor.garage_door_contact_2
   - binary_sensor.garage_door
 
 Internal Doors:
-  - binary_sensor.attic_door_contact_2
+  - binary_sensor.attic_door
 
 Disney Audio:
   - input_boolean.tiki_room_audio
@@ -61,3 +47,11 @@ rgb_lr:
   - light.0xb0ce18140003608a_light_2
   - light.0xb0ce181400051b4c_light_2
   - light.0xb0ce181400051072_light_2
+
+incense:
+  - switch.incense
+  - switch.artemis
+
+all_fans:
+  - switch.upstairs_fan
+  - switch.living_room_fan
