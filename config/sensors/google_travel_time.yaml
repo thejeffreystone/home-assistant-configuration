@@ -7,7 +7,7 @@
 - platform: waze_travel_time
   name: "Kat ETT Home"
   #api_key: !secret google_api
-  origin: device_tracker.katherinestonesiphone
+  origin: device_tracker.iphone
   destination: zone.home
   region: 'US'
 - platform: waze_travel_time
