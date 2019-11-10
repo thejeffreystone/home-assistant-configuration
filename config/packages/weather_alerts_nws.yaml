@@ -21,6 +21,11 @@ group:
    entities:
      - sensor.nws_alerts
 
+input_boolean:
+  freeze_warning:
+    name: Freeze Warning
+    icon: mdi:snowflake-alert
+
 ### You first need to find either your NWS Zone ID or County ID. I’m not sure which is better but I used my Zone ID here.
 ### You can find your Zone ID by going to https://alerts.weather.gov/ 7, scroll down to your state and click on the “zone list” then look for the entry for your county.
 ### I recommond useing both
@@ -191,6 +196,23 @@ automation:
           title: "Tornado Warning!"
           message: "The National Weather Service Has issued a Tornado Warning for our area."
 
+  - alias: NWS Freeze Warning
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: sensor.nws_alerts
+    condition:
+      condition: and
+      conditions:
+        - condition: template
+          value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
+        - condition: template
+          value_template: "{{ 'Freeze Warning' in states.sensor.nws_alerts.attributes.title}}"
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.freeze_warning
+      
+      
   - alias: Activate Tornado alarm 
     initial_state: 'on'
     trigger:
@@ -199,11 +221,8 @@ automation:
       from: 'off'
       to: 'on'
     action:
-    - service: media_player.play_media
-      entity_id: media_player.theater
-      data:
-        media_content_id: /media/audio/Tornado_Siren.mp3
-        media_content_type: "music"
+    - service: script.turn_on
+      entity_id: script.tornado_alarm
 
   - alias: Deactivate Tornado alarm 
     initial_state: 'on'
@@ -212,8 +231,9 @@ automation:
       entity_id: input_boolean.tornado_alarm 
       from: 'on'
       to: 'off'
-
     action:
+    - service: script.turn_off
+      entity_id: script.tornado_alarm
     - service: media_player.media_stop
       entity_id: media_player.theater
   
@@ -240,4 +260,17 @@ script:
   
   tornado_alarm:
     sequence:
-      - service: shell_command.tornado_alarm
+      - delay:
+          seconds: 15
+      - service: media_player.play_media
+        entity_id: media_player.theater
+        data:
+          media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
+          media_content_type: "music"
+      - delay:
+          seconds: 110
+      - service: media_player.play_media
+        entity_id: media_player.theater
+        data:
+          media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
+          media_content_type: "music"

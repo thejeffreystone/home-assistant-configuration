@@ -58,6 +58,7 @@ automation:
         call_time_annc: 1
         call_weather_alerts: 1
         call_overnight_forecast: 1
+        call_freeze_warning: 1
         call_upcoming_holidays: 1
         call_reminders: 1
         call_chores: 1
@@ -142,3 +143,16 @@ automation:
           {% else %}
             07:45
           {% endif %}
+          
+  - alias: Announce Freeze Warning
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.freeze_warning
+        to: 'on'
+    action:
+      - service: script.twitter_notify
+        data_template:
+          message: '{{ [ "Appears that the temperature will be below freezing tonight. I think I will stay inside.", 
+          "The temperature tonight will kill sensative plants, so I just made a weather announcement. I cannot through inaction allow another to come to harm.",
+          "Winter is coming. Actually it is already here. I suggest sleeping with Dragon Glass." ] | random }}'

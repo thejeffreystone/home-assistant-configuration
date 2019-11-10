@@ -170,13 +170,34 @@ script:
 
   jarvis_alert:
     sequence:
-    - service: switch.turn_on 
-      entity_id: switch.ha_speaker
+    - service: mqtt.publish
+      data_template:
+        topic: 'house/polly/lastmsg'
+        payload: "This message is from {{ now().strftime('%-I') }}:{{ now().strftime('%M') }} {{ now().strftime('%p') }}. {{ message | truncate(220)}}"
+        retain: true
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          .65
+          {% else %}
+          .65
+          {% endif %}
+    # media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
     - service: tts.amazon_polly_say
       data_template:
-        entity_id: media_player.guest_tv
+        entity_id: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          media_player.theater
+          {% else %}
+          media_player.house
+          {% endif %}
         message: >-
           <speak>
+            <break time="1.0s" />
             {{ message }}
           </speak>
         cache: true
@@ -209,6 +230,8 @@ script:
           entity_id: media_player.guest_tv
           message: >
             {{message }}
+
+ 
 
   jarvis_voice:
     sequence:
@@ -444,10 +467,13 @@ script:
           {% endmacro %}
 
           {% macro freeze_warning() %}
-            {{ [ "The temperature is expected to be near freezing. Someone might want to bring the lemon tree in. ",
-                 "It appears that it will be cold tonight. Think of the poor plants.",
-                 "I suggest bringing in the plants otherwise the temperature might kill them. And that will be on you."
+            {% if is_state("input_boolean.freeze_warning","on") %}
+            {{ [ "The temperature is expected to be near or below freezing. Someone might want to bring the lemon tree in. ",
+                 "It appears that it will be cold tonight. Like turn water solid, cold. Think of the poor plants.",
+                 "I suggest bringing in the plants otherwise the temperature might kill them. And that will be on you.",
+                 "I would say winter is coming. But based on the weather forecast it appears to be here. Grab the Dragon glass."
                ] | random }}
+            {% endif %}
           {% endmacro %}
           
           {% macro upcoming_birthdays() %}
@@ -614,13 +640,18 @@ script:
           {% endmacro %}
 
           {% macro garage_door_status() %}
-            {% if is_state("binary_sensor.garage_door_contact_2", "on") %} 
+            {% if is_state("binary_sensor.garage_door", "on") %} 
               {{ [ "The garage door is open. ",
                 "The pod bay doors are open. ",
                 "Someone forgot to close the garage."
               ] | random }}
+            {% elif is_state("binary_sensor.side_door", "on") %} 
+              {{ [ "The side door is ajar. ",
+                "The side door is open. ",
+                "Someone forgot to close the side door."
+              ] | random }}
             {% else %}
-              {{ [ "The garage door is closed. ",
+              {{ [ "The garage doors are closed. ",
                 "The cargo hold is sealed. ",
                 "Looks like the garage has been secured.",
                 "The pod bay doors are closed. Do not ask me to open them."
