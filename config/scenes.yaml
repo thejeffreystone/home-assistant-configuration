@@ -259,3 +259,10 @@
       state: on
       brightness_pct: 100
       color_name: "blue"
+
+- name : lr_red
+  entities:
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100
+      rgb_color: [255,40,0]

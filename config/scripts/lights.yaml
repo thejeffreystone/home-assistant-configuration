@@ -28,3 +28,32 @@ lr_sengled_transistion_off:
       entity_id: light.tower_lamp_2
       brightness_pct: 0
       transition: 60
+
+# Turn on Living Room Lights if sun is down or cloud coverage is above 70%
+livingroom_lamps_on:
+  sequence:
+  - condition: or
+    conditions:
+      - condition: state  
+        entity_id: sun.sun
+        state: 'below_horizon'
+      - condition: numeric_state  
+        entity_id: sensor.dark_sky_cloud_coverage
+        above: 70
+  - service: scene.turn_on 
+    entity_id: scene.normal_livingroom_lighting
+
+# Turn off Living Room Lights if sun is up or cloud coverage is below 70%
+livingroom_lamps_off:
+  sequence:
+  - condition: or
+    conditions:
+      - condition: state  
+        entity_id: sun.sun
+        state: 'above_horizon'
+      - condition: numeric_state  
+        entity_id: sensor.dark_sky_cloud_coverage
+        below: 70
+  - service: group.turn_off 
+    entity_id: group.livingroom_lamps
+  

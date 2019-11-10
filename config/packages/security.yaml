@@ -226,6 +226,8 @@ automation:
     action:
     - service: script.turn_on
       entity_id: script.security_response
+    - service: scene.turn_on
+      entity_id: scene.lr_red
 
   - id: security_response_off
     alias: Security Response Off
@@ -240,6 +242,10 @@ automation:
       entity_id: script.security_response
     - service: media_player.media_stop
       entity_id: media_player.theater
+    - service: scene.turn_on
+      entity_id: scene.lr_red
+    - service: script.livingroom_lamps_on
+    - service: script.livingroom_lamps_off
 
   - id: sentry_mode_enabled
     alias: Sentry Mode Enabled Annoucement
@@ -257,7 +263,8 @@ automation:
           "Barn door protocol has been activated.",
           "Anchorage House has been secured! ",
           "Sentry Mode is active. ",
-          "I am now monitoring the doors and will let you know if anyone attempts to access."
+          "I am now monitoring the doors and will let you know if anyone attempts to access.",
+          "Anchorage House Shields are up."
           ] | random }}    
 
   - id: sentry_mode_disabled
@@ -275,7 +282,8 @@ automation:
           {{ [
           "Barn door protocol has been deactivated.",
           "I am no longer monitoring the access points. ",
-          "Sentry Mode has been disabled. "
+          "Sentry Mode has been disabled. ",
+          "Anchorage House Shields are down."
           ] | random }}  
 
   - id: guest_mode_feedback
@@ -460,5 +468,5 @@ script:
         media_content_id: http://192.168.7.40/audio/security_siren.mp3
         media_content_type: "music"
     
-    
+  
     
