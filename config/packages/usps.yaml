@@ -45,8 +45,6 @@ automation:
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
-      - condition: template
-        value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
       - service: script.ah_report
         data_template:
@@ -81,8 +79,6 @@ automation:
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_packages.state | int > 0 }}'
-      - condition: template
-        value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
       - service: script.ah_report
         data_template:
