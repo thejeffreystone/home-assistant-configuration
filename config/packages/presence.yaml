@@ -255,11 +255,11 @@ automation:
       from: Away
       platform: state
       to: Home
-    - entity_id: person.jeffrey
+    - entity_id: device_tracker.jeffreystonesiphone
       event: enter
       platform: zone
       zone: zone.home
-    - entity_id: person.katherine
+    - entity_id: device_tracker.iphone
       event: enter
       platform: zone
       zone: zone.home
