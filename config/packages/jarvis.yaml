@@ -2,17 +2,39 @@
 #   @author         :   Jeffrey Stone 
 #   @date           :   07/09/2019
 #   @package        :   Jarvis
-#   @description    :   Brining some Jarvis to Home Assistant
+#   @description    :   Bringing some Jarvis to Home Assistant
 ###############################################################################
 
-automation:
+input_boolean:
+  house_party_protocol:
+    name: House Party Protocol
 
+automation:
+  - id: house_party_protocol_on
+    alias: Turn On House Party Protocol
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.house_party_protocol
+      to: 'on'
+    action:
+    - service: script.activate_house_party_protocol
+  
+  - id: house_party_protocol_off
+    alias: Turn Off House Party Protocol
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.house_party_protocol
+      to: 'off'
+    action:
+    - service: script.deactivate_house_party_protocol
 
 script:
   activate_house_party_protocol:
     sequence:
-    - service: scene.turn_on
-      entity_id: scene.house_party_protocol
+    - service: group.turn_on
+      entity_id: group.incense
     - service: script.ah_report
       data_template:
         speech_message: >
@@ -20,4 +42,16 @@ script:
           "Anchorage House has been configured for a House Party.",
           "Incense has been turned on.",
           "I have enabled house party protocol."
+          ] | random }}
+  deactivate_house_party_protocol:
+    sequence:
+    - service: group.turn_off
+      entity_id: group.incense
+    - service: script.ah_report
+      data_template:
+        speech_message: >
+          {{ [
+          "The House Party has been canceled.",
+          "Incense has been turned off.",
+          "I have disabled house party protocol."
           ] | random }}
