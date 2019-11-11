@@ -10,7 +10,14 @@
        "I am running Home Assistant version {{ states.sensor.installed_version.state }} (https://github.com/thejeffreystone/home-assistant-configuration)"
        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration and currently has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stargazers. You could be one too.",
        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration .The last commit was {{ states.sensor.home_assistant_configuration.attributes.latest_commit_message}}.",
-       "The average temperature inside Anchorage House is {{states.sensor.inside_temp_stats.attributes.mean | round}} degrees fahrenheit"
+       "The average temperature inside Anchorage House is {{states.sensor.inside_temp_stats.attributes.mean | round}} degrees fahrenheit.",
+       "I have been running non-stop for {{states.sensor.time_online.state}} days",
+       "We have watched the Roku for a total of {{states.sensor.roku_theater_time.attributes.value}} in the last 24 hours.",
+       "The outside lights were on for a total of {{states.sensor.outside_lights.attributes.value}} in the last 24 hours.",
+       "The average temperature in the garage is {{states.sensor.garage_temp_stats.attributes.mean | round}} degrees fahrenheit.",
+       "The HVAC has cooled the house for {{states.sensor.cooling_last_month.attributes.value}} and heated for {{states.sensor.heating_last_month.attributes.value}} in the last month",
+       "The HVAC has cooled the house for {{states.sensor.cooling_last_day.attributes.value}} and heated for {{states.sensor.heating_last_day.attributes.value}} in the last 24 hours",
+       "Clouds cover {{states.sensor.garage_temp_stats.attributes.mean | round}} of the sky above Anchorage House on average."
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

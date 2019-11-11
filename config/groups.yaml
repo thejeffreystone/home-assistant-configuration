@@ -18,6 +18,11 @@ House Conditions:
   - sensor.accurite_garage_temperature
   - sensor.accurite_garage_humidity
 
+Outside Lights:
+  - switch.driveway_light
+  - switch.front_porch
+  - light.side_door_light
+  
 External Doors:
   - binary_sensor.side_door
   - binary_sensor.front_door

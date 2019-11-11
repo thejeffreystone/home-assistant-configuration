@@ -80,6 +80,49 @@
   - total_cameras
   - battery_level
   - signal_strength
+- platform: history_stats
+  name: Outside Lights
+  entity_id: group.outside_lights
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Heating Last Day
+  entity_id: sensor.hvac_action
+  state: 'heating'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Heating Last Month
+  entity_id: sensor.hvac_action
+  state: 'heating'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    days: 30
+- platform: history_stats
+  name: Cooling Last Day
+  entity_id: sensor.hvac_action
+  state: 'cooling'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: min_max
+  name: Cloud Coverage Stats
+  entity_ids: sensor.dark_sky_cloud_coverage
+- platform: history_stats
+  name: Cooling Last Month
+  entity_id: sensor.hvac_action
+  state: 'cooling'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    days: 30
 - platform: template
   sensors:
     sensor_count:
@@ -117,4 +160,10 @@
       entity_id: []
       value_template: >-
         {{ states.camera | list | count }}
+    hvac_action:
+      friendly_name: 'HVAC Action'
+      entity_id: []
+      value_template: >-
+        {{states.climate.home.attributes.hvac_action}}
+
 
