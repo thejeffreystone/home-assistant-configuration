@@ -42,6 +42,14 @@
   duration:
     hours: 24
 - platform: history_stats
+  name: Roku Theater time
+  entity_id: media_player.roku_premiere
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
   name: Washer Time
   entity_id: sensor.washer_status
   state: 'running'
