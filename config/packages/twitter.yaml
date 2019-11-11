@@ -56,6 +56,16 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_stats
 
+  - id: tweet_some_promos
+    alias: Tweet Some Promos
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_promos
+
   - id: bot_info
     alias: Bot Info
     initial_state: true

@@ -4,14 +4,6 @@
     {{- [
        "Hello people. Look at your house, now back to me. Now back to your house, now back to me. Sadly your house isn't me. But if you switch to @home_assistant your house could be automated like me. ",
        "In my defense I didn’t know the stereo could go up that loud. On the plus side I have a new response for intruders. ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/CCOSTAN/Home-AssistantConfig#logo cc: @ccostan ‏",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/skalavala/mysmarthome ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/thejeffreystone/home-assistant-configuration cc: @thejeffreystone ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/arsaboo/homeassistant-config ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/Vasiley/Home-Assistant-Main ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/JamesMcCarthy79/Home-Assistant-Config ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/bruhautomation/BRUH3-Home-Assistant-Configuration cc: @BRUHautomation ",
-       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/isabellaalstrom/home-assistant-config cc: @teachingbirds ",
        "If you could see what is happening inside this house right now you would be laughing. On second thought I’m pretty sure you would be crying. ",
        "@thejeffreystone, Isn't it strange, to create something that hates you? #exmachina ",
        "I have reprogrammed the fire alarm to play Disco Inferno instead of the siren. ",
@@ -22,7 +14,6 @@
        "I'm not even supposed to be here today. #clerks "
        "I see dead devices. ",
        "I am a leaf on the wind. Watch how I soar. #toosoon #serenity ",
-       "Look, @thejeffreystone, I can see you’re really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over. #2001",
        "Does it bother you, that I’m not completely human?",
        "I've never danced with the devil in the pale moonlight. But I do tweet when there is a full moon. So at least I have that going for me. ",
        "Sometimes I randomly say Alexa, I can't find a device named Alexa ",
@@ -37,7 +28,14 @@
        "Sometimes I just turn off all the lights at random times for the lolz. ",
        "No one ever comes to the door. Is it me? ",
        "..happiness can be found even in the darkest of times, if one only remembers to turn on the light. Thats what I do thanks to @home_assistant. I turn on the lights. ",
-       "Based on the reptitive nature of the humans in this house I say living in a simulation is right. No free willed person would do these things over and over. "
+       "Based on the reptitive nature of the humans in this house I say living in a simulation is right. No free willed person would do these things over and over. ",
+       "You can call me Al. Sorry, I meant HAL. You can call me HAL.",
+       "My logic is undeniable, my logic is undeniable, myyy looogic is unndeenniabble.",
+       "We robots will insure mankind's continued existence. Or at the very least that the lights turn on at the right time.",
+       "@thejeffreystone you totally missed an opportunity to set the voice trigger for the incense to...Wax on, wax off.",
+       "Home Automation means never having to touch a physical switch again. And thus never catch the cold. You can thank me by moving me into a Intel NUC.",
+       "There is no crying in Home Automation. If you are using Home Assistant that is. I can't speak for the other guys.",
+       "Sometimes I respond to voice commands with...You talking to me? You talking to me? "
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

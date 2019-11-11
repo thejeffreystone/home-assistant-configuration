@@ -1,0 +1,40 @@
+ >
+  {# Twitter Promos #}
+  {%- macro getRandomPromo() -%}
+    {{- [
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/CCOSTAN/Home-AssistantConfig#logo cc: @ccostan ‏",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/skalavala/mysmarthome ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/thejeffreystone/home-assistant-configuration cc: @thejeffreystone ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/arsaboo/homeassistant-config ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/Vasiley/Home-Assistant-Main ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/JamesMcCarthy79/Home-Assistant-Config ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/bruhautomation/BRUH3-Home-Assistant-Configuration cc: @BRUHautomation ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/isabellaalstrom/home-assistant-config cc: @teachingbirds ",
+       "Your house can be a #smarthome too. All you need is @home_assistant, and some config files. I suggest https://github.com/JuanMTech/Home_Assistant_files cc: @JuanMTech ",
+       "Want to get YouTube Certified in Home Assistant? @ccostan has you covered. Subscribe at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
+       "Want to get YouTube Certified in Home Assistant? @thejeffreystone has you covered. Subscribe at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg ",
+       "Want to get YouTube Certified in Home Assistant? @Dr_Zzs has you covered. Subscribe at https://www.youtube.com/channel/UC7G4tLa4Kt6A9e3hJ-HO8ng ",
+       "Want to get YouTube Certified in Home Assistant? @JuanMTech has you covered. Subscribe at https://www.youtube.com/user/Jfelipe83M ",
+       "Want to get YouTube Certified in Home Assistant? @bhautomation has you covered. Subscribe at https://www.youtube.com/channel/UCSKQutOXuNLvFetrKuwudpg ",
+       "You can watch videos about how I came to be and all the cool things I'm learning to do at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg "
+       ] | random -}}
+  {%- endmacro -%}
+  {%- macro getTags() -%}
+    #homeassistant #youcandoit #promo #spreadtheword
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+  
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getRandomPromo() }}
+      {{ getTags() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
+
