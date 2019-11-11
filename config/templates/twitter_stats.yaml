@@ -10,11 +10,11 @@
        "I am running Home Assistant version {{ states.sensor.installed_version.state }} (https://github.com/thejeffreystone/home-assistant-configuration)"
        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration and currently has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stargazers. You could be one too.",
        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration .The last commit was {{ states.sensor.home_assistant_configuration.attributes.latest_commit_message}}.",
-       "You can watch videos about how I came to be and all the cool things I'm learning to do at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg "
+       "The average temperature inside Anchorage House is {{states.sensor.inside_temp_stats.attributes.mean | round}} degrees fahrenheit"
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #homeassistant #iot #smarthome
+    #homeassistant #iot #smarthome #stats
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}

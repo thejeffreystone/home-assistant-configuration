@@ -1004,12 +1004,17 @@ script:
         data_template:
           message: !include ../templates/twitter_snark.yaml
         
-
   twitter_stats:
     sequence:
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_stats.yaml
+
+  twitter_promos:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: !include ../templates/twitter_promos.yaml
 
   twitter_github:
     sequence:
