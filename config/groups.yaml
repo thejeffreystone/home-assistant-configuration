@@ -48,7 +48,7 @@ Disney Audio:
   - input_boolean.boo_to_you
   - input_boolean.happy_ever_after
 
-rgb_lr:
+rgb lr:
   - light.0xb0ce18140003608a_light_2
   - light.0xb0ce181400051b4c_light_2
   - light.0xb0ce181400051072_light_2
@@ -57,6 +57,15 @@ incense:
   - switch.incense
   - switch.artemis
 
-all_fans:
+all fans:
   - switch.upstairs_fan
   - switch.living_room_fan
+
+Skylars Bedroom:
+  - light.0xe20db9fffe003637_light
+  - switch.0xf0d1b80000052281_switch
+
+Master Bedroom:
+  - light.0xe20db9fffe004207_light
+
+
