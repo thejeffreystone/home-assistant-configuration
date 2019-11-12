@@ -275,9 +275,7 @@ script:
           {% endif %}
         message: >-
           <speak>
-            <break time="5.0s" />
             {{ message }}
-            <break time="1.0s" />
           </speak>
         cache: true
   
@@ -349,8 +347,6 @@ script:
                 ] | random }}
           {% endmacro %}
 
-      
-          
           {% macro morning_greeting() %}
               {{ [ "Time to Rise and Shine. ",
                 "Let's do this thing.",
@@ -412,8 +408,8 @@ script:
           {% endmacro %}
 
           {% macro todays_events() %}
-            {% if is_state("sensor.holiday_halloween","0") %}
-              This is Halloween, this is halloween. Happy Halloween!
+            {% if is_state("sensor.halloween_countdown","0") %}
+              Happy Halloween!
             {% endif %}
             {% if is_state("sensor.holiday_christmas","0") %}
               Merry Christmas Everyone!
@@ -534,8 +530,11 @@ script:
             Skylar,  
             {{ [ "It is time to get in the bath. ",
                 "You only have thirty minutes until bedtime. That means you should be heading for the bathtub.",
-                "I cannot comminicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath yourself. ",
+                "I cannot communicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath yourself. ",
                 "My sensors are detecting a strange smell. I am running diagnostics, but in the mean time why don't you start a bath.",
+                "It is time to start the pre bed routine.",
+                "It is bathtime.",
+                "Even Jedi have to take a bath."
               ] | random }} 
             If you go now there may be time for stories. Don't forget to brush your teeth. 
             {% if is_state("sensor.weekday", "fri") %} 
@@ -546,19 +545,37 @@ script:
             {% endif %}  
           {% endmacro %}
 
-
           {% macro school_today() %}
             {% if states.calendar.skylar_school.attributes.offset_reached == True %}
               Because you have school today!
               {% if states.calendar.skylar_school.attributes.description == "early-release" %}
                 And guess what? It is early release!
               {% endif %}
+              {% if states.calendar.skylar_school.attributes.description == "start_thanksgiving_break" %}
+                Also, tomorrow is the first day of Thanksgiving Break!
+              {% endif %}
+              {% if states.calendar.skylar_school.attributes.description == "start_winter_break" %}
+                Also, tomorrow is the first day of Winter Break!
+              {% endif %}
+              {% if states.calendar.skylar_school.attributes.description == "start_spring_break" %}
+                Also, tomorrow is the first day of Spring Break!
+              {% endif %}
+              {% if states.calendar.skylar_school.attributes.description == "start_fall_break" %}
+                Also, tomorrow is the first day of Fall Break!
+              {% endif %}
             {% endif %}
           {% endmacro %}
 
           {% macro skylar_events() %}
+            Skylar, 
             {% if is_state("calendar.skylar_events", "on") %}
-              Skylar, You have {{ states.calendar.skylar_events.attributes.message }} today as well!
+              You have {{ states.calendar.skylar_events.attributes.message }} today as well!
+            {% endif %}
+            {% if is_state("sensor.weekday", "mon") %} 
+              And you also have The Little Gym today.
+            {% endif %}
+            {% if is_state("sensor.weekday", "wed") %} 
+              And you also have Game Time today.
             {% endif %}
           {% endmacro %}
 
@@ -566,7 +583,7 @@ script:
             {% if is_state("sensor.clothing_forecast", "Freezing") %}
               It is going to be freezing today so I suggest wearing long pants, and a heavy coat.
             {% elif is_state("sensor.clothing_forecast","Cold") %}
-              It is going to be cold today so I suggest wearing long pants and a light jacket.
+              It is going to be cold today so I suggest wearing long pants and a jacket.
             {% elif is_state("sensor.clothing_forecast", "Chilly") %}
               It is going to be chilly today so I suggest wearing at least long pants.
             {% elif is_state("sensor.clothing_forecast", "Nice") %}
@@ -598,6 +615,12 @@ script:
             {% else %}
               It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
             {% endif %} 
+          {% endmacro %}
+
+           {% macro school_holiday() %}
+            {% if states.calendar.school_holiday.attributes.offset_reached == True %}
+              Oh, and if you did not know. There is no School today. 
+            {% endif %}
           {% endmacro %}
           
           {% macro reminders() %}
@@ -929,6 +952,10 @@ script:
             {{ clothes_suggestion() }}
           {% endif %}
           
+          {% if call_school_holiday == 1 %}
+            {{ school_holiday() }}
+          {% endif %}	 
+
           {% if call_reminders == 1 %}
             {{ reminders() }}
           {% endif %}	  

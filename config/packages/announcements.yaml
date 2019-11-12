@@ -111,6 +111,7 @@ automation:
         call_school_today: 1
         call_skylar_events: 1
         call_clothes_suggestion: 1
+        call_school_holiday: 1
   
   - id: set_skylar_morning_report_time
     alias: set skylar morning report time
