@@ -43,10 +43,10 @@ livingroom_lamps_on:
   - service: scene.turn_on 
     entity_id: scene.normal_livingroom_lighting
 
-# Turn off Living Room Lights if sun is up or cloud coverage is below 70%
+# Turn off Living Room Lights if sun is up and cloud coverage is below 70%
 livingroom_lamps_off:
   sequence:
-  - condition: or
+  - condition: and
     conditions:
       - condition: state  
         entity_id: sun.sun
