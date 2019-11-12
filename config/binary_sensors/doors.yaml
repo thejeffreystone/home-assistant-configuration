@@ -6,7 +6,7 @@
   device_class: door
 - platform: mqtt
   name: "Garage Door"
-  state_topic: "zwave2mqtt/garage_door/48/1/0"
+  state_topic: "zwave2mqtt/nodeID_16/48/1/0"
   payload_on: "true"
   payload_off: "false"
   device_class: garage_door
