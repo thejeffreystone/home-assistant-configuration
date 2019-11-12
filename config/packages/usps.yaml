@@ -40,8 +40,8 @@ automation:
     alias: Notify USPS Mail
     initial_state: true
     trigger:
-      - platform: state
-        entity_id: sensor.usps_mail
+    - platform: time
+      at: '10:00:30'
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
@@ -74,8 +74,8 @@ automation:
     alias: Notify USPS Packages
     initial_state: true
     trigger:
-      - platform: state
-        entity_id: sensor.usps_packages
+    - platform: time
+      at: '10:02:30'
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_packages.state | int > 0 }}'
@@ -89,3 +89,4 @@ automation:
               USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
             {%- endif -%}
           call_interuption: 1
+      

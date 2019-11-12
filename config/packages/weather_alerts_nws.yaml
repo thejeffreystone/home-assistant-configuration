@@ -184,6 +184,8 @@ automation:
           message: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. ", 
           "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area.", 
           "I just activated the internal Tornado Alarm at the request of the NWS. Thanks for the heads up @NWSAtlanta " ] | random }}'
+          data:
+            media: /config/www/tweet_images/tornado.jpg
       - delay: '00:00:15'
       - service: script.jarvis_alert
         data_template:
@@ -218,8 +220,26 @@ automation:
       - platform: numeric_state
         entity_id: sensor.dark_sky_overnight_low_temperature_0d
         below: 35
+    condition:
+      - condition: state
+        entity_id: input_boolean.freeze_warning
+        state: 'off'
     action:
       - service: input_boolean.turn_on
+        entity_id: input_boolean.freeze_warning
+  
+  - alias: Forecast Low Above Freezing
+    initial_state: 'on'
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.dark_sky_overnight_low_temperature_0d
+        above: 35
+    condition:
+      - condition: state
+        entity_id: input_boolean.freeze_warning
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
         entity_id: input_boolean.freeze_warning
       
   - alias: Activate Tornado alarm 

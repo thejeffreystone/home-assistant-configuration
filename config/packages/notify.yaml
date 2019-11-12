@@ -434,7 +434,8 @@ script:
                 'The sun is officially down. Exterior Cameras are now motion acivated.',
                 'The sun has been ushered off the stage. I have armed the perimiter cameras.',
                 'You are running out of daylight. Time to wrap up any outisde chores.',
-                'Switching to night mode! '
+                'Switching to night mode! ',
+                'The outside world has switched to dark mode.'
             ]|random }}
           {%- endmacro -%}
 
@@ -645,14 +646,16 @@ script:
             {% endif %}
 
             {% if is_state("sensor.weekday", "mon") %}
+              {% if now().strftime('%H')|int > 17 %}
               {{ [ "Don't forget tomorrow is Trash Day. ",
                 "I advise you move the trash cans to the curb for the weekly pickup. ",
                 " The trash and recycle should go out"
               ] | random }}
+              {% endif %}
             {% endif %}
 
             {% if is_state("sensor.weekday", "tue") %}
-              {% if now().strftime('%H')|int < 17 %}
+              {% if now().strftime('%H')|int > 17 %}
                 {{ [ "Don't forget to bring in the trash cans. ",
                 "The trash cans will feel lonely if you leave them out all night. ",
                 "The HOA will get mad if you leave those trash cans out on the street."
@@ -1062,6 +1065,8 @@ script:
             {% set msg = msg + " " + message %}
             {% set msg = msg + " #smarthome #iot " %}
             {{ msg }}
+          data:
+            media: /config/www/tweet_images/ah.png
 
   twitter_new_ha:
     sequence:
