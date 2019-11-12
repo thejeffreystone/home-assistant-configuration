@@ -130,6 +130,28 @@
     light.kitchen_cabinet_lights:
       state: on
 
+- name: lights out
+  entities:
+    light.kitchen_cabinets:
+      state: off
+    light.kitchen_cabinet_lights:
+      state: off
+    switch.upstairs:
+      state: off
+    group.rgb_lr:
+      state: off
+    switch.fireplace_lights:
+      state: off
+    light.0xe20db9fffe004207_light:
+      state: off
+    light.0xe20db9fffe003637_light:
+      state: off
+    switch.0xf0d1b80000052281_switch:
+      state: off
+    switch.rail_lights:
+      state: off
+
+
 - name: haunted preshow
   entities:
     light.kitchen_cabinets:
