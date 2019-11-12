@@ -53,26 +53,6 @@ input_boolean:
     name: Haunted Sounds
 
 automation:
-  - id: refresh_holioday_sensors
-    alias: Refresh Holiday sensors
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '00:00:07'
-    - platform: homeassistant
-      event: start
-    action:
-    - service: python_script.special_events
-      data:
-        name: Christmas
-        type: holiday
-        date: 25/12/2001
-    - service: python_script.special_events
-      data:
-        name: Halloween
-        type: holiday
-        date: 31/10/2001
-  
   - id: this_is_halloween_on
     alias: This is Halloween On
     initial_state: true
