@@ -12,8 +12,6 @@ automation:
     trigger:
     - platform: time
       at: '03:00:01'
-    - platform: homeassistant
-      event: start
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.freeze_warning
