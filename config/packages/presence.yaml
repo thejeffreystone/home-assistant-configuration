@@ -290,7 +290,8 @@ automation:
       state: 'off'
     action:
     - service: script.appliances_off
-    - service: script.inside_all_off
+    - service: script.turn_on 
+      entity_id: scene.lights_out
     - service: script.security_check_garage
     - service: script.security_check_zones
     - service: script.lockdown
