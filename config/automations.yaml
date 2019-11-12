@@ -145,8 +145,8 @@
   action:
   - service: switch.turn_on
     entity_id: switch.0xf0d1b80000052281_switch # Rainbow Light
-  - service: light.turn_on
-    entity_id: light.0xe20db9fffe003637_light
+  - service: scene.turn_on
+    entity_id: scene.skylar_lamp_25
   - service: alarm_control_panel.alarm_arm_away
     entity_id: alarm_control_panel.ah_base_station
 - id: jeff_lights_out
@@ -220,12 +220,13 @@
   action:
   - service: scene.turn_on
     entity_id: scene.jeff_night_light
+
 - id: jeff_wake_up
   alias: Jeff wake up
   initial_state: true
   trigger:
   - platform: time
-    at: 05:30:00
+    at: 04:30:00
   condition:
   - condition: state
     entity_id: input_boolean.vacation_mode
@@ -233,6 +234,7 @@
   action:
   - service: scene.turn_on
     entity_id: scene.jeff_wake_up
+
 - id: good_night
   alias: Good Night
   initial_state: true
@@ -256,12 +258,15 @@
   - service: light.turn_off
     data:
       entity_id: light.kitchen_cabinets
+  - service: scene.turn_on
+    entity_id: scene.jeff_light_off
   - service: script.twitter_notify
     data_template:
       message: '{{ [ "Good Night from Anchorage House. ", "Time to shut down this
         party. Good Night from Anchorage House. ", "We have come to the end of our
         broadcast day. Oh, who am I kidding. I''ll be up all night watching over Anchorage
         House. " ] | random }}'
+
 - id: outside_lights_on_sunset
   alias: Outside Lights on at Sunset
   initial_state: true
@@ -515,7 +520,7 @@
     platform: time
   condition:
   - condition: state
-    entity_id: binary_sensor.garage_door_contact_2
+    entity_id: binary_sensor.garage_door
     state: 'on'
   action:
   - data:
@@ -525,7 +530,7 @@
   alias: Garage Closed
   initial_state: true
   trigger:
-  - entity_id: binary_sensor.garage_door_contact_2
+  - entity_id: binary_sensor.garage_door
     from: 'on'
     platform: state
     to: 'off'

@@ -205,7 +205,7 @@
   entities:
     light.0xe20db9fffe004207_light:
       state: on
-      brightness: 20
+      brightness: 10
 
 - name: jeff bedtime
   entities:
@@ -221,31 +221,31 @@
 
 - name: skylar lamp on
   entities:
-    light.table_lamp_2:
+    light.0xe20db9fffe003637_light:
       state: on
       brightness: 100
 
 - name: skylar lamp 75
   entities:
-    light.table_lamp_2:
+    light.0xe20db9fffe003637_light:
       state: on
       brightness: 75
 
 - name: skylar lamp 50
   entities:
-    light.table_lamp_2:
+    light.0xe20db9fffe003637_light:
       state: on
       brightness: 50
 
 - name: skylar lamp 25
   entities:
-    light.table_lamp_2:
+    light.0xe20db9fffe003637_light:
       state: on
       brightness: 25
 
 - name: skylar lamp off
   entities:
-    light.table_lamp_2:
+    light.0xe20db9fffe003637_light:
       state: off
 
 # - name: santa protocol
