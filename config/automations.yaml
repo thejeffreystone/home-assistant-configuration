@@ -4,6 +4,15 @@
   - above: 5
     entity_id: sensor.washer_power
     platform: numeric_state
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.washer_status
+      state: idle
+    - condition: state
+      entity_id: sensor.washer_status
+      state: complete
   action:
   - service: script.washer_running
   initial_state: true
