@@ -1049,12 +1049,32 @@ script:
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_stats.yaml
+          data: 
+            media: >-
+              {{ [ "/config/www/tweet_images/cloud.jpg",
+                    "/config/www/tweet_images/laptop.jpg",
+                    "/config/www/tweet_images/smart-home.jpg",
+                    "/config/www/tweet_images/earth.jpg"] | random }}
 
   twitter_promos:
     sequence:
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_promos.yaml
+
+  twitter_iss:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #smarthome #iot " %}
+            {{ msg }}
+          data: 
+            media: >-
+              {{ [ "/config/www/tweet_images/iss.jpg",
+                    "/config/www/tweet_images/iss2.jpg"] | random }}
 
   twitter_github:
     sequence:
@@ -1068,11 +1088,133 @@ script:
           data:
             media: /config/www/tweet_images/ah.png
 
+  twitter_bot_info:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #smarthome #iot " %}
+            {{ msg }}
+          data: 
+            media: >-
+              '{{ [ "/config/www/tweet_images/robot1.jpg",
+                    "/config/www/tweet_images/robot2.jpg"] | random }}'
+
+  twitter_speedtest:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #smarthome #speedtest " %}
+            {{ msg }}
+          data: 
+            media: >-
+              {{ [ "/config/www/tweet_images/speed.jpg",
+                    "/config/www/tweet_images/fiber-optic.jpg"] | random }}
+
   twitter_new_ha:
     sequence:
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_new_ha.yaml
+
+  twitter_xmas_countdown:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #countdown " %}
+            {{ msg }}
+          data: 
+            media: >-
+              {{ [ "/config/www/tweet_images/xmas.jpg",
+                    "/config/www/tweet_images/gift.jpg",
+                    "/config/www/tweet_images/christmas-cookies.jpg",
+                    "/config/www/tweet_images/christmas.jpg",
+                    "/config/www/tweet_images/christmas-tree.jpg"] | random }}
+
+  twitter_xmas_eve:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #santa #nightbeforechristmas" %}
+            {{ msg }}
+          data: 
+            media: /config/www/tweet_images/santa.jpg
+
+  twitter_xmas_day:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #MerryChristmas " %}
+            {{ msg }}
+          data: 
+            media: /config/www/tweet_images/merry-christmas.jpg
+
+  twitter_freezing:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #weather #smarthome " %}
+            {{ msg }}
+          data: 
+            media: >-
+              {{ [ "/config/www/tweet_images/ice.jpg",
+                    "/config/www/tweet_images/snowfall.jpg",
+                    "/config/www/tweet_images/snowflake.jpg"] | random }}
+
+  twitter_tornado:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #weather #tornado " %}
+            {{ msg }}
+          data:
+            media: /config/www/tweet_images/tornado.jpg
+
+  twitter_full_moon:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #weather #tornado " %}
+            {{ msg }}
+          data:
+            media: /config/www/tweet_images/full_moon.jpg
+
+  twitter_severe_weather:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >
+            {% set msg = "" %}
+            {% set msg = msg + " " + message %}
+            {% set msg = msg + " #weather #warning " %}
+            {{ msg }}
+          data:
+            media: >-
+              {{ [ "/config/www/tweet_images/lightning.jpg",
+                    "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
 
 ###############################################################################
 # Weather Report

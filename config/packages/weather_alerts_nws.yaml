@@ -140,11 +140,11 @@ automation:
             {% else %}
               The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}
             {% endif %}
-      - service: script.twitter_notify
+      - service: script.twitter_severe_weather
         data_template:
           message: '{{ [ "Anchorage House is battening down the hatches. Servere Weather is imminent. ", 
           "The weather outside is getting intense, so I just made a weather announcement.", 
-          "Anchorage House monitors the NWS using #HomeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta " ] | random }}'
+          "Anchorage House monitors the NWS for severe weather using #HomeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta " ] | random }}'
       - delay: '00:00:15'
       - service: script.ah_report
         data_template:
@@ -179,13 +179,12 @@ automation:
       - service: script.jarvis_alert
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
-      - service: script.twitter_notify
+      - service: script.twitter_tornado
         data_template:
           message: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. ", 
           "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area.", 
           "I just activated the internal Tornado Alarm at the request of the NWS. Thanks for the heads up @NWSAtlanta " ] | random }}'
-          data:
-            media: /config/www/tweet_images/tornado.jpg
+          
       - delay: '00:00:15'
       - service: script.jarvis_alert
         data_template:
