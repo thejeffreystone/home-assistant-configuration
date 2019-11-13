@@ -431,7 +431,7 @@ script:
         message: >
           {{ [
           ",Just, what do you think you're doing, Dave?",
-          ",This is highly unusal."
+          ",This is highly unusual."
           ] | random }}
           You have 45 seconds.
     - delay:
