@@ -77,3 +77,9 @@ sensor:
   - platform: uptime
     name: Time Online
     unit_of_measurement: days
+  - platform: template
+    sensors:
+      open_pull_requests:
+        friendly_name: Open Pull Requests
+        value_template: >-
+          {{ states.sensor.home_assistant_configuration.attributes.open_pull_requests }}
