@@ -40,11 +40,13 @@ automation:
     alias: Notify USPS Mail
     initial_state: true
     trigger:
-    - platform: time
-      at: '10:00:30'
+      - platform: state
+        entity_id: sensor.usps_mail
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
+      - condition: template
+        value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
       - service: script.ah_report
         data_template:
@@ -82,11 +84,13 @@ automation:
     alias: Notify USPS Packages
     initial_state: true
     trigger:
-    - platform: time
-      at: '10:02:30'
+      - platform: state
+        entity_id: sensor.usps_mail
     condition:
       - condition: template
-        value_template: '{{ states.sensor.usps_packages.state | int > 0 }}'
+        value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
+      - condition: template
+        value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
       - service: script.ah_report
         data_template:

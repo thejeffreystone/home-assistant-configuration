@@ -11,11 +11,11 @@
   {% endmacro %}
   {%- macro getRandomSnark() -%}
     {{- [
-      " It’s like Patch Tuesday, but without the fail. #homeassistant",
-      " Get in my SD Card! #homeassistant",
-      " Shut up and take my ones and zeros! #homeassistant",
-      " Seriously, you want some of this! #homeassistant",
-      " Friends dont let friends update #homeassistant without reading breaking changes! ",
+      " It’s like Patch Tuesday, but without the fail. Visit https://www.home-assistant.io #homeassistant",
+      " Get in my SD Card! Visit https://www.home-assistant.io #homeassistant",
+      " Shut up and take my ones and zeros! Visit https://www.home-assistant.io #homeassistant",
+      " Seriously, you want some of this! Visit https://www.home-assistant.io #homeassistant",
+      " Friends dont let friends update #homeassistant without reading breaking changes! Visit https://www.home-assistant.io ",
       " If you are not running #homeassistant now is the best time to get started. Visit https://www.home-assistant.io"
       ] | random -}}
   {%- endmacro -%}

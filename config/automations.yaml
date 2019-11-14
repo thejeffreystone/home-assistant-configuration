@@ -86,13 +86,16 @@
     at: 05:00:00
   action:
   - service: shell_command.backup
-  - service: script.twitter_notify
+  - service: script.twitter_notify_image
     data_template:
-      message: '{{ [ "I just kicked off a backup of #homeassistant to ensure I live
-        on. Do you backup? ", "Its important to backup your data. Thats why I just
-        intitiated a backup of my critical data. ", "With @home_assistant and the
-        #dropbox component it is easy to backup your important config files. Lets
-        do this thing! " ] | random }}'
+      tweet: >-
+        {{ [ 
+          "I just kicked off a backup of #homeassistant to ensure I live on. Do you backup? ", 
+          "Its important to backup your data. Thats why I just intitiated a backup of my critical data. ", 
+          "With @home_assistant and the #dropbox component it is easy to backup your important config files. Lets do this thing! " 
+          ] | random }}
+      image: >-
+        "/config/www/tweet_images/hdd.jpg"
 
 - id: coffee_time
   alias: Coffee Time
@@ -125,12 +128,17 @@
     entity_id: light.0xe20db9fffe003637_light # Skylar's Lamp
   - service: scene.turn_on
     entity_id: scene.jeff_light_on
-  - service: script.twitter_notify
+  - service: script.twitter_notify_image
     data_template:
-      message: '{{ [ "Good Morning! Time to rise and shine at Anchorage House. ",
-        "Good Morning from Anchorage House. Glad to see everyone made it. ", "Birds
-        are awake, and so is Anchorage House. Good morning everyone! " ] | random
-        }}'
+      tweet: >-
+        {{ [ 
+          "Good Morning! Time to rise and shine at Anchorage House. ",
+          "Good Morning from Anchorage House. Glad to see everyone made it. ", 
+          "Birds are awake, and so is Anchorage House. Good morning everyone! " 
+          ] | random }}
+      image: >-
+        {{ [ "/config/www/tweet_images/coffee.jpg",
+              "/config/www/tweet_images/coffee2.jpg"] | random }}
 
 - id: skylar_bedtime
   alias: Skylar Bedtime
@@ -260,12 +268,18 @@
       entity_id: light.kitchen_cabinets
   - service: scene.turn_on
     entity_id: scene.jeff_light_off
-  - service: script.twitter_notify
+  - service: script.twitter_notify_image
     data_template:
-      message: '{{ [ "Good Night from Anchorage House. ", "Time to shut down this
-        party. Good Night from Anchorage House. ", "We have come to the end of our
-        broadcast day. Oh, who am I kidding. I''ll be up all night watching over Anchorage
-        House. " ] | random }}'
+      tweet: >-
+        {{ [ 
+          "Good Night from Anchorage House. ", 
+          "Time to shut down this party. Good Night from Anchorage House. ", 
+          "We have come to the end of our broadcast day. Oh, who am I kidding. I''ll be up all night watching over Anchorage House. " 
+          ] | random }}
+      image: >-
+        {{ [ "/config/www/tweet_images/off.jpg",
+            "/config/www/tweet_images/clock.jpg"] | random }}
+      
 
 - id: outside_lights_on_sunset
   alias: Outside Lights on at Sunset
@@ -279,13 +293,19 @@
     data:
       entity_id: switch.front_porch
   - service: script.sunset_garage_open
-  - service: script.twitter_notify
+  - service: script.twitter_notify_image
     data_template:
-      message: '{{ [ "Its getting dark at Anchorage House, so Im turning on the outside
-        lights. ", "When the Sun goes down, I help out by turning on the outside lights.
-        Its the little things. ", "Its getting dark so let me spell out my name...
-        Wait. Did I break into a random #Hamilton song? Pardon me. umm. I just turned
-        on the outside lights at Anchorage House. " ] | random }}'
+      tweet: >-
+        {{ [ 
+          "Its getting dark at Anchorage House, so Im turning on the outside lights. ", 
+          "When the Sun goes down, I help out by turning on the outside lights. Its the little things. ", 
+          "Its getting dark so let me spell out my name...Wait. Did I break into a random #Hamilton song? Pardon me. umm. I just turned on the outside lights at Anchorage House. " 
+          ] | random }}
+      image: >-
+        {{ [ "/config/www/tweet_images/lamp.jpg",
+            "/config/www/tweet_images/bright.jpg",
+            "/config/www/tweet_images/light.jpg",
+            "/config/www/tweet_images/lamp2.jpg"] | random }}
   - service: alarm_control_panel.alarm_arm_away
     entity_id: alarm_control_panel.ah_base_station
 
@@ -314,12 +334,18 @@
   - service: switch.turn_off
     data:
       entity_id: switch.front_porch
-  - service: script.twitter_notify
+  - service: script.twitter_notify_image
     data_template:
-      message: '{{ [ "The sun is up at Anchorage House, so Im turning off the outside
-        lights. ", "I see the sun! Time to turn off the outside lights at Anchorage
-        House. ", "Dawn has broken at Anchorage House. Turning off the outside lights.
-        " ] | random }}'
+      tweet: >-
+        {{ [ 
+          "The sun is up at Anchorage House, so Im turning off the outside lights. ", 
+          "I see the sun! Time to turn off the outside lights at Anchorage House. ", 
+          "Dawn has broken at Anchorage House. Turning off the outside lights." 
+          ] | random }}
+      image: >-
+        {{ [ "/config/www/tweet_images/sunrise.jpg",
+            "/config/www/tweet_images/sunrise3.jpg",
+            "/config/www/tweet_images/sunrise2.jpg"] | random }}
   - service: alarm_control_panel.alarm_arm_home
     entity_id: alarm_control_panel.ah_base_station
 
@@ -420,13 +446,21 @@
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.jeff_traffic_alert_home
-  - service: script.twitter_notify
+  - service: script.twitter_notify_image
     data_template:
-      message: '{{ [ "Looks like traffic is bad out there so I let @thejeffreystone
-        know.  ", "I dont think todays traffic is the worst I''ve seen, but its bad.
-        Letting my residents know they need to plan their trips. ", "Oh great...traffic
-        can''t get any worse. Maybe everyone should stay where they are. " ] | random
-        }}'
+      tweet: >-
+        {{ [ 
+          "Looks like traffic is bad out there so I let @thejeffreystone know.  ", 
+          "I dont think todays traffic is the worst I''ve seen, but its bad. Letting my residents know they need to plan their trips. ", 
+          "Oh great...traffic cannot get any worse. Maybe everyone should stay where they are. "
+           ] | random }}
+      image: >-
+        {{ [ 
+            "/config/www/tweet_images/road.jpg",
+            "/config/www/tweet_images/traffic.jpg",
+            "/config/www/tweet_images/traffic-jam.jpg"
+            ] | random }}
+
 - id: disable_bad_traffic_home_jeff
   alias: Disabling Jeff Bad Traffic Home
   initial_state: true
@@ -610,36 +644,18 @@
     entity_id: media_player.googlehomehub3492
   initial_state: true
 
-- id: turn_off_ha_speaker
-  alias: Turn Off HA Speaker
-  trigger:
-  - platform: state
-    entity_id: media_player.theater
-    from: 'playing'
-    to: 'idle'
-  action:
-  - service: switch.turn_off
-    entity_id: switch.ha_speaker
-  - service: media_player.turn_off
-    entity_id: media_player.theater
-  - service: script.kill_this_ride
-  initial_state: true
+# - id: turn_off_ha_speaker
+#   alias: Turn Off HA Speaker
+#   trigger:
+#   - platform: state
+#     entity_id: media_player.theater
+#     from: 'playing'
+#     to: 'idle'
+#   action:
+#   - service: switch.turn_off
+#     entity_id: switch.ha_speaker
+#   - service: media_player.turn_off
+#     entity_id: media_player.theater
+#   - service: script.kill_this_ride
+#   initial_state: true
 
-
-
-##########################
-# My Attempt at preventing twitter from being spammed with new HA tweets on reboot
-
-- id: new_ha
-  alias: New HA
-  initial_state: true
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.updater
-    from: 'off'
-    to: 'on'
-  action:
-  - service: script.twitter_new_ha
-  - service: ifttt.trigger
-    data_template: {"event":"GitPost", "value1":"Home Assistant {{ states.binary_sensor.updater.attributes.newest_version }} is now available.", "value2":"{{ states.binary_sensor.updater.attributes.newest_version }}"}
-###########################
