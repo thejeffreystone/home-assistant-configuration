@@ -1038,6 +1038,17 @@ script:
             {% set msg = msg + " #iot #smarthome" %}
             {{ msg }}
 
+  twitter_notify_image:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: >-
+            {{ tweet }} #iot #smarthome
+          data:
+            media: >-
+              {{ image }}
+
+
   twitter_snark:
     sequence:
       - service: notify.twitter
@@ -1046,11 +1057,10 @@ script:
         
   twitter_stats:
     sequence:
-      - service: notify.twitter
+      - service: notify.twitter_notify_image
         data_template:
-          message: !include ../templates/twitter_stats.yaml
-          data: 
-            media: >-
+          tweet: !include ../templates/twitter_stats.yaml 
+          image: >-
               {{ [ "/config/www/tweet_images/cloud.jpg",
                     "/config/www/tweet_images/laptop.jpg",
                     "/config/www/tweet_images/smart-home.jpg",

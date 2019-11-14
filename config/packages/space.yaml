@@ -63,14 +63,17 @@ automation:
         to: 'on'
         from: 'off'
     action:
-      - service: script.twitter_iss
+      - service: script.twitter_notify_image
         data_template:
-          message: >-
+          tweet: >-
             {{ [
             "The #ISS is passing over. Wave. #Space #theycanseeourhouse ",
             "The #ISS just flew by with there are {{states.binary_sensor.iss.attributes.number_of_people_in_space}} people doing cool stuff. #Space #theycanseeourhouse",
             "The #ISS just flew by with {{states.binary_sensor.iss.attributes.number_of_people_in_space}} people in it. #Space #theycanseeourhouse"
             ] | random }}
+          image: >-
+            {{ [ "/config/www/tweet_images/iss.jpg",
+                 "/config/www/tweet_images/iss2.jpg"] | random }}  
 
   - id: iss_notification
     initial_state: true
@@ -96,11 +99,12 @@ automation:
         to: 'full_moon'
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_full_moon
+      - service: script.twitter_notify_image
         data_template:
-          message: >-
+          tweet: >-
             {{ [
             "There is a Full Moon out tonight, and this time it's the actual moon and not the neighbor. ",
             "Hey look kids, There's the full moon. ",
             "The moon is huge! And full. "] | random + "#Space #fullmoon"}}
-
+          image: >-
+            "/config/www/tweet_images/full_moon.jpg"
