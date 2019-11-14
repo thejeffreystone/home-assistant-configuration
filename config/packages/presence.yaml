@@ -255,11 +255,11 @@ automation:
       from: Away
       platform: state
       to: Home
-    - entity_id: device_tracker.jeffreystonesiphone
+    - entity_id: person.jeffrey
       event: enter
       platform: zone
       zone: zone.home
-    - entity_id: device_tracker.iphone
+    - entity_id: person.katherine
       event: enter
       platform: zone
       zone: zone.home
@@ -274,6 +274,7 @@ automation:
     - service: script.washer_finished_notification_audible
     - service: alarm_control_panel.alarm_arm_home
       entity_id: alarm_control_panel.ah_base_station
+    - service: script.family_is_home
     initial_state: true
   
   - id: family_has_left
