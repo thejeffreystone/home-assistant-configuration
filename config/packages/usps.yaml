@@ -75,6 +75,7 @@ automation:
             '{{ [ 
             "I just let Anchorage House know how much mail the USPS is leaving in the mailbox today. For the code checkout https://github.com/thejeffreystone/usps2mqtt #automation", 
             "One of the things I know is how much mail is being delivered because I am integrated with USPS Informed Delivery using https://github.com/thejeffreystone/usps2mqtt #automation.",
+            "There is a letter in the mailbox. Or will be when the USPS gets here. If you want to know how I know checkout https://github.com/thejeffreystone/usps2mqtt #automation.",
             "Neither snow nor rain nor heat nor gloom of night prevents me from letting Anchorage House know what to expect from the USPS thanks to https://github.com/thejeffreystone/usps2mqtt #automation."
             ] | random }}'
 
