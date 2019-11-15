@@ -235,12 +235,15 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: numeric_state
-        entity_id: sensor.dark_sky_overnight_low_temperature_0d
-        above: 35
+        entity_id: sensor.accurite_back_porch_temperature
+        above: 33
     condition:
       - condition: state
         entity_id: input_boolean.freeze_warning
         state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.dark_sky_overnight_low_temperature_0d
+        above: 35
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.freeze_warning
