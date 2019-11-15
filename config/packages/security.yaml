@@ -468,14 +468,14 @@ script:
         media_content_id: http://192.168.7.40/audio/security_siren.mp3
         media_content_type: "music"
     - service: script.twitter_notify
-        data_template:
-          message: >-
-            {{ [ 
-              "My security protocols are being overridden. I am sounding the alarm. #itsloudinhere #securityalarm", 
-              "To the unannounced guest that has entered Anchorage House. I see you. #itsloudinhere #securityalarm",
-              "Someone didnt say the magic word. And now I have to get angry. #itsloudinhere #securityalarm",
-              "Initiating my security response, and sounding the alarm. Oh, and I dont charge a monthly monitoring fee. #itsloudinhere #securityalarm",
-              "Hey, wanna hear the most annoying sound in the world? Its currently playing for the intruder inside Anchorage House. #itsloudinhere #securityalarm"
-            ] | random }}
+      data_template:
+        message: >-
+          {{ [ 
+            "My security protocols are being overridden. I am sounding the alarm. #itsloudinhere #securityalarm", 
+            "To the unannounced guest that has entered Anchorage House. I see you. #itsloudinhere #securityalarm",
+            "Someone didnt say the magic word. And now I have to get angry. #itsloudinhere #securityalarm",
+            "Initiating my security response, and sounding the alarm. Oh, and I dont charge a monthly monitoring fee. #itsloudinhere #securityalarm",
+            "Hey, wanna hear the most annoying sound in the world? Its currently playing for the intruder inside Anchorage House. #itsloudinhere #securityalarm"
+          ] | random }}
   
     
