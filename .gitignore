@@ -1,6 +1,6 @@
 # ignore my git update script
 update_git.py
-
+transporter.py
 
 # ignore hidden folders
 /config/.storage
