@@ -38,3 +38,11 @@ good_night_routine:
   name: Good Night Routine
   has_date: false
   has_time: true
+nightly_lockdown:
+  name: Nightly Lockdown
+  has_date: false
+  has_time: true
+morning_standby:
+  name: Morning Standby
+  has_date: false
+  has_time: true
