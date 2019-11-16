@@ -73,13 +73,13 @@
   - sensor.living_room_temperature
   - sensor.master_bedroom_temperature
   - sensor.skylar_room_temperature
-- platform: arlo
-  monitored_conditions:
-  - captured_today
-  - last_capture
-  - total_cameras
-  - battery_level
-  - signal_strength
+# - platform: arlo
+#   monitored_conditions:
+#   - captured_today
+#   - last_capture
+#   - total_cameras
+#   - battery_level
+#   - signal_strength
 - platform: history_stats
   name: Outside Lights
   entity_id: group.outside_lights
@@ -123,6 +123,13 @@
   end: '{{ now() }}'
   duration:
     days: 30
+- platform: aarlo
+  monitored_conditions:
+  - last_capture
+  - total_cameras
+  - battery_level
+  - captured_today
+  - signal_strength
 - platform: template
   sensors:
     sensor_count:

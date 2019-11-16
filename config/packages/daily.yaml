@@ -5,14 +5,27 @@
 #   @description    :   Maint Automation that occurs every day
 ###############################################################################
 automation:
-  # Reset Daily Weather Alerts at 3am
-  - id: reset_weather_alerts
-    alias: Reset Weather Alerts
-    initial_state: true
-    trigger:
+  # # Reset Daily Weather Alerts at 3am -> Replaced with better solution in weather_alerts_nws.yaml
+  # - id: reset_weather_alerts
+  #   alias: Reset Weather Alerts
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '03:00:01'
+  #   action:
+  #   - service: input_boolean.turn_off
+  #     entity_id: input_boolean.freeze_warning
+
+  # Using the HACS Daily Snapshot Clean Up Plugin 
+  - id: daily_snapshot_clean_up
+    alias: Daily snapshot clean up
+    initial_state: 'on'
+    trigger: 
     - platform: time
-      at: '03:00:01'
+      at: '03:00:00'
+    condition:
     action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.freeze_warning
+      - service: clean_up_snapshots_service.clean_up
+
+
     

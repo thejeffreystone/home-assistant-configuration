@@ -66,14 +66,28 @@ google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
 
-arlo:
-  username: !secret arlo_user
-  password: !secret arlo_pass
+# arlo:
+#   username: !secret arlo_user
+#   password: !secret arlo_pass
 
 alarm_control_panel:
-  - platform: arlo
+  # - platform: arlo
+  #   home_mode_name: home
+  #   away_mode_name: armed
+  - platform: aarlo
     home_mode_name: home
-    away_mode_name: armed
+    away_mode_name: Armed
+
+# Using the HACS Arlo Integration 
+aarlo:
+  username: !secret arlo_user
+  password: !secret arlo_pass
+  db_motion_time: 30
+  db_ding_time: 10
+  recent_time: 10
+  last_format: '%m-%d %H:%M'
+  refresh_devices_every: 2
+  
 
 discovery:
   ignore:
@@ -124,7 +138,9 @@ camera:
   - platform: mjpeg
     name: Garage Door Cam 
     mjpeg_url: !secret garage_cam
-  - platform: arlo
+  # - platform: arlo
+  #   ffmpeg_arguments: '-pred 1 -q:v 2'
+  - platform: aarlo
     ffmpeg_arguments: '-pred 1 -q:v 2'
     
 ffmpeg:
@@ -165,6 +181,25 @@ group: !include groups.yaml
 # automation: !include automations.yaml
 # script: !include scripts.yaml
 
+proximity:
+  home_jeff:
+    devices:
+      - device_tracker.life360_jeffrey_stone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+  home_kat:
+    devices:
+      - device_tracker.life360_kat_stone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+
+# Using the HACS Daily Snapshot Clean Up Plugin 
+clean_up_snapshots_service:
+  host: !secret snapshot_url
+  token: !secret snapshot_token
+  number_of_snapshots_to_keep: 3
 
 ### Includes ###
 alert: !include_dir_merge_named alerts/
