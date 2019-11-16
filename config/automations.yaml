@@ -266,8 +266,6 @@
   - service: light.turn_off
     data:
       entity_id: light.kitchen_cabinets
-  - service: scene.turn_on
-    entity_id: scene.jeff_light_off
   - service: script.twitter_notify_image
     data_template:
       tweet: >-
