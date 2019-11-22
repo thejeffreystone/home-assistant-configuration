@@ -75,20 +75,20 @@ automation:
             {{ [ "/config/www/tweet_images/iss.jpg",
                  "/config/www/tweet_images/iss2.jpg"] | random }}  
 
-  - id: iss_notification
-    initial_state: true
-    alias: 'ISS Notification'
-    trigger:
-      - platform: state
-        entity_id:
-          - binary_sensor.iss
-        to: 'on'
-        from: 'off'
-    action:
-      - service: script.ah_report
-        data:
-          call_interuption: 1
-          call_iss: 1
+  # - id: iss_notification
+  #   initial_state: true
+  #   alias: 'ISS Notification'
+  #   trigger:
+  #     - platform: state
+  #       entity_id:
+  #         - binary_sensor.iss
+  #       to: 'on'
+  #       from: 'off'
+  #   action:
+  #     - service: script.ah_report
+  #       data:
+  #         call_interuption: 1
+  #         call_iss: 1
             
   - id: full_moon_tweet
     initial_state: true
