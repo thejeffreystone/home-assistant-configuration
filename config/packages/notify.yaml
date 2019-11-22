@@ -372,7 +372,11 @@ script:
             {{ [ "I thought you might like to know. ",
                 "The day is almost over.",
                 "Before things start to quiet down,",
-                "Anchorage House."
+                "Anchorage House.",
+                "from the bridge.",
+                "Pardom the interuption.",
+                "I hope everyone got their chores done.",
+                "Did everyone have a little fun today?"
               ] | random }}
           {% endmacro %}
 
@@ -425,17 +429,31 @@ script:
               And dont forget Today is also {{states.calendar.anchorage_holidays.attributes.message}}. 
             {% endif %}
             {% if states.calendar.birthdays.state == "on" %}
-              Today is {{ states.calendar.birthdays.attributes.message }} birthday!
+              Today is {{ states.calendar.birthdays.attributes.message }} !
             {% endif %}
+            {%- set event=states.calendar.national_holidays.attributes.message %}
+            {% if 'Day' in event %}
+              {{ [
+                'Today is also {{states.calendar.national_holidays.attributes.message}}. We should celebrate.',
+                'And a very special Happy {{states.calendar.national_holidays.attributes.message}}. I will leave the party planning up to you',
+                'It is is also {{states.calendar.national_holidays.attributes.message}}. I bet you are glad I told you.',
+                'You cannot make this stuff up. Today is {{states.calendar.national_holidays.attributes.message}}.',
+                'I have just been informed today is {{states.calendar.national_holidays.attributes.message}}. But that just sounds silly.',
+                'Want to know a fact? Today is {{states.calendar.national_holidays.attributes.message}}',
+                'You should tell someone it is {{states.calendar.national_holidays.attributes.message}}. Because I bet know one else knows.',
+                'I bet you did not know. Today is {{states.calendar.national_holidays.attributes.message}}. But now you do. And the more you know.'
+            ]|random }}
+            {%- endif -%}
           {% endmacro %}
 
           {%- macro dark_outside() -%}
             {{ [
                 'The sun is officially down. Exterior Cameras are now motion acivated.',
                 'The sun has been ushered off the stage. I have armed the perimiter cameras.',
-                'You are running out of daylight. Time to wrap up any outisde chores.',
-                'Switching to night mode! ',
-                'The outside world has switched to dark mode.'
+                'You are running out of daylight. Time to wrap up any outside chores.',
+                'Switching Anchorage House to night mode! ',
+                'The outside world has switched to dark mode.',
+                'If you have not looked outside lately the light of the day is gone.'
             ]|random }}
           {%- endmacro -%}
 
@@ -512,12 +530,15 @@ script:
             {% elif states.sensor.christmas_countdown.state | int < 31 %}
               There are only {{states.sensor.holiday_christmas.state}} days until christmas.
               {{ [ "All I want is a hippopatamus.",
-                "Hey Skylar, I know what you are getting. But I am not telling.",
-                "Don't forget to get something for your favorite smarthome.",
-                "It is starting to smell like Christmas."
+                "Hey Skylar, I know what you are getting for Christmas. But I am not telling.",
+                "Don't forget to put something under the tree for your favorite smarthome.",
+                "It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.",
+                "Do you hear what I hear?",
+                "I dont want to be a smarthome. I want to be a dentist."
               ] | random }} 
             {% else %}
             {% endif %}
+            
           {% endmacro %}
 
           {% macro skylar_dressed() %}
@@ -537,8 +558,11 @@ script:
             Skylar,  
             {{ [ "It is time to get in the bath. ",
                 "You only have thirty minutes until bedtime. That means you should be heading for the bathtub.",
-                "I cannot comminicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath yourself. ",
+                "I cannot communicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath yourself. ",
                 "My sensors are detecting a strange smell. I am running diagnostics, but in the mean time why don't you start a bath.",
+                "I hate to say it but it is time to get cleaned up.",
+                "Did you you hear the one about the kid who never took a bath? ,,,,Yeah, me either. So let's keep it that way. Bath time.",
+                "Tee Minus 30 minutes and counting until you should be off to sleep."
               ] | random }} 
             If you go now there may be time for stories. Don't forget to brush your teeth. 
             {% if is_state("sensor.weekday", "fri") %} 
@@ -810,13 +834,21 @@ script:
               Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Cox Automotive.
           {% endmacro %}
 
-
           {% macro iss() %} 
             {{ [
                 "But the International Space Station is passing over. Wave.",
                 "But The International Space Station just flew by.",
                 "But if you were to look up right now, and it was dark outside, and you happened to be looking in the right place you would see the International Space Station go by. But it's already passed by now."
                 ] | random}} 
+          {% endmacro %}
+
+          {% macro full_moon() %}
+             {{ [
+            "There is a Full Moon out tonight, and this time it's the actual moon and not the neighbor. ",
+            "Hey look, There is the full moon. ",
+            "The moon is huge! And full. ",
+            "If you want to see the full moon tonight is the night."] | random }}
+
           {% endmacro %}
 
           {% macro security_report() %} 
@@ -863,6 +895,22 @@ script:
             "Looks like the washing machine has completed it's cycle.",
             "Don't forget to move the clothes to the dryer."
             ] | random }}
+          {%- endmacro -%}
+
+          {%- macro house_party_protocol_enabled() -%}
+            {{ [
+              "Anchorage House has been configured for a House Party.",
+              "Incense has been turned on.",
+              "I have enabled house party protocol."
+              ] | random }}
+          {%- endmacro -%}
+
+           {%- macro house_party_protocol_disabled() -%}
+            {{ [
+              "The House Party has been canceled.",
+              "Incense has been turned off.",
+              "I have disabled house party protocol."
+              ] | random }}
           {%- endmacro -%}
 
           {# ********************************************* #}
@@ -1011,12 +1059,26 @@ script:
             {{ iss() }}
           {% endif %}
 
+          {% if call_full_moon == 1 %}
+            {% if is_state("sensor.moon", "full_moon") %}
+              {{ full_moon() }}
+            {% endif %}
+          {% endif %}
+
           {% if call_security_report == 1 %}
             {{ security_report() }}
           {% endif %}
 
           {% if call_washer_needs_emptying == 1 %}
             {{ washer_needs_emptying() }}
+          {% endif %}
+
+          {% if call_house_party_protocol_enabled == 1 %}
+            {{ house_party_protocol_enabled() }}
+          {% endif %}
+
+          {% if call_house_party_protocol_disabled == 1 %}
+            {{ house_party_protocol_disabled() }}
           {% endif %}
 
           {{ welcome_home }}  

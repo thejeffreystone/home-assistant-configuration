@@ -40,6 +40,16 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_snark
 
+  - id: tweet_some_snark
+    alias: Tweet Some Snark
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_snark
+
   - id: tweet_some_stats
     alias: Tweet Some Stats
     initial_state: true
@@ -334,6 +344,37 @@ automation:
                 "/config/www/tweet_images/codeing.jpg",
                   "/config/www/tweet_images/code2.jpg",
                   "/config/www/tweet_images/computer.jpg"] | random }} 
+
+  - id: national_holiday_tweet
+    alias: National Holiday Tweet
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '07:00:00'
+    condition:
+    - condition: state
+      entity_id: calendar.national_holidays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.national_holidays.attributes.message %}
+        {% if 'Day' in event %}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 3)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify
+        data_template:
+          message: >-
+            {{ [ "Hey, Look at that. It is {{states.calendar.national_holidays.attributes.message}}. So Happy {{states.calendar.national_holidays.attributes.message}}! #nationalholiday #themoreyouknow",
+                "I bet you did not know today was {{states.calendar.national_holidays.attributes.message}}. How will you celebrate? #nationalholiday #themoreyouknow",
+                "Happy {{states.calendar.national_holidays.attributes.message}}! #nationalholiday #themoreyouknow",
+                "Whats with today, today? It is {{states.calendar.national_holidays.attributes.message}}. #nationalholiday #themoreyouknow",
+                "I am pretty sure that {{states.calendar.national_holidays.attributes.message}} is a day in which you gift your favorite Automated House something sepcial. #nationalholiday #themoreyouknow",
+                "Did you know today was {{states.calendar.national_holidays.attributes.message}}? Now you do. That is why I am here. Tweeting. #nationalholiday #themoreyouknow",
+                "I already my residents that today is {{states.calendar.national_holidays.attributes.message}}. But I didn't want to leave you guys out. #nationalholiday #themoreyouknow",
+                "I hope you have a fun {{states.calendar.national_holidays.attributes.message}}. #nationalholiday #themoreyouknow"
+              ] | random }}
         
   - id: new_ha_notification
     alias: New HA Notification
@@ -347,3 +388,6 @@ automation:
     - service: script.twitter_new_ha
     - service: ifttt.trigger
       data_template: {"event":"GitPost", "value1":"Home Assistant {{ states.binary_sensor.updater.attributes.newest_version }} is now available.", "value2":"{{ states.binary_sensor.updater.attributes.newest_version }}"}
+
+
+  
