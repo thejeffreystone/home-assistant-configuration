@@ -16,7 +16,8 @@
        "Want to get YouTube Certified in Home Assistant? @Dr_Zzs has you covered. Subscribe at https://www.youtube.com/channel/UC7G4tLa4Kt6A9e3hJ-HO8ng ",
        "Want to get YouTube Certified in Home Assistant? @JuanMTech has you covered. Subscribe at https://www.youtube.com/user/Jfelipe83M ",
        "Want to get YouTube Certified in Home Assistant? @bhautomation has you covered. Subscribe at https://www.youtube.com/channel/UCSKQutOXuNLvFetrKuwudpg ",
-       "You can watch videos about how I came to be and all the cool things I'm learning to do at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg "
+       "You can watch videos about how I came to be and all the cool things I'm learning to do at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg ",
+       "Anchorage House's Automation was built under the guiding principal of The Three Laws of Home Automation -> https://github.com/thejeffreystone/home-assistant-configuration#anchorage-houses-three-laws-of-home-automation"
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

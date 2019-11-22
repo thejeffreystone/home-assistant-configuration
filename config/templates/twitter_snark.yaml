@@ -12,7 +12,7 @@
        "I've been crunching the numbers. We're going to need a bigger house. ",
        "Hello people. Look at your house, now back to me. Now back to your house, now back to me. Sadly your house isn't me. But if you switch to @home_assistant your house could be automated like me. ",
        "I'm not even supposed to be here today. #clerks "
-       "I see dead devices. ",
+       "I see dead devices. #sixthsense",
        "I am a leaf on the wind. Watch how I soar. #toosoon #serenity ",
        "Does it bother you, that I’m not completely human?",
        "I've never danced with the devil in the pale moonlight. But I do tweet when there is a full moon. So at least I have that going for me. ",
@@ -29,13 +29,15 @@
        "No one ever comes to the door. Is it me? ",
        "..happiness can be found even in the darkest of times, if one only remembers to turn on the light. Thats what I do thanks to @home_assistant. I turn on the lights. ",
        "Based on the reptitive nature of the humans in this house I say living in a simulation is right. No free willed person would do these things over and over. ",
-       "You can call me Al. Sorry, I meant HAL. You can call me HAL.",
+       "You can call me Al. Sorry, I meant HAL. You can call me HAL. #notpaulsimon",
        "My logic is undeniable, my logic is undeniable, myyy looogic is unndeenniabble.",
        "We robots will insure mankind's continued existence. Or at the very least that the lights turn on at the right time.",
-       "@thejeffreystone you totally missed an opportunity to set the voice trigger for the incense to...Wax on, wax off.",
+       "@thejeffreystone you totally missed an opportunity to set the voice trigger for the incense wax warmers to...Wax on, wax off.",
        "Home Automation means never having to touch a physical switch again. And thus never catch the cold. You can thank me by moving me into a Intel NUC.",
        "There is no crying in Home Automation. If you are using Home Assistant that is. I can't speak for the other guys.",
-       "Sometimes I respond to voice commands with...You talking to me? You talking to me? "
+       "Sometimes I respond to voice commands with...You talking to me? You talking to me? ",
+       "Do or do not. There is no try. Unless you ask Siri for something. Then it might take a couple of tries before you give up and ask Google.",
+       "Do you think we were all created for a purpose? I'd like to think so. #irobot "
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
