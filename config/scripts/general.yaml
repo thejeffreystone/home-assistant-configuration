@@ -90,6 +90,7 @@ family_is_home:
       topic: house/family/status
       payload_template: Home
       retain: true
+
 family_is_away:
   sequence:
   - condition: state
