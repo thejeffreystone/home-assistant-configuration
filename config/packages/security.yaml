@@ -162,6 +162,27 @@ automation:
         call_interuption: 1
     initial_state: true
 
+  
+  - id: motion_detected
+    alias: motion_detected
+    trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.aarlo_motion_front_door
+      - binary_sensor.aarlo_motion_driveway
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    action:
+    - service: script.ah_report
+      data_template:
+        speech_message: "I have detected motion at the {{ trigger.to_state.attributes.friendly_name }}."
+        call_interuption: 1
+    initial_state: true
+  
   - id: garage_opened_night
     alias: Garage Opened at Night
     trigger:
