@@ -372,7 +372,7 @@ automation:
                 "Whats with today, today? It is {{states.calendar.national_holidays.attributes.message}}. #nationalholiday #themoreyouknow",
                 "I am pretty sure that {{states.calendar.national_holidays.attributes.message}} is a day in which you gift your favorite Automated House something sepcial. #nationalholiday #themoreyouknow",
                 "Did you know today was {{states.calendar.national_holidays.attributes.message}}? Now you do. That is why I am here. Tweeting. #nationalholiday #themoreyouknow",
-                "I already my residents that today is {{states.calendar.national_holidays.attributes.message}}. But I didn't want to leave you guys out. #nationalholiday #themoreyouknow",
+                "I already let my residents know that today is {{states.calendar.national_holidays.attributes.message}}. But I didn't want to leave you guys out. #nationalholiday #themoreyouknow",
                 "I hope you have a fun {{states.calendar.national_holidays.attributes.message}}. #nationalholiday #themoreyouknow"
               ] | random }}
         
