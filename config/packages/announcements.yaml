@@ -41,7 +41,6 @@ automation:
     - service: script.ah_report
       data:
         call_interuption: 1
-        call_time_annc: 1
         call_prebed_routine: 1
   
   - id: nightly_report
@@ -55,13 +54,14 @@ automation:
       data:
         call_greeting: 1
         call_evening_greeting: 1
-        call_time_annc: 1
         call_weather_alerts: 1
         call_overnight_forecast: 1
         call_freeze_warning: 1
+        call_future_forecast: 1
         call_upcoming_holidays: 1
         call_reminders: 1
         call_chores: 1
+        call_full_moon: 1
 
   - id: good_morning_report
     alias: Good Morning Report
