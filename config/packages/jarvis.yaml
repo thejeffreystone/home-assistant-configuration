@@ -18,7 +18,12 @@ automation:
       entity_id: input_boolean.house_party_protocol
       to: 'on'
     action:
-    - service: script.activate_house_party_protocol
+    - service: homeassistant.turn_on
+      entity_id: group.incense
+    - service: script.ah_report
+      data_template:
+        call_confirmation: 1
+        call_house_party_protocol_enabled: 1
   
   - id: house_party_protocol_off
     alias: Turn Off House Party Protocol
@@ -28,30 +33,9 @@ automation:
       entity_id: input_boolean.house_party_protocol
       to: 'off'
     action:
-    - service: script.deactivate_house_party_protocol
-
-script:
-  activate_house_party_protocol:
-    sequence:
-    - service: group.turn_on
+    - service: homeassistant.turn_off
       entity_id: group.incense
     - service: script.ah_report
       data_template:
-        speech_message: >
-          {{ [
-          "Anchorage House has been configured for a House Party.",
-          "Incense has been turned on.",
-          "I have enabled house party protocol."
-          ] | random }}
-  deactivate_house_party_protocol:
-    sequence:
-    - service: group.turn_off
-      entity_id: group.incense
-    - service: script.ah_report
-      data_template:
-        speech_message: >
-          {{ [
-          "The House Party has been canceled.",
-          "Incense has been turned off.",
-          "I have disabled house party protocol."
-          ] | random }}
+        call_confirmation: 1
+        call_house_party_protocol_disabled: 1
