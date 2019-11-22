@@ -272,8 +272,10 @@ automation:
     - service: script.appliances_on
     - service: script.standby
     - service: script.washer_finished_notification_audible
-    - service: alarm_control_panel.alarm_arm_home
-      entity_id: alarm_control_panel.ah_base_station
+    - service: alarm_control_panel.aarlo_set_mode
+      data:
+        entity_id: alarm_control_panel.aarlo_ah_base_station
+        mode: 'home'
     - service: script.family_is_home
     initial_state: true
   
@@ -298,8 +300,10 @@ automation:
     - service: script.lockdown
     - service: script.lockdown_issue
     - service: script.all_fans_off
-    - service: alarm_control_panel.alarm_arm_away
-      entity_id: alarm_control_panel.ah_base_station
+    - service: alarm_control_panel.aarlo_set_mode
+      data: 
+        entity_id: alarm_control_panel.aarlo_ah_base_station
+        mode: 'Armed'
   
   - id: jeff_is_home
     alias: Jeff is Home
@@ -381,6 +385,7 @@ automation:
       entity_id: sensor.family_status
       state: Home
     action:
+      - service: script.family_is_home
       - service: script.ah_report
         data_template:
           welcome_home: >

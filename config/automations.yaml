@@ -108,8 +108,10 @@
     entity_id: scene.diminshed_livingroom_lighting
   - service: scene.turn_on
     entity_id: scene.diminished_kitchen_lighting
-  - service: alarm_control_panel.alarm_arm_home
-    entity_id: alarm_control_panel.ah_base_station
+  - service: alarm_control_panel.aarlo_set_mode
+    data:
+      entity_id: alarm_control_panel.aarlo_ah_base_station
+      mode: 'home'
 
 - id: good_morning
   alias: Good Morning
@@ -155,8 +157,7 @@
     entity_id: switch.0xf0d1b80000052281_switch # Rainbow Light
   - service: scene.turn_on
     entity_id: scene.skylar_lamp_25
-  - service: alarm_control_panel.alarm_arm_away
-    entity_id: alarm_control_panel.ah_base_station
+
 - id: jeff_lights_out
   alias: Jeff lights out
   initial_state: true
@@ -304,8 +305,6 @@
             "/config/www/tweet_images/bright.jpg",
             "/config/www/tweet_images/light.jpg",
             "/config/www/tweet_images/lamp2.jpg"] | random }}
-  - service: alarm_control_panel.alarm_arm_away
-    entity_id: alarm_control_panel.ah_base_station
 
 - id: sunset
   alias: Sunset
@@ -314,8 +313,10 @@
   - platform: sun
     event: sunset
   action:
-  - service: alarm_control_panel.alarm_arm_away
-    entity_id: alarm_control_panel.ah_base_station
+  - service: alarm_control_panel.aarlo_set_mode
+    data:
+      entity_id: alarm_control_panel.aarlo_ah_base_station
+      mode: 'Armed'
   - service: script.ah_report
     data:
       call_interuption: 1
@@ -344,8 +345,6 @@
         {{ [ "/config/www/tweet_images/sunrise.jpg",
             "/config/www/tweet_images/sunrise3.jpg",
             "/config/www/tweet_images/sunrise2.jpg"] | random }}
-  - service: alarm_control_panel.alarm_arm_home
-    entity_id: alarm_control_panel.ah_base_station
 
 - id: inside_on_sunset
   alias: Inside on at Sunset
