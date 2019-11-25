@@ -434,14 +434,14 @@ script:
             {%- set event=states.calendar.national_holidays.attributes.message %}
             {% if 'Day' in event %}
               {{ [
-                'Today is also {{states.calendar.national_holidays.attributes.message}}. We should celebrate.',
-                'And a very special Happy {{states.calendar.national_holidays.attributes.message}}. I will leave the party planning up to you',
-                'It is is also {{states.calendar.national_holidays.attributes.message}}. I bet you are glad I told you.',
-                'You cannot make this stuff up. Today is {{states.calendar.national_holidays.attributes.message}}.',
-                'I have just been informed today is {{states.calendar.national_holidays.attributes.message}}. But that just sounds silly.',
-                'Want to know a fact? Today is {{states.calendar.national_holidays.attributes.message}}',
-                'You should tell someone it is {{states.calendar.national_holidays.attributes.message}}. Because I bet know one else knows.',
-                'I bet you did not know. Today is {{states.calendar.national_holidays.attributes.message}}. But now you do. And the more you know.'
+                "Today is also {{states.calendar.national_holidays.attributes.message}}. We should celebrate.",
+                "And a very special Happy {{states.calendar.national_holidays.attributes.message}}. I will leave the party planning up to you",
+                "It is is also {{states.calendar.national_holidays.attributes.message}}. I bet you are glad I told you.",
+                "You cannot make this stuff up. Today is {{states.calendar.national_holidays.attributes.message}}.",
+                "I have just been informed today is {{states.calendar.national_holidays.attributes.message}}. But that just sounds silly.",
+                "Want to know a fact? Today is {{states.calendar.national_holidays.attributes.message}}",
+                "You should tell someone it is {{states.calendar.national_holidays.attributes.message}}. Because I bet know one else knows.",
+                "I bet you did not know. Today is {{states.calendar.national_holidays.attributes.message}}. But now you do. And the more you know."
             ]|random }}
             {%- endif -%}
           {% endmacro %}
@@ -1119,14 +1119,9 @@ script:
         
   twitter_stats:
     sequence:
-      - service: notify.twitter_notify_image
+      - service: notify.twitter
         data_template:
-          tweet: !include ../templates/twitter_stats.yaml 
-          image: >-
-              {{ [ "/config/www/tweet_images/cloud.jpg",
-                    "/config/www/tweet_images/laptop.jpg",
-                    "/config/www/tweet_images/smart-home.jpg",
-                    "/config/www/tweet_images/earth.jpg"] | random }}
+          message: !include ../templates/twitter_stats.yaml 
 
   twitter_promos:
     sequence:
@@ -1136,10 +1131,9 @@ script:
   
   twitter_new_ha:
     sequence:
-      - service: notify.twitter_image
+      - service: notify.twitter
         data_template:
-          tweet: !include ../templates/twitter_new_ha.yaml
-          image: "/config/www/tweet_images/ha.jpg"
+          message: !include ../templates/twitter_new_ha.yaml
 
 
 ###############################################################################
