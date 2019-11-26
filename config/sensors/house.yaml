@@ -57,11 +57,11 @@
   end: '{{ now() }}'
   duration:
     days: 7
-- platform: min_max
+- platform: statistics
   name: Outside Temp Stats
   entity_ids:
   - sensor.accurite_back_porch_temperature
-- platform: min_max
+- platform: statistics
   name: Garage Temp Stats
   entity_ids:
   - sensor.accurite_garage_temperature
@@ -112,9 +112,12 @@
   end: '{{ now() }}'
   duration:
     hours: 24
-- platform: min_max
+- platform: statistics
   name: Cloud Coverage Stats
-  entity_ids: sensor.dark_sky_cloud_coverage
+  entity_id: sensor.dark_sky_cloud_coverage
+- platform: statistics
+  name: Visibility Stats
+  entity_id: sensor.dark_sky_visibility
 - platform: history_stats
   name: Cooling Last Month
   entity_id: sensor.hvac_action
