@@ -59,12 +59,10 @@
     days: 7
 - platform: statistics
   name: Outside Temp Stats
-  entity_ids:
-  - sensor.accurite_back_porch_temperature
+  entity_id: sensor.accurite_back_porch_temperature
 - platform: statistics
   name: Garage Temp Stats
-  entity_ids:
-  - sensor.accurite_garage_temperature
+  entity_id: sensor.accurite_garage_temperature
 - platform: min_max
   name: Inside Temp Stats
   entity_ids:
