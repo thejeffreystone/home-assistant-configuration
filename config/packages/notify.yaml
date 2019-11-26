@@ -416,7 +416,7 @@ script:
             {% if is_state("sensor.halloween_countdown","0") %}
               Happy Halloween!
             {% endif %}
-            {% if is_state("sensor.christmas_down","0") %}
+            {% if is_state("sensor.christmas_countdown","0") %}
               Merry Christmas Everyone!
             {% endif %}
             {% if is_state("sensor.anniversary_our_wedding","0") %}
@@ -448,7 +448,7 @@ script:
 
           {%- macro dark_outside() -%}
             {{ [
-                'The sun is officially down. Exterior Cameras are now motion acivated.',
+                'The sun is officially down. Exterior Cameras are now motion activated.',
                 'The sun has been ushered off the stage. I have armed the perimiter cameras.',
                 'You are running out of daylight. Time to wrap up any outside chores.',
                 'Switching Anchorage House to night mode! ',
@@ -528,7 +528,7 @@ script:
             {% if states.sensor.christmas_countdown.state | int == 1 %}
               Tomorrow is Christmas. It's practically here! Santa is coming tonight! Don't forget the cookies!
             {% elif states.sensor.christmas_countdown.state | int < 31 %}
-              There are only {{states.sensor.holiday_christmas.state}} days until christmas.
+              There are only {{states.sensor.christmas_countdown.state}} days until christmas.
               {{ [ "All I want is a hippopatamus.",
                 "Hey Skylar, I know what you are getting for Christmas. But I am not telling.",
                 "Don't forget to put something under the tree for your favorite smarthome.",
