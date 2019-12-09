@@ -18,3 +18,11 @@ recycle_pickup:
     - Friday
   initial: Tuesday
   icon: mdi:delete-variant
+spotify_source:
+  name: Spotify Source
+  options:
+  - Everywhere
+  - Living Room
+  - Skylar's Bedroom
+  - Kitchen
+  initial: Living Room

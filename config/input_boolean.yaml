@@ -81,6 +81,8 @@ showing_now:
   icon: mdi:popcorn
 skylar_school:
   name: Skylar at School
+shuffle_spotify:
+  name: Spotify Shuffle
 
 
 #####################
