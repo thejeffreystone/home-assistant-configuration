@@ -60,9 +60,11 @@
 - platform: statistics
   name: Outside Temp Stats
   entity_id: sensor.accurite_back_porch_temperature
+  sampling_size: 500
 - platform: statistics
   name: Garage Temp Stats
   entity_id: sensor.accurite_garage_temperature
+  sampling_size: 500
 - platform: min_max
   name: Inside Temp Stats
   entity_ids:
@@ -113,9 +115,11 @@
 - platform: statistics
   name: Cloud Coverage Stats
   entity_id: sensor.dark_sky_cloud_coverage
+  sampling_size: 500
 - platform: statistics
   name: Visibility Stats
   entity_id: sensor.dark_sky_visibility
+  sampling_size: 500
 - platform: history_stats
   name: Cooling Last Month
   entity_id: sensor.hvac_action
