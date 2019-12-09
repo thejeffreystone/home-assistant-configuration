@@ -40,6 +40,8 @@ cloud:
   
 wemo:
   discovery: true
+  static:
+  - 192.168.7.99
 
 weather:
   - platform: darksky
@@ -138,8 +140,6 @@ camera:
   - platform: mjpeg
     name: Garage Door Cam 
     mjpeg_url: !secret garage_cam
-  # - platform: arlo
-  #   ffmpeg_arguments: '-pred 1 -q:v 2'
   - platform: aarlo
     ffmpeg_arguments: '-pred 1 -q:v 2'
     
@@ -168,6 +168,8 @@ tplink:
   switch:
     - host: 192.168.7.105
     - host: 192.168.7.107
+    - host: 192.168.7.116
+    - host: 192.168.7.120
 
 ifttt:
   key: !secret IFTTT_API_KEY 
@@ -178,8 +180,6 @@ media_player:
     client_secret: !secret spotify_secret
 
 group: !include groups.yaml
-# automation: !include automations.yaml
-# script: !include scripts.yaml
 
 proximity:
   home_jeff:
