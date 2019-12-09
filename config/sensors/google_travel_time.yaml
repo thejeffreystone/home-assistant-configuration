@@ -1,13 +1,13 @@
 - platform: waze_travel_time
   name: "Jeff ETT Home"
   #api_key: !secret google_api
-  origin: device_tracker.jeffreystonesiphone
+  origin: device_tracker.jeffreys_iphone_2
   destination: zone.home
   region: 'US'
 - platform: waze_travel_time
   name: "Kat ETT Home"
   #api_key: !secret google_api
-  origin: device_tracker.iphone
+  origin: device_tracker.iphone_4
   destination: zone.home
   region: 'US'
 - platform: waze_travel_time

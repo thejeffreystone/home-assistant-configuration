@@ -90,6 +90,15 @@ family_is_home:
       topic: house/family/status
       payload_template: Home
       retain: true
+  - service: script.vacation_canceled
+  - service: script.appliances_on
+  - service: script.standby
+  - service: script.washer_finished_notification_audible
+  - service: alarm_control_panel.aarlo_set_mode
+    data:
+      entity_id: alarm_control_panel.aarlo_ah_base_station
+      mode: 'home'
+  - service: script.family_is_home
 
 family_is_away:
   sequence:
@@ -101,6 +110,19 @@ family_is_away:
       topic: house/family/status
       payload_template: Away
       retain: true
+  - service: script.appliances_off
+  - service: scene.turn_on
+    entity_id: scene.lights_out
+  - service: script.security_check_garage
+  - service: script.security_check_zones
+  - service: script.lockdown
+  - service: script.lockdown_issue
+  - service: script.all_fans_off
+  - service: alarm_control_panel.aarlo_set_mode
+    data: 
+      entity_id: alarm_control_panel.aarlo_ah_base_station
+      mode: 'Armed'
+  - service: script.family_is_away
 
 driveway_on:
   sequence:

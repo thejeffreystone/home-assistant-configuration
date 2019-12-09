@@ -118,23 +118,21 @@ sensor:
     sensors:
       jeff_home:
         value_template: >-
-          {{ is_state('device_tracker.jeffreystonesiphone', 'home')
-             or is_state('device_tracker.hass_jeffsiphone', 'home')
+          {{ is_state('device_tracker.jeffreys_iphone_2', 'home')
              or is_state('device_tracker.life360_jeffrey_stone', 'home') }}
   - platform: template
     sensors:
       kat_home:
         value_template: >-
-          {{ is_state('device_tracker.iphone', 'home')
+          {{ is_state('device_tracker.iphone_4', 'home')
              or is_state('device_tracker.life360_kat_stone', 'home') }}
   - platform: template
     sensors:
       family_home:
         value_template: >-
-          {{ is_state('device_tracker.jeffreystonesiphone', 'home')
-             or is_state('device_tracker.hass_jeffsiphone', 'home')
+          {{ is_state('device_tracker.jeffreys_iphone_2', 'home')
              or is_state('device_tracker.life360_jeffrey_stone', 'home') 
-             or is_state('device_tracker.iphone', 'home')
+             or is_state('device_tracker.iphone_4', 'home')
              or is_state('device_tracker.life360_kat_stone', 'home') 
              or is_state('sensor.family_status', 'Home') }}
 
