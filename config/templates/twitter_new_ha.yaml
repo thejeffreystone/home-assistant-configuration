@@ -7,7 +7,7 @@
        ] | random -}}
   {% endmacro %}
   {% macro getVersion() %}
-    @home_assistant version {{ states.sensor.current_ha_version.state }} is out.
+    @home_assistant version {{ states.sensor.released_version.state }} is out.
   {% endmacro %}
   {%- macro getRandomSnark() -%}
     {{- [
