@@ -138,6 +138,45 @@ automation:
     - service: script.turn_on
       entity_id: input_boolean.haunted_sounds
 
+  - id: wishes_five_min
+    alias: Wishes Five Minute
+    initial_state: true
+    trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.christmas_preshow', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: calendar.holidays_in_united_states
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.holidays_in_united_states.attributes.message %}
+        {%- if event == 'Christmas Eve' %}
+          true
+        {%- endif -%}
+    action:
+    - service: script.holiday_wishes_preshow
+
+  - id: wishes_show_start
+    alias: Wishes Show Start
+    initial_state: true
+    trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.christmas_show', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: calendar.holidays_in_united_states
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.holidays_in_united_states.attributes.message %}
+        {%- if event == 'Christmas Eve' %}
+          true
+        {%- endif -%}
+    action:
+    - service: script.turn_on
+      entity_id: input_boolean.holiday_wishes
+
 script:
 
   haunted_sounds:

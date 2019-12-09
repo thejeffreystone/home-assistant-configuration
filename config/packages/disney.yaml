@@ -147,6 +147,87 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.theater
   
+  - id: wishes_show_on
+    alias: Wishes Show On
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.holiday_wishes
+      to: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.holiday_wishes
+  - id: wishes_show_off
+    alias: Wishes Show Off
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.holiday_wishes
+      to: 'off'
+    action:
+    - service: script.turn_on
+      entity_id: script.kill_this_ride
+    - service: media_player.media_stop
+      entity_id: media_player.theater
+    - service: script.turn_off
+      entity_id: script.holiday_wishes
+    - service: script.turn_off 
+      entity_id: script.wishes_lights_on
+    - service: script.turn_off
+      entity_id: script.wishes_lights_all
+  
+  - id: wishes_preshow_trigger
+    alias: Wishes Preshow Trigger 
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.holiday_wishes
+      to: 'on'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.wishes_preshow
+  
+  - id: wishes_show_trigger
+    alias: Wishes show Trigger 
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: media_player.theater
+      to: 'playing'
+    condition:
+    - condition: state 
+      entity_id: input_boolean.holiday_wishes
+      state: 'on'
+    action:
+    - service: script.turn_on 
+      entity_id: script.wishes_lights_on
+    - service: script.turn_on
+      entity_id: script.wishes_lights_all
+
+  - id: springs_xmas_on
+    alias: Springs Xmas On
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.disney_springs_xmas
+      to: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.holiday_wishes
+  - id: springs_xmas_off
+    alias: Springs Xmas Off
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.disney_springs_xmas
+      to: 'off'
+    action:
+    - service: script.turn_on
+      entity_id: script.kill_this_ride
+    - service: media_player.media_stop
+      entity_id: media_player.theater
+    - service: script.turn_off
+      entity_id: script.disney_springs_xmas
 
   # #######################################
   # # Turn on / off Haunted Mansion show 
@@ -505,7 +586,17 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: shell_command.mk_audio
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: .5
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/magic_kingdom.mp3
+        media_content_type: "music"
   
   kill_this_ride:
     sequence:
@@ -535,12 +626,6 @@ script:
       entity_id: input_boolean.illuminations
     - service: script.chromecast_media_stop
     - service: script.turn_off
-      data:
-        entity_id: script.holiday_wishes
-    - service: script.turn_off
-      data:
-        entity_id: script.holiday_wishes_start
-    - service: script.turn_off
       entity_id: script.illuminations_preshow
     - service: script.turn_off
       entity_id: script.illuminations_lights_out
@@ -558,8 +643,6 @@ script:
       entity_id: script.welcome_show_audio
     - service: script.turn_off
       entity_id: script.move_it_shake_it
-    - service: script.turn_off
-      entity_id: script.holiday_wishes_start
     - service: script.turn_off
       entity_id: script.holiday_wishes
     - service: script.turn_off
@@ -648,20 +731,17 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    # - service: shell_command.disney_springs_xmas
-    # - service: switch.turn_on 
-    #   entity_id: switch.ha_speaker 
     - service: media_player.turn_on
       entity_id: media_player.theater
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.theater
         volume_level: >
-          .5
+          .3
     - service: media_player.play_media
       entity_id: media_player.theater
       data:
-        media_content_id: http://192.168.7.40/audio/Disney_Springs_Xmas_Loop.mp3.mp3
+        media_content_id: http://192.168.7.40/audio/Disney_Springs_Xmas_Loop.mp3
         media_content_type: "music"
   sleepy_hollow_readalong:
     sequence:
@@ -700,7 +780,17 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: shell_command.welcome_to_mk
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: .5
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/welcome_show.mp3
+        media_content_type: "music"
   monorail_waiting:
     sequence:
     - condition: state
@@ -748,6 +838,7 @@ script:
       data:
         media_content_id: http://192.168.7.40/audio/welcome_show_crowd.mp3
         media_content_type: "music"
+  
   holiday_wishes_preshow:
     sequence:
     - condition: state
@@ -756,10 +847,14 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: shell_command.holiday_wishes_preshow
-    - delay: '00:04:00' 
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.holiday_wishes
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/wishes_5_min.mp3
+        media_content_type: "music"
+  
   holiday_wishes:
     sequence:
     - condition: state
@@ -768,14 +863,36 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    # - service: shell_command.holiday_wishes
     - service: media_player.turn_on
       entity_id: media_player.theater
     - service: media_player.play_media
       entity_id: media_player.theater
       data:
-        media_content_id: http://192.168.7.40/audio/wishes_5_min.mp3
+        media_content_id: http://192.168.7.40/audio/holidaywishes.mp3
         media_content_type: "music"
+  
+  wishes_lights_on:
+    sequence:
+    - delay:
+        seconds: 10
+    - service: scene.turn_on
+      entity_id: scene.wishes_show
+
+  wishes_lights_all:
+    sequence:
+    - delay:
+        seconds: 110
+    - service: scene.turn_on
+      entity_id: scene.table_lamp_blue
+    - delay:
+        seconds: 2
+    - service: scene.turn_on
+      entity_id: scene.front_lamp_green
+    - delay:
+        seconds: 2
+    - service: scene.turn_on
+      entity_id: scene.tower_lamp_red
+
   boo_to_you_show:
     sequence:
     - condition: state
@@ -800,9 +917,12 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    # - service: shell_command.happily_ever_after
     - service: media_player.turn_on
       entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: .5
     - service: media_player.play_media
       entity_id: media_player.theater
       data:

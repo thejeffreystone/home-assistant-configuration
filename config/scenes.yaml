@@ -55,7 +55,7 @@
 
 - name: dimished livingroom lighting
   entities:
-    light.0xb0ce18140003608a_light_2:
+    light.0xb0ce18140003608a_light:
       state: on
       brightness: 40
       color_temp: 369
@@ -97,13 +97,13 @@
     switch.fireplace_lights:
       state: off
 
-# light.0xb0ce18140003608a_light_2 = Tower Lamp
+# light.0xb0ce18140003608a_light = Tower Lamp
 # light.0xb0ce181400051072_light_2 = Front Door Lamp
 # light0xb0ce181400051b4c_light_2 = Table Lampo
 
 - name: night time livingroom lighting
   entities:
-    light.0xb0ce18140003608a_light_2:
+    light.0xb0ce18140003608a_light:
       state: on
       brightness: 10
       color_temp: 369
@@ -141,6 +141,8 @@
     group.rgb_lr:
       state: off
     switch.fireplace_lights:
+      state: off
+    light.0xb0ce18140003608a_light:
       state: off
     light.0xe20db9fffe004207_light:
       state: off
@@ -188,6 +190,55 @@
     #   state: off
     switch.fireplace_lights:
       state: off
+
+- name: wishes preshow
+  entities:
+    switch.ge_14291_in_wall_smart_switch_switch_2:
+      state: off
+    group.rgb_lr:
+      state: off
+    switch.fireplace_lights:
+      state: off
+    switch.rail_lights:
+      state: on
+    switch.christmas_tree:
+      state: off
+
+- name: wishes show
+  entities:
+    switch.christmas_tree:
+      state: on
+    light.0xb0ce181400051b4c_light_2:
+      state: on
+      brightness: 20
+    light.0xb0ce18140003608a_light:
+      state: on
+      brightness: 20
+    light.0xb0ce181400051072_light_2:
+      state: on
+      brightness: 20
+
+- name: table lamp blue
+  entities:
+    light.0xb0ce181400051b4c_light_2:
+      state: on
+      brightness_pct: 100
+      rgb_color: [65,105,255]
+
+- name: tower lamp red
+  entities:
+    light.0xb0ce18140003608a_light:
+      state: on
+      brightness_pct: 100
+      rgb_color: [255,40,0]
+    
+- name: front lamp green
+  entities:
+    light.0xb0ce181400051072_light_2:
+      state: on
+      brightness_pct: 100
+      rgb_color: [0,128,0]
+    
 
 - name: jeff light on
   entities:
@@ -248,18 +299,14 @@
     light.0xe20db9fffe003637_light:
       state: off
 
-# - name: santa protocol
-#   entities:
-#     switch.christmas_tree:
-#       state: on
-#     switch.upstairs_christmas_tree:
-#       state: on
-#     light.tower_lamp:
-#       state: on
-#       brightness: 10
-#     light.front_lamp:
-#       state: on
-#       brightness: 10
+- name: santa protocol
+  entities:
+    switch.christmas_tree:
+      state: on
+    switch.rail_lights:
+      state: on
+    
+    
 
 
 #########################################
@@ -288,3 +335,5 @@
       state: on
       brightness_pct: 100
       rgb_color: [255,40,0]
+
+
