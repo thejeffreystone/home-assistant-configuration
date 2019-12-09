@@ -129,12 +129,22 @@ automation:
       - binary_sensor.back_door
       from: 'off'
     condition:
-    - condition: state
-      entity_id: input_boolean.audible_notifications
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.guest_mode
-      state: 'off'
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.audible_notifications
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: media_player.theater
+          state: 'idle'
+        - condition: state
+          entity_id: media_player.theater
+          state: 'off'
     action:
     - service: script.door_chime
     initial_state: true
