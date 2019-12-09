@@ -1,39 +1,39 @@
 # Living Room
 # Sengled LED Lights
-- platform: mqtt
-  name: "Tower Lamp"
-  state_topic: "smartthings/Tower Lamp/switch"
-  command_topic: "smartthings/Tower Lamp/switch"
-  brightness_state_topic: "smartthings/Tower Lamp/level"
-  brightness_command_topic: "smartthings/Tower Lamp/level"
-  color_temp_command_topic: "smartthings/Tower Lamp/colorTemperature"
-  color_temp_state_topic: "smartthings/Tower Lamp/colorTemperature"
-  brightness_scale: 101
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
+# - platform: mqtt
+#   name: "Livingroom Lamp"
+#   schema: json
+#   command_topic: "homeassistant/0xb0ce18140003608a"
+#   brightness_state_topic: "smartthings/Tower Lamp/level"
+#   brightness_command_topic: "smartthings/Tower Lamp/level"
+#   color_temp_command_topic: "smartthings/Tower Lamp/colorTemperature"
+#   color_temp_state_topic: "smartthings/Tower Lamp/colorTemperature"
+#   brightness_scale: 101
+#   payload_on: "on"
+#   payload_off: "off"
+#   retain: true
 
-- platform: mqtt
-  name: "Front Lamp"
-  state_topic: "smartthings/Front Lamp/switch"
-  command_topic: "smartthings/Front Lamp/switch"
-  brightness_state_topic: "smartthings/Front Lamp/level"
-  brightness_command_topic: "smartthings/Front Lamp/level"
-  brightness_scale: 101
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
+# - platform: mqtt
+#   name: "Front Lamp"
+#   state_topic: "smartthings/Front Lamp/switch"
+#   command_topic: "smartthings/Front Lamp/switch"
+#   brightness_state_topic: "smartthings/Front Lamp/level"
+#   brightness_command_topic: "smartthings/Front Lamp/level"
+#   brightness_scale: 101
+#   payload_on: "on"
+#   payload_off: "off"
+#   retain: true
 
-- platform: mqtt
-  name: "Front Door Lamp"
-  state_topic: "smartthings/Front Door Lamp/switch"
-  command_topic: "smartthings/Front Door Lamp/switch"
-  brightness_state_topic: "smartthings/Front Door Lamp/level"
-  brightness_command_topic: "smartthings/Front Door Lamp/level"
-  brightness_scale: 101
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
+# - platform: mqtt
+#   name: "Front Door Lamp"
+#   state_topic: "smartthings/Front Door Lamp/switch"
+#   command_topic: "smartthings/Front Door Lamp/switch"
+#   brightness_state_topic: "smartthings/Front Door Lamp/level"
+#   brightness_command_topic: "smartthings/Front Door Lamp/level"
+#   brightness_scale: 101
+#   payload_on: "on"
+#   payload_off: "off"
+#   retain: true
 
 
 # Bedroom

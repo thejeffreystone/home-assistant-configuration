@@ -49,7 +49,7 @@ Disney Audio:
   - input_boolean.happy_ever_after
 
 rgb lr:
-  - light.0xb0ce18140003608a_light_2
+  - light.0xb0ce18140003608a_light
   - light.0xb0ce181400051b4c_light_2
   - light.0xb0ce181400051072_light_2
 
