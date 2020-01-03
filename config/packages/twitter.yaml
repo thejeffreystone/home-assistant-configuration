@@ -179,6 +179,12 @@ automation:
         {%- if event > 0 %}
           true
         {%- endif -%}
+    - condition: template
+      value_template: >
+        {%- set event=states.sensor.halloween_countdown.state | int %}
+        {%- if event < 31 %}
+          true
+        {%- endif -%}
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_notify
@@ -211,6 +217,12 @@ automation:
       value_template: >
         {%- set event=states.sensor.christmas_countdown.state | int %}
         {%- if event > 1 %}
+          true
+        {%- endif -%}
+    - condition: template
+      value_template: >
+        {%- set event=states.sensor.christmas_countdown.state | int %}
+        {%- if event < 31 %}
           true
         {%- endif -%}
     action:
@@ -253,10 +265,8 @@ automation:
     action:
       - service: script.twitter_notify_image
         data_template:
-          tweet: >-
-            "Tomorrow is Christmas. It is practically here! Santa is coming tonight! Do not forget the cookies!"
-          image: >-
-            "/config/www/tweet_images/santa.jpg"
+          tweet: Tomorrow is Christmas. It is practically here! Santa is coming tonight! Do not forget the cookies!
+          image: /config/www/tweet_images/santa.png
 
   - id: Christmas Day Tweet
     alias: Christmas Day Tweet
@@ -277,10 +287,8 @@ automation:
     action:
       - service: script.twitter_notify_image
         data_template:
-          tweet: >-
-            "From everyone at Anchorage House, Merry Christmas!"
-          image: >-
-            "/config/www/tweet_images/merry-christmas.jpg"
+          tweet: From everyone at Anchorage House, Merry Christmas!
+          image: /config/www/tweet_images/merry-christmas.jpg
 
   - id: Freeze Warning Tweet
     alias: Freeze Warning Tweet
