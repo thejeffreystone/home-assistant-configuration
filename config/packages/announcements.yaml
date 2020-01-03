@@ -59,6 +59,7 @@ automation:
         call_freeze_warning: 1
         call_future_forecast: 1
         call_upcoming_holidays: 1
+        call_upcoming_events: 1
         call_reminders: 1
         call_chores: 1
         call_full_moon: 1
@@ -81,6 +82,7 @@ automation:
         call_current_conditions_inside: 1
         call_daily_forecast: 1
         call_upcoming_birthdays: 1
+        call_upcoming_events: 1
         call_reminders: 1
         call_chores: 1
     - service: script.twitter_notify
@@ -111,7 +113,6 @@ automation:
         call_school_today: 1
         call_skylar_events: 1
         call_clothes_suggestion: 1
-        call_school_holiday: 1
   
   - id: set_skylar_morning_report_time
     alias: set skylar morning report time

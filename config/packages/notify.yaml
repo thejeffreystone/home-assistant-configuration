@@ -53,6 +53,8 @@ notify:
     consumer_secret: !secret twitter_consumer_secret
     access_token: !secret twitter_access_token
     access_token_secret: !secret twitter_access_secret
+  - platform: alexa_media
+    name: alexa_media
 
   
 script:
@@ -311,7 +313,7 @@ script:
             {{ [
                 'Okay.', 
                 'If you insist.',
-                'I am afraid I can not do that Dave <break time="3s"/> I am kidding,',
+                'I am afraid I can not do that <break time="3s"/> I am kidding,',
                 'Leave it to me.',
                 'As you wish.',
                 'By your command.',
@@ -455,11 +457,10 @@ script:
             {{ [
                 'We should celebrate.',
                 'I will leave the party planning up to <emphasis>you</emphasis>',
-                'I bet you are glad I told you.',
+                'I bet you, are glad I told you.',
                 'You cannot make this stuff up.',
-                'But that just sounds silly.',
-                'Because I bet no one else knows.',
-                'Bet you did not know. But <emphasis>now </emphasis> you do. And the more you know.'
+                'But, that just sounds silly.',
+                'Bet, you did not know. But, <emphasis>now </emphasis> you do. And the more you know.'
             ]|random }}
             {%- endif -%}
           {% endmacro %}
@@ -471,7 +472,7 @@ script:
                 'You are running out of daylight. Time to wrap up any outside chores.',
                 'Switching Anchorage House to night mode! ',
                 'The outside world has switched to dark mode.',
-                'If you have not looked outside lately the light of the day is gone.'
+                'If you have not looked outside lately, the light of the day is gone.'
             ]|random }}
           {%- endmacro -%}
 
@@ -507,10 +508,10 @@ script:
 
           {% macro freeze_warning() %}
             {% if is_state('input_boolean.freeze_warning','on') %}
-            {{ [ 'The temperature is expected to be near or below freezing. <emaphasis>Someone</emphasis> might want to bring the lemon tree in. ',
-                 'It appears that it will be cold tonight. Like turn water solid kind of cold. Think of the poor plants.',
+            {{ [ 'The temperature is expected to be near or below freezing. <emphasis>Someone</emphasis> might want to bring the lemon tree in. ',
+                 'It appears that it will be cold tonight. Like, the turn water solid <emphasis>kind</emphasis> of cold. Think of the poor plants.',
                  'I suggest bringing in the plants other wise, the temperature might kill them. And that will be on <emphasis>you</emphasis>.',
-                 'I would say winter is coming. But, based on the weather forecast it appears to be here. Grab the Dragon glass.'
+                 'I would say winter is coming. But, based on the weather forecast <emphasis>it</emphasis> appears to be here. Grab the Dragon glass.'
                ] | random }}
             {% endif %}
           {% endmacro %}
@@ -556,11 +557,36 @@ script:
                 'Hey Skylar, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
                 'Do not forget to put something under the tree for <emphasis>your</emphasis> favorite smarthome.',
                 'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
-                'I do not want to be a smarthome. I want to be a dentist.'
+                'I do not want to be a smarthome. I want to be a dentist.',
+                'Do not eat all the cookies. '
               ] | random }} 
             {% else %}
             {% endif %}
             
+          {% endmacro %}
+
+          {% macro upcoming_events() %}
+
+            {% if states.sensor.trip_disney.state | int == 120 %}
+              There are only one hundred and twenty days until the next Disney Trip. 
+            {% endif %}
+            {% if states.sensor.trip_disney.state | int == 60 %}
+              There are only on sixty days until the next Disney Trip. 
+            {% endif %}
+            {% if states.sensor.trip_disney.state | int < 32 %}
+              There 
+                {% if states.sensor.trip_disney.state | int > 1 %}
+                  are
+                {% else %}
+                  is
+                {% endif %}
+              {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
+            {% endif %}
+            {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
+              Tomorrow is Jeff and Katherine's Wedding Anniversary. 
+            {% endif %}
+
+
           {% endmacro %}
 
           {% macro skylar_dressed() %}
@@ -579,11 +605,11 @@ script:
           {% macro prebed_routine() %}
             Skylar,  
             {{ [ 'It is time to get in the bath. ',
-                'You only have thirty minutes until bedtime. That means you should be heading for the bathtub.',
+                'You only have thirty minutes until bedtime. That means you should be heading for the bathtub. Time to get clean.',
                 'I cannot communicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
-                'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics, but in the mean time you should start a bath.',
+                'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics, but in the mean time, <emphasis>you</emphasis> should start a bath.',
                 'I hate to say it but, it is time to get cleaned up.',
-                'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. Bath time <emphasis>sir</emphasis>.',
+                'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. Bath time now, <emphasis>sir</emphasis>.',
                 'Tee Minus 30 minutes and counting until you should be off to sleep. Time to get cleaned up, and get your pajamas on.'
               ] | random }} 
             If you go now there may be time for stories. Do not forget to brush your teeth. 
@@ -614,6 +640,18 @@ script:
               {% if states.calendar.skylar_school.attributes.description == 'start_fall_break' %}
                 And One More Thing. Tomorrow is the first day of Fall Break.
               {% endif %}
+            {% else %} 
+              {% if is_state('calendar.school_holiday', 'on') %}
+              And look at that. You do not have school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
+              {{ [ 'Guess today would be a good day to clean your room.',
+                'You could always do some chores.',
+                'Lets try to keep the TV off today, ok?',
+                'Want to play a nice game of chess? Sorry. I meant, want to play Thermal Nuclear War.',
+                'I hope you enjoy your day off. You deserve it.',
+                'Today would be a good day to spend some time with mom and dad.'
+              ] | random }} 
+              {% endif %}
+
             {% endif %}
           {% endmacro %}
 
@@ -736,7 +774,7 @@ script:
               {{ [ 'The garage doors are closed. ',
                 'The cargo hold is sealed. ',
                 'Looks like the garage has been secured.',
-                'The pod bay doors are closed. <emphasis>Do not</emphasis> ask me to open them.'
+                'The pod bay doors are closed. '
               ] | random }}
             {% endif %} 
           {% endmacro %}
@@ -1013,6 +1051,10 @@ script:
 
           {% if call_upcoming_holidays == 1 %}
             {{ upcoming_holidays() }}
+          {% endif %}
+
+          {% if call_upcoming_events == 1 %}
+            {{ upcoming_events() }}
           {% endif %}
 
           {% if call_skylar_dressed == 1 %}
