@@ -174,7 +174,7 @@ automation:
           true
         {%- endif -%}
     action:
-    - service: script.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.holiday_wishes
 
 script:
