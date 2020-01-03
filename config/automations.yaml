@@ -395,7 +395,7 @@
   initial_state: true
   trigger:
   - platform: time
-    at: '19:00:00'
+    at: '19:30:00'
   condition:
   - condition: state
     entity_id: input_boolean.guest_mode

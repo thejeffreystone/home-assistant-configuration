@@ -376,6 +376,8 @@ automation:
         entity_id:
           - person.jeffrey
           - person.katherine
+          - person.uncle_matt
+          - person.papa
         from: 'not_home'
         to: 'home'
     condition:
@@ -386,6 +388,7 @@ automation:
       - service: script.family_is_home
       - service: script.ah_report
         data_template:
+          call_interuption: 1
           welcome_home: >
             {% set person = trigger.to_state.attributes.friendly_name %}
             {%- macro greeting_sentence(person) -%}
@@ -398,8 +401,25 @@ automation:
               ] | random }}
             {%- endmacro -%}
             {{greeting_sentence(person)}}
-          call_interuption: 1
           
+          
+  - id: guests_have_arrived
+    alias: Guests have arrived
+    trigger:
+    - entity_id: person.papa
+      event: enter
+      platform: zone
+      zone: zone.home
+    - entity_id: person.uncle_matt
+      event: enter
+      platform: zone
+      zone: zone.home
+    action:
+    - service: script.standby
+    - service: script.family_is_home
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.guest_mode
+    initial_state: true
 
 script:
   jeff_destination_zoo:
