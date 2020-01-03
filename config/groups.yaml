@@ -56,6 +56,7 @@ rgb lr:
 incense:
   - switch.incense
   - switch.artemis
+  - switch.forest
 
 all fans:
   - switch.upstairs_fan
