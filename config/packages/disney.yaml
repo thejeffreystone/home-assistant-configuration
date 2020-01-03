@@ -708,7 +708,7 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.theater
-        volume_level: .5
+        volume_level: .7
     - service: media_player.play_media
       entity_id: media_player.theater
       data:
@@ -766,7 +766,7 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.theater
-        volume_level: .5
+        volume_level: .7
     - service: media_player.play_media
       entity_id: media_player.theater
       data:
@@ -785,7 +785,7 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.theater
-        volume_level: .5
+        volume_level: .7
     - service: media_player.play_media
       entity_id: media_player.theater
       data:
@@ -832,11 +832,11 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.theater
-        volume_level: .5
+        volume_level: .7
     - service: media_player.play_media
       entity_id: media_player.theater
       data:
-        media_content_id: http://192.168.7.40/audio/welcome_show_crowd.mp3
+        media_content_id: http://192.168.7.40/audio/welcome_show.mp3
         media_content_type: "music"
   
   holiday_wishes_preshow:
