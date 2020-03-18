@@ -25,6 +25,9 @@ input_boolean:
   freeze_warning:
     name: Freeze Warning
     icon: mdi:snowflake-alert
+  weather_alert_texts:
+    name: Weather Alert Texts
+    icon: mdi:telegram
 
 ### You first need to find either your NWS Zone ID or County ID. I’m not sure which is better but I used my Zone ID here.
 ### You can find your Zone ID by going to https://alerts.weather.gov/ 7, scroll down to your state and click on the “zone list” then look for the entry for your county.
@@ -90,6 +93,9 @@ automation:
         value_template: '{{states.sensor.nws_alerts.state | int > 0}}'
       - condition: template
         value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
+      - condition: state
+        entity_id: input_boolean.weather_alert_texts
+        state: 'on'
     action:
       - service: script.text_notify
         data_template:
