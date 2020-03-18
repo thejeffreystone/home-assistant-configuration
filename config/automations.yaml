@@ -108,6 +108,8 @@
     entity_id: scene.diminshed_livingroom_lighting
   - service: scene.turn_on
     entity_id: scene.diminished_kitchen_lighting
+  - service: scene.turn_on
+    entity_id: scene.jeff_night_light
   - service: alarm_control_panel.aarlo_set_mode
     data:
       entity_id: alarm_control_panel.aarlo_ah_base_station
@@ -136,7 +138,8 @@
         {{ [ 
           "Good Morning! Time to rise and shine at Anchorage House. ",
           "Good Morning from Anchorage House. Glad to see everyone made it. ", 
-          "Birds are awake, and so is Anchorage House. Good morning everyone! " 
+          "Birds are awake, and so is Anchorage House. Good morning everyone!, "
+          "Good morning. Anchorage House is up and online. " 
           ] | random }}
       image: >-
         {{ [ "/config/www/tweet_images/coffee.jpg",
@@ -216,33 +219,33 @@
   action:
   - service: scene.turn_on
     entity_id: scene.jeff_light_on
-- id: jeff_alarm
-  alias: Jeff alarm
-  initial_state: true
-  trigger:
-  - platform: time
-    at: 05:15:00
-  condition:
-  - condition: state
-    entity_id: input_boolean.vacation_mode
-    state: 'off'
-  action:
-  - service: scene.turn_on
-    entity_id: scene.jeff_night_light
+# - id: jeff_alarm
+#   alias: Jeff alarm
+#   initial_state: true
+#   trigger:
+#   - platform: time
+#     at: 05:15:00
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.vacation_mode
+#     state: 'off'
+#   action:
+#   - service: scene.turn_on
+#     entity_id: scene.jeff_night_light
 
-- id: jeff_wake_up
-  alias: Jeff wake up
-  initial_state: true
-  trigger:
-  - platform: time
-    at: 04:30:00
-  condition:
-  - condition: state
-    entity_id: input_boolean.vacation_mode
-    state: 'off'
-  action:
-  - service: scene.turn_on
-    entity_id: scene.jeff_wake_up
+# - id: jeff_wake_up
+#   alias: Jeff wake up
+#   initial_state: true
+#   trigger:
+#   - platform: time
+#     at: 04:30:00
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.vacation_mode
+#     state: 'off'
+#   action:
+#   - service: scene.turn_on
+#     entity_id: scene.jeff_wake_up
 
 - id: good_night
   alias: Good Night
@@ -261,6 +264,10 @@
     entity_id: switch.incense
   - service: switch.turn_off
     entity_id: switch.artemis
+  - service: switch.turn_off
+    entity_id: switch.forest
+  - service: switch.turn_off
+    entity_id: switch.living_room_fan
   - service: light.turn_off
     data:
       entity_id: light.kitchen_cabinet_lights
@@ -503,7 +510,7 @@
       data_template:
         time: > 
           {% if states.binary_sensor.workday_sensor.state == 'on' %}
-            04:30
+            05:00
           {% else %}
             07:15
           {% endif %}
@@ -582,6 +589,9 @@
   - condition: state
     entity_id: switch.living_room_fan
     state: 'off'
+  - above: '73'
+    condition: numeric_state
+    entity_id: sensor.upstairs_temperature
   action:
   - data:
       entity_id: switch.living_room_fan
@@ -598,6 +608,9 @@
   - condition: state
     entity_id: switch.upstairs_fan
     state: 'on'
+  - below: '72'
+    condition: numeric_state
+    entity_id: sensor.upstairs_temperature
   - condition: state
     entity_id: media_player.tsr_6750_a3ed2f
     state: 'off'
