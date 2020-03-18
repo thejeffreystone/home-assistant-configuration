@@ -31,6 +31,32 @@ input_boolean:
     name: Security Issue
     icon: mdi:alert-circle-outline
 
+sensor:
+  - platform: mqtt
+    name: "Kitchen Alarm Type"
+    state_topic: "zwave2mqtt/nodeID_19/113/1/0"
+    value_template: "{{ value }}"
+  - platform: mqtt
+    name: "Kitchen Alarm Level"
+    state_topic: "zwave2mqtt/nodeID_19/113/1/1"
+    value_template: "{{ value }}"
+  - platform: mqtt
+    name: "Kitchen Alarm Battery"
+    state_topic: "zwave2mqtt/nodeID_19/128/1/0"
+    value_template: "{{ value }}"
+  - platform: mqtt
+    name: "Garage Alarm Type"
+    state_topic: "zwave2mqtt/nodeID_30/113/1/0"
+    value_template: "{{ value }}"
+  - platform: mqtt
+    name: "Garage Alarm Level"
+    state_topic: "zwave2mqtt/nodeID_30/113/1/1"
+    value_template: "{{ value }}"
+  - platform: mqtt
+    name: "Garage Alarm Battery"
+    state_topic: "zwave2mqtt/nodeID_30/128/1/0"
+    value_template: "{{ value }}"
+
 automation:
   - id: enable_vacation_mode
     alias: Enable Vacation Mode
@@ -170,6 +196,7 @@ automation:
       data_template:
         speech_message: " the {{ trigger.to_state.attributes.friendly_name }} has been standing open for more than a minute."
         call_interuption: 1
+        call_snark_door_open: 1
     initial_state: true
 
   
@@ -191,6 +218,7 @@ automation:
       data_template:
         speech_message: "I have detected motion at the {{ trigger.to_state.attributes.friendly_name }}."
         call_interuption: 1
+        call_snark_door_motion: 1
     initial_state: true
   
   - id: garage_opened_night
@@ -335,6 +363,144 @@ automation:
             "I have enabled guest mode. ",
             "Guest Mode is on."
             ] | random }}
+  
+  - id: security_alarm_on
+    alias: Security alarm On
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.security_alarm
+      to: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.notification_security_alarm_audio
+  
+  - id: security_alarm_off
+    alias: Security alarm Off
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: sensor.security_alarm
+      to: 'off'
+    action:
+    - service: script.turn_off
+      entity_id: script.notification_security_alarm_audio
+    - service: media_player.media_stop
+      entity_id: media_player.theater
+
+  - id: Kitchen_Alarm_Smoke
+    alias: Kitchen Alarm Smoke
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: sensor.kitchen_alarm_type
+      to: '1'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.fire_alarm
+    - service: script.text_alert
+      data_template:
+        title: Security Alert - Smoke
+        message: Smoke Detected in Kitchen!!
+    - service: script.jarvis_alert
+      data_template:
+        message: Smoke Detected in Kitchen!
+    - delay:
+        seconds: 5
+    - service: script.fire_alarm
+    - delay:
+        seconds: 15
+    - service: notify.alexa_media_everywhere
+      data:
+        message: Smoke Detected in Kitchen
+        data:
+          type: announce
+
+
+  - id: Kitchen_Alarm_Co
+    alias: Kitchen Alarm CO
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: sensor.kitchen_alarm_type
+      to: '2'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.fire_alarm
+    - service: script.text_alert
+      data_template:
+        title: Security Alert - CO
+        message: CO Detected in Kitchen!!
+    - service: script.jarvis_alert
+      data_template:
+        message: Carbon Dioxide Detected in Kitchen!
+    - delay:
+        seconds: 5
+    - service: script.fire_alarm
+    - delay:
+        seconds: 15
+    - service: notify.alexa_media_everywhere
+      data:
+        message: Carbon Dioxide Detected in Garage
+        data:
+          type: announce
+
+  - id: Garage_Alarm_Smoke
+    alias: Garage Alarm Smoke
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: sensor.garage_alarm_type
+      to: '1'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.fire_alarm
+    - service: script.text_alert
+      data_template:
+        title: Security Alert - Smoke
+        message: Smoke Detected in Garage!!
+    - service: script.jarvis_alert
+      data_template:
+        message: Smoke Detected in Garage!
+    - delay:
+        seconds: 5
+    - service: script.fire_alarm
+    - delay:
+        seconds: 15
+    - service: notify.alexa_media_everywhere
+      data:
+        message: Smoke Detected in Garage
+        data:
+          type: announce
+
+  - id: Garage_Alarm_Co
+    alias: Garage Alarm CO
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: sensor.garage_alarm_type
+      to: '2'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.fire_alarm
+    - service: script.text_alert
+      data_template:
+        title: Security Alert - CO
+        message: CO Detected in Garage!!
+    - service: script.jarvis_alert
+      data_template:
+        message: Carbon dioxide Detected in Garage!
+    - delay:
+        seconds: 5
+    - service: script.fire_alarm
+    - delay:
+        seconds: 15
+    - service: notify.alexa_media_everywhere
+      data:
+        message: Carbon Dioxide Detected in Garage
+        data:
+          type: announce
+    
 
 script:
   lockdown_issue:
@@ -351,6 +517,23 @@ script:
       data_template:
         title: "Lockdown Issue!"
         message: "Doors are open and it appears everyone has left!"
+
+  fire_alarm:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.fire_alarm
+      state: "on"
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: .75
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/fire_alarm.mp3
+        media_content_type: "music"
 
   security_check_garage:
     sequence:
@@ -405,7 +588,17 @@ script:
 
   notification_security_alarm_audio:
     sequence:
-    - service: shell_command.security_alarm
+    - service: media_player.turn_on
+      entity_id: media_player.theater
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.theater
+        volume_level: .75
+    - service: media_player.play_media
+      entity_id: media_player.theater
+      data:
+        media_content_id: http://192.168.7.40/audio/security_siren.mp3
+        media_content_type: "music"
 
   vacation_canceled:
     sequence:
@@ -445,6 +638,7 @@ script:
      
   security_response:
     sequence:
+    - service: script.inside_all_on
     - delay:
         seconds: 15
     - service: script.jarvis_alert
