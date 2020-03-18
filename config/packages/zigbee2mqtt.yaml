@@ -19,7 +19,6 @@ sensor:
 automation:
   - id: enable_zigbee_join
     alias: Enable Zigbee joining
-    hide_entity: true
     trigger:
       platform: state
       entity_id: input_boolean.zigbee_permit_join
