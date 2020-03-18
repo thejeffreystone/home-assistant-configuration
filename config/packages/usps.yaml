@@ -51,10 +51,22 @@ automation:
       - service: script.ah_report
         data_template:
           usps: >-
-            {%- if states.sensor.usps_mail.state | int == 1 -%}
-              USPS is delivering {{ states.sensor.usps_mail.state }} piece of mail today.
+            {%- if states.sensor.usps_mail.state | int == 1 -%} 
+              {{ [ 
+                "USPS is delivering", 
+                "The postal service will be leaving",
+                "The nice lady in the mail truck is bringing us ",
+                "I have scanned the incoming mail, eliminated the junk, and determined there is"
+                  ] | random }}
+              {{ states.sensor.usps_mail.state }} piece of mail today.
             {%- else -%}
-              USPS is delivering {{ states.sensor.usps_mail.state }} pieces of mail today.
+              {{ [ 
+                "USPS is delivering", 
+                "The postal service will be leaving",
+                "The nice lady in the mail truck is bringing us ",
+                "I have scanned the incoming mail, eliminated the junk, and determined there are"
+                  ] | random }} 
+              {{ states.sensor.usps_mail.state }} pieces of mail today.
             {%- endif -%}
           call_interuption: 1
       - service: script.text_notify
