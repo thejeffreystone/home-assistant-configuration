@@ -386,6 +386,8 @@ automation:
       state: Home
     action:
       - service: script.family_is_home
+      - wait_template: >-
+          {{ states.binary_sensor.laundry_room_door.state == 'on' }}
       - service: script.ah_report
         data_template:
           call_interuption: 1
@@ -397,6 +399,12 @@ automation:
               person + " is in the neighborhood.",
               person + " is arriving.",
               "My sensors are picking up the presence of additional humans. " ~ person +" has been identified as home.",
+              "Welcome back home " ~ person,
+              "Guess who is home?" ~ person +" is!",
+              "I am sensing a disturbance in the force. "  ~ person +" must be home!",
+              person + " is now in the house.",
+              person ~ "! You are home!",
+              "I know a secret! "  ~ person +" is home!",
               person + " has finally made it home."
               ] | random }}
             {%- endmacro -%}
