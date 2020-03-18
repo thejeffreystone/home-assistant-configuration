@@ -7,8 +7,8 @@
 #     #  name: BoA
 #     #- symbol: INTC
 #     #  name: Intel
-#     - symbol: DIS
-#       name: Disney
+    # - symbol: DIS
+    #   name: Disney
 #     #- symbol: BKS 
 #     #  name: Barnes & Noble
 - platform: mqtt
