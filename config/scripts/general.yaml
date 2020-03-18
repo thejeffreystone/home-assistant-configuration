@@ -24,28 +24,19 @@ sunset_garage_open:
 
 inside_all_on:
   sequence:
-  - service: light.turn_on
-    data:
-      entity_id: light.tower_lamp_4
-  - service: light.turn_on
-    data:
-      entity_id: light.front_door_lamp
-  - service: switch.turn_on
-    data:
-      entity_id: switch.fireplace_lights
-  - service: light.turn_on
-    data:
-      entity_id: light.living_room_lamp
-  - service: light.turn_on
-    data:
-      entity_id: light.kitchen_light_strip
-  - service: light.turn_on
-    data:
-      entity_id: light.kitchen_cabinets
   - service: scene.turn_on
-    data:
-      entity_id: scene.livingroom_normal
-
+    entity_id: scene.normal_livingroom_lighting
+  - service: scene.turn_on
+    entity_id: scene.normal_kitchen_lighting
+  - service: switch.turn_on
+    entity_id: switch.fireplace_lights
+  - service: switch.turn_on
+    entity_id: switch.upstairs
+  - service: switch.turn_on
+    entity_id: switch.rail_lights
+  - service: scene.turn_on
+    entity_id: scene.jeff_light_on
+  
 inside_all_off:
   sequence:
   - data:
