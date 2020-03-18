@@ -385,7 +385,23 @@ automation:
                 "I already let my residents know that today is {{states.calendar.national_holidays.attributes.message}}. But I didn't want to leave you guys out. #nationalholiday #themoreyouknow",
                 "I hope you have a fun {{states.calendar.national_holidays.attributes.message}}. #nationalholiday #themoreyouknow"
               ] | random }}
-        
+  
+  - id: tweet_covid19_stats
+    alias: Tweet Some Covid Stats
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '09:00:00'
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "jeff"
+          title: "Covid-19 Update"
+          message: "In the last 24 hours there have been {{ states.sensor.covid19_confirmed.state | int - states.sensor.covid19_confirmed_stats.attributes.min_value | round }} new cases and {{ states.sensor.covid19_dead.state | int - states.sensor.covid19_deaths_stats.attributes.min_value | round }} more deaths. We now have {{ states.sensor.covid19_confirmed.state | round }} people that have been infected and {{ states.sensor.covid19_dead.state | round }} dead. That is an increase of {{ ((states.sensor.covid19_confirmed.state | int - states.sensor.covid19_confirmed_stats.attributes.min_value) / states.sensor.covid19_confirmed_stats.attributes.min_value * 100) | round }}% in infections and {{ ((states.sensor.covid19_dead.state | int - states.sensor.covid19_deaths_stats.attributes.min_value) / states.sensor.covid19_deaths_stats.attributes.min_value * 100) | round }}% in deaths. However, {{ states.sensor.covid19_recovered.state | int}} have also recovered."
+      - service: script.twitter_notify
+        data_template:
+          message: "In the last 24 hours in the US there have been {{ states.sensor.covid19_confirmed.state | int - states.sensor.covid19_confirmed_stats.attributes.min_value | round }} new cases and {{ states.sensor.covid19_dead.state | int - states.sensor.covid19_deaths_stats.attributes.min_value | round }} more deaths. We now have {{ states.sensor.covid19_confirmed.state | round }} people that have been infected and {{ states.sensor.covid19_dead.state | round }} dead. That is an increase of {{ ((states.sensor.covid19_confirmed.state | int - states.sensor.covid19_confirmed_stats.attributes.min_value) / states.sensor.covid19_confirmed_stats.attributes.min_value * 100) | round }}% in infections and {{ ((states.sensor.covid19_dead.state | int - states.sensor.covid19_deaths_stats.attributes.min_value) / states.sensor.covid19_deaths_stats.attributes.min_value * 100) | round }}% in deaths. However, {{ states.sensor.covid19_recovered.state | int}} have also recovered. #washyourhands"
+
   - id: new_ha_notification
     alias: New HA Notification
     initial_state: true
@@ -398,6 +414,3 @@ automation:
     - service: script.twitter_new_ha
     - service: ifttt.trigger
       data_template: {"event":"GitPost", "value1":"Home Assistant {{ states.binary_sensor.updater.attributes.newest_version }} is now available.", "value2":"{{ states.binary_sensor.updater.attributes.newest_version }}"}
-
-
-  

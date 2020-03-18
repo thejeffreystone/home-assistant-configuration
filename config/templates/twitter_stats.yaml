@@ -17,7 +17,6 @@
        "The HVAC has cooled the house for {{states.sensor.cooling_last_month.attributes.value}} and heated for {{states.sensor.heating_last_month.attributes.value}} in the last month",
        "The HVAC has cooled the house for {{states.sensor.cooling_last_day.attributes.value}} and heated for {{states.sensor.heating_last_day.attributes.value}} in the last 24 hours",
        "Clouds cover {{states.sensor.cloud_coverage_stats.attributes.mean | round}} of the sky above Anchorage House on average.",
-       "Look at that! Disney is currently {{ states.sensor.disney.state | round(2) }} a share. (https://github.com/thejeffreystone/alpha_vantage_to_mqtt)",
        "Amazon Polly enables me to sound more lifelike by incorporate breathing into my speech. #AWS"   
        ] | random -}}
   {%- endmacro -%}
