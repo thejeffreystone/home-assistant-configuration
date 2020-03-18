@@ -1,6 +1,24 @@
 - platform: mqtt
   name: "Washer Status"
   state_topic: "house/washer/status"
+- platform: mqtt
+  name: "COVID19 Confirmed"
+  state_topic: "covid/sensor/confirmed"
+- platform: mqtt
+  name: "COVID19 Recovered"
+  state_topic: "covid/sensor/recovered"
+- platform: mqtt
+  name: "COVID19 Dead"
+  state_topic: "covid/sensor/dead"
+- platform: mqtt
+  name: "COVID Old Confirmed"
+  state_topic: "covid/sensor/old-confirmed"
+- platform: mqtt
+  name: "COVID Old Dead"
+  state_topic: "covid/sensor/old-dead"
+- platform: mqtt
+  name: "COVID Old Recovered"
+  state_topic: "covid/sensor/old-recovered"
 - platform: history_stats
   name: Jeff Driving Time
   entity_id: sensor.jeff_driving
@@ -135,6 +153,41 @@
   - battery_level
   - captured_today
   - signal_strength
+- platform: statistics
+  name: covid confirmed
+  entity_id: sensor.us_coronavirus_confirmed
+  max_age:
+    hours: 24
+- platform: statistics
+  name: covid current
+  entity_id: sensor.us_coronavirus_current
+  max_age:
+    hours: 24
+- platform: statistics
+  name: covid deaths
+  entity_id: sensor.us_coronavirus_deaths
+  max_age:
+    hours: 24
+- platform: statistics
+  name: covid recovered
+  entity_id: sensor.us_coronavirus_recovered
+  max_age:
+    hours: 24
+- platform: statistics
+  name: covid19 confirmed stats
+  entity_id: sensor.covid19_confirmed
+  max_age:
+    hours: 24
+- platform: statistics
+  name: covid19 deaths stats
+  entity_id: sensor.covid19_dead
+  max_age:
+    hours: 24
+- platform: statistics
+  name: covid19 recovered stats
+  entity_id: sensor.covid19_recovered
+  max_age:
+    hours: 24
 - platform: template
   sensors:
     sensor_count:
@@ -174,8 +227,7 @@
         {{ states.camera | list | count }}
     hvac_action:
       friendly_name: 'HVAC Action'
-      entity_id: []
-      value_template: >-
-        {{states.climate.home.attributes.hvac_action}}
+      value_template: "{{states.climate.home.attributes.hvac_action}}"
+    
 
 
