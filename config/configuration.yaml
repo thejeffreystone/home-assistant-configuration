@@ -10,6 +10,7 @@ homeassistant:
     - type: homeassistant
   packages: !include_dir_named packages
 
+
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
@@ -90,10 +91,13 @@ aarlo:
   last_format: '%m-%d %H:%M'
   refresh_devices_every: 2
   
+speedtestdotnet:
+
 
 discovery:
   ignore:
     - igd
+    - homekit
 
 updater:
   include_used_components: true
@@ -190,6 +194,13 @@ proximity:
     unit_of_measurement: mi
   home_kat:
     devices:
+      - device_tracker.life360_kat_stone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+  home:
+    devices:
+      - device_tracker.life360_jeffrey_stone
       - device_tracker.life360_kat_stone
     zone: home
     tolerance: 5
