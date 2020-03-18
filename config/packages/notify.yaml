@@ -326,7 +326,8 @@ script:
                 'As Always, a great pleasure watching you work.',
                 'I am not even supposed to be here today.',
                 'You did not say the magic word.',
-                'Funny, I was just about to do that. '
+                'Funny, I was just about to do that.',
+                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
                 ] | random }}
           {% endmacro %}
 
@@ -338,7 +339,10 @@ script:
                 'I hate to interrupt, but.',
                 'I beg your pardon',
                 'I do not mean to intrude, but',
-                'I am sorry to interrupt, but.'
+                'I am sorry to interrupt, but.',
+                'I have just been notified,',
+                'I am sure you have been waiting for this, ',
+                'Just a quick heads up, '
                 ] | random }}
           {% endmacro %}
 
@@ -386,16 +390,16 @@ script:
 
             {% if now().strftime('%H')|int < 12 %}
               {% if now().strftime('%M')|int == 0 %}
-                It is now {{ now().strftime('%H')|int }} AM.
+                It is {{ now().strftime('%H')|int }} AM.
               {% else %}
-                It is now {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
+                It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
               {% endif %}
 
             {% elif now().strftime('%H')|int > 12 %}
               {% if now().strftime('%M')|int == 0 %}
-                It is now {{ now().strftime('%H')|int }} PM.
+                It is {{ now().strftime('%H')|int }} PM.
               {% else %}
-                It is now {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
+                It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
               {% endif %}
             
             {% else %}
@@ -477,12 +481,19 @@ script:
           {%- endmacro -%}
 
           {% macro current_conditions_outisde() %}
-            It is currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees according to Dark Sky. 
+            It is currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees in Grayson. 
             The back porch is {{states.sensor.accurite_back_porch_temperature.state|round}} degrees.
           {% endmacro %}
 
           {% macro current_conditions_inside() %}
-            The inside temperature is {{states.climate.home.attributes.current_temperature|round}} degrees. The Climate is currently set to {{states.climate.home.state}}.
+            The inside temperature is {{states.climate.home.attributes.current_temperature|round}} degrees. 
+            {{ [
+                'The Climate is currently set to ',
+                'The air is currently set to ',
+                'I have the internal cooling system to ',
+                'And the house is holding the temperature at '
+            ]|random }}
+              {{states.climate.home.state}}.
           {% endmacro %}
 
           {% macro current_conditions_garage() %}
@@ -574,13 +585,11 @@ script:
               There are only on sixty days until the next Disney Trip. 
             {% endif %}
             {% if states.sensor.trip_disney.state | int < 32 %}
-              There 
                 {% if states.sensor.trip_disney.state | int > 1 %}
-                  are
+                 There are {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
                 {% else %}
-                  is
+                 There is {{ states.sensor.trip_disney.state }} day until the next Disney Trip!
                 {% endif %}
-              {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
             {% endif %}
             {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
               Tomorrow is Jeff and Katherine's Wedding Anniversary. 
@@ -614,10 +623,10 @@ script:
               ] | random }} 
             If you go now there may be time for stories. Do not forget to brush your teeth. 
             {% if is_state('sensor.weekday', 'fri') %} 
-              Oh, and tomorrow is Saturday, so we can we sleep in.   
+              Oh, and tomorrow is Saturday, so we can sleep in.   
             {% endif %}
             {% if is_state('sensor.weekday', 'sat') %} 
-              Oh, and tomorrow is Sunday, so we can we sleep in.  
+              Oh, and tomorrow is Sunday, so we can sleep in.  
             {% endif %}  
           {% endmacro %}
 
@@ -661,9 +670,6 @@ script:
             {% endif %}
             {% if is_state('sensor.weekday', 'mon') %} 
               And you have The Little Gym today.  
-            {% endif %}
-            {% if is_state('sensor.weekday', 'wed') and is_state('calendar.school_holiday', 'off') %} 
-              And you have Game Time today.  
             {% endif %}
           {% endmacro %}
 
@@ -973,6 +979,30 @@ script:
               ] | random }}
           {%- endmacro -%}
 
+          {%- macro snark_door_motion() -%}
+            {{ [
+              'Do you want me to send them away?',
+              'I have armed the lasers. Just say the word.',
+              'I was not informed there would be guests.',
+              'They do not appear to have any gifts, so I suggest no opening the door.',
+              'My sensors have detected a meat popsicle.',
+              'I do not think they can hear me.'
+              ] | random }}
+          {%- endmacro -%}
+
+          {%- macro snark_door_open() -%}
+            {{ [
+              'Would you like me to calulate how much air condition is being wasted? Spoiler Alert. You are not going to like the answer.',
+              'I have detected a large number of insects entering the house.',
+              'Can a human be so kind and close it?',
+              'The air quality in this house has actually improved.',
+              'Closing the door would improve the security of the house.',
+              'Hey, The door was just opened and this is crazy. But now you know, so closed it maybe.'
+              ] | random }}
+          {%- endmacro -%}
+
+          
+
           {# ********************************************* #}
           {#  ******** Start the Speech routines ********  #}
           {# ********************************************* #}
@@ -1148,6 +1178,14 @@ script:
           {{ welcome_home }}  
 
           {{ speech_message }}
+
+          {% if call_snark_door_motion == 1 %}
+            {{ snark_door_motion() }}
+          {% endif %}
+
+          {% if call_snark_door_open == 1 %}
+            {{ snark_door_open() }}
+          {% endif %}
         
 
 ###############################################################################
