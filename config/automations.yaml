@@ -138,8 +138,8 @@
         {{ [ 
           "Good Morning! Time to rise and shine at Anchorage House. ",
           "Good Morning from Anchorage House. Glad to see everyone made it. ", 
-          "Birds are awake, and so is Anchorage House. Good morning everyone!, "
-          "Good morning. Anchorage House is up and online. " 
+          "Birds are awake, and so is Anchorage House. Good morning everyone!",
+          "Good morning. Anchorage House is up and online." 
           ] | random }}
       image: >-
         {{ [ "/config/www/tweet_images/coffee.jpg",
@@ -304,7 +304,11 @@
       tweet: >-
         {{ [ 
           "Its getting dark at Anchorage House, so Im turning on the outside lights. ", 
-          "When the Sun goes down, I help out by turning on the outside lights. Its the little things. ", 
+          "When the Sun goes down, I help out by turning on the outside lights. Its the little things. ",
+          "Switching to dark mode!",
+          "It is time to turn on the outside lights. You know...so bugs no where to die.",
+          "Anchorage House is switching to night mode!",
+          "Anchorage House is going to the darkside. Of the planet that is. So the lights are on.",
           "Its getting dark so let me spell out my name...Wait. Did I break into a random #Hamilton song? Pardon me. umm. I just turned on the outside lights at Anchorage House. " 
           ] | random }}
       image: >-
@@ -346,7 +350,10 @@
         {{ [ 
           "The sun is up at Anchorage House, so Im turning off the outside lights. ", 
           "I see the sun! Time to turn off the outside lights at Anchorage House. ", 
-          "Dawn has broken at Anchorage House. Turning off the outside lights." 
+          "Dawn has broken at Anchorage House. Turning off the outside lights.",
+          "Anchorage house has converted to the lightside after a few hours on the darkside. I think its safe to turn off the lights.",
+          "Light mode activated! So that means I'm turning off the outside lights."
+
           ] | random }}
       image: >-
         {{ [ "/config/www/tweet_images/sunrise.jpg",
