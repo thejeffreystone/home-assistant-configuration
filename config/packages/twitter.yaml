@@ -40,8 +40,8 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_snark
 
-  - id: tweet_some_snark
-    alias: Tweet Some Snark
+  - id: tweet_some_snark2
+    alias: Tweet Some Snark Again
     initial_state: true
     trigger:
     - platform: time
