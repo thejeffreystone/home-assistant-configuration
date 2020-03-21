@@ -279,7 +279,9 @@
       tweet: >-
         {{ [ 
           "Good Night from Anchorage House. ", 
-          "Time to shut down this party. Good Night from Anchorage House. ", 
+          "Time to shut down this party. Good Night from Anchorage House. ",
+          "I'm feeling tired. Think I'll take a quick nap. Good Night!",
+          "Things are getting quiet. Time to say Good Night.",
           "We have come to the end of our broadcast day. Oh, who am I kidding. I''ll be up all night watching over Anchorage House. " 
           ] | random }}
       image: >-
@@ -306,7 +308,7 @@
           "Its getting dark at Anchorage House, so Im turning on the outside lights. ", 
           "When the Sun goes down, I help out by turning on the outside lights. Its the little things. ",
           "Switching to dark mode!",
-          "It is time to turn on the outside lights. You know...so bugs no where to die.",
+          "It is time to turn on the outside lights. You know...so bugs know where to die.",
           "Anchorage House is switching to night mode!",
           "Anchorage House is going to the darkside. Of the planet that is. So the lights are on.",
           "Its getting dark so let me spell out my name...Wait. Did I break into a random #Hamilton song? Pardon me. umm. I just turned on the outside lights at Anchorage House. " 
