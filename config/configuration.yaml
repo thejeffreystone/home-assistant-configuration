@@ -90,6 +90,7 @@ aarlo:
   recent_time: 10
   last_format: '%m-%d %H:%M'
   refresh_devices_every: 2
+  verbose_debug: True
   
 speedtestdotnet:
 
