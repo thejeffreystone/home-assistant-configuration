@@ -73,8 +73,22 @@ automation:
         data_template:
           who: "jeff"
           title: "Audio Issue"
-          message: "HA Audioble Notifications turning off due to Chromecast Issue"
+          message: "HA Audible Notifications turning off due to Chromecast Issue"
 
+  - id: audio_isssue_cleared
+    alias: Audio Issue Cleared
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: media_player.theater
+      from: 'unavailable'
+      to: 'off'
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "jeff"
+          title: "Audio Issue Cleared"
+          message: "Main hromecast is back on"
 
 
   
