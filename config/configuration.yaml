@@ -83,6 +83,7 @@ alarm_control_panel:
 
 # Using the HACS Arlo Integration 
 aarlo:
+  host: https://my.arlo.com
   username: !secret arlo_user
   password: !secret arlo_pass
   db_motion_time: 30
@@ -175,6 +176,7 @@ tplink:
     - host: 192.168.7.107
     - host: 192.168.7.116
     - host: 192.168.7.120
+    - host: 192.168.7.136
 
 ifttt:
   key: !secret IFTTT_API_KEY 
