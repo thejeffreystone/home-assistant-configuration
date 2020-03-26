@@ -19,6 +19,48 @@
 - platform: mqtt
   name: "COVID Old Recovered"
   state_topic: "covid/sensor/old-recovered"
+- platform: mqtt
+  name: "COVID PV Confirmed"
+  state_topic: "covid/sensor/previous_confirmed"
+- platform: mqtt
+  name: "COVID PV Dead"
+  state_topic: "covid/sensor/previous_dead"
+- platform: mqtt
+  name: "COVID PV Recovered"
+  state_topic: "covid/sensor/previous_recovered"
+- platform: mqtt
+  name: "COVID PV New Cases"
+  state_topic: "covid/sensor/previous_new_cases"
+- platform: mqtt
+  name: "COVID PV New Dead"
+  state_topic: "covid/sensor/previous_new_deaths"
+- platform: mqtt
+  name: "COVID PV Active"
+  state_topic: "covid/sensor/previous_active_cases"
+- platform: mqtt
+  name: "COVID PV Critical"
+  state_topic: "covid/sensor/previous_critical_cases"
+- platform: mqtt
+  name: "COVID Current Confirmed"
+  state_topic: "covid/sensor/current_confirmed"
+- platform: mqtt
+  name: "COVID Current Dead"
+  state_topic: "covid/sensor/current_dead"
+- platform: mqtt
+  name: "COVID Current Recovered"
+  state_topic: "covid/sensor/current_recovered"
+- platform: mqtt
+  name: "COVID Current New Cases"
+  state_topic: "covid/sensor/current_new_cases"
+- platform: mqtt
+  name: "COVID Current New Dead"
+  state_topic: "covid/sensor/current_new_deaths"
+- platform: mqtt
+  name: "COVID Current Active"
+  state_topic: "covid/sensor/current_active_cases"
+- platform: mqtt
+  name: "COVID Current Critical"
+  state_topic: "covid/sensor/current_critical_cases"
 - platform: history_stats
   name: Jeff Driving Time
   entity_id: sensor.jeff_driving
