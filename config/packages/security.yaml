@@ -30,6 +30,10 @@ input_boolean:
   security_issue:
     name: Security Issue
     icon: mdi:alert-circle-outline
+  dog_mode:
+    name: Dog Mode
+    icon: mdi:dog-side
+
 
 sensor:
   - platform: mqtt
@@ -262,6 +266,9 @@ automation:
     - condition: state
       entity_id: input_boolean.sentry_mode
       state: 'on'
+    - condition: state
+      entity_id: input_boolean.dog_mode
+      state: 'off'
     action:
     - service: script.jarvis_alert
       data_template:
@@ -363,6 +370,20 @@ automation:
             "I have enabled guest mode. ",
             "Guest Mode is on."
             ] | random }}
+
+  - id: dog_mode_deactivated
+    alias: Dog mode Deactivated
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.dog_mode
+      to: 'on'
+    action:
+    - delay:
+        minutes: 20
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.dog_mode
+    
   
   - id: security_alarm_on
     alias: Security alarm On
