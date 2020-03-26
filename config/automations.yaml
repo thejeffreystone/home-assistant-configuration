@@ -519,7 +519,7 @@
       data_template:
         time: > 
           {% if states.binary_sensor.workday_sensor.state == 'on' %}
-            05:00
+            06:00
           {% else %}
             07:15
           {% endif %}
@@ -535,9 +535,9 @@
       data_template:
         time: > 
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            06:00
+            07:15
           {% elif states.binary_sensor.workday_sensor.state == 'on' %}
-            06:30
+            07:15
           {% else %}
             07:25
           {% endif %}
