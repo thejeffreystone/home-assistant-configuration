@@ -170,10 +170,10 @@ automation:
       - condition: or
         conditions:
         - condition: state
-          entity_id: media_player.theater
+          entity_id: media_player.ha_speaker
           state: 'idle'
         - condition: state
-          entity_id: media_player.theater
+          entity_id: media_player.ha_speaker
           state: 'off'
     action:
     - service: script.door_chime
@@ -307,7 +307,7 @@ automation:
     - service: script.turn_off
       entity_id: script.security_response
     - service: media_player.media_stop
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
     - service: scene.turn_on
       entity_id: scene.lr_red
     - service: script.livingroom_lamps_on
@@ -407,7 +407,7 @@ automation:
     - service: script.turn_off
       entity_id: script.notification_security_alarm_audio
     - service: media_player.media_stop
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
 
   - id: Kitchen_Alarm_Smoke
     alias: Kitchen Alarm Smoke
@@ -545,13 +545,13 @@ script:
       entity_id: input_boolean.fire_alarm
       state: "on"
     - service: media_player.turn_on
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         volume_level: .75
     - service: media_player.play_media
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       data:
         media_content_id: http://192.168.7.40/audio/fire_alarm.mp3
         media_content_type: "music"
@@ -610,13 +610,13 @@ script:
   notification_security_alarm_audio:
     sequence:
     - service: media_player.turn_on
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         volume_level: .75
     - service: media_player.play_media
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       data:
         media_content_id: http://192.168.7.40/audio/security_siren.mp3
         media_content_type: "music"
@@ -703,13 +703,13 @@ script:
     - delay:
         seconds: 15
     - service: media_player.turn_on
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         volume_level: .5
     - service: media_player.play_media
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       data:
         media_content_id: http://192.168.7.40/audio/security_siren.mp3
         media_content_type: "music"

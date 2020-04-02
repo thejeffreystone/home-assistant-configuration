@@ -22,6 +22,15 @@ sunset_garage_open:
     state: 'on'
   - service: script.driveway_all_on
 
+turn_on_ha_speaker:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.audible_notifications
+    state: 'off'
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.audible_notifications
+
+
 inside_all_on:
   sequence:
   - service: scene.turn_on
@@ -146,7 +155,7 @@ chromecast_media_stop:
   sequence:
   - service: media_player.media_stop
     data:
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
 
 appliances_on:
   sequence:

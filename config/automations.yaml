@@ -380,9 +380,9 @@
     event: sunrise
     offset: 00:30:00
   condition:
-  - condition: numeric_state
-    entity_id: sensor.dark_sky_cloud_coverage
-    below: 50
+  - condition: state
+    entity_id: sensor.nws_current_condition
+    state: "cloudy"
   action:
   - service: script.inside_all_off
   - service: scene.turn_on
@@ -426,8 +426,7 @@
   - platform: time
     at: 06:40:00
   action:
-  - entity_id: input_boolean.audible_notifications
-    service: input_boolean.turn_on
+  - service: script.turn_on_ha_speaker
 - id: jeff_eta_home
   alias: Jeff eta home
   initial_state: true
@@ -667,14 +666,14 @@
 #   alias: Turn Off HA Speaker
 #   trigger:
 #   - platform: state
-#     entity_id: media_player.theater
+#     entity_id: media_player.ha_speaker
 #     from: 'playing'
 #     to: 'idle'
 #   action:
 #   - service: switch.turn_off
 #     entity_id: switch.ha_speaker
 #   - service: media_player.turn_off
-#     entity_id: media_player.theater
+#     entity_id: media_player.ha_speaker
 #   - service: script.kill_this_ride
 #   initial_state: true
 

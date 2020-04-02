@@ -41,7 +41,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       to: 'playing'
     condition:
     - condition: state 
@@ -63,10 +63,10 @@ script:
       state: Home
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         volume_level: .5
     - service: media_player.play_media
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       data:
         media_content_id: http://192.168.7.40/audio/haunted_mansion_preshow_full.mp3
         media_content_type: "music"
