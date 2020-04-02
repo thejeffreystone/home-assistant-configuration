@@ -37,9 +37,6 @@ livingroom_lamps_on:
       - condition: state  
         entity_id: sun.sun
         state: 'below_horizon'
-      - condition: numeric_state  
-        entity_id: sensor.dark_sky_cloud_coverage
-        above: 70
   - service: scene.turn_on 
     entity_id: scene.normal_livingroom_lighting
 
@@ -51,9 +48,6 @@ livingroom_lamps_off:
       - condition: state  
         entity_id: sun.sun
         state: 'above_horizon'
-      - condition: numeric_state  
-        entity_id: sensor.dark_sky_cloud_coverage
-        below: 70
   - service: group.turn_off 
     entity_id: group.livingroom_lamps
   
