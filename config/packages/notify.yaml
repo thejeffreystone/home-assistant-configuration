@@ -64,8 +64,12 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       to: 'unavailable'
+    condition:
+    - condition: state
+      entity_id: binary_sensor.day
+      state: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.audible_notifications
@@ -80,15 +84,20 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
       from: 'unavailable'
       to: 'off'
+    condition:
+    - condition: state
+      entity_id: binary_sensor.day
+      state: 'on'
     action:
       - service: script.text_notify
         data_template:
           who: "jeff"
           title: "Audio Issue Cleared"
           message: "Main hromecast is back on"
+      - service: script.turn_on_ha_speaker
 
 
   
@@ -213,10 +222,10 @@ script:
         payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | truncate(220)}}'
         retain: true
     - service: media_player.turn_on
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         volume_level: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
           .50
@@ -228,7 +237,7 @@ script:
       data_template:
         entity_id: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.theater
+          media_player.ha_speaker
           {% else %}
           media_player.house
           {% endif %}
@@ -292,10 +301,10 @@ script:
     # - service: switch.turn_on 
     #   entity_id: switch.ha_speaker 
     - service: media_player.turn_on
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         volume_level: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
           .65
@@ -307,7 +316,7 @@ script:
       data_template:
         entity_id: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.theater
+          media_player.ha_speaker
           {% else %}
           media_player.house
           {% endif %}
@@ -441,23 +450,27 @@ script:
 
             {% endif %}
 
+
+
           {% endmacro %}
 
           {% macro weather_alerts() %}
-            There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
-            The National Weather Service Has issued,
-            {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-              a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-             a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-              a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-              a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-              a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
-            {% else %}
-              a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
+            {% if states.sensor.nws_alerts.state | int > 0 %}
+              There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
+              The National Weather Service Has issued,
+              {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
+                a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
+              {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
+              a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
+              {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
+                a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
+              {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
+                a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
+              {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
+                a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
+              {% else %}
+                a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
+              {% endif %}
             {% endif %}
           {% endmacro %}
 
@@ -469,7 +482,7 @@ script:
               Merry Christmas Everyone!
             {% endif %}
             {% if is_state('sensor.anniversary_our_wedding','0') %}
-              Happy Anniversary! It has been an amazing {{ states.sensor.anniversary_our_wedding.attributes.years }} years!
+              Happy Anniversary! It been an amazing {{ states.sensor.anniversary_our_wedding.attributes.years }} years!
             {% endif %}
             {% if is_state('calendar.holidays_in_united_states', 'on') %}
               Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
@@ -492,7 +505,7 @@ script:
                 'You should tell someone it is ',
                 'Everyday can be a holiday. So today is '
             ]|random }}
-            {{states.calendar.national_holidays.attributes.message}}.
+            {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
             {{ [
                 'We should celebrate.',
                 'I will leave the party planning up to <emphasis>you</emphasis>',
@@ -515,8 +528,13 @@ script:
             ]|random }}
           {%- endmacro -%}
 
-          {% macro current_conditions_outisde() %}
-            It is currently {{states.sensor.dark_sky_summary.state}} and {{states.sensor.dark_sky_temperature.state|round}} degrees in Grayson. 
+          {% macro current_conditions_outside() %}
+            {{ [
+                'According to the National Weather Service,',
+                'Checking my weather sensors,',
+                'Looking outside,'
+            ]|random }}
+            It is currently {{states.weather.home_2.state}} and {{states.nws_current_temperature.state|round}} degrees in Grayson. 
             The back porch is {{states.sensor.accurite_back_porch_temperature.state|round}} degrees.
           {% endmacro %}
 
@@ -536,20 +554,28 @@ script:
           {% endmacro %}
 
           {% macro daily_forecast() %}
-            The rest of the day should be {{states.sensor.dark_sky_summary_0d.state}} with a high of {{states.sensor.dark_sky_daytime_high_temperature_0d.state|round}} degrees. There is a {{states.sensor.dark_sky_precip_probability_0d.state|round}} percent chance of rain.  
+            {{ [
+                'The National Weather Service says,',
+                'According to the latest forecast,'
+            ]|random }}
+            The rest of the day should be {{ states.sensor.nws_current_forecast.state }} 
           {% endmacro %}
 
           {% macro overnight_forecast() %}
-            The low tonight will be {{states.sensor.dark_sky_overnight_low_temperature_0d.state | round}} degrees and there is a {{states.sensor.dark_sky_precip_probability_0d.state|round}} percent chance of rain. 
+            {{ [
+                'Tonight we can expect,',
+                'According to tonights forecast we can expect,'
+            ]|random }}
+            {{ states.sensor.nws_overnight_forecast.state }} 
           {% endmacro %}
 
           {% macro future_forecast() %}
 
-            {{ [ 'Looking into the future you can expect, ',
-                  ' According to the forecast, there might be ',
-                  'If you have not seen the forecast, you might want to plan for '
+            {{ [ 'Looking into the future plan for tomorrow to be, ',
+                  ' According to tomorrows forecast we can expect it to be, ',
+                  'If you have not seen tomorrows forecast it is expected to be, '
             ] | random }} 
-            {{states.sensor.dark_sky_daily_summary.state}}.
+            {{states.sensor.nws_future_forecast.state}}.
           {% endmacro %}
 
           {% macro freeze_warning() %}
@@ -1036,192 +1062,199 @@ script:
               ] | random }}
           {%- endmacro -%}
 
-          
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+          {%- macro cleanup(data) -%}
+            {%- for item in data.split("\n")  if item | trim != "" -%}
+              {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
 
           {# ********************************************* #}
           {#  ******** Start the Speech routines ********  #}
           {# ********************************************* #}
-          
-          {% if call_greeting == 1 %}
-            {{ greeting() }}
-          {% endif %}
-
-          {% if call_confirmation == 1 %}
-            {{ confirmation() }}
-          {% endif %}
-
-          {% if call_interuption == 1 %}
-            {{ interuption() }}
-          {% endif %}
-
-          {% if call_issue == 1 %}
-            {{ issue() }}
-          {% endif %}
-
-          {% if call_morning_greeting == 1 %}
-            {{ morning_greeting() }}
-          {% endif %}
-
-          {% if call_evening_greeting == 1 %}
-            {{ evening_greeting() }}
-          {% endif %}
-
-          {% if call_time_annc == 1 %}
-            {{ time_annc() }}
-          {% endif %}
-
-          {% if states.sensor.nws_alerts.state | int > 0 and call_weather_alerts == 1 %}
-            {{ weather_alerts() }}
-          {% endif %}
-
-          {% if call_todays_events == 1 %}
-            {{ todays_events() }}
-          {% endif %}
-
-          {% if call_dark_outside == 1 %}
-            {{ dark_outside() }}
-          {% endif %}
-
-          {% if call_current_conditions_outside == 1 %}
-            {{ current_conditions_outside() }}
-          {% endif %}
-
-          {% if call_current_conditions_inside == 1 %}
-            {{ current_conditions_inside() }}
-          {% endif %}
-
-          {% if call_current_conditions_garage == 1 %}
-            {{ current_conditions_garage() }}
-          {% endif %}
-
-          {% if call_daily_forecast == 1 %}
-            {{ daily_forecast() }}
-          {% endif %}
-
-          {% if call_overnight_forecast == 1 %}
-            {{ overnight_forecast() }}
-          {% endif %}
-
-          {% if call_future_forecast == 1 %}
-            {{ future_forecast() }}
-          {% endif %}
-
-          {% if call_freeze_warning == 1 %}
-            {{ freeze_warning() }}
-          {% endif %}
-
-          {% if call_upcoming_birthdays == 1 %}
-            {{ upcoming_birthdays() }}
-          {% endif %}
-
-          {% if call_upcoming_holidays == 1 %}
-            {{ upcoming_holidays() }}
-          {% endif %}
-
-          {% if call_upcoming_events == 1 %}
-            {{ upcoming_events() }}
-          {% endif %}
-
-          {% if call_skylar_dressed == 1 %}
-            {{ skylar_dressed() }}
-          {% endif %}
-
-          {% if call_prebed_routine == 1 %}
-            {{ prebed_routine() }}
-          {% endif %}
-
-          {% if call_school_today == 1 %}
-            {{ school_today() }}
-          {% endif %}
-
-          {% if call_skylar_events == 1 %}
-            {{ skylar_events() }}
-          {% endif %}
-
-          {% if call_clothes_suggestion == 1 %}
-            {{ clothes_suggestion() }}
-          {% endif %}
-          
-          {% if call_school_holiday == 1 %}
-            {{ school_holiday() }}
-          {% endif %}	
-
-          {% if call_reminders == 1 %}
-            {{ reminders() }}
-          {% endif %}	  
-
-          {% if call_chores == 1 %}
-            {{ chores() }}
-          {% endif %}
-
-          {% if call_door_status == 1 %}
-            {{ door_status() }}
-          {% endif %}
-
-          {% if call_garage_door_status == 1 %}
-            {{ garage_door_status() }}
-          {% endif %}
-
-          {% if call_jeff_location == 1 %}
-            {{ jeff_location() }}
-          {% endif %}
-
-          {% if call_kat_location == 1 %}
-            {{ kat_location() }}
-          {% endif %}
-
-          {% if call_jeff_headed_home == 1 %}
-            {{ jeff_headed_home() }}
-          {% endif %}
-          
-          {% if call_kat_headed_home == 1 %}
-            {{ kat_headed_home() }}
-          {% endif %}
-
-          {% if call_traffic_conditions == 1 %}
-            {{ traffic_conditions() }}
-          {% endif %}
-
-          {{ usps }}
-
-          {% if call_iss == 1 %}
-            {{ iss() }}
-          {% endif %}
-
-          {% if call_full_moon == 1 %}
-            {% if is_state('sensor.moon', 'full_moon') %}
-              {{ full_moon() }}
+          {# a macro to call all macros :)  #}
+          {%- macro mother_of_all_macros() -%}
+            {% if call_greeting == 1 %}
+              {{ greeting() }}
             {% endif %}
-          {% endif %}
 
-          {% if call_security_report == 1 %}
-            {{ security_report() }}
-          {% endif %}
+            {% if call_confirmation == 1 %}
+              {{ confirmation() }}
+            {% endif %}
 
-          {% if call_washer_needs_emptying == 1 %}
-            {{ washer_needs_emptying() }}
-          {% endif %}
+            {% if call_interuption == 1 %}
+              {{ interuption() }}
+            {% endif %}
 
-          {% if call_house_party_protocol_enabled == 1 %}
-            {{ house_party_protocol_enabled() }}
-          {% endif %}
+            {% if call_issue == 1 %}
+              {{ issue() }}
+            {% endif %}
 
-          {% if call_house_party_protocol_disabled == 1 %}
-            {{ house_party_protocol_disabled() }}
-          {% endif %}
+            {% if call_morning_greeting == 1 %}
+              {{ morning_greeting() }}
+            {% endif %}
 
-          {{ welcome_home }}  
+            {% if call_evening_greeting == 1 %}
+              {{ evening_greeting() }}
+            {% endif %}
 
-          {{ speech_message }}
+            {% if call_time_annc == 1 %}
+              {{ time_annc() }}
+            {% endif %}
 
-          {% if call_snark_door_motion == 1 %}
-            {{ snark_door_motion() }}
-          {% endif %}
+            {% if states.sensor.nws_alerts.state | int > 0 and call_weather_alerts == 1 %}
+              {{ weather_alerts() }}
+            {% endif %}
 
-          {% if call_snark_door_open == 1 %}
-            {{ snark_door_open() }}
-          {% endif %}
-        
+            {% if call_todays_events == 1 %}
+              {{ todays_events() }}
+            {% endif %}
+
+            {% if call_dark_outside == 1 %}
+              {{ dark_outside() }}
+            {% endif %}
+
+            {% if call_current_conditions_outside == 1 %}
+              {{ current_conditions_outside() }}
+            {% endif %}
+
+            {% if call_current_conditions_inside == 1 %}
+              {{ current_conditions_inside() }}
+            {% endif %}
+
+            {% if call_current_conditions_garage == 1 %}
+              {{ current_conditions_garage() }}
+            {% endif %}
+
+            {% if call_daily_forecast == 1 %}
+              {{ daily_forecast() }}
+            {% endif %}
+
+            {% if call_overnight_forecast == 1 %}
+              {{ overnight_forecast() }}
+            {% endif %}
+
+            {% if call_future_forecast == 1 %}
+              {{ future_forecast() }}
+            {% endif %}
+
+            {% if call_freeze_warning == 1 %}
+              {{ freeze_warning() }}
+            {% endif %}
+
+            {% if call_upcoming_birthdays == 1 %}
+              {{ upcoming_birthdays() }}
+            {% endif %}
+
+            {% if call_upcoming_holidays == 1 %}
+              {{ upcoming_holidays() }}
+            {% endif %}
+
+            {% if call_upcoming_events == 1 %}
+              {{ upcoming_events() }}
+            {% endif %}
+
+            {% if call_skylar_dressed == 1 %}
+              {{ skylar_dressed() }}
+            {% endif %}
+
+            {% if call_prebed_routine == 1 %}
+              {{ prebed_routine() }}
+            {% endif %}
+
+            {% if call_school_today == 1 %}
+              {{ school_today() }}
+            {% endif %}
+
+            {% if call_skylar_events == 1 %}
+              {{ skylar_events() }}
+            {% endif %}
+
+            {% if call_clothes_suggestion == 1 %}
+              {{ clothes_suggestion() }}
+            {% endif %}
+            
+            {% if call_school_holiday == 1 %}
+              {{ school_holiday() }}
+            {% endif %}	
+
+            {% if call_reminders == 1 %}
+              {{ reminders() }}
+            {% endif %}	  
+
+            {% if call_chores == 1 %}
+              {{ chores() }}
+            {% endif %}
+
+            {% if call_door_status == 1 %}
+              {{ door_status() }}
+            {% endif %}
+
+            {% if call_garage_door_status == 1 %}
+              {{ garage_door_status() }}
+            {% endif %}
+
+            {% if call_jeff_location == 1 %}
+              {{ jeff_location() }}
+            {% endif %}
+
+            {% if call_kat_location == 1 %}
+              {{ kat_location() }}
+            {% endif %}
+
+            {% if call_jeff_headed_home == 1 %}
+              {{ jeff_headed_home() }}
+            {% endif %}
+            
+            {% if call_kat_headed_home == 1 %}
+              {{ kat_headed_home() }}
+            {% endif %}
+
+            {% if call_traffic_conditions == 1 %}
+              {{ traffic_conditions() }}
+            {% endif %}
+
+            {{ usps }}
+
+            {% if call_iss == 1 %}
+              {{ iss() }}
+            {% endif %}
+
+            {% if call_full_moon == 1 %}
+              {% if is_state('sensor.moon', 'full_moon') %}
+                {{ full_moon() }}
+              {% endif %}
+            {% endif %}
+
+            {% if call_security_report == 1 %}
+              {{ security_report() }}
+            {% endif %}
+
+            {% if call_washer_needs_emptying == 1 %}
+              {{ washer_needs_emptying() }}
+            {% endif %}
+
+            {% if call_house_party_protocol_enabled == 1 %}
+              {{ house_party_protocol_enabled() }}
+            {% endif %}
+
+            {% if call_house_party_protocol_disabled == 1 %}
+              {{ house_party_protocol_disabled() }}
+            {% endif %}
+
+            {{ welcome_home }}  
+
+            {{ speech_message }}
+
+            {% if call_snark_door_motion == 1 %}
+              {{ snark_door_motion() }}
+            {% endif %}
+
+            {% if call_snark_door_open == 1 %}
+              {{ snark_door_open() }}
+            {% endif %}
+          {%- endmacro -%}
+
+          {{- cleanup(mother_of_all_macros()) -}}
 
 ###############################################################################
 # Twitter
@@ -1281,7 +1314,7 @@ script:
       - service: script.ah_report
         data:
           call_weather_alerts: 1
-          call_current_conditions_outisde: 1
+          call_current_conditions_outside: 1
           call_current_conditions_inside: 1
           call_current_conditions_garage: 1
           call_daily_forecast: 1

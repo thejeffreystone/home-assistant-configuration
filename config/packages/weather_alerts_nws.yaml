@@ -227,7 +227,10 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: numeric_state
-        entity_id: sensor.dark_sky_overnight_low_temperature_0d
+        entity_id: sensor.nws_overnight_low
+        below: 35
+      - platform: numeric_state
+        entity_id: sensor.nws_current_temperature
         below: 35
     condition:
       - condition: state
@@ -241,14 +244,14 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: numeric_state
-        entity_id: sensor.accurite_back_porch_temperature
+        entity_id: sensor.nws_overnight_low
         above: 33
     condition:
       - condition: state
         entity_id: input_boolean.freeze_warning
         state: 'on'
       - condition: numeric_state
-        entity_id: sensor.dark_sky_overnight_low_temperature_0d
+        entity_id: sensor.nws_overnight_low
         above: 35
     action:
       - service: input_boolean.turn_off
@@ -276,7 +279,7 @@ automation:
     - service: script.turn_off
       entity_id: script.tornado_alarm
     - service: media_player.media_stop
-      entity_id: media_player.theater
+      entity_id: media_player.ha_speaker
   
 
 script:
@@ -304,14 +307,14 @@ script:
       - delay:
           seconds: 15
       - service: media_player.play_media
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         data:
           media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
           media_content_type: "music"
       - delay:
           seconds: 110
       - service: media_player.play_media
-        entity_id: media_player.theater
+        entity_id: media_player.ha_speaker
         data:
           media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
           media_content_type: "music"

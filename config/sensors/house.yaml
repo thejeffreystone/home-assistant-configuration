@@ -1,6 +1,13 @@
+# Sensor to get Flu near you: https://www.home-assistant.io/integrations/flunearyou/
+- platform: flunearyou
+
+# MQTT Sensor for Washing Machine Status. 
 - platform: mqtt
   name: "Washer Status"
   state_topic: "house/washer/status"
+
+# MQTT Sensor for getting Various COVID-19 Stats. Data is sourced from pythonn scripts scaping 
+# various COVID data sites running on a secondary machine.   
 - platform: mqtt
   name: "COVID19 Confirmed"
   state_topic: "covid/sensor/confirmed"
@@ -173,12 +180,24 @@
   duration:
     hours: 24
 - platform: statistics
-  name: Cloud Coverage Stats
-  entity_id: sensor.dark_sky_cloud_coverage
+  name: Wind Speed Stats
+  entity_id: sensor.nws_current_windspeed
   sampling_size: 500
 - platform: statistics
   name: Visibility Stats
-  entity_id: sensor.dark_sky_visibility
+  entity_id: sensor.nws_current_visibility
+  sampling_size: 500
+- platform: statistics
+  name: Temperature Stats
+  entity_id: sensor.nws_current_temperature
+  sampling_size: 500
+- platform: statistics
+  name: Humidity Stats
+  entity_id: sensor.nws_current_humidity
+  sampling_size: 500
+- platform: statistics
+  name: Washer Power Stats
+  entity_id: sensor.washer_power
   sampling_size: 500
 - platform: history_stats
   name: Cooling Last Month
@@ -271,5 +290,4 @@
       friendly_name: 'HVAC Action'
       value_template: "{{states.climate.home.attributes.hvac_action}}"
     
-
 

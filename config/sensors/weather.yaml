@@ -1,38 +1,39 @@
-- platform: darksky
-  api_key: !secret FORCAST_API_KEY
-  forecast:
-    - 0
-  monitored_conditions:
-    - summary
-    - icon
-    - nearest_storm_distance
-    - nearest_storm_bearing
-    - precip_type
-    - precip_intensity
-    - precip_probability
-    - temperature
-    - temperature_high
-    - temperature_low
-    - apparent_temperature
-    - dew_point
-    - wind_speed
-    - wind_bearing
-    - cloud_cover
-    - humidity
-    - pressure
-    - visibility
-    - ozone
-    - minutely_summary
-    - hourly_summary
-    - daily_summary
-    - precip_intensity_max
-  scan_interval:
-    # At least one of these must be specified:
-    days: 0
-    hours: 0
-    minutes: 5
-    seconds: 0
-    milliseconds: 0
+# REMOVING Darksky - Commented out to disable.
+# - platform: darksky
+#   api_key: !secret FORCAST_API_KEY
+#   forecast:
+#     - 0
+#   monitored_conditions:
+#     - summary
+#     - icon
+#     - nearest_storm_distance
+#     - nearest_storm_bearing
+#     - precip_type
+#     - precip_intensity
+#     - precip_probability
+#     - temperature
+#     - temperature_high
+#     - temperature_low
+#     - apparent_temperature
+#     - dew_point
+#     - wind_speed
+#     - wind_bearing
+#     - cloud_cover
+#     - humidity
+#     - pressure
+#     - visibility
+#     - ozone
+#     - minutely_summary
+#     - hourly_summary
+#     - daily_summary
+#     - precip_intensity_max
+#   scan_interval:
+#     # At least one of these must be specified:
+#     days: 0
+#     hours: 0
+#     minutes: 5
+#     seconds: 0
+#     milliseconds: 0
 ## Accurite 158 - Back Porch
 - platform: mqtt
   name: "Accurite Back Porch Temperature"
@@ -71,22 +72,79 @@
       friendly_name: "Clothing Forecast"
       unit_of_measurement: ''
       value_template: >-
-          {%- if states('sensor.dark_sky_daytime_high_temperature_0d')|float > 63 %}
-            {%- if states('sensor.dark_sky_daytime_high_temperature_0d')|float < 80 %}
+          {%- if states('sensor.nws_daytime_temperature')|float > 63 %}
+            {%- if states('sensor.nws_daytime_temperature')|float < 80 %}
               Nice
-            {% elif states('sensor.dark_sky_daytime_high_temperature_0d')|float > 95 %}
+            {% elif states('sensor.nws_daytime_temperature')|float > 95 %}
               Hot
             {% else %}
               Toasty
             {%- endif %}
-          {% elif states('sensor.dark_sky_daytime_high_temperature_0d')|float < 64 %}
-            {%- if states('sensor.dark_sky_daytime_high_temperature_0d')|float < 32 %}
+          {% elif states('sensor.nws_daytime_temperature')|float < 64 %}
+            {%- if states('sensor.nws_daytime_temperature')|float < 32 %}
               Freezing
-            {% elif states('sensor.dark_sky_daytime_high_temperature_0d')|float > 50 %}
+            {% elif states('sensor.nws_daytime_temperature')|float > 50 %}
               Chilly
             {% else %}
               Cold
             {%- endif %}
           {% else %}
            Unknown
+          {%- endif %}
+    nws_current_forecast:
+      friendly_name: 'Current Forecast'
+      value_template: "{{ states.weather.klzu.attributes.forecast[0].detailed_description }}"
+    nws_current_temperature:
+      friendly_name: 'Current Temperature'
+      value_template: "{{ states.weather.klzu.attributes.temperature }}"
+    nws_daytime_temperature:
+      friendly_name: 'Daytime Temperature'
+      value_template: >-
+          {% if states.weather.klzu.attributes.forecast[0].daytime == True %}
+            {{ states.weather.klzu.attributes.forecast[0].temperature }}
+          {% elif states.weather.klzu.attributes.forecast[1].daytime == True %}
+            {{ states.weather.klzu.attributes.forecast[1].temperature }}
+          {% endif %}
+    nws_current_condition:
+      friendly_name: 'Current Condition'
+      value_template: "{{ states.weather.klzu.state }}"
+    nws_current_humidity:
+      friendly_name: 'Current Humidity'
+      value_template: "{{ states.weather.klzu.attributes.humidity }}"
+    nws_current_visibility:
+      friendly_name: "Current Visability"
+      value_template: "{{ states.weather.klzu.attributes.visibility }}"
+    nws_current_windspeed:
+      friendly_name: "Current Windspeed"
+      value_template: "{{ states.weather.klzu.attributes.wind_speed }}"
+    nws_overnight_low:
+      friendly_name: "Overnight Low"
+      unit_of_measurement: ''
+      value_template: >-
+          {% if states.weather.klzu.attributes.forecast[0].daytime == False %}
+            {{ states.weather.klzu.attributes.forecast[0].temperature }}
+          {% elif states.weather.klzu.attributes.forecast[1].daytime == False %}
+            {{ states.weather.klzu.attributes.forecast[1].temperature }}
+          {% endif %}
+    nws_overnight_forecast:
+      friendly_name: "Overnight Forecast"
+      unit_of_measurement: ''
+      value_template: >-
+          {% if states.weather.klzu.attributes.forecast[0].daytime == False %}
+            {{ states.weather.klzu.attributes.forecast[0].detailed_description }}
+          {% elif states.weather.klzu.attributes.forecast[1].daytime == False %}
+            {{ states.weather.klzu.attributes.forecast[1].detailed_description }}
+          {% elif states.weather.klzu.attributes.forecast[2].daytime == False %}
+            {{ states.weather.klzu.attributes.forecast[2].detailed_description }}
+          {% endif %}
+    nws_future_forecast:
+      friendly_name: "Future Forecast"
+      unit_of_measurement: ''
+      value_template: >-
+          {%- if states.weather.klzu.attributes.forecast[1].daytime == True %}
+            {{ states.weather.klzu.attributes.forecast[1].detailed_description }} 
+            before becoming {{ states.weather.klzu.attributes.forecast[2].detailed_description }} tomorrow night 
+          {% elif states.weather.klzu.attributes.forecast[2].daytime == True %}
+            {{ states.weather.klzu.attributes.forecast[2].detailed_description }} 
+            before becoming {{ states.weather.klzu.attributes.forecast[3].detailed_description }} tomorrow night
           {%- endif %}

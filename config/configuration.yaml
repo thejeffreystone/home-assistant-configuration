@@ -45,9 +45,12 @@ wemo:
   - 192.168.7.99
 
 weather:
-  - platform: darksky
-    api_key: !secret darksky_api
-    name: Grayson
+  # REMOVING darksky integration since API is EOL in 18 months. Migrated to NWS
+  # - platform: darksky
+  #   api_key: !secret darksky_api
+  #   name: Grayson
+  - platform: nws
+    api_key: !secret nws_api_key
 
 conversation:
 
@@ -177,6 +180,7 @@ tplink:
     - host: 192.168.7.116
     - host: 192.168.7.120
     - host: 192.168.7.136
+    - host: 192.168.7.137
 
 ifttt:
   key: !secret IFTTT_API_KEY 
