@@ -78,7 +78,7 @@ automation:
         call_time_annc: 1
         call_weather_alerts: 1
         call_todays_events: 1
-        call_current_conditions_outisde: 1
+        call_current_conditions_outside: 1
         call_current_conditions_inside: 1
         call_daily_forecast: 1
         call_upcoming_birthdays: 1
