@@ -36,7 +36,7 @@ Hassio is the flavor of Home Assistant powering Anchorage House these days. Curr
 
 The old configurations are stored in branches for anyone that wants to see the previous iterations. However, the only branch guaranteed to work with the current version of Home Assistant is master.
 
-Read about the continuing work to automate **everything** over on my [blog](https://www.thejeffreystone.net). But be warned, it really hasn't been updated in a while, altrhough I hope to change that soon. Feel free to reach out if you have questions. I love this stuff. 
+Read about the continuing work to automate **everything** over on my [blog](https://www.jeffreystone.net). Feel free to reach out if you have questions. I love this stuff. 
 
 One last thing. Everything in this configuration is a combination of the things I want out of a home automation system flavored with the inspiration from others using Home Assistant. In some cases I took someone else's idea and made it my own, and in some I just completely stole it. So I would be remiss if I didn't acknowledge those that inpired this journey. If you like what you see here, please checkout their configs as well. I owe them thanks for sharing their work.   
 
