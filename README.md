@@ -15,11 +15,11 @@ You can also follow Anchorage House on Twitter [@anchoragehouse2](https://twitte
 
 When designing Anchorage House's automations I have made every effort to prioritize the solution based on the following three laws. 
 
-**Law 1: Every automation or action should be the result of a passive sensor or indirect action**.
+**First Law: Every automation or action should be the result of a passive sensor or indirect action**.
 
-**Law 2: An automation can be triggered by voice command only when Law 1 cannot be achieved**.
+**Second Law: An automation can be triggered by voice command only when Law 1 cannot be achieved**.
 
-**Law 3: An automation or action can be trigger by a physical switch or as the result of a direct iteraction only when Law 1 and Law 2 cannot be achieved.**
+**Third Law: An automation or action can be trigger by a physical switch or as the result of a direct iteraction only when Law 1 and Law 2 cannot be achieved.**
 
 <hr>
 
