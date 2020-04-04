@@ -48,6 +48,12 @@
   name: "COVID PV Critical"
   state_topic: "covid/sensor/previous_critical_cases"
 - platform: mqtt
+  name: "COVID Old New Count"
+  state_topic: "covid/sensor/old_new_cases"
+- platform: mqtt
+  name: "COVID Old Dead Count"
+  state_topic: "covid/sensor/old_new_dead"
+- platform: mqtt
   name: "COVID Current Confirmed"
   state_topic: "covid/sensor/current_confirmed"
 - platform: mqtt
@@ -289,5 +295,7 @@
     hvac_action:
       friendly_name: 'HVAC Action'
       value_template: "{{states.climate.home.attributes.hvac_action}}"
-    
+    today_is:
+      friendly_name: 'Today is'
+      value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}" 
 
