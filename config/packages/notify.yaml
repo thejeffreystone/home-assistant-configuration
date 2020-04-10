@@ -322,6 +322,7 @@ script:
           {% endif %}
         message: >-
           <speak>
+          <break time="2s"/>
           <amazon:auto-breaths>
             {{ message }}
           </amazon:auto-breaths>
@@ -450,7 +451,14 @@ script:
 
             {% endif %}
 
-
+            {{ [
+                'Today is ',
+                'If you have not been keeping track today is ',
+                'Do you know what day of the week it is? Today is',
+                'I hate to be the bearer of bad news, but today is ',
+                'Oh look, once again it is '
+            ]|random }}
+            {{states.sensor.today_is.state }}.
 
           {% endmacro %}
 
@@ -496,7 +504,6 @@ script:
             {%- set event=states.calendar.national_holidays.attributes.message %}
             {% if 'Day' in event and 'National' in event%}
               {{ [
-                'Today is ',
                 'And a very special Happy ',
                 'It is also ',
                 'Today is also known as ',
@@ -575,7 +582,12 @@ script:
                   ' According to tomorrows forecast we can expect it to be, ',
                   'If you have not seen tomorrows forecast it is expected to be, '
             ] | random }} 
-            {{states.sensor.nws_future_forecast.state}}.
+            {{states.sensor.nws_forecast_tomorrow.state}}.
+            {{ [ 'then tomorrow night should be, ',
+                  'then overnight it is expected, ',
+                  'before changing overnight to, '
+            ] | random }} 
+             {{states.sensor.nws_forecast_tomorrow_night.state}}. 
           {% endmacro %}
 
           {% macro freeze_warning() %}
@@ -664,10 +676,12 @@ script:
             {% if is_state('sensor.birthday_skylar', '0') %}
               Even birthday boys have to get dressed. So get to it. 
             {% else %} 
-              If you have not gotten dressed,
               {{ [ 'It is time to get dressed. ',
                 'It is time to put some real clothes on. ',
                 'it is now time to change your underwear.',
+                'You need to get dressed for the day.',
+                'If you have not gotten dressed it is that time.',
+                'We have reached that time during the day in which you should get dressed.'
               ] | random }} 
             {% endif %}
           {% endmacro %}
@@ -676,8 +690,8 @@ script:
             Skylar,  
             {{ [ 'It is time to get in the bath. ',
                 'You only have thirty minutes until bedtime. That means you should be heading for the bathtub. Time to get clean.',
-                'I cannot communicate with the bathtub, otherwise, I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
-                'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics, but in the mean time, <emphasis>you</emphasis> should start a bath.',
+                'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
+                'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics. But in the mean time, <emphasis>you</emphasis> should start a bath.',
                 'I hate to say it but, it is time to get cleaned up.',
                 'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. Bath time now, <emphasis>sir</emphasis>.',
                 'Tee Minus 30 minutes and counting until you should be off to sleep. Time to get cleaned up, and get your pajamas on.'
@@ -694,7 +708,7 @@ script:
 
           {% macro school_today() %}
             {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-              Because you have school today!
+              Because you have Digital Learning today!
               {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
                 And guess what? It is early release!
               {% endif %}
@@ -725,13 +739,14 @@ script:
             {% endif %}
           {% endmacro %}
 
-          {% macro skylar_events() %} 
-            {% if is_state('calendar.skylar_events', 'on') %}
-              You have {{ states.calendar.skylar_events.attributes.message }} today as well!
-            {% endif %}
-            {% if is_state('sensor.weekday', 'mon') %} 
-              And you have The Little Gym today.  
-            {% endif %}
+          {% macro skylar_events() %}
+            # Event have been canceled due to Covid-19 
+            # {% if is_state('calendar.skylar_events', 'on') %}
+            #   You have {{ states.calendar.skylar_events.attributes.message }} today as well!
+            # {% endif %}
+            # {% if is_state('sensor.weekday', 'mon') %} 
+            #   And you have The Little Gym today.  
+            # {% endif %}
           {% endmacro %}
 
           {% macro clothes_suggestion() %}
@@ -748,7 +763,7 @@ script:
                 'a good day to be outside ',
                 'rather enjoyable outside ',
               ] | random }} 
-              today so I suggest wearing shorts.
+              today. So I suggest wearing shorts.
             {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
               It is going to be a 
               {{ [ 'bit warm ',
@@ -756,7 +771,7 @@ script:
                 'almost too hot outside ',
                 'a little warm ',
               ] | random }} 
-              today so I suggest wearing shorts. 
+              today. So I suggest wearing shorts. 
             {% elif is_state('sensor.clothing_forecast', 'Hot') %}
               It is going to be 
               {{ [ 'hot',
@@ -766,7 +781,7 @@ script:
                 'super hot ',
                 'hotter than the inside of a volcano '
               ] | random }} 
-              today so I suggest wearing shorts.
+              today. So I suggest wearing shorts.
             {% else %}
               It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
             {% endif %} 
@@ -1056,9 +1071,10 @@ script:
               'Would you like me to calulate how much air condition is being wasted? Spoiler Alert. You are not going to like the answer.',
               'I have detected a large number of insects entering the house.',
               'Can a human be so kind and close it?',
+              'Hey. The door was just opened and this is crazy. But now you know. So closed it maybe.',
               'The air quality in this house has actually improved.',
               'Closing the door would improve the security of the house.',
-              'Hey, The door was just opened and this is crazy. But now you know, so closed it maybe.'
+              'Hey. The door was just opened and this is crazy. But now you know. So closed it maybe.'
               ] | random }}
           {%- endmacro -%}
 
@@ -1298,6 +1314,18 @@ script:
       - service: notify.twitter
         data_template:
           message: !include ../templates/twitter_promos.yaml
+
+  twitter_selfpromos:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: !include ../templates/twitter_selfpromos.yaml
+
+  twitter_great_content:
+    sequence:
+      - service: notify.twitter
+        data_template:
+          message: !include ../templates/twitter_great_content.yaml
   
   twitter_new_ha:
     sequence:
