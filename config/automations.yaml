@@ -141,6 +141,9 @@
           "Birds are awake, and so is Anchorage House. Good morning everyone!",
           "Good morning. Anchorage House is up and online." 
           ] | random }}
+        {% if is_state('calendar.holidays_in_united_states', 'on') %}
+          Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
+        {% endif %}
       image: >-
         {{ [ "/config/www/tweet_images/coffee.jpg",
               "/config/www/tweet_images/coffee2.jpg"] | random }}
@@ -677,3 +680,11 @@
 #   - service: script.kill_this_ride
 #   initial_state: true
 
+- id: save_old_covid_stats
+  alias: Old Covid Stats archive
+  trigger:
+  - platform: time
+    at: '15:12:15'
+  action:
+  - service: script.save_old_covid_stats
+  initial_state: true
