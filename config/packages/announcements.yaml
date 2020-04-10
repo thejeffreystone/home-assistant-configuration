@@ -92,6 +92,9 @@ automation:
           conditions, and other things that ensure the residents of Anchorage House know what to expect today.",
                 "Time for the daily update. It was like that scene in Ironman where JARVIS gives the daily briefing but no one was listening. ",
                 "I have prepared a safety briefing to present to my residents but they would just ignore it.",
+                "Do you like to be prepared for the day? So do my residents. So I provided them with an update on whats happening today.",
+                "Sometimes I just like to be snarky, but this morning I decided to just tell everyone what is going on in the world.",
+                "#Homeassistant gives me the ability to make daily announcements like the one I just did using #Amazon Polly.",
                 "Each day at this time I provide the residents of this house an update that includes everything they need to know about the upcoming day. But with more snark."
              ] | random }}
   
@@ -113,7 +116,6 @@ automation:
     - service: script.ah_report
       data:
         call_interuption: 1
-        call_time_annc: 1
         call_skylar_dressed: 1
         call_school_today: 1
         call_skylar_events: 1
@@ -123,7 +125,7 @@ automation:
     alias: skylar morning alarm announcement
     trigger:
     - platform: time
-      at: '06:00:00'
+      at: '07:00:00'
     condition:
       condition: template
       value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
@@ -152,7 +154,7 @@ automation:
       data_template:
         time: >
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            06:30
+            07:25
           {% else %}
             07:58
           {% endif %}
@@ -168,8 +170,8 @@ automation:
       data_template:
         time: >
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            07:00
+            07:15
           {% else %}
-            07:45
+            08:30
           {% endif %}
           
