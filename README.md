@@ -9,9 +9,11 @@
 
 This repo contains the working [Home Assistant](https://home-assistant.io/) configuration for **Anchorage House**. Below are links to the devices currently being used, blog posts, and other HA enthusists that provided inspiration and configs to help build this config. All of the code is free to use.
 
-Be sure to follow me on twitter [@thejeffreystone](https://twitter.com/thejeffreystone) and on [YouTube](https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg) where I am starting to post videos of my Home Automation. 
+Be sure to follow me on twitter [@thejeffreystone](https://twitter.com/thejeffreystone) and on [YouTube](https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg) where I am starting to post videos of my Home Automation. I also post articles about this config and other Home Automation topics at [jeffreystone.net](https://jeffreystone.net)
 
-You can also follow Anchorage House on Twitter [@anchoragehouse2](https://twitter.com/anchoragehouse2) where it will tweets about the cool automations it does throughout the day.
+You can also follow Anchorage House on Twitter [@anchoragehouse2](https://twitter.com/anchoragehouse2) where it tweets about the cool stuff it does throughout the day as well as links to some of the best Home Assistent content creators out there.
+
+And of course, if you have hit that :star: at the top to follow this repo what are you waiting for? You can get updates right in your notification feed everytime I push updates. Which is at least once a week and some weeks quite a bit more.  
 
 #### Anchorage House's Three Laws of Home Automation 
 
@@ -22,6 +24,8 @@ When designing Anchorage House's automations I have made every effort to priorit
 **Second Law: An automation can be triggered by voice command only when Law 1 cannot be achieved**.
 
 **Third Law: An automation or action can be trigger by a physical switch or as the result of a direct iteraction only when Law 1 and Law 2 cannot be achieved.**
+
+For more about how they are used visit [https://jeffreystone.net/2020/04/02/the-three-laws-of-home-automation/](https://jeffreystone.net/2020/04/02/the-three-laws-of-home-automation/)
 
 <hr>
 
@@ -38,7 +42,7 @@ Hassio is the flavor of Home Assistant powering Anchorage House these days. Curr
 
 The old configurations are stored in branches for anyone that wants to see the previous iterations. However, the only branch guaranteed to work with the current version of Home Assistant is master.
 
-Read about the continuing work to automate **everything** over on my [blog](https://www.jeffreystone.net). Feel free to reach out if you have questions. I love this stuff. 
+Read about the continuing work to automate **everything** over on [jeffreystone.net](https://jeffreystone.net). Feel free to reach out if you have questions. I love this stuff. 
 
 One last thing. Everything in this configuration is a combination of the things I want out of a home automation system flavored with the inspiration from others using Home Assistant. In some cases I took someone else's idea and made it my own, and in some I just completely stole it. So I would be remiss if I didn't acknowledge those that inpired this journey. If you like what you see here, please checkout their configs as well. I owe them thanks for sharing their work.   
 
@@ -118,7 +122,7 @@ One last thing. Everything in this configuration is a combination of the things 
 <br />
 <a target="_blank" href="https://www.amazon.com/?&_encoding=UTF8&tag=thejeffreystone-20&linkCode=ur2&linkId=36476f43b573601a05b45e576b67ccd2&camp=1789&creative=9325">Find your next Home Automation device on Amazon using my affiliate link</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=thejeffreystone-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 <br />
-<a href="http://www.jeffreystone.net/pages/affiliate-disclosure.html">
+<a href="https://jeffreystone.net/affiliate-disclosure/">
 Affiliate Disclosure
 </a>
 </p>
