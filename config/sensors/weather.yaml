@@ -69,6 +69,11 @@
   name: "Accurite Garage lupdate"
   state_topic: "house/accurite-10968/lastupdate"
 
+- platform: statistics
+  name: Inside Humidity Stats
+  entity_id: sensor.current_inside_humidity
+  sampling_size: 500
+
 - platform: template
   sensors:
     clothing_forecast:
@@ -98,7 +103,7 @@
       friendly_name: 'Current Forecast'
       value_template: "{{ states.weather.klzu.attributes.forecast[0].detailed_description }}"
     nws_current_rain_forecast:
-      friendly_name: 'Current Rain Forecast'
+      friendly_name: 'Current Rain Chance'
       value_template: "{{ states.weather.klzu.attributes.forecast[0].precipitation_probability }}"
       unit_of_measurement: '%'
     nws_current_temperature:
@@ -182,3 +187,7 @@
           {% elif states.weather.klzu.attributes.forecast[2].daytime == True %}
             {{ states.weather.klzu.attributes.forecast[3].precipitation_probability  }}
           {%- endif %}
+    current_inside_humidity:
+      friendly_name: "Current Inside Humidity"
+      unit_of_measurement: '%'
+      value_template: "{{ states.climate.home.sattributes.current_humidity }}"
