@@ -48,9 +48,9 @@ weather:
   # REMOVING darksky integration since API is EOL in 18 months. Migrated to NWS
   # - platform: darksky
   #   api_key: !secret darksky_api
-  #   name: Grayson
   - platform: nws
     api_key: !secret nws_api_key
+    station: klzu
 
 conversation:
 
@@ -218,6 +218,30 @@ clean_up_snapshots_service:
   host: !secret snapshot_url
   token: !secret snapshot_token
   number_of_snapshots_to_keep: 3
+ 
+homekit:
+  filter:
+    include_domains:
+      - light
+    include_entities:
+      - switch.craft_room_fan
+      - switch.driveway_light
+      - switch.incense
+      - switch.living_room_fan
+      - switch.rail_lights
+      - switch.spotlight
+      - switch.upstairs
+      - switch.upstairs_fan
+      - switch.artemis
+      - switch.fireplace_lights
+      - switch.desk
+      - switch.forest
+      - switch.front_porch
+      - switch.ha_speaker
+      - input_boolean.house_party_protocol
+      - switch.christmas_tree
+      - switch.0xf0d1b80000052281_switch
+      
 
 ### Includes ###
 alert: !include_dir_merge_named alerts/
