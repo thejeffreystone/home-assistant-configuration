@@ -45,7 +45,7 @@ automation:
     initial_state: true
     trigger:
     - platform: time
-      at: '13:00:00'
+      at: '14:00:00'
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_snark
@@ -59,6 +59,16 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_stats
+  
+  - id: tweet_some_stats2
+    alias: Tweet Some Stats2
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '14:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_stats
 
   - id: tweet_some_promos
     alias: Tweet Some Promos
@@ -69,6 +79,31 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_promos
+
+  - id: tweet_some_promos2
+    alias: Tweet Some Promos2
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_selfpromos
+
+  # The whole purpose of this automation is to tweet out some links to great Home Assistant content. This is not sponsored in any way.
+  # I just wanted a way to give back to those I have borrowed from. Tweets ever Friday.
+  - id: tweet_some_great_content
+    alias: Tweet Some Great Content
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    condition:
+    - condition: time
+      weekday: fri
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_great_content
 
   - id: bot_info
     alias: Bot Info
@@ -93,26 +128,26 @@ automation:
             {{ [ "/config/www/tweet_images/robot1.jpg",
                     "/config/www/tweet_images/robot2.jpg"] | random }}
 
-  - id: net_speed_report
-    initial_state: true
-    alias: Network Speed Report
-    trigger:
-    - platform: time
-      at: '11:15:00'
-    action:
-    - service: script.twitter_notify_image
-      data_template:
-        tweet: >-
-          {{ [ "According to my latest speed tests Anchorage House is getting
-          {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
-          Mbps up thanks to #ATTFiber. ", "How fast is your internet? I just checked
-          am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
-          Mbps up. Beat that. ", "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
-          and is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
-          Mbps up." ] | random }}
-        image: >-
-          {{ [ "/config/www/tweet_images/speed.jpg",
-              "/config/www/tweet_images/fiber-optic.jpg"] | random }}
+  # - id: net_speed_report
+  #   initial_state: true
+  #   alias: Network Speed Report
+  #   trigger:
+  #   - platform: time
+  #     at: '11:15:00'
+  #   action:
+  #   - service: script.twitter_notify_image
+  #     data_template:
+  #       tweet: >-
+  #         {{ [ "According to my latest speed tests Anchorage House is getting
+  #         {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+  #         Mbps up thanks to #ATTFiber. ", "How fast is your internet? I just checked
+  #         am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+  #         Mbps up. Beat that. ", "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
+  #         and is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+  #         Mbps up." ] | random }}
+  #       image: >-
+  #         {{ [ "/config/www/tweet_images/speed.jpg",
+  #             "/config/www/tweet_images/fiber-optic.jpg"] | random }}
 
   - id: rex_manning_day_tweet_1
     alias: Rex Manning Day Tweet One
@@ -393,14 +428,14 @@ automation:
     - platform: time
       at: '09:00:00'
     action:
-      - service: script.text_notify
-        data_template:
-          who: "jeff"
-          title: "Covid-19 Update"
-          message: "Yesterday in the US there was {{ states.sensor.covid_pv_new_cases.state }} new cases of COVID-19 reported and {{ states.sensor.covid_pv_new_dead.state  }} more deaths. We now have a total of {{ states.sensor.covid_pv_confirmed.state }} people that have been infected and {{ states.sensor.covid_pv_dead.state }} that have died. So far {{ states.sensor.covid_pv_recovered.state }} have recovered, but {{ states.sensor.covid_pv_critical.state }} are in critical condition."
+      # - service: script.text_notify
+      #   data_template:
+      #     who: "jeff"
+      #     title: "Covid-19 Update"
+      #     message: "Yesterday in the US there was {{ states.sensor.covid_pv_new_cases.state }} new cases of COVID-19 reported and {{ states.sensor.covid_pv_new_dead.state  }} more deaths. We now have a total of {{ states.sensor.covid_pv_confirmed.state }} people that have been infected and {{ states.sensor.covid_pv_dead.state }} that have died. So far {{ states.sensor.covid_pv_recovered.state }} have recovered, but {{ states.sensor.covid_pv_critical.state }} are in critical condition."
       - service: script.twitter_notify
         data_template:
-          message: "Yesterday in the US there was {{ states.sensor.covid_pv_new_cases.state }} new cases of COVID-19 reported and {{ states.sensor.covid_pv_new_dead.state  }} more deaths. We now have a total of {{ states.sensor.covid_pv_confirmed.state }} people that have been infected and {{ states.sensor.covid_pv_dead.state }} that have died. So far {{ states.sensor.covid_pv_recovered.state }} have recovered, but {{ states.sensor.covid_pv_critical.state }} are in critical condition. #washyourhands"
+          message: "Yesterday in the US there were {{ states.sensor.covid_pv_new_cases.state }} new cases of COVID-19 reported and {{ states.sensor.covid_pv_new_dead.state  }} more deaths. We now have a total of {{ states.sensor.covid_pv_confirmed.state }} people that have been infected and {{ states.sensor.covid_pv_dead.state }} that have died. So far {{ states.sensor.covid_pv_recovered.state }} have recovered, but {{ states.sensor.covid_pv_critical.state }} are in critical condition. #worldometers"
 
   - id: new_ha_notification
     alias: New HA Notification

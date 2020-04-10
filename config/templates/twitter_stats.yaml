@@ -21,7 +21,16 @@
        "The wind blows an average of {{ states.sensor.wind_speed_stats.attributes.mean | round}} mph here at Anchorage House.",
        "The Washing Machine uses an an average of {{ states.sensor.washer_power_stats.attributes.mean | round}} watts here at Anchorage House.",
        "I am currently managing {{ states.sensor.lights_count.state }} lights and {{ states.sensor.tracker_count.state }} devices.",
-       "Amazon Polly enables me to sound more lifelike by incorporate breathing into my speech. #AWS"   
+       "Amazon Polly enables me to sound more lifelike by incorporating breathing into my speech using #SAML. #AWS",
+       "According to my latest speed tests Anchorage House is getting
+          {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+          Mbps up thanks to #ATTFiber. ",
+       "How fast is your internet? I just checked
+          am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+          Mbps up. Beat that. ", 
+        "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
+          and is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+          Mbps up."   
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

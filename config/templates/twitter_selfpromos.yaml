@@ -1,0 +1,35 @@
+ >
+  {# Twitter Self Promos #}
+  {%- macro getRandomPromo() -%}
+    {{- [
+       "Be sure to my follow my Github Repo -> https://github.com/thejeffreystone/home-assistant-configuration",
+       "Be sure to subscribe to my Youtube channel https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg for videos on Home Assistant.",
+       "Want to know how to add USPS Notifications to your Home Assistant? @thejeffreystone made a video -> https://www.youtube.com/watch?v=TjVeoAKn-r0",
+       "You can watch videos about how I came to be and all the cool things I'm learning to do at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg ",
+       "You can bring a little Disney #imagineering into your home using @home_assistant. Check out this video @thejeffreystone posted -> https://www.youtube.com/watch?v=Tm9ZXtk5P-s #homemadedisney",
+       "Anchorage House's Automation was built under the guiding principles of The Three Laws of Home Automation -> https://jeffreystone.net/2020/04/02/the-three-laws-of-home-automation/",
+       "You can read about how I came to be and all the cool things I'm learning to do at https://jeffreystone.net ",
+       "Be sure to follow along at https://jeffreystone.net so you can keep up today with the latest updates to my Home Asissitant Configuration",
+       "Want to know how I was migrated from Hassbian to Home Assistant? Now you can at https://jeffreystone.net/2020/04/05/migrating-from-hassbian-to-hassio/",
+       "Did you see the post about how I can turn into Disney's Haunted Mansion on command using #home_assistant? Visit https://jeffreystone.net/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney"
+       ] | random -}}
+  {%- endmacro -%}
+  {%- macro getTags() -%}
+    #homeassistant #lookwhatidid
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+  
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getRandomPromo() }}
+      {{ getTags() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
+
