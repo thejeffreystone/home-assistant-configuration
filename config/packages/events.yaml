@@ -4,6 +4,12 @@
 #   @package        :   Events
 #   @description    :   Special Events.
 ###############################################################################
+
+input_boolean:
+  rex_manning_audio:
+    name: Rex Manning audio
+    icon: mdi:speaker-wireless
+
 automation:
   - id: refresh_special_event_sensors
     alias: Refresh special event sensors
@@ -40,5 +46,50 @@ automation:
         type: trip
         date: !secret disney_trip
 
+  - id: rex_manning_audio
+    alias: Rex Manning Day Audio
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '14:00:00'
+    condition:
+    - condition: state
+      entity_id: calendar.anchorage_holidays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states.calendar.anchorage_holidays.attributes.message %}
+        {%- if event == 'Rex Manning Day' %}
+          true
+        {%- endif -%}
+    action:
+    - service: script.turn_on
+      entity_id: script.rex_manning_audio
+    - delay:
+        seconds: 40
+    - service: script.turn_off
+      entity_id: script.rex_manning_audio
+    - service: media_player.media_stop
+      entity_id: media_player.ha_speaker
   
-  
+script:
+
+  rex_manning_audio:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - service: media_player.turn_on
+      entity_id: media_player.ha_speaker
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.ha_speaker
+        volume_level: .4
+    - service: media_player.play_media
+      entity_id: media_player.ha_speaker
+      data:
+        media_content_id: http://192.168.7.40/audio/Rex_Manning_-_Say_No_More_Mon_Amour.mp3
+        media_content_type: "music"
