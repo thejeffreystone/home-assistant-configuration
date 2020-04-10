@@ -52,7 +52,7 @@
   state_topic: "covid/sensor/old_new_cases"
 - platform: mqtt
   name: "COVID Old Dead Count"
-  state_topic: "covid/sensor/old_new_dead"
+  state_topic: "covid/sensor/old_new_deaths"
 - platform: mqtt
   name: "COVID Current Confirmed"
   state_topic: "covid/sensor/current_confirmed"
