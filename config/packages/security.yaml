@@ -117,8 +117,14 @@ automation:
     - condition: state
       entity_id: input_boolean.guest_mode
       state: 'off'
+    - condition: state
+      entity_id: input_boolean.sentry_mode
+      state: 'off'
     action:
     - service: script.lockdown
+    - delay:
+        seconds: 2
+    - service: script.security_check_failed
 
   - id: garage_open_sunset
     alias: Garage Open At Sunset
@@ -217,11 +223,13 @@ automation:
     - condition: state
       entity_id: input_boolean.audible_notifications
       state: 'on'
+    - condition: state
+      entity_id: binary_sensor.front_door
+      state: 'off'
     action:
     - service: script.ah_report
       data_template:
         speech_message: "I have detected motion at the {{ trigger.to_state.attributes.friendly_name }}."
-        call_interuption: 1
         call_snark_door_motion: 1
     initial_state: true
   
@@ -331,7 +339,12 @@ automation:
           "Sentry Mode is active. ",
           "I am now monitoring the doors and will let you know if anyone attempts to access.",
           "Anchorage House Shields are up."
-          ] | random }}    
+          ] | random }}
+    - service: script.text_notify
+      data_template:
+        who: "jeff"
+        title: "Security Armed"
+        message: "Security System has been armed."    
 
   - id: sentry_mode_disabled
     alias: Sentry Mode Disabled Annoucement
@@ -350,7 +363,12 @@ automation:
           "I am no longer monitoring the access points. ",
           "Sentry Mode has been disabled. ",
           "Anchorage House Shields are down."
-          ] | random }}  
+          ] | random }}
+    - service: script.text_notify
+      data_template:
+        who: "jeff"
+        title: "Security Disarmed"
+        message: "Security System as been disarmed."  
 
   - id: guest_mode_feedback
     alias: Guest Mode Audio Feedback
@@ -634,8 +652,10 @@ script:
         call_confirmation: 1
     - delay:
         seconds: 2
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.sentry_mode
+    - service: script.lockdown
+    - delay:
+        seconds: 2
+    - service: script.security_check_failed
 
   deactivate_barn_door_protocol:
     sequence:
@@ -646,6 +666,27 @@ script:
         seconds: 2
     - service: input_boolean.turn_off
       entity_id: input_boolean.sentry_mode
+
+  security_check_failed:
+    sequence:
+    - condition: state
+      entity_id: group.external_doors
+      state: "on"
+    - service: script.ah_report
+      data:
+        call_issue: 1
+        sspeech_message: >
+            {{ [
+            "I was unable to activate barn door protocol due to an open door.",
+            "You may want to check the external doors. I was unable to secure them all.",
+            "My systems check has failed. Please check the external doors.",
+            "Someone has left the pod bay doors open."
+            ] | random }}
+    - service: script.text_notify
+      data_template:
+        title: "Lockdown Issue!"
+        message: "Doors are open!"
+        
 
   activate_guest_mode:
     sequence:
