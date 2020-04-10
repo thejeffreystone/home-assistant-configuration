@@ -35,20 +35,6 @@
 #   payload_off: "off"
 #   retain: true
 
-
-# Bedroom
-
-- platform: mqtt
-  name: "Skylars Lamp"
-  state_topic: "smartthings/Skylars Lamp/switch"
-  command_topic: "smartthings/Skylars Lamp/switch"
-  brightness_state_topic: "smartthings/Skylars Lamp/level"
-  brightness_command_topic: "smartthings/Skylars Lamp/level"
-  brightness_scale: 101
-  payload_on: "on"
-  payload_off: "off"
-  retain: true
-
 # Outside
 - platform: mqtt
   name: "Side Door Light"
