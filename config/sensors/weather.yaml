@@ -190,4 +190,4 @@
     current_inside_humidity:
       friendly_name: "Current Inside Humidity"
       unit_of_measurement: '%'
-      value_template: "{{ states.climate.home.sattributes.current_humidity }}"
+      value_template: "{{ states.climate.home.attributes.current_humidity }}"
