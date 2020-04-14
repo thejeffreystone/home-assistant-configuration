@@ -71,6 +71,7 @@ automation:
       entity_id: script.rex_manning_audio
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
+
   
 script:
 
