@@ -29,24 +29,29 @@ notify:
   - name: all_ios
     platform: group
     services:
-      - service: mobile_app_jeffreys_iphone
-      - service: ios_jeffreystonesipad
+      - service: mobile_app_jeffreys_iphone_8
+      - service: mobile_app_jeffreys_ipad
       - service: mobile_app_iphone
+      - service: mobile_app_skylars_iphone
   - name: ios_parents
     platform: group
     services:
-      - service: mobile_app_jeffreys_iphone
-      - service: ios_jeffreystonesipad
+      - service: mobile_app_jeffreys_iphone_8
+      - service: mobile_app_jeffreys_ipad
       - service: mobile_app_iphone
   - name: jeff_ios
     platform: group
     services:
-      - service: mobile_app_jeffreys_iphone
-      - service: ios_jeffreystonesipad
+      - service: mobile_app_jeffreys_iphone_8
+      - service: mobile_app_jeffreys_ipad
   - name: kat_ios
     platform: group
     services:
       - service: mobile_app_iphone
+  - name: skylar_ios
+    platform: group
+    services:
+      - service: mobile_app_skylars_iphone
   - name: twitter
     platform: twitter
     consumer_key: !secret twitter_consumer_key
@@ -315,7 +320,7 @@ script:
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >
-          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          {% if states.input_boolean.audible_notifications.state == 'on' and states.media_player.ha_speaker.state != 'playing' %}
           media_player.ha_speaker
           {% else %}
           media_player.house
