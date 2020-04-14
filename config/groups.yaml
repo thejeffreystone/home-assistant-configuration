@@ -29,16 +29,7 @@ Garage Doors:
 Internal Doors:
   - binary_sensor.attic_door
 
-Disney Audio:
-  - input_boolean.tiki_room_audio
-  - input_boolean.happy_ever_after_show
-  - input_boolean.haunted_mansion
-  - input_boolean.boo_to_you_show
-  - input_boolean.spaceship_earth_ride
-  - input_boolean.mk_loop
-  - input_boolean.illuminations
-  - input_boolean.boo_to_you
-  - input_boolean.happy_ever_after
+
 
 rgb lr:
   - light.0xb0ce18140003608a_light
