@@ -192,7 +192,7 @@ automation:
         data_template:
           tweet: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. ", 
           "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area.", 
-          "I just activated the internal Tornado Alarm at the request of the NWS. Thanks for the heads up @NWSAtlanta " ] | random }}'
+          "I just activated the internal Tornado Alarm. Thanks for the heads up @NWSAtlanta " ] | random }}'
           image: >-
             "/config/www/tweet_images/tornado.jpg"
       - delay: '00:00:15'
