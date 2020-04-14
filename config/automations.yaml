@@ -142,7 +142,7 @@
           "Good morning. Anchorage House is up and online." 
           ] | random }}
         {% if is_state('calendar.holidays_in_united_states', 'on') %}
-          Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
+          Today is {{states.calendar.holidays_in_united_states.attributes.message}}.
         {% endif %}
       image: >-
         {{ [ "/config/www/tweet_images/coffee.jpg",
