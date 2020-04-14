@@ -67,7 +67,6 @@ device_tracker:
   #   track_new_devices: yes
   #   only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
 
-
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
@@ -189,6 +188,8 @@ media_player:
   - platform: spotify
     client_id: !secret spotify_client
     client_secret: !secret spotify_secret
+
+media_extractor:
 
 group: !include groups.yaml
 
