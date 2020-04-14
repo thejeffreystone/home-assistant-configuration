@@ -19,7 +19,11 @@ This document is mean to be a guid to the packages in this config. Below is a su
 
 ### announcements.yaml
 
-Th Announcement package handles reoccuring informational annoucements that happen though the day.
+The Announcement package handles reoccuring informational annoucements that happen though the day.
+
+### audio.yaml
+
+The audio package is just for that. I use it for playing audio either from youtube, or from a local server. The package works for both. Check out the Disney Package for ways I sue this. But you can even randomize the urls to the audio betwene youtube and a local server. Total awesomeness. I hope to leverage this to build a version of my haunted mansion package that allows anyone with home assistant to drop it in, change the light effects and go. 
 
 ### daily.yaml
 
