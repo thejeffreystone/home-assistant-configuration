@@ -1,0 +1,16 @@
+# Configuration for welcome - https://github.com/behaviorbot/welcome
+# Configuration for new-issue-welcome - https://github.com/behaviorbot/new-issue-welcome
+
+# Comment to be posted to on first time issues
+newIssueWelcomeComment: >
+  Thanks for helping make this code better! This is the place to request enhancements, ask questions and other things.  You can also ask questions via twitter or https://jeffreystone.net
+
+# Configuration for new-pr-welcome - https://github.com/behaviorbot/new-pr-welcome
+# Comment to be posted to on PRs from first time contributors in your repository
+newPRWelcomeComment: >
+  Thanks for submitting a code change! Once @thejeffreystone reviews it, it will become part of the master!
+# Configuration for first-pr-merge - https://github.com/behaviorbot/first-pr-merge
+# Comment to be posted to on pull requests merged by a first time user
+firstPRMergeComment: >
+  Congrats on contributing to the code base! Your contribution is very much appreciated and I hope you continue to support this little project by improving code and documentation!
+# It is recommended to include as many gifs and emojis as possible!
