@@ -204,7 +204,13 @@ automation:
     action:
     - service: script.ah_report
       data_template:
-        speech_message: " the {{ trigger.to_state.attributes.friendly_name }} has been standing open for more than a minute."
+        speech_message: >
+          {{ [
+          "The {{ trigger.to_state.attributes.friendly_name }} is standing open.",
+          "The {{ trigger.to_state.attributes.friendly_name }} is open.",
+          "The {{ trigger.to_state.attributes.friendly_name }} does not close on its own.",
+          "Someone forgot to close the {{ trigger.to_state.attributes.friendly_name }}."
+          ] | random }}
         call_interuption: 1
         call_snark_door_open: 1
     initial_state: true
@@ -229,7 +235,14 @@ automation:
     action:
     - service: script.ah_report
       data_template:
-        speech_message: "I have detected motion at the {{ trigger.to_state.attributes.friendly_name }}."
+        speech_message: >
+          {{ [
+          "I have detected motion at the {{ trigger.to_state.attributes.friendly_name }}.",
+          "Someone may be at the {{ trigger.to_state.attributes.friendly_name }}.",
+          "There is movement at the {{ trigger.to_state.attributes.friendly_name }}.",
+          "My sensors are picking up motion at the {{ trigger.to_state.attributes.friendly_name }}.",
+          "The {{ trigger.to_state.attributes.friendly_name }} appears to have a visitor."
+          ] | random }}
         call_snark_door_motion: 1
     initial_state: true
   
