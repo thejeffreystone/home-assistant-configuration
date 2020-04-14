@@ -12,7 +12,6 @@ automation:
     trigger: 
     - platform: time
       at: '03:00:00'
-    condition:
     action:
       - service: clean_up_snapshots_service.clean_up
 
@@ -22,10 +21,10 @@ automation:
     initial_state: 'on'
     trigger: 
     - platform: time
-      at: '00:01:45'
-    condition:
+      at: '04:30:00'
     action:
       - service: homeassistant.update_entity
         entity_id: sensor.today_is 
-  
+      - service: homeassistant.update_entity
+        entity_id: sensor.holiday
     

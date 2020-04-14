@@ -92,7 +92,7 @@
     days: 7
 - platform: history_stats
   name: Speech time
-  entity_id: media_player.theater
+  entity_id: media_player.ha_speaker
   state: 'playing'
   type: time
   end: '{{ now() }}'
@@ -298,4 +298,13 @@
     today_is:
       friendly_name: 'Today is'
       value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}" 
-
+    holiday:
+      friendly_name: 'Holiday'
+      value_template: >-
+          {% if states.calendar.holidays_in_united_states.state == 'on' %}
+            {{ states.calendar.holidays_in_united_states.attributes.message }}
+          {% elif states.calendar.anchorage_holidays.state == 'on' %}
+            {{ states.calendar.anchorage_holidays.attributes.message }}
+          {% else %}
+            none
+          {% endif %}
