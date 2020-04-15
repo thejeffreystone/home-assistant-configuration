@@ -367,6 +367,7 @@ automation:
       entity_id: input_boolean.sentry_mode
       from: 'on'
       to: 'off'
+    
     action:
     - service: script.ah_report
       data_template: 
@@ -672,6 +673,9 @@ script:
 
   deactivate_barn_door_protocol:
     sequence:
+    - condition: state
+      entity_id: sensor.family_status
+      state: "Home"
     - service: script.ah_report
       data:
         call_confirmation: 1
