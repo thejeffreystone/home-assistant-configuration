@@ -16,6 +16,8 @@ transporter.py
 /config/intents/
 /config/themes/
 /config/custom_components
+/config/deps
+/config/hacs
 
 
 # ignore any of these filesno matter where they are
@@ -39,3 +41,22 @@ transporter.py
 **test.yaml
 **.homekit*
 **.vscode
+**.pid
+**.xml
+**.csr
+**.crt
+**.key
+**core.*
+**OZW_Log.txt
+**home-assistant.log
+**home-assistant_v2.db
+**.db-journal
+**.db-shm
+**.db-wal
+**.sqlite
+**__pycache__
+**phue.conf 
+**ios.conf
+**pyozw.sqlite
+**ipchange.yaml
+**production_auth.json
