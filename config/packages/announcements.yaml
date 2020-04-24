@@ -121,27 +121,27 @@ automation:
         call_skylar_events: 1
         call_clothes_suggestion: 1
   
-  - id: skylar_morning_alarm_announcement
-    alias: skylar morning alarm announcement
-    trigger:
-    - platform: time
-      at: '07:00:00'
-    condition:
-      condition: template
-      value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
-    action:
-    - service: notify.alexa_media_skylar_s_bedroom
-      data:
-        message: Good Morning Skylar. Time to Rise and Shine. 
-        data:
-          type: tts
-    - delay:
-        seconds: 30
-    - service: notify.alexa_media_skylar_s_bedroom
-      data:
-        message: Good Morning Skylar. You have school today. Time to get up. 
-        data:
-          type: tts
+  # - id: skylar_morning_alarm_announcement
+  #   alias: skylar morning alarm announcement
+  #   trigger:
+  #   - platform: time
+  #     at: '07:00:00'
+  #   condition:
+  #     condition: template
+  #     value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
+  #   action:
+  #   - service: notify.alexa_media_skylar_s_bedroom
+  #     data:
+  #       message: Good Morning Skylar. Time to Rise and Shine. 
+  #       data:
+  #         type: tts
+  #   - delay:
+  #       seconds: 30
+  #   - service: notify.alexa_media_skylar_s_bedroom
+  #     data:
+  #       message: Good Morning Skylar. You have school today. Time to get up. 
+  #       data:
+  #         type: tts
   
   - id: set_skylar_morning_report_time
     alias: set skylar morning report time
