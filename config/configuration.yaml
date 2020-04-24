@@ -167,9 +167,19 @@ ecobee:
 map:
 
 wwlln:
-  radius: 75
+
+geo_location:
+  - platform: usgs_earthquakes_feed
+    feed_type: 'past_hour_all_earthquakes'
+
+gdacs:
+  categories:
+    - Earthquake
+    - Tropical Cyclone
+  radius: 500
   latitude: !secret MY_LATITUDE
   longitude: !secret MY_LONGITUDE
+
 
 tplink:
   discovery: false
@@ -188,10 +198,10 @@ wyzeapi:
 ifttt:
   key: !secret IFTTT_API_KEY 
 
-media_player:
-  - platform: spotify
-    client_id: !secret spotify_client
-    client_secret: !secret spotify_secret
+# media_player:
+#   - platform: spotify
+#     client_id: !secret spotify_client
+#     client_secret: !secret spotify_secret
 
 media_extractor:
 
