@@ -9,8 +9,8 @@
 
 - platform: mqtt
   name: "Living Room Fan"
-  state_topic: "zwave2mqtt/livingroom_fan/37/1/0"
-  command_topic: "zwave2mqtt/livingroom_fan/37/1/0/set"
+  state_topic: "zwave2mqtt/living_room_fan/37/1/0"
+  command_topic: "zwave2mqtt/living_room_fan/37/1/0/set"
   payload_on: "true"
   payload_off: "false"
   
