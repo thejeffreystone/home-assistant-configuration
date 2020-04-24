@@ -241,10 +241,22 @@ script:
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >
-          {% if states.input_boolean.audible_notifications.state == 'on' %}
-          media_player.ha_speaker
+          {% if who == 'kitchen' %}
+            media_player.googlehomehub3492
+          {% elif who == 'croft' %}
+            media_player.upstairs_speaker
+          {% elif who == 'master_bedroom' %}
+            media_player.googlehome0715
+          {% elif who == 'all_google' %}
+            media_player.house
+          {% elif who == 'main' %}
+            media_player.ha_speaker
           {% else %}
-          media_player.house
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.ha_speaker
+            {% else %}
+            media_player.house
+            {% endif %}
           {% endif %}
         message: >-
           <speak>
@@ -487,6 +499,30 @@ script:
             {% endif %}
           {% endmacro %}
 
+          {% macro lightning_alert() %}
+             {{ [
+                'I have detected lightning withing 20 miles of Anchorage House.',
+                'Did you see that flash? I did. Lightning is near.',
+                'If you didnt hear the thunder you will soon. '
+              ]|random }}
+                If anyone is outside they shoudld seek shelter inside. 
+            {% if is_state('binary_sensor.garage_door', 'on') %} 
+              {{ [ 'The garage door needs to be closed. ',
+                'Can someone close the garage?. ',
+                'If you do not want the contents of the garage to get wet, you might want to close it.'
+              ] | random }}
+            {% endif %}
+          {% endmacro %}
+
+          {% macro lightning_clear() %}
+             {{ [
+                'Lightning threat appears to be over.',
+                'No more lightning appears to be occuring.',
+                'Lightning is gone.'
+            ]|random }}
+              It is safe to resume normal activities. 
+          {% endmacro %}
+
           {% macro todays_events() %}
             {% if is_state('sensor.halloween_countdown','0') %}
               Happy Halloween!
@@ -520,7 +556,7 @@ script:
             {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
             {{ [
                 'We should celebrate.',
-                'I will leave the party planning up to <emphasis>you</emphasis>',
+                'I will leave the party planning up to <emphasis>you</emphasis>.',
                 'I bet you, are glad I told you.',
                 'You cannot make this stuff up.',
                 'But, that just sounds silly.',
@@ -552,6 +588,14 @@ script:
 
           {% macro current_conditions_inside() %}
             The inside temperature is {{states.climate.home.attributes.current_temperature|round}} degrees. 
+            {% if is_state('climate.home', 'auto') %} 
+              {{ [
+                    'The Climate is currently set between ',
+                    'I will keep the temperature between ',
+                    'And the house is holding the temperature between '
+                ]|random }}
+                  {{states.climate.home.attributes.target_temp_low}} and {{states.climate.home.attributes.target_temp_high}}.
+            {% else %}
             {{ [
                 'The Climate is currently set to ',
                 'The air is currently set to ',
@@ -559,6 +603,7 @@ script:
                 'And the house is holding the temperature at '
             ]|random }}
               {{states.climate.home.state}}.
+            {% endif %}
           {% endmacro %}
 
           {% macro current_conditions_garage() %}
@@ -745,13 +790,11 @@ script:
           {% endmacro %}
 
           {% macro skylar_events() %}
-            # Event have been canceled due to Covid-19 
-            # {% if is_state('calendar.skylar_events', 'on') %}
-            #   You have {{ states.calendar.skylar_events.attributes.message }} today as well!
-            # {% endif %}
-            # {% if is_state('sensor.weekday', 'mon') %} 
-            #   And you have The Little Gym today.  
-            # {% endif %}
+             
+            {% if is_state('calendar.skylar_events', 'on') %}
+              You have {{ states.calendar.skylar_events.attributes.message }} today as well!
+            {% endif %}
+            
           {% endmacro %}
 
           {% macro clothes_suggestion() %}
@@ -1076,7 +1119,6 @@ script:
               'Would you like me to calulate how much air condition is being wasted? Spoiler Alert. You are not going to like the answer.',
               'I have detected a large number of insects entering the house.',
               'Can a human be so kind and close it?',
-              'Hey. The door was just opened and this is crazy. But now you know. So closed it maybe.',
               'The air quality in this house has actually improved.',
               'Closing the door would improve the security of the house.',
               'Hey. The door was just opened and this is crazy. But now you know. So closed it maybe.'
@@ -1124,6 +1166,14 @@ script:
 
             {% if states.sensor.nws_alerts.state | int > 0 and call_weather_alerts == 1 %}
               {{ weather_alerts() }}
+            {% endif %}
+
+            {% if call_lightning_alert == 1 %}
+              {{ lightning_alert() }}
+            {% endif %}
+
+            {% if call_lightning_clear == 1 %}
+              {{ lightning_clear() }}
             {% endif %}
 
             {% if call_todays_events == 1 %}
