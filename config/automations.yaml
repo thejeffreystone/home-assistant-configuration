@@ -260,10 +260,6 @@
   - service: scene.turn_on
     entity_id: scene.night_time_livingroom_lighting
   - service: switch.turn_off
-    entity_id: switch.upstairs_fan
-  - service: switch.turn_off
-    entity_id: switch.upstairs
-  - service: switch.turn_off
     entity_id: switch.incense
   - service: switch.turn_off
     entity_id: switch.artemis
@@ -277,6 +273,7 @@
   - service: light.turn_off
     data:
       entity_id: light.kitchen_cabinets
+  - service: script.good_night_loft
   - service: script.twitter_notify_image
     data_template:
       tweet: >-
@@ -688,3 +685,17 @@
   action:
   - service: script.save_old_covid_stats
   initial_state: true
+
+- id: kitchen_occupency_lighting
+  alias: Kitchen Occupency Lighting
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_motion
+    to: 'on'
+  action:
+  - service: script.kitchen_lights_night
+  - service: script.dog_mode_on
+  - service: script.kitchen_lights_on
+  - service: script.kitchen_lights_morning
+  
