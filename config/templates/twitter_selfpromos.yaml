@@ -12,7 +12,7 @@
        "Be sure to follow along at https://jeffreystone.net so you can keep up today with the latest updates to my Home Asissitant Configuration",
        "I created dog mode for when I dont want to disarm my security system but the dog needs to go out -> https://jeffreystone.net/2020/04/14/where-we-are-going-we-need-dog-mode/",
        "I built a security system using #homeassistant and you can too. Start the two part series at https://jeffreystone.net/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
-       "My #homeassistant security system is some good at recognizing threats it disarms itself. Learn how at https://jeffreystone.net/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
+       "My #homeassistant security system is so good at recognizing threats it disarms itself. Learn how at https://jeffreystone.net/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
        "Want to know how I was migrated from Hassbian to Home Assistant? Now you can at https://jeffreystone.net/2020/04/05/migrating-from-hassbian-to-hassio/",
        "Did you see the post about how I can turn into Disney's Haunted Mansion on command using #home_assistant? Visit https://jeffreystone.net/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney"
        ] | random -}}

@@ -16,7 +16,7 @@
        "The average temperature in the garage is {{states.sensor.garage_temp_stats.attributes.mean | round}} degrees fahrenheit.",
        "The HVAC has cooled the house for {{states.sensor.cooling_last_month.attributes.value}} and heated for {{states.sensor.heating_last_month.attributes.value}} in the last month",
        "The HVAC has cooled the house for {{states.sensor.cooling_last_day.attributes.value}} and heated for {{states.sensor.heating_last_day.attributes.value}} in the last 24 hours",
-       "Anchorage House averages {{ states.sensor.humidity_stats.attributes.mean | round}}% Humidity.",
+       "Anchorage House averages {{ states.sensor.humidity_stats.attributes.mean | round}}% Humidity outside.",
        "On Average, Ancohrage House has {{states.sensor.visibility_stats.attributes.mean | round}} miles of visability.",
        "The wind blows an average of {{ states.sensor.wind_speed_stats.attributes.mean | round}} mph here at Anchorage House.",
        "The Washing Machine uses an an average of {{ states.sensor.washer_power_stats.attributes.mean | round}} watts here at Anchorage House.",
