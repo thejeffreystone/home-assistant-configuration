@@ -97,7 +97,7 @@
   type: time
   end: '{{ now() }}'
   duration:
-    days: 7
+    days: 8
 - platform: history_stats
   name: AppleTV time
   entity_id: media_player.apple_tv
