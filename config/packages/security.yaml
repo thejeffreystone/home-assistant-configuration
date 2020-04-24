@@ -205,11 +205,11 @@ automation:
     - service: script.ah_report
       data_template:
         speech_message: >
+          The {{ trigger.to_state.attributes.friendly_name }}
           {{ [
-          "The {{ trigger.to_state.attributes.friendly_name }} is standing open.",
-          "The {{ trigger.to_state.attributes.friendly_name }} is open.",
-          "The {{ trigger.to_state.attributes.friendly_name }} does not close on its own.",
-          "Someone forgot to close the {{ trigger.to_state.attributes.friendly_name }}."
+          " is standing open.",
+          " is open.",
+          " does not close on its own."
           ] | random }}
         call_interuption: 1
         call_snark_door_open: 1
@@ -237,12 +237,13 @@ automation:
       data_template:
         speech_message: >
           {{ [
-          "I have detected motion at the {{ trigger.to_state.attributes.friendly_name }}.",
-          "Someone may be at the {{ trigger.to_state.attributes.friendly_name }}.",
-          "There is movement at the {{ trigger.to_state.attributes.friendly_name }}.",
-          "My sensors are picking up motion at the {{ trigger.to_state.attributes.friendly_name }}.",
-          "The {{ trigger.to_state.attributes.friendly_name }} appears to have a visitor."
+          "I have detected motion at the ",
+          "Someone may be at the ",
+          "There is movement at the ",
+          "My sensors are picking up motion at the ",
+          "We appear to have a visitor at the "
           ] | random }}
+          {{ trigger.to_state.attributes.friendly_name }}.
         call_snark_door_motion: 1
     initial_state: true
   
@@ -703,7 +704,18 @@ script:
       data_template:
         title: "Lockdown Issue!"
         message: "Doors are open!"
-        
+  
+  dog_mode_on:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.secure_mode
+      state: "on"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.dog_mode
+    - service: script.jarvis_alert
+      data_template:
+        who: kitchen
+        message: "Turning on Dog Mode for twenty minutes."
 
   activate_guest_mode:
     sequence:
