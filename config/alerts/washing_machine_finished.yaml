@@ -1,0 +1,11 @@
+washing_machine_finished:
+  name: Washing Machine Finished
+  message: "The Washing Machine needs to be emptied."
+  done_message: Thank you for moving the clothes to the dryer.
+  entity_id: input_boolean.washer_finished
+  state: 'on'
+  repeat: 20
+  can_acknowledge: false
+  skip_first: False
+  notifiers:
+  - all_ios

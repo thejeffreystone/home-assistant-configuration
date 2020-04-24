@@ -15,6 +15,11 @@ input_datetime:
     has_date: true
     has_time: false
 
+input_boolean:
+  washer_finished:
+    name: Washer Finished
+    icon: mdi:washing-machine
+
 automation:
 
   # Massive automation to call all the reminder scripts.
