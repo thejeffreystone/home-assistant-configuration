@@ -19,6 +19,11 @@ http:
   base_url: !secret ahsl_base_url
   ssl_certificate: !secret ahsl_ssl_cert
   ssl_key: !secret ahsl_ssl_key
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.7.1
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
 
 ssdp:
 
