@@ -41,6 +41,8 @@
   - service: script.washer_idle
   - service: script.turn_off
     entity_id: script.washer_finished_notification_audible
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.washer_finished
 - id: washer_notification
   initial_state: true
   alias: Washer Notification
