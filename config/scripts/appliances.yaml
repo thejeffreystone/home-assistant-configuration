@@ -12,6 +12,8 @@ washer_finished_notification_audible:
     data:
       call_interuption: 1
       call_washer_needs_emptying: 1
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.washer_finished
   - delay:
       minutes: 15
   - condition: state
