@@ -242,11 +242,11 @@ script:
       data_template:
         entity_id: >
           {% if who == 'kitchen' %}
-            media_player.googlehomehub3492
+            media_player.kitchen_display
           {% elif who == 'croft' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
-            media_player.googlehome0715
+            media_player.master_bedroom_speaker
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}

@@ -708,7 +708,7 @@ script:
   dog_mode_on:
     sequence:
     - condition: state
-      entity_id: input_boolean.secure_mode
+      entity_id: input_boolean.sentry_mode
       state: "on"
     - service: input_boolean.turn_on
       entity_id: input_boolean.dog_mode
