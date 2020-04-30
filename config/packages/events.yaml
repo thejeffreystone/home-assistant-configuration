@@ -72,7 +72,23 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
 
-  
+  - id: new_ha_notification
+    alias: New HA Notification
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.updater
+      from: 'off'
+      to: 'on'
+    action:
+    - service: script.twitter_new_ha
+    # - service: ifttt.trigger
+    #   data_template: {"event":"GitPost", "value1":"Home Assistant {{ states.binary_sensor.updater.attributes.newest_version }} is now available.", "value2":"{{ states.binary_sensor.updater.attributes.newest_version }}"}
+    - service: rest_command.new_version_github_issue
+      data_template:
+        version: "{{ states.binary_sensor.updater.attributes.newest_version }}"
+
+
 script:
 
   rex_manning_audio:
@@ -94,3 +110,11 @@ script:
       data:
         media_content_id: http://192.168.7.40/audio/Rex_Manning_-_Say_No_More_Mon_Amour.mp3
         media_content_type: "music"
+
+rest_command:
+  new_version_github_issue:
+    url: https://api.github.com/repos/thejeffreystone/home-assistant-configuration/issues
+    method: POST
+    headers:
+      Authorization: !secret github_token
+    payload: '{"title":"Home-Assistant {{ version }} available","body":"Home-Assistant {{ version }} is now available"}'
