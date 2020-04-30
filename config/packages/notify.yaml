@@ -1121,7 +1121,7 @@ script:
               'Can a human be so kind and close it?',
               'The air quality in this house has actually improved.',
               'Closing the door would improve the security of the house.',
-              'Hey. The door was just opened and this is crazy. But now you know. So closed it maybe.'
+              'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.'
               ] | random }}
           {%- endmacro -%}
 
