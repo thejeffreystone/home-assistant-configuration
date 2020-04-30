@@ -16,6 +16,7 @@
   action:
   - service: script.washer_running
   initial_state: true
+
 - id: washer_complete
   alias: Washer Complete
   trigger:
@@ -29,6 +30,7 @@
   action:
   - service: script.washer_complete
   initial_state: true
+
 - id: washer_emptied
   initial_state: true
   alias: Washer Emptied
@@ -41,8 +43,7 @@
   - service: script.washer_idle
   - service: script.turn_off
     entity_id: script.washer_finished_notification_audible
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.washer_finished
+
 - id: washer_notification
   initial_state: true
   alias: Washer Notification
@@ -51,8 +52,13 @@
     entity_id: sensor.washer_status
     from: running
     to: complete
+  - platform: event
+    event_type: event_washer_complete_notification
   action:
-  - service: script.washer_finished_notification_audible
+  - service: script.turn_on
+    entity_id: script.washer_finished_notification_audible
+
+
 - id: turn_off_disney
   initial_state: true
   alias: Turn Off Disney
