@@ -116,5 +116,5 @@ rest_command:
     url: https://api.github.com/repos/thejeffreystone/home-assistant-configuration/issues
     method: POST
     headers:
-      Authorization: !secret github_token
+      Authorization: !secret github_issue_token
     payload: '{"title":"Home-Assistant {{ version }} available","body":"Home-Assistant {{ version }} is now available"}'
