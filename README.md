@@ -54,50 +54,50 @@ One last thing. Everything in this configuration is a combination of the things 
 * Various Apple Devices (Macbooks, Mac Mini, iPhones, iPads)
 
 ##### Networking
-* [Eero Mesh Network Routers](https://amzn.to/2Nty6fE)
-* [Aeotec Z-Stick Gen 5](https://amzn.to/2K4BqMf)
+* [Eero Mesh Network Routers](https://www.amazon.com/gp/product/B07WMLPSRL/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2b6442e719136c286229d14bc77e2533&language=en_US)
+* [Aeotec Z-Stick Gen 5](https://www.amazon.com/gp/product/B00X0AWA6E/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2b9769cb7e6bafa1048d34601422926d&language=en_US)
 
 ##### Media
 * AppleTv
 * Google Home Hub / Home Mini
-* [Amazon Echo Dot](https://amzn.to/32vt6vr)
-* [Amazon Echo](https://amzn.to/34LSajw)
-* [ChromeCast](https://amzn.to/34HIjuL)
-* [Roku Premiere](https://amzn.to/2CmOBnF)
-* [Roku Streaming Stick](https://amzn.to/34At7zI)
+* [Amazon Echo Dot](https://www.amazon.com/gp/product/B07W95GZNH/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=5cd455fd06e21ad09017d90ca588fce3&language=en_US)
+* [Amazon Echo](https://www.amazon.com/gp/product/B0794W1SKP/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2c0b37b092008eb917fa7b18c676a297&language=en_US)
+* ChromeCast
+* [Roku Premiere](https://www.amazon.com/gp/product/B07HDBZN7Q/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=f1d5cb6e897b91459d9f1d46ce848656&language=en_US)
+* [Roku Streaming Stick](https://www.amazon.com/gp/product/B075XN5L53/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=c9dd374ee78c1150f682c4076e95edd6&language=en_US)
 
 ##### Cameras
-* [Arlo Pro 2 Cameras](https://amzn.to/32ulDNl)
-* [Foscam FI8918W](https://amzn.to/33wKdOL)
+* [Arlo Pro 2 Cameras](https://www.amazon.com/gp/product/B075P84FH2/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=135cb25a4427888fd4f978770fe40e02&language=en_US)
+* [Foscam FI8918W](https://www.amazon.com/gp/product/B00466X9SY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=fd92b312f8005403ee7eed95cd3c1314&language=en_US)
 
 ##### Switches
-* [MyQ Garage Door Opener](https://amzn.to/2NXQSea)
-* [GE Z-Wave Switches](https://amzn.to/33vh8mS)
-* [Sonoff WiFi Smart Switch ](https://amzn.to/2K0mPla)
-* [Levitron Plug in ZWave Dimmer](https://amzn.to/2NW9kno)
-* [Levitron Z-Wave Switch](https://amzn.to/2JXyDob)
-* [Wemo Wifi SmartPlug](https://amzn.to/2K4bikB)
-* [TP-Link HS103 Wifi Switch](https://amzn.to/32wV7Tg)
-* [Honeywell Z-Wave Plug](https://amzn.to/2NtRE3L)
-* [Sylvania Smart Zigbee Plug](https://amzn.to/32zoJzH)
+* [MyQ Garage Door Opener](https://www.amazon.com/gp/product/B075H7Z5L8/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=e530b7bd83fb9a64b8af14190c99d759&language=en_US)
+* [GE Z-Wave Switches](https://www.amazon.com/gp/product/B01M1AHC3R/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=74a1bf32886f6e643619beac4eafbe2a&language=en_US)
+* [Sonoff WiFi Smart Switch ](https://www.amazon.com/gp/product/B078GDFYTY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2a2da928247fa3f7209e721694f36c33&language=en_US)
+* [Levitron Plug in ZWave Dimmer](https://www.amazon.com/gp/product/B01NAO4B9Z/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=723acf42f30081edfb98bc93595bd8d9&language=en_US)
+* [Levitron Z-Wave Switch](https://www.amazon.com/gp/product/B01MZ0WVKH/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=bffb672ca2f285047e2b859743abf070&language=en_US)
+* [Wemo Wifi SmartPlug](https://www.amazon.com/gp/product/B01NBI0A6R/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=961d2858acb364741767f66e1c75e351&language=en_US)
+* [TP-Link HS103 Wifi Switch](https://www.amazon.com/gp/product/B07B8W2KHZ/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=7b6243698ad735a044abe933f341a7d2&language=en_US)
+* [Honeywell Z-Wave Plug](https://www.amazon.com/gp/product/B07B3SWWTH/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=f5a78d3f1d95e66b83bf47dff0d62105&language=en_US)
+* [Sylvania Smart Zigbee Plug](https://www.amazon.com/gp/product/B01M6UM8QD/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=abfc93828c666f4fcd48386be9265fc0&language=en_US)
 
 ##### Lights
-* [Sengled LED Color Plus (Zigbee)](https://amzn.to/32nEjy8)
-* [Cree Connect Bulbs (Zigbee)](https://amzn.to/2NrYOWa)
+* [Sengled LED Color Plus (Zigbee)](https://www.amazon.com/gp/product/B073ZBYXKQ/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=74939562b8889e2b750d9b01fd347b48&language=en_US)
+* [Cree Connect Bulbs (Zigbee)](https://www.amazon.com/gp/product/B01701DL7A/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=93c44ca1fc96f2554f9aa73afe5f9943&language=en_US)
 
 ##### Sensors
-* [Z-Wave Door Sensor](https://amzn.to/34MM1n7)
-* [Z-Wave Garage Door Tilt Sensor](https://amzn.to/2WUHc8s)
-* [Dome Motion Z-Wave Sensor](https://amzn.to/32nD5Ty)
+* [Z-Wave Door Sensor](https://www.amazon.com/gp/product/B01N5HB4U5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=b274f5e5d57b8a698ea6d94138a58afa&language=en_US)
+* [Z-Wave Garage Door Tilt Sensor](https://www.amazon.com/gp/product/B01MRZB0NT/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2515ffb412b6cd2113f755fe531ec203&language=en_US)
+* [Dome Motion Z-Wave Sensor]https://www.amazon.com/gp/product/B076Y6DXSY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=d9f4f6267d5372786a0da7e01c6ca172&language=en_US)
 
 ##### Climate
-* [Ecobee Thermostat](https://www.amazon.com/gp/product/B07K2GTKQ5/ref=as_li_tl?ie=UTF8&tag=thejefferysto-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=B07K2GTKQ5&linkId=af62c6bb747234ded5bc4161a651d47a)
-* [Ecobee Temp and Motion Sensors](https://amzn.to/2NSdNYz)
-* [USB SDR](https://amzn.to/2Nv3f2l) For getting data from Accurite temperture and humidty sensors
-* [Accurite Temp and Humidty Sensors](https://amzn.to/36LUatA)
+* [Ecobee Thermostat](https://www.amazon.com/gp/product/B07K2GTKQ5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=90bbaf5eadbd3b7493adde3095db7192&language=en_US)
+* [Ecobee Temp and Motion Sensors](https://www.amazon.com/gp/product/B07NQVWRR3/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=1d068c58194407eeaecfaa4afcff5fc8&language=en_US)
+* [USB SDR](https://www.amazon.com/gp/product/B011HVUEME/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=8cd0ed5020766e8cca206190aba7e972&language=en_US) For getting data from Accurite temperture and humidty sensors
+* [Accurite Temp and Humidty Sensors](https://www.amazon.com/AcuRite-06002M-Wireless-Temperature-Humidity/dp/B00T0K8NXC/ref=as_li_ss_tl?dchild=1&keywords=Accurite&qid=1589379213&s=hi&sr=1-1&linkCode=ll1&tag=thejeffreysto-20&linkId=2fd400c891fd29356129f7aa93c0a2ee&language=en_US)
 
 ##### Security
-* [First Alert Z-Wave Smoke/CO2](https://amzn.to/34M6wQT)
+* [First Alert Z-Wave Smoke/CO2](https://www.amazon.com/gp/product/B00KMHXFAI/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=5da9bad04dc5b86f1bd582d22a6bea21&language=en_US)
 
 #### Integrations:
 * Amazon Echo - Voice Control and Music
@@ -120,7 +120,7 @@ One last thing. Everything in this configuration is a combination of the things 
 <a target="_blank" href="https://www.buymeacoffee.com/icE6DeBut"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a><a target="_blank" href="https://www.buymeacoffee.com/icE6DeBut"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"></a>
 
 <br />
-<a target="_blank" href="https://www.amazon.com/?&_encoding=UTF8&tag=thejeffreystone-20&linkCode=ur2&linkId=36476f43b573601a05b45e576b67ccd2&camp=1789&creative=9325">Find your next Home Automation device on Amazon using my affiliate link</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=thejeffreystone-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+<a target="_blank" href="https://www.amazon.com/?&_encoding=UTF8&tag=thejeffreyston-20&linkCode=ur2&linkId=36476f43b573601a05b45e576b67ccd2&camp=1789&creative=9325">Find your next Home Automation device on Amazon using my affiliate link</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=thejeffreystone-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 <br />
 <a href="https://jeffreystone.net/affiliate-disclosure/">
 Affiliate Disclosure
