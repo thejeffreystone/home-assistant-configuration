@@ -22,6 +22,10 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 192.168.7.1
+    - 162.158.187.228
+    - 162.158.187.182
+    - 108.162.238.38
+    - 172.68.65.205
   ip_ban_enabled: true
   login_attempts_threshold: 5
 
@@ -53,9 +57,9 @@ weather:
   # REMOVING darksky integration since API is EOL in 18 months. Migrated to NWS
   # - platform: darksky
   #   api_key: !secret darksky_api
-  - platform: nws
-    api_key: !secret nws_api_key
-    station: klzu
+  # - platform: nws
+  #   api_key: !secret nws_api_key
+  #   station: klzu
 
 conversation:
 
