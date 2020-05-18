@@ -308,3 +308,12 @@
           {% else %}
             none
           {% endif %}
+    school_tomorrow:
+      friendly_name: 'School Tomorrow'
+      value_template: >-
+        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {% if states.calendar.skylar_school.attributes.start_time == test + " 07:35:00" %}
+          on
+        {% else %}
+          off
+        {% endif %}

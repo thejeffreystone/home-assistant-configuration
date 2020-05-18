@@ -531,6 +531,22 @@
             07:15
           {% endif %}
 
+- id: set_skylar_nightly_report_time
+  alias: set skylar nightly report time
+  trigger:
+    - platform: time
+      at: '18:30:00'
+  action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.skylar_nightly_report
+      data_template:
+        time: > 
+          {% if states.sensor.school_tomorrow.state == 'on' %}
+            19:00
+          {% else %}
+            20:00
+          {% endif %}
+
 - id: set_good_morning_time
   alias: set good morning time
   trigger:
@@ -607,7 +623,7 @@
     state: 'off'
   - above: '73'
     condition: numeric_state
-    entity_id: sensor.upstairs_temperature
+    entity_id: sensor.living_room_temperature
   action:
   - data:
       entity_id: switch.living_room_fan
@@ -705,5 +721,48 @@
   - service: script.kitchen_lights_night
   - service: script.dog_mode_on
   - service: script.kitchen_lights_on
-  - service: script.kitchen_lights_morning
+
+- id: driveway_motion_lighting
+  alias: Driveway Motion Lighting 
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.aarlo_motion_driveway
+    to: 'on'
+  condition:
+  - condition: state  
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.driveway_light
+  - delay:
+      minutes: 3
+  - service: switch.turn_off
+    entity_id: switch.driveway_light
   
+- alias: "Delivered Package Notification"
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.mail_fedex_delivered
+  #send only if mail or packages are more than 0
+  condition:
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ states('sensor.mail_fedex_delivered') | int > 0 }}"
+  action:
+    - service: script.text_notify
+      data_template:
+        who: "jeff"
+        title: "Package Delivered"
+        message: "Fedex just made a delivery"
+    - service: script.ah_report
+      data_template:
+        usps: >-
+          {%- if states.sensor.mail_fedex_delivered.state | int > 0 -%} 
+            Federal Express just left something on the porch.
+          {%- endif -%}
+        call_interuption: 1
+

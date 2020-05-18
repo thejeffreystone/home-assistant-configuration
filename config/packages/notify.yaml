@@ -737,7 +737,7 @@ script:
           {% endmacro %}
 
           {% macro prebed_routine() %}
-            Skylar,  
+            Skylar, 
             {{ [ 'It is time to get in the bath. ',
                 'You only have thirty minutes until bedtime. That means you should be heading for the bathtub. Time to get clean.',
                 'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
@@ -746,12 +746,13 @@ script:
                 'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. Bath time now, <emphasis>sir</emphasis>.',
                 'Tee Minus 30 minutes and counting until you should be off to sleep. Time to get cleaned up, and get your pajamas on.'
               ] | random }} 
-            If you go now there may be time for stories. Do not forget to brush your teeth. 
-            {% if is_state('sensor.weekday', 'fri') %} 
-              Oh, and tomorrow is Saturday, so we can sleep in.   
-            {% endif %}
-            {% if is_state('sensor.weekday', 'sat') %} 
-              Oh, and tomorrow is Sunday, so we can sleep in.  
+            {% if is_state('sensor.school_tomorrow', 'on') %} 
+              {{ [ 'Because you have school tomorrow. ',
+                'Because uou have to get up early tomorrow for school.',
+                'Because you want to be ready for school tomorrow.'
+              ] | random }}   
+            {% else %}
+              Oh, and it appears you do not have school tomorrow so we can sleep in.  
             {% endif %}  
           {% endmacro %}
 
