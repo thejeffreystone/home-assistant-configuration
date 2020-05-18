@@ -66,6 +66,9 @@ kitchen_lights_on:
   - condition: state  
     entity_id: sun.sun
     state: 'below_horizon'
+  - condition: time
+    after: '05:30:00'
+    before: '22:30:00'
   - service: scene.turn_on
     entity_id: scene.normal_kitchen_lighting
 
@@ -78,24 +81,11 @@ kitchen_lights_night:
         state: 'below_horizon'
       - condition: time
         after: '22:30:00'
-        before: '05:00:00'
+        before: '05:30:00'
   - service: scene.turn_on
     entity_id: scene.diminished_kitchen_lighting
   - delay:
       minutes: 18
   - service: light.turn_off
     entity_id: light.kitchen_cabinets
-
-kitchen_lights_morning:
-  sequence:
-  - condition: and
-    conditions:
-      - condition: state  
-        entity_id: light.kitchen_cabinet_lights
-        state: 'off'
-      - condition: time
-        after: '05:30:00'
-        before: '08:30:00'
-  - service: scene.turn_on
-    entity_id: scene.normal_kitchen_lighting
  
