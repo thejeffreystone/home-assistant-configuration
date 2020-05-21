@@ -88,7 +88,7 @@ One last thing. Everything in this configuration is a combination of the things 
 ##### Sensors
 * [Z-Wave Door Sensor](https://www.amazon.com/gp/product/B01N5HB4U5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=b274f5e5d57b8a698ea6d94138a58afa&language=en_US)
 * [Z-Wave Garage Door Tilt Sensor](https://www.amazon.com/gp/product/B01MRZB0NT/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2515ffb412b6cd2113f755fe531ec203&language=en_US)
-* [Dome Motion Z-Wave Sensor]https://www.amazon.com/gp/product/B076Y6DXSY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=d9f4f6267d5372786a0da7e01c6ca172&language=en_US)
+* [Dome Motion Z-Wave Sensor](https://www.amazon.com/gp/product/B076Y6DXSY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=d9f4f6267d5372786a0da7e01c6ca172&language=en_US)
 
 ##### Climate
 * [Ecobee Thermostat](https://www.amazon.com/gp/product/B07K2GTKQ5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=90bbaf5eadbd3b7493adde3095db7192&language=en_US)
@@ -120,7 +120,7 @@ One last thing. Everything in this configuration is a combination of the things 
 <a target="_blank" href="https://www.buymeacoffee.com/icE6DeBut"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a><a target="_blank" href="https://www.buymeacoffee.com/icE6DeBut"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"></a>
 
 <br />
-<a target="_blank" href="https://www.amazon.com/?&_encoding=UTF8&tag=thejeffreyston-20&linkCode=ur2&linkId=36476f43b573601a05b45e576b67ccd2&camp=1789&creative=9325">Find your next Home Automation device on Amazon using my affiliate link</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=thejeffreystone-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+<a target="_blank" href="https://www.amazon.com/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=thejeffreysto-20&keywords=Home Automation&index=aps&camp=1789&creative=9325&linkCode=xm2&linkId=8f8efaca6bcebfd793c383c68c070400">Find your next Home Automation device on Amazon using my affiliate link</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=thejeffreystone-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 <br />
 <a href="https://jeffreystone.net/affiliate-disclosure/">
 Affiliate Disclosure
