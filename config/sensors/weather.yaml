@@ -191,8 +191,7 @@
       friendly_name: "Current Inside Humidity"
       unit_of_measurement: '%'
       value_template: "{{ states.climate.home.attributes.current_humidity }}"
-    lightning_strike_count:
-      friendly_name: 'Lightning Strike Count'
-      entity_id: []
-      value_template: >-
-        {{ states.geo_location | list | count }}
+    # lightning_strike_count:
+    #   friendly_name: 'Lightning Strike Count'
+    #   value_template: >
+    #     {{ states.geo_location|selectattr('attributes.source','eq','wwlln') and states.geo_location|selectattr('state','lessthan','15')|list|count }}
