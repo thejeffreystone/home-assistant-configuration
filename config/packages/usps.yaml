@@ -33,7 +33,7 @@ sensor:
         entity_id: 
           - sensor.mail_usps_mail
           - sensor.mail_usps_delivering
-          - sensor.mail_fedex_delivering
+          - sensor.mail_fedex_delivering_2
           - sensor.mail_ups_delivering
         value_template: > 
           {# Deliveries Sentence #}
@@ -62,13 +62,13 @@ sensor:
                     USPS packages are
                   {%- endif -%}
                 {{' '}}in transit.{{' '}}
-                  {%- if states("sensor.mail_fedex_delivering")|int == 0 -%}
+                  {%- if states("sensor.mail_fedex_delivering_2")|int == 0 -%}
                     No
                   {%- else -%}
-                    {{states("sensor.mail_fedex_delivering")|int}}
+                    {{states("sensor.mail_fedex_delivering_@")|int}}
                   {%- endif -%}
                 {{' '}} 
-                  {%- if states("sensor.mail_fedex_delivering")|int == 1 -%}
+                  {%- if states("sensor.mail_fedex_delivering_2")|int == 1 -%}
                     FedEx package is
                   {%- else -%}
                     Fedex packages are
