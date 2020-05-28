@@ -405,36 +405,6 @@
     service: frontend.set_theme
     data:
       name: midnight-AH
-- id: turn_off_audible_notifications
-  alias: Turn Off Audible Notifications
-  initial_state: true
-  trigger:
-  - platform: time
-    at: '19:30:00'
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.audible_notifications
-- id: turn_off_audible_notifications_guests
-  alias: Turn Off Audible Notifications at 7pm
-  initial_state: true
-  trigger:
-  - platform: time
-    at: '19:30:00'
-  condition:
-  - condition: state
-    entity_id: input_boolean.guest_mode
-    state: 'on'
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.audible_notifications
-- id: turn_on_audible_notifications
-  alias: Turn On Audible Notifications at 7am
-  initial_state: true
-  trigger:
-  - platform: time
-    at: 06:40:00
-  action:
-  - service: script.turn_on_ha_speaker
 - id: jeff_eta_home
   alias: Jeff eta home
   initial_state: true
@@ -745,24 +715,26 @@
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: sensor.mail_fedex_delivered
+      entity_id: sensor.mail_fedex_delivered_2
+    - platform: state
+      entity_id: sensor.mail_ups_delivered
   #send only if mail or packages are more than 0
   condition:
     - condition: or
       conditions:
         - condition: template
-          value_template: "{{ states('sensor.mail_fedex_delivered') | int > 0 }}"
+          value_template: "{{ states('sensor.mail_fedex_delivered_2') | int > 0 }}"
+        - condition: template
+          value_template: "{{ states('sensor.mail_ups_delivered') | int > 0 }}"
   action:
     - service: script.text_notify
       data_template:
         who: "jeff"
         title: "Package Delivered"
-        message: "Fedex just made a delivery"
+        message: "Fedex/UPS just made a delivery"
     - service: script.ah_report
       data_template:
         usps: >-
-          {%- if states.sensor.mail_fedex_delivered.state | int > 0 -%} 
-            Federal Express just left something on the porch.
-          {%- endif -%}
+            A package was just left on the porch.
         call_interuption: 1
 

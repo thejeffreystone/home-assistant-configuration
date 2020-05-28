@@ -12,7 +12,89 @@
 #   If you are running Hassio or Home Assistant as it is called now you will need a server that hosts local audio files if you want to leverage those
 ###############################################################################
 
-#  automation:
+
+input_datetime:
+  audible_notification_on:
+    name: Audible Notifications On
+    has_date: false
+    has_time: true
+  audible_notification_off:
+    name: Audible Notifications Off
+    has_date: false
+    has_time: true
+
+
+automation:
+  - id: turn_off_audible_notifications
+    alias: Turn Off Audible Notifications
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.audible_notifications
+
+  # - id: turn_off_audible_notifications_guests
+  #   alias: Turn Off Audible Notifications at 7pm
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '19:30:00'
+  #   condition:
+  #   - condition: state
+  #     entity_id: input_boolean.guest_mode
+  #     state: 'on'
+  #   action:
+  #   - service: input_boolean.turn_off
+  #     entity_id: input_boolean.audible_notifications
+
+  - id: turn_on_audible_notifications
+    alias: Turn On Audible Notifications at 7am
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+    - service: script.turn_on_ha_speaker
+
+  - id: set_audible_time_off_guest
+    alias: set audible time off guest
+    trigger:
+      - platform: state
+        entity_id: input_boolean.guest_mode
+        to: 'on'
+    action:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.audible_notification_off
+        data_template:
+          time: >
+            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
+              19:30
+            {% else %}
+              20:30
+            {% endif %}
+
+  - id: set_audible_time_off_normal
+    alias: set audible time off normal
+    trigger:
+      - platform: state
+        entity_id: input_boolean.guest_mode
+        to: 'off'
+      - platform: state
+        entity_id: binary_sensor.school_tomorrow
+    action:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.audible_notification_off
+        data_template:
+          time: > 
+            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
+              19:30
+            {% else %}
+              20:45
+            {% endif %}
+
+
 #   # Turn off Input Booleans when audio stops - Based on ha_speaker state.
 #   - id: reset_ib_when_stopped
 #     alias: Reset Input Booleans When Stopped
