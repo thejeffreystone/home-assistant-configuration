@@ -1,10 +1,10 @@
 homeassistant:
-  name: Home
-  latitude: !secret MY_LATITUDE
-  longitude: !secret MY_LONGITUDE
-  elevation: 315
-  unit_system: imperial
-  time_zone: America/New_York
+  # name: Home
+  # latitude: !secret MY_LATITUDE
+  # longitude: !secret MY_LONGITUDE
+  # elevation: 315
+  # unit_system: imperial
+  # time_zone: America/New_York
   customize: !include customize.yaml
   auth_providers:
     - type: homeassistant
@@ -16,7 +16,7 @@ default_config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  base_url: !secret ahsl_base_url
+  #base_url: !secret ahsl_base_url
   ssl_certificate: !secret ahsl_ssl_cert
   ssl_key: !secret ahsl_ssl_key
   use_x_forwarded_for: true
@@ -108,9 +108,7 @@ speedtestdotnet:
 
 
 discovery:
-  ignore:
-    - igd
-    - homekit
+
 
 updater:
   include_used_components: true
@@ -174,8 +172,6 @@ ecobee:
   api_key: !secret ecobee_api
 
 map:
-
-wwlln:
 
 geo_location:
   - platform: usgs_earthquakes_feed
