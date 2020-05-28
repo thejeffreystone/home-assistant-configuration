@@ -154,7 +154,7 @@ automation:
       data_template:
         time: >
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            07:25
+            07:00
           {% else %}
             07:58
           {% endif %}
