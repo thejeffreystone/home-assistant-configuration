@@ -421,21 +421,21 @@ automation:
                 "I hope you have a fun {{states.calendar.national_holidays.attributes.message}}. #nationalholiday #themoreyouknow"
               ] | random }}
   
-  - id: tweet_covid19_stats
-    alias: Tweet Some Covid Stats
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '09:00:00'
-    action:
-      # - service: script.text_notify
-      #   data_template:
-      #     who: "jeff"
-      #     title: "Covid-19 Update"
-      #     message: "Yesterday in the US there was {{ states.sensor.covid_pv_new_cases.state }} new cases of COVID-19 reported and {{ states.sensor.covid_pv_new_dead.state  }} more deaths. We now have a total of {{ states.sensor.covid_pv_confirmed.state }} people that have been infected and {{ states.sensor.covid_pv_dead.state }} that have died. So far {{ states.sensor.covid_pv_recovered.state }} have recovered, but {{ states.sensor.covid_pv_critical.state }} are in critical condition."
-      - service: script.twitter_notify
-        data_template:
-          message: >-
-                COVID-19 Stats for yesterday in the US: New Infections: {{ states.sensor.covid_pv_new_cases.state }} (Daily Change:{{ (((states.sensor.covid_pv_new_cases.state |replace(",", "") | int - states.sensor.covid_old_new_count.state |replace(",", "") | int) / states.sensor.covid_pv_new_cases.state |replace(",", "") | int * 100) | round)}}%) | New Deaths: {{ states.sensor.covid_pv_new_dead.state}} (Daily Change:{{ (((states.sensor.covid_pv_new_dead.state |replace(",", "") | int - states.sensor.covid_old_dead_count.state |replace(",", "") | int) / states.sensor.covid_pv_new_dead.state |replace(",", "") | int * 100) | round)}}%) | Total Cases: {{ states.sensor.covid_pv_confirmed.state }} | Total Dead:{{ states.sensor.covid_pv_dead.state }} | Total Recovered: {{ states.sensor.covid_pv_recovered.state }} ({{ ((states.sensor.covid_pv_recovered.state |replace(",", "") | int / states.sensor.covid_pv_confirmed.state |replace(",", "") | int) * 100) | round }}%)| Critical Cases: {{ states.sensor.covid_pv_critical.state }}
+  # - id: tweet_covid19_stats
+  #   alias: Tweet Some Covid Stats
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '09:00:00'
+  #   action:
+  #     # - service: script.text_notify
+  #     #   data_template:
+  #     #     who: "jeff"
+  #     #     title: "Covid-19 Update"
+  #     #     message: "Yesterday in the US there was {{ states.sensor.covid_pv_new_cases.state }} new cases of COVID-19 reported and {{ states.sensor.covid_pv_new_dead.state  }} more deaths. We now have a total of {{ states.sensor.covid_pv_confirmed.state }} people that have been infected and {{ states.sensor.covid_pv_dead.state }} that have died. So far {{ states.sensor.covid_pv_recovered.state }} have recovered, but {{ states.sensor.covid_pv_critical.state }} are in critical condition."
+  #     - service: script.twitter_notify
+  #       data_template:
+  #         message: >-
+  #               COVID-19 Stats for yesterday in the US: New Infections: {{ states.sensor.covid_pv_new_cases.state }} (Daily Change:{{ (((states.sensor.covid_pv_new_cases.state |replace(",", "") | int - states.sensor.covid_old_new_count.state |replace(",", "") | int) / states.sensor.covid_pv_new_cases.state |replace(",", "") | int * 100) | round)}}%) | New Deaths: {{ states.sensor.covid_pv_new_dead.state}} (Daily Change:{{ (((states.sensor.covid_pv_new_dead.state |replace(",", "") | int - states.sensor.covid_old_dead_count.state |replace(",", "") | int) / states.sensor.covid_pv_new_dead.state |replace(",", "") | int * 100) | round)}}%) | Total Cases: {{ states.sensor.covid_pv_confirmed.state }} | Total Dead:{{ states.sensor.covid_pv_dead.state }} | Total Recovered: {{ states.sensor.covid_pv_recovered.state }} ({{ ((states.sensor.covid_pv_recovered.state |replace(",", "") | int / states.sensor.covid_pv_confirmed.state |replace(",", "") | int) * 100) | round }}%)| Critical Cases: {{ states.sensor.covid_pv_critical.state }}
   
   
