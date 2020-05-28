@@ -29,20 +29,20 @@ notify:
   - name: all_ios
     platform: group
     services:
-      - service: mobile_app_jeffreys_iphone_8
+      - service: mobile_app_jeffreys_iphone_11
       - service: mobile_app_jeffreys_ipad
       - service: mobile_app_iphone
       - service: mobile_app_skylars_iphone
   - name: ios_parents
     platform: group
     services:
-      - service: mobile_app_jeffreys_iphone_8
+      - service: mobile_app_jeffreys_iphone_11
       - service: mobile_app_jeffreys_ipad
       - service: mobile_app_iphone
   - name: jeff_ios
     platform: group
     services:
-      - service: mobile_app_jeffreys_iphone_8
+      - service: mobile_app_jeffreys_iphone_11
       - service: mobile_app_jeffreys_ipad
   - name: kat_ios
     platform: group
@@ -633,11 +633,6 @@ script:
                   'If you have not seen tomorrows forecast it is expected to be, '
             ] | random }} 
             {{states.sensor.nws_forecast_tomorrow.state}}.
-            {{ [ 'then tomorrow night should be, ',
-                  'then overnight it is expected, ',
-                  'before changing overnight to, '
-            ] | random }} 
-             {{states.sensor.nws_forecast_tomorrow_night.state}}. 
           {% endmacro %}
 
           {% macro freeze_warning() %}
