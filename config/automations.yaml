@@ -671,14 +671,14 @@
 #   - service: script.kill_this_ride
 #   initial_state: true
 
-- id: save_old_covid_stats
-  alias: Old Covid Stats archive
-  trigger:
-  - platform: time
-    at: '15:12:15'
-  action:
-  - service: script.save_old_covid_stats
-  initial_state: true
+# - id: save_old_covid_stats
+#   alias: Old Covid Stats archive
+#   trigger:
+#   - platform: time
+#     at: '15:12:15'
+#   action:
+#   - service: script.save_old_covid_stats
+#   initial_state: true
 
 - id: kitchen_occupency_lighting
   alias: Kitchen Occupency Lighting
