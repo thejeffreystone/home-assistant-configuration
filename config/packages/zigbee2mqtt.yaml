@@ -1,62 +1,62 @@
 
-input_boolean:
-  zigbee_permit_join:
-    name: Allow devices to join
-    initial: off
-    icon: mdi:cellphone-wireless
+# input_boolean:
+#   zigbee_permit_join:
+#     name: Allow devices to join
+#     initial: off
+#     icon: mdi:cellphone-wireless
 
-timer:
-  zigbee_permit_join:
-    name: Time remaining
-    duration: 600 # Updated this to the number of seconds you wish
+# timer:
+#   zigbee_permit_join:
+#     name: Time remaining
+#     duration: 600 # Updated this to the number of seconds you wish
 
-sensor:
-  - platform: mqtt
-    name: Bridge state
-    state_topic: "homeassistant/bridge/state"
-    icon: mdi:router-wireless
+# sensor:
+#   - platform: mqtt
+#     name: Bridge state
+#     state_topic: "homeassistant/bridge/state"
+#     icon: mdi:router-wireless
 
-automation:
-  - id: enable_zigbee_join
-    alias: Enable Zigbee joining
-    trigger:
-      platform: state
-      entity_id: input_boolean.zigbee_permit_join
-      to: 'on'
-    action:
-    - service: mqtt.publish
-      data:
-        topic: homeassistant/bridge/config/permit_join
-        payload: 'true'
-    - service: timer.start
-      data:
-        entity_id: timer.zigbee_permit_join
-  - id: disable_zigbee_join
-    alias: Disable Zigbee joining
-    trigger:
-    - entity_id: input_boolean.zigbee_permit_join
-      platform: state
-      to: 'off'
-    action:
-    - data:
-        payload: 'false'
-        topic: homeassistant/bridge/config/permit_join
-      service: mqtt.publish
-    - data:
-        entity_id: timer.zigbee_permit_join
-      service: timer.cancel
-  - id: disable_zigbee_join_timer
-    alias: Disable Zigbee joining by timer
-    trigger:
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.zigbee_permit_join
-    action:
-    - service: mqtt.publish
-      data:
-        topic: homeassistant/bridge/config/permit_join
-        payload: 'false'
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.zigbee_permit_join
+# automation:
+#   - id: enable_zigbee_join
+#     alias: Enable Zigbee joining
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.zigbee_permit_join
+#       to: 'on'
+#     action:
+#     - service: mqtt.publish
+#       data:
+#         topic: homeassistant/bridge/config/permit_join
+#         payload: 'true'
+#     - service: timer.start
+#       data:
+#         entity_id: timer.zigbee_permit_join
+#   - id: disable_zigbee_join
+#     alias: Disable Zigbee joining
+#     trigger:
+#     - entity_id: input_boolean.zigbee_permit_join
+#       platform: state
+#       to: 'off'
+#     action:
+#     - data:
+#         payload: 'false'
+#         topic: homeassistant/bridge/config/permit_join
+#       service: mqtt.publish
+#     - data:
+#         entity_id: timer.zigbee_permit_join
+#       service: timer.cancel
+#   - id: disable_zigbee_join_timer
+#     alias: Disable Zigbee joining by timer
+#     trigger:
+#     - platform: event
+#       event_type: timer.finished
+#       event_data:
+#         entity_id: timer.zigbee_permit_join
+#     action:
+#     - service: mqtt.publish
+#       data:
+#         topic: homeassistant/bridge/config/permit_join
+#         payload: 'false'
+#     - service: input_boolean.turn_off
+#       data:
+#         entity_id: input_boolean.zigbee_permit_join
