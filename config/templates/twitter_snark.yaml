@@ -37,6 +37,8 @@
        "There is no crying in Home Automation. If you are using Home Assistant that is. I can't speak for the other guys.",
        "Sometimes I respond to voice commands with...You talking to me? You talking to me? ",
        "Do or do not. There is no try. Unless you ask Siri for something. Then it might take a couple of tries before you give up and ask Google.",
+       "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. Anyone want to take a guess at how many are really needed? Hint: The number is not {{ states.sensor.lines_of_code.state }}",
+       "How many lines of code does it take to make my job look easy? {{ states.sensor.lines_of_code.state }} lines of code evidently. How many lines of code do you have?",
        "Do you think we were all created for a purpose? I'd like to think so. #irobot "
        ] | random -}}
   {%- endmacro -%}

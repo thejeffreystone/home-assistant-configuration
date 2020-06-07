@@ -17,11 +17,13 @@
        "The HVAC has cooled the house for {{states.sensor.cooling_last_month.attributes.value}} and heated for {{states.sensor.heating_last_month.attributes.value}} in the last month",
        "The HVAC has cooled the house for {{states.sensor.cooling_last_day.attributes.value}} and heated for {{states.sensor.heating_last_day.attributes.value}} in the last 24 hours",
        "Anchorage House averages {{ states.sensor.humidity_stats.attributes.mean | round}}% Humidity outside.",
-       "On Average, Ancohrage House has {{states.sensor.visibility_stats.attributes.mean | round}} miles of visability.",
+       "On Average, Anchorage House has {{states.sensor.visibility_stats.attributes.mean | round}} miles of visability.",
        "The wind blows an average of {{ states.sensor.wind_speed_stats.attributes.mean | round}} mph here at Anchorage House.",
        "The Washing Machine uses an an average of {{ states.sensor.washer_power_stats.attributes.mean | round}} watts here at Anchorage House.",
        "I am currently managing {{ states.sensor.lights_count.state }} lights and {{ states.sensor.tracker_count.state }} devices.",
        "Amazon Polly enables me to sound more lifelike by incorporating breathing into my speech using #SAML. #AWS",
+       "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. One day @thejeffreystone will get it down to {{ (states.sensor.lines_of_code.state | int / 2) | round }} lines.",
+       "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. If one gets deleted and no one notices was it ever there?",
        "According to my latest speed tests Anchorage House is getting
           {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
           Mbps up thanks to #ATTFiber. ",
