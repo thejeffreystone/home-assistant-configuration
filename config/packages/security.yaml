@@ -35,31 +35,8 @@ input_boolean:
     icon: mdi:dog-side
 
 
-sensor:
-  - platform: mqtt
-    name: "Kitchen Alarm Type"
-    state_topic: "zwave2mqtt/nodeID_19/113/1/0"
-    value_template: "{{ value }}"
-  - platform: mqtt
-    name: "Kitchen Alarm Level"
-    state_topic: "zwave2mqtt/nodeID_19/113/1/1"
-    value_template: "{{ value }}"
-  - platform: mqtt
-    name: "Kitchen Alarm Battery"
-    state_topic: "zwave2mqtt/nodeID_19/128/1/0"
-    value_template: "{{ value }}"
-  - platform: mqtt
-    name: "Garage Alarm Type"
-    state_topic: "zwave2mqtt/nodeID_30/113/1/0"
-    value_template: "{{ value }}"
-  - platform: mqtt
-    name: "Garage Alarm Level"
-    state_topic: "zwave2mqtt/nodeID_30/113/1/1"
-    value_template: "{{ value }}"
-  - platform: mqtt
-    name: "Garage Alarm Battery"
-    state_topic: "zwave2mqtt/nodeID_30/128/1/0"
-    value_template: "{{ value }}"
+#sensor:
+ 
 
 automation:
   - id: enable_vacation_mode
@@ -159,10 +136,10 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door
-      - binary_sensor.laundry_room_door
-      - binary_sensor.attic_door
-      - binary_sensor.back_door
+      - binary_sensor.front_door_contact
+      - binary_sensor.laundry_door_contact
+      - binary_sensor.attic_door_contact
+      - binary_sensor.back_door_contact
       from: 'off'
     condition:
       condition: and
@@ -190,10 +167,10 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door
-      - binary_sensor.laundry_room_door
-      - binary_sensor.attic_door
-      - binary_sensor.back_door
+      - binary_sensor.front_door_contact
+      - binary_sensor.laundry_door_contact
+      - binary_sensor.attic_door_contact
+      - binary_sensor.back_door_contact
       from: 'off'
       to: 'on'
       for: '00:01:00'
@@ -230,7 +207,7 @@ automation:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: binary_sensor.front_door
+      entity_id: binary_sensor.front_door_contact
       state: 'off'
     action:
     - service: script.ah_report
@@ -278,11 +255,11 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door
-      - binary_sensor.laundry_room_door
-      - binary_sensor.back_door
-      - binary_sensor.side_door
-      - binary_sensor.garage_door
+      - binary_sensor.front_door_contact
+      - binary_sensor.laundry_door_contact
+      - binary_sensor.back_door_contact
+      - binary_sensor.side_door_contact
+      - binary_sensor.garage_door_contact
       from: 'off'
     condition:
     - condition: state
@@ -447,8 +424,8 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: sensor.kitchen_alarm_type
-      to: '1'
+      entity_id: sensor.kitchen_smoke_smoke_detector
+      to: 'smoke'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.fire_alarm
@@ -476,8 +453,8 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: sensor.kitchen_alarm_type
-      to: '2'
+      entity_id: sensor.kitchen_smoke_carbon_monoxide_detector
+      to: 'co2'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.fire_alarm
@@ -504,8 +481,8 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: sensor.garage_alarm_type
-      to: '1'
+      entity_id: sensor.garage_smoke_smoke_detector
+      to: 'smoke'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.fire_alarm
@@ -532,8 +509,8 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: sensor.garage_alarm_type
-      to: '2'
+      entity_id: sensor.garage_smoke_carbon_monoxide_detector
+      to: 'co2'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.fire_alarm
@@ -555,6 +532,41 @@ automation:
         data:
           type: announce
     
+  - id: water_leak_detected
+    alias: Welcome Home
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.fridge_leak_water
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "parents"
+          title: "Water Leak!!!!"
+          message: > 
+            {% set location = trigger.to_state.attributes.friendly_name %}
+            location + has detected a leak
+      - service: script.jarvis_alert
+        data_template:
+          message: >
+            {% set location = trigger.to_state.attributes.friendly_name %}
+            {%- macro issue_report(location) -%}
+              {{ [
+                  'I have detected an issue!',
+                  'We have a problem!',
+                  'You might not like this.',
+                  'There is something that needs your attention.'
+                  ] | random }}
+              {{ [
+                location + " is detecting a leak.",
+                location + " has detected water.",
+                location + " is picking up water."
+                ] | random }}
+            {%- endmacro -%}
+            {{issue_report(location)}}
+
 
 script:
   lockdown_issue:
@@ -592,7 +604,7 @@ script:
   security_check_garage:
     sequence:
     - condition: state
-      entity_id: binary_sensor.garage_door
+      entity_id: binary_sensor.garage_door_contact
       state: 'on'
     - service: input_boolean.turn_on
       entity_id: input_boolean.lockdown_issue
