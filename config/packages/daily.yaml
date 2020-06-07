@@ -15,7 +15,7 @@ automation:
     action:
       - service: clean_up_snapshots_service.clean_up
 
-  # Nightly Entity Refresh - For all those sensors that need a little push
+  # Morning Entity Refresh - For all those sensors that need a little push
   - id: daily_entity_refresh
     alias: Daily Entity Refresh
     initial_state: 'on'
@@ -27,4 +27,16 @@ automation:
         entity_id: sensor.today_is 
       - service: homeassistant.update_entity
         entity_id: sensor.holiday
+  
+  # Nightly Entity Refresh - For all those sensors that need a little push
+  - id: daily_entity_refresh2
+    alias: Daily Entity Refresh2
+    initial_state: 'on'
+    trigger: 
+    - platform: time
+      at: '17:00:00'
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.school_tomorrow
+      
     

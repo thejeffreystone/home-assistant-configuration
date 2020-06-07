@@ -10,6 +10,40 @@ input_boolean:
     name: Rex Manning audio
     icon: mdi:speaker-wireless
 
+input_datetime:
+  school_first_day:
+    name: First Day of School
+    has_date: true
+    has_time: false
+    initial: '2020-08-05'
+  school_last_day:
+    name: Last Day of School
+    has_date: true
+    has_time: false
+    initial: '2021-05-26'
+  school_day_start:
+    name: School Day Start
+    has_date: false
+    has_time: true
+    initial: '07:45:00'
+  school_day_end:
+    name: School Day End
+    has_date: false
+    has_time: true
+    initial: '14:45:00'
+
+sensor:
+  - platform: template
+    sensors:
+      school_start_days2go:
+        value_template: '{{ (((states.input_datetime.school_first_day.attributes.timestamp)-as_timestamp(now())) | int /60/1440) | round(0) }}'
+        unit_of_measurement: 'Days'
+        entity_id: input_datetime.school_first_day,sensor.time
+      school_end_days2go:
+        value_template: '{{ (((states.input_datetime.school_last_day.attributes.timestamp)-as_timestamp(now())) | int /60/1440) | round(0) }}'
+        unit_of_measurement: 'Days'
+        entity_id: input_datetime.school_last_day,sensor.time
+
 automation:
   - id: refresh_special_event_sensors
     alias: Refresh special event sensors
