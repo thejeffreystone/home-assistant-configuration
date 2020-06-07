@@ -855,7 +855,7 @@ script:
               Do not forget to make your beds!
             {% endif %}
 
-            {% if is_state('sensor.weekday', 'mon') %}
+            {% if is_state('sensor.today_is', 'Monday') %}
               {% if now().strftime('%H')|int > 17 %}
               {{ [ 'Do not forget tomorrow is Trash Day. ',
                 'I advise you move the trash cans to the curb for the weekly pickup. ',
@@ -864,7 +864,7 @@ script:
               {% endif %}
             {% endif %}
 
-            {% if is_state('sensor.weekday', 'tue') %}
+            {% if is_state('sensor.today_is', 'Tuesday') %}
               {% if now().strftime('%H')|int > 17 %}
                 {{ [ 'Do not forget to bring in the trash cans. ',
                 'The trash cans will feel lonely if you leave them out all night. ',
@@ -1121,6 +1121,12 @@ script:
               ] | random }}
           {%- endmacro -%}
 
+          {%- macro launch() -%}
+            {{ [
+              'I have detected a rather large rocket preparing to take off.'
+              ] | random }}
+          {%- endmacro -%}
+
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
           {%- macro cleanup(data) -%}
             {%- for item in data.split("\n")  if item | trim != "" -%}
@@ -1319,7 +1325,16 @@ script:
             {% if call_snark_door_open == 1 %}
               {{ snark_door_open() }}
             {% endif %}
+
+            {% if call_launch == 1 %}
+              {{ launch() }}
+            {% endif %}
+
+            
           {%- endmacro -%}
+
+            
+  
 
           {{- cleanup(mother_of_all_macros()) -}}
 
