@@ -47,6 +47,7 @@ sensor:
     sensors:
       flood_watch:
         friendly_name: 'Flood Watch'
+        entity_id: sensor.time
         value_template: >-
             {% if 'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
@@ -61,6 +62,7 @@ sensor:
             {% endif %}
       flood_warning:
         friendly_name: 'Flood Warning'
+        entity_id: sensor.time
         value_template: >-
             {% if 'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
@@ -75,6 +77,7 @@ sensor:
             {% endif %}
       tstorm_warning:
         friendly_name: 'Thunderstorm Warning'
+        entity_id: sensor.time
         value_template: >-
             {% if 'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
@@ -89,6 +92,7 @@ sensor:
             {% endif %}
       tstorm_watch:
         friendly_name: 'Thunderstorm Watch'
+        entity_id: sensor.time
         value_template: >-
             {% if 'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
@@ -103,6 +107,7 @@ sensor:
             {% endif %}
       tornado_watch:
         friendly_name: 'Tornado Watch'
+        entity_id: sensor.time
         value_template: >-
             {% if 'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
@@ -117,6 +122,7 @@ sensor:
             {% endif %}
       tornado_warning:
         friendly_name: 'Tornado Warning'
+        entity_id: sensor.time
         value_template: >-
             {% if 'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
