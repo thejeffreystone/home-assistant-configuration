@@ -79,6 +79,7 @@
     clothing_forecast:
       friendly_name: "Clothing Forecast"
       unit_of_measurement: ''
+      entity_id: sensor.nws_daytime_temperature
       value_template: >-
           {%- if states('sensor.nws_daytime_temperature')|float > 63 %}
             {%- if states('sensor.nws_daytime_temperature')|float < 80 %}
@@ -101,17 +102,21 @@
           {%- endif %}
     nws_current_forecast:
       friendly_name: 'Current Forecast'
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.attributes.forecast[0].detailed_description | truncate(250, False) }}"
     nws_current_rain_forecast:
       friendly_name: 'Current Rain Chance'
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.attributes.forecast[0].precipitation_probability }}"
       unit_of_measurement: '%'
     nws_current_temperature:
       friendly_name: 'Current Temperature'
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.attributes.temperature }}"
       device_class: temperature
     nws_daytime_temperature:
       friendly_name: 'Daytime Temperature'
+      entity_id: weather.klzu_daynight
       value_template: >-
           {% if states.weather.klzu_daynight.attributes.forecast[0].daytime == True %}
             {{ states.weather.klzu_daynight.attributes.forecast[0].temperature }}
@@ -121,18 +126,23 @@
       device_class: temperature
     nws_current_condition: 
       friendly_name: 'Current Condition'
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.state }}"
     nws_current_humidity:
       friendly_name: 'Current Humidity'
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.attributes.humidity }}"
     nws_current_visibility:
       friendly_name: "Current Visability"
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.attributes.visibility }}"
     nws_current_windspeed:
       friendly_name: "Current Windspeed"
+      entity_id: weather.klzu_daynight
       value_template: "{{ states.weather.klzu_daynight.attributes.wind_speed }}"
     nws_overnight_low:
       friendly_name: "Overnight Low"
+      entity_id: weather.klzu_daynight
       unit_of_measurement: ''
       value_template: >-
           {% if states.weather.klzu_daynight.attributes.forecast[0].daytime == False %}
@@ -142,6 +152,7 @@
           {% endif %}
     nws_overnight_forecast:
       friendly_name: "Overnight Forecast"
+      entity_id: weather.klzu_daynight
       unit_of_measurement: ''
       value_template: >-
           {% if states.weather.klzu_daynight.attributes.forecast[0].daytime == False %}
@@ -153,6 +164,7 @@
           {% endif %}
     nws_forecast_tomorrow:
       friendly_name: "Forecast Tomorrow"
+      entity_id: weather.klzu_daynight
       unit_of_measurement: ''
       value_template: >-
           {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
@@ -162,6 +174,7 @@
           {%- endif %}
     nws_forecast_rain_tomorrow:
       friendly_name: "Rain Chance Tomorrow"
+      entity_id: weather.klzu_daynight
       unit_of_measurement: '%'
       value_template: >-
           {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
@@ -171,6 +184,7 @@
           {%- endif %}
     nws_forecast_tomorrow_night:
       friendly_name: "Forecast Tomorrow Night"
+      entity_id: weather.klzu_daynight
       unit_of_measurement: ''
       value_template: >-
           {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
@@ -180,6 +194,7 @@
           {%- endif %}
     nws_forecast_rain_tomorrow_night:
       friendly_name: "Rain Chance Tomorrow Night"
+      entity_id: weather.klzu_daynight
       unit_of_measurement: '%'
       value_template: >-
           {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
@@ -189,9 +204,7 @@
           {%- endif %}
     current_inside_humidity:
       friendly_name: "Current Inside Humidity"
+      entity_id: climate.home
       unit_of_measurement: '%'
       value_template: "{{ states.climate.home.attributes.current_humidity }}"
-    # lightning_strike_count:
-    #   friendly_name: 'Lightning Strike Count'
-    #   value_template: >
-    #     {{ states.geo_location|selectattr('attributes.source','eq','wwlln') and states.geo_location|selectattr('state','lessthan','15')|list|count }}
+  
