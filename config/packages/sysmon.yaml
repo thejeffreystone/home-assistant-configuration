@@ -77,6 +77,10 @@ sensor:
   - platform: uptime
     name: Time Online
     unit_of_measurement: days
+  - platform: command_line
+    name: Lines of Code
+    command: "find /config -name '*.yaml' | xargs cat | wc -l"
+    scan_interval: 20000
   - platform: template
     sensors:
       open_pull_requests:
