@@ -29,7 +29,7 @@ turn_on_ha_speaker:
     state: 'off'
   - service: input_boolean.turn_on
     entity_id: input_boolean.audible_notifications
-
+  
 
 inside_all_on:
   sequence:
@@ -40,7 +40,7 @@ inside_all_on:
   - service: switch.turn_on
     entity_id: switch.fireplace_lights
   - service: switch.turn_on
-    entity_id: switch.upstairs
+    entity_id: switch.croft_light
   - service: switch.turn_on
     entity_id: switch.rail_lights
   - service: scene.turn_on
@@ -141,10 +141,10 @@ driveway_off:
   - delay:
       seconds: 120
   - condition: state
-    entity_id: binary_sensor.side_door
+    entity_id: binary_sensor.side_door_contact
     state: 'off'
   - condition: state
-    entity_id: binary_sensor.garage_door
+    entity_id: binary_sensor.garage_door_contact
     state: 'off'
   - service: switch.turn_off
     entity_id: switch.driveway_light

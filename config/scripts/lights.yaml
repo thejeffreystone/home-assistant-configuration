@@ -5,29 +5,6 @@
 #########################################
 
 
-##########################
-# Dim Living Room lights slowly - Sengled Bulbs - No Built in Transistion. 
-# Script can take a delay, if no delay is passed delay is set to 5
-# delay should be in seconds
-# Script takes the following
-# entity_id = The light you want to fade in
-# transition: = # Seconds to go from current to end brightness
-# brightness_pct: = # Brightness to end at as a percentage
-lr_sengled_transistion_on:
-  sequence: 
-  - service: python_script.light_transistion
-    data:
-      entity_id: light.tower_lamp_2
-      brightness_pct: 100
-      transition: 60
-
-lr_sengled_transistion_off:
-  sequence: 
-  - service: python_script.light_transistion
-    data:
-      entity_id: light.tower_lamp_2
-      brightness_pct: 0
-      transition: 60
 
 # Turn on Living Room Lights if sun is down or cloud coverage is above 70%
 livingroom_lamps_on:
@@ -57,9 +34,9 @@ good_night_loft:
     entity_id: media_player.pn60e550_pn60e550
     state: "off"
   - service: switch.turn_off
-    entity_id: switch.upstairs_fan
+    entity_id: switch.croft_fan
   - service: switch.turn_off
-    entity_id: switch.upstairs
+    entity_id: switch.croft_light
 
 kitchen_lights_on:
   sequence:

@@ -1,27 +1,61 @@
+- name: all lights on
+  entities:
+    light.kitchen_cabinets:
+      state: on
+      brightness: 100
+    light.kitchen_cabinet_lights:
+      state: on
+    switch.upstairs:
+      state: on
+    group.rgb_lr:
+      state: on
+      brightness_pct: 100
+      rgb_color: [255,255,255]
+    switch.fireplace_lights:
+      state: on
+    light.0xe20db9fffe004207_light:
+      state: on
+      brightness: 100
+    light.0xe20db9fffe003637_light:
+      state: on
+      brightness: 100
+    switch.0xf0d1b80000052281_switch:
+      state: on
+    switch.rail_lights:
+      state: on
+    light.0xb0ce18140003b334_light:
+      state: on
+      brightness: 100
+    light.0xb0ce1814035bb3f0_light:
+      state: on
+      brightness: 100
+
+
 - name: normal livingroom lighting
   entities:
     group.rgb_lr:
       state: on
-      brightness: 250
+      brightness: 255
       color_temp: 369
+      rgb_color: [255,255,255]
     # light.front_door_lamp:
     #   state: on
-    #   brightness: 250
+    #   brightness: 255
     # light.living_room_lamp:
     #   state: on
     #   brightness: 250
 
 - name: dimished livingroom lighting
   entities:
-    light.0xb0ce18140003608a_light:
+    light.livingroom_tower:
       state: on
       brightness: 40
       color_temp: 369
-    light.0xb0ce181400051072_light_2:
+    light.livingroom_lamp_2:
       state: off
-    light.0xb0ce181400051b4c_light_2:
+    light.livingroom_lamp_1:
       state: off
-    switch.fireplace_lights:
+    switch.fireplace_lights_2:
       state: off
 
 - name: illuminations livingroom lighting two
@@ -61,15 +95,15 @@
 
 - name: night time livingroom lighting
   entities:
-    light.0xb0ce18140003608a_light:
+    light.livingroom_tower:
       state: on
       brightness: 10
       color_temp: 369
-    light.0xb0ce181400051072_light_2:
+    light.livingroom_lamp_2:
       state: off
-    light.0xb0ce181400051b4c_light_2:
+    light.livingroom_lamp_1:
       state: off
-    switch.fireplace_lights:
+    switch.fireplace_lights_2:
       state: off
 
 - name: diminished kitchen lighting
@@ -77,7 +111,7 @@
     light.kitchen_cabinets:
       state: on
       brightness: 10
-    light.kitchen_cabinet_lights:
+    switch.ha_speaker:
       state: off
 
 - name: normal kitchen lighting
@@ -85,28 +119,28 @@
     light.kitchen_cabinets:
       state: on
       brightness: 250
-    light.kitchen_cabinet_lights:
+    switch.ha_speaker:
       state: on
 
 - name: lights out
   entities:
     light.kitchen_cabinets:
       state: off
-    light.kitchen_cabinet_lights:
+    switch.ha_speaker:
       state: off
-    switch.upstairs:
+    switch.croft_light:
       state: off
     group.rgb_lr:
       state: off
     switch.fireplace_lights:
       state: off
-    light.0xb0ce18140003608a_light:
+    light.skylar_tower:
       state: off
-    light.0xe20db9fffe004207_light:
+    light.jeff_lamp:
       state: off
-    light.0xe20db9fffe003637_light:
+    light.skylar_spotlight:
       state: off
-    switch.0xf0d1b80000052281_switch:
+    switch.rainbow_light:
       state: off
     switch.rail_lights:
       state: off
@@ -116,36 +150,24 @@
   entities:
     light.kitchen_cabinets:
       state: off
-    light.kitchen_cabinet_lights:
+    switch.ha_speaker:
       state: off
-    switch.ge_14291_in_wall_smart_switch_switch_2:
+    switch.fireplace_lights:
       state: off
     group.rgb_lr:
       state: on
-      brightness_pct: 100 
-    # light.front_door_lamp:
-    #   state: on
-    #   brightness: 40
-    # light.living_room_lamp:
-    #   state: on
-    #   brightness: 40
-    switch.fireplace_lights:
-      state: off
+      brightness: 255
+    switch.rail_lights:
+      state: off 
 
 - name: haunted lights out
   entities:
     light.kitchen_cabinets:
       state: off
-    light.kitchen_cabinet_lights:
-      state: off
-    switch.ge_14291_in_wall_smart_switch_switch_2:
+    switch.ha_speaker:
       state: off
     group.rgb_lr:
       state: off
-    # light.front_door_lamp:
-    #   state: off
-    # light.living_room_lamp:
-    #   state: off
     switch.fireplace_lights:
       state: off
 
@@ -185,14 +207,18 @@
 
 - name: tower lamp red
   entities:
-    light.0xb0ce18140003608a_light:
+    light.livingroom_tower:
       state: on
       brightness_pct: 100
       rgb_color: [255,40,0]
     
 - name: front lamp green
   entities:
-    light.0xb0ce181400051072_light_2:
+    light.livingroom_lamp_1:
+      state: on
+      brightness_pct: 100
+      rgb_color: [0,128,0]
+    light.livingroom_lamp_2:
       state: on
       brightness_pct: 100
       rgb_color: [0,128,0]
@@ -200,61 +226,61 @@
 
 - name: jeff light on
   entities:
-    light.0xe20db9fffe004207_light:
+    light.jeff_bedside_lamp:
       state: on
-      brightness: 100
+      brightness: 255
 
 - name: jeff light off
   entities:
-    light.0xe20db9fffe004207_light:
+    light.jeff_bedside_lamp:
       state: off
       
 
 - name: jeff wake up
   entities:
-    light.0xe20db9fffe004207_light:
+    light.jeff_bedside_lamp:
       state: on
       brightness: 10
 
 - name: jeff bedtime
   entities:
-    light.0xe20db9fffe004207_light:
+    light.jeff_bedside_lamp:
       state: on
       brightness: 40
 
 - name: jeff night light
   entities:
-    light.0xe20db9fffe004207_light:
+    light.jeff_bedside_lamp:
       state: on
       brightness: 10
 
-- name: skylar lamp on
+- name: skylar tower on
   entities:
-    light.0xe20db9fffe003637_light:
+    light.skylar_tower:
       state: on
-      brightness: 100
+      brightness: 255
 
-- name: skylar lamp 75
+- name: skylar tower 75
   entities:
-    light.0xe20db9fffe003637_light:
+    light.skylar_tower:
       state: on
-      brightness: 75
+      brightness: 192
 
-- name: skylar lamp 50
+- name: skylar tower 50
   entities:
-    light.0xe20db9fffe003637_light:
+    light.skylar_tower:
       state: on
-      brightness: 50
+      brightness: 130
 
-- name: skylar lamp 25
+- name: skylar tower 25
   entities:
-    light.0xe20db9fffe003637_light:
+    light.skylar_tower:
       state: on
-      brightness: 25
+      brightness: 63
 
-- name: skylar lamp off
+- name: skylar tower off
   entities:
-    light.0xe20db9fffe003637_light:
+    light.skylar_tower:
       state: off
 
 - name: santa protocol
@@ -264,7 +290,33 @@
     switch.rail_lights:
       state: on
     
+- name: skylar room prebed
+  entities:
+    light.skylar_tower:
+      state: on
+      brightness: 192
+    light.wled_loftbed:
+      state: on
+      brightness: 255
+      rgb_color: [63, 255, 0]
+    switch.rainbow_light:
+      state: on
     
+
+- name: skylar room sleep
+  entities:
+    light.skylar_tower:
+      state: off
+    light.wled_loftbed:
+      state: on
+      brightness_pct: 100
+      rgb_color: [63, 255, 0]
+    switch.rainbow_light:
+      state: on
+    switch.wled_loftbed_nightlight:
+      state: on
+
+
 
 
 #########################################
@@ -277,21 +329,34 @@
   entities:
     group.rgb_lr:
       state: on
-      brightness_pct: 100
+      brightness: 255
       rgb_color: [255,255,255]
 
 - name : lr_blue
   entities:
     group.rgb_lr:
       state: on
-      brightness_pct: 100
+      brightness: 255
       color_name: "blue"
 
 - name : lr_red
   entities:
     group.rgb_lr:
       state: on
-      brightness_pct: 100
+      brightness: 255
       rgb_color: [255,40,0]
 
 
+#######################################
+# Home Theater
+
+- name: normal audio
+  entities:
+    media_player.tsr_6750_a3ed2f:
+      state: on
+      source: HDMI1
+
+- name: quiet audio
+  entities:
+    media_player.tsr_6750_a3ed2f:
+      state: off

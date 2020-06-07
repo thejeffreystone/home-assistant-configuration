@@ -36,33 +36,34 @@
 #   retain: true
 
 # Outside
-- platform: mqtt
-  name: "Side Door Light"
-  command_topic: "zwave2mqtt/side_door_light/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/side_door_light/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/side_door_light/38/1/0"
-  on_command_type: "brightness"
-  payload_off: 0
+# - platform: mqtt
+#   name: "Side Door Light"
+#   command_topic: "zwave2mqtt/side_door_light/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/side_door_light/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/side_door_light/38/1/0"
+#   on_command_type: "brightness"
+#   payload_off: 0
 
 # Kitchen
 
-- platform: mqtt
-  name: "Kitchen Cabinets"
-  command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/kitchen_cabinets/38/1/0"
-  on_command_type: "brightness"
-  payload_off: 0
-  retain: true
+# - platform: mqtt
+#   name: "Kitchen Cabinets"
+#   command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/kitchen_cabinets/38/1/0"
+#   on_command_type: "brightness"
+#   payload_off: 0
+#   retain: true
 
-- platform: mqtt
-  name: "Kitchen Cabinet Lights"
-  command_topic: "zwave2mqtt/kitchen_strip/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/kitchen_strip/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/kitchen_strip/38/1/0"
-  on_command_type: "brightness"
-  payload_off: 0
-  retain: true
+# - platform: mqtt
+#   name: "Kitchen Cabinet Lights"
+#   command_topic: "zwave2mqtt/kitchen_strip/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/kitchen_strip/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/kitchen_strip/38/1/0"
+#   on_command_type: "brightness"
+#   payload_off: 0
+#   retain: true
+

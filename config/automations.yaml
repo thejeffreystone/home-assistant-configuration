@@ -36,7 +36,7 @@
   alias: Washer Emptied
   trigger:
   - platform: state
-    entity_id: binary_sensor.washer_door
+    entity_id: binary_sensor.washer_door_contact
     from: 'off'
     to: 'on'
   action:
@@ -135,9 +135,9 @@
   - service: scene.turn_on
     entity_id: scene.normal_kitchen_lighting
   - service: switch.turn_off
-    entity_id: switch.0xf0d1b80000052281_switch # Rainbow Light
+    entity_id: switch.rainbow_light # Rainbow Light
   - service: light.turn_on
-    entity_id: light.0xe20db9fffe003637_light # Skylar's Lamp
+    entity_id: light.skylars_tower # Skylar's Lamp
   - service: scene.turn_on
     entity_id: scene.jeff_light_on
   - service: script.twitter_notify_image
@@ -167,10 +167,9 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
-  - service: switch.turn_on
-    entity_id: switch.0xf0d1b80000052281_switch # Rainbow Light
   - service: scene.turn_on
-    entity_id: scene.skylar_lamp_25
+    entity_id: scene.skylar_room_prebed
+
 
 - id: jeff_lights_out
   alias: Jeff lights out
@@ -274,13 +273,13 @@
   - service: switch.turn_off
     entity_id: switch.forest
   - service: switch.turn_off
-    entity_id: switch.living_room_fan
+    entity_id: switch.livingroom_fan
   - service: light.turn_off
     data:
-      entity_id: light.kitchen_cabinet_lights
+      entity_id: light.ha_speaker
   - service: light.turn_off
     data:
-      entity_id: light.kitchen_cabinets
+      entity_id: light.kitchen_cabinets_2
   - service: script.good_night_loft
   - service: script.twitter_notify_image
     data_template:
@@ -307,7 +306,7 @@
   action:
   - service: switch.turn_on
     data:
-      entity_id: switch.front_porch
+      entity_id: switch.front_porch_light
   - service: script.sunset_garage_open
   - service: script.twitter_notify_image
     data_template:
@@ -353,7 +352,7 @@
   action:
   - service: switch.turn_off
     data:
-      entity_id: switch.front_porch
+      entity_id: switch.front_porch_light
   - service: script.twitter_notify_image
     data_template:
       tweet: >-
@@ -560,7 +559,7 @@
     platform: time
   condition:
   - condition: state
-    entity_id: binary_sensor.garage_door
+    entity_id: binary_sensor.garage_door_contact
     state: 'on'
   action:
   - data:
@@ -570,7 +569,7 @@
   alias: Garage Closed
   initial_state: true
   trigger:
-  - entity_id: binary_sensor.garage_door
+  - entity_id: binary_sensor.garage_door_contact
     from: 'on'
     platform: state
     to: 'off'
@@ -589,14 +588,14 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: switch.living_room_fan
+    entity_id: switch.livingroom_fan
     state: 'off'
   - above: '73'
     condition: numeric_state
     entity_id: sensor.living_room_temperature
   action:
   - data:
-      entity_id: switch.living_room_fan
+      entity_id: switch.livingroom_fan
     service: switch.turn_on
 - id: '1562067639239'
   alias: Upstairs Fan Off
@@ -608,7 +607,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: switch.upstairs_fan
+    entity_id: switch.croft_fan
     state: 'on'
   - below: '72'
     condition: numeric_state
@@ -618,7 +617,7 @@
     state: 'off'
   action:
   - data:
-      entity_id: switch.upstairs_fan
+      entity_id: switch.croft_fan
     service: switch.turn_off
 - id: '1562630916597'
   alias: Kat Pill Reminder
@@ -685,7 +684,7 @@
   initial_state: true
   trigger:
   - platform: state
-    entity_id: binary_sensor.kitchen_motion
+    entity_id: binary_sensor.kitchen_motion_motion
     to: 'on'
   action:
   - service: script.kitchen_lights_night
@@ -705,11 +704,11 @@
     state: 'below_horizon'
   action:
   - service: switch.turn_on
-    entity_id: switch.driveway_light
+    entity_id: switch.driveway_light_2
   - delay:
       minutes: 3
   - service: switch.turn_off
-    entity_id: switch.driveway_light
+    entity_id: switch.driveway_light_2
   
 - alias: "Delivered Package Notification"
   initial_state: 'on'
@@ -738,3 +737,24 @@
             A package was just left on the porch.
         call_interuption: 1
 
+- alias: 'Battery Alert'
+  initial_state: 'on'
+  trigger:
+    - platform: time
+      at: '10:00:00'
+    - platform: time
+      at: '18:00:00'
+  condition:
+    condition: template
+    value_template: "{% if states('sensor.low_battery') %}true{% endif %}"
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: Low Battery
+        message: "{{ states('sensor.low_battery') }}"
+        notification_id: low-battery-alert
+    - service: script.text_notify
+      data_template:
+        title: "HA Issue"
+        message: "Low battery levels: {{ states('sensor.low_battery') }}"
+        who: 'jeff'
