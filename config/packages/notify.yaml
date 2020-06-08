@@ -1127,10 +1127,10 @@ script:
               ] | random }}
           {%- endmacro -%}
 
-          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text. Also replaces all Underscores with Spaces  #}
           {%- macro cleanup(data) -%}
             {%- for item in data.split("\n")  if item | trim != "" -%}
-              {{ item | trim }} {% endfor -%}
+              {{ item | trim | replace("_", " ") }} {% endfor -%}
           {%- endmacro -%}
 
           {# ********************************************* #}
