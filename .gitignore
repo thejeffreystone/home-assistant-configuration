@@ -20,7 +20,7 @@ transporter.py
 /config/hacs
 
 
-# ignore any of these filesno matter where they are
+# ignore any of these files no matter where they are using double *
 **.DS_Store
 **._*
 **.HA_VERSION
