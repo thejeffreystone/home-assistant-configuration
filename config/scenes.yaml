@@ -51,11 +51,9 @@
       state: on
       brightness: 40
       color_temp: 369
-    light.livingroom_lamp_2:
+    group.livingroom_lamps:
       state: off
-    light.livingroom_lamp_1:
-      state: off
-    switch.fireplace_lights_2:
+    switch.fireplace_lights:
       state: off
 
 - name: illuminations livingroom lighting two
@@ -95,15 +93,13 @@
 
 - name: night time livingroom lighting
   entities:
-    light.livingroom_tower:
+    group.livingroom_tower:
       state: on
       brightness: 10
       color_temp: 369
-    light.livingroom_lamp_2:
+    group.livingroom_lamps:
       state: off
-    light.livingroom_lamp_1:
-      state: off
-    switch.fireplace_lights_2:
+    switch.fireplace_lights:
       state: off
 
 - name: diminished kitchen lighting
@@ -134,13 +130,9 @@
       state: off
     switch.fireplace_lights:
       state: off
-    light.skylar_tower:
+    group.skylars_bedroom:
       state: off
-    light.jeff_lamp:
-      state: off
-    light.skylar_spotlight:
-      state: off
-    switch.rainbow_light:
+    group.master_bedroom:
       state: off
     switch.rail_lights:
       state: off
@@ -148,9 +140,7 @@
 
 - name: haunted preshow
   entities:
-    light.kitchen_cabinets:
-      state: off
-    switch.ha_speaker:
+    group.kitchen:
       state: off
     switch.fireplace_lights:
       state: off
@@ -162,14 +152,11 @@
 
 - name: haunted lights out
   entities:
-    light.kitchen_cabinets:
+    group.kitchen:
       state: off
-    switch.ha_speaker:
+    group.livingroom:
       state: off
-    group.rgb_lr:
-      state: off
-    switch.fireplace_lights:
-      state: off
+    
 
 - name: wishes preshow
   entities:
@@ -188,37 +175,33 @@
   entities:
     switch.christmas_tree:
       state: on
-    light.0xb0ce181400051b4c_light_2:
+    light.0xb0ce181400051b4c_light:
       state: on
       brightness: 20
     light.0xb0ce18140003608a_light:
       state: on
       brightness: 20
-    light.0xb0ce181400051072_light_2:
+    light.0xb0ce181400051072_light:
       state: on
       brightness: 20
 
 - name: table lamp blue
   entities:
-    light.0xb0ce181400051b4c_light_2:
+    group.livingroom_lamps:
       state: on
       brightness_pct: 100
       rgb_color: [65,105,255]
 
 - name: tower lamp red
   entities:
-    light.livingroom_tower:
+    group.livingroom_tower:
       state: on
       brightness_pct: 100
       rgb_color: [255,40,0]
     
 - name: front lamp green
   entities:
-    light.livingroom_lamp_1:
-      state: on
-      brightness_pct: 100
-      rgb_color: [0,128,0]
-    light.livingroom_lamp_2:
+    group.livingroom_lamps:
       state: on
       brightness_pct: 100
       rgb_color: [0,128,0]
@@ -226,61 +209,61 @@
 
 - name: jeff light on
   entities:
-    light.jeff_bedside_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 255
 
 - name: jeff light off
   entities:
-    light.jeff_bedside_lamp:
+    light.jeff_lamp:
       state: off
       
 
 - name: jeff wake up
   entities:
-    light.jeff_bedside_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 10
 
 - name: jeff bedtime
   entities:
-    light.jeff_bedside_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 40
 
 - name: jeff night light
   entities:
-    light.jeff_bedside_lamp:
+    light.jeff_lamp:
       state: on
       brightness: 10
 
 - name: skylar tower on
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: on
       brightness: 255
 
 - name: skylar tower 75
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: on
       brightness: 192
 
 - name: skylar tower 50
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: on
       brightness: 130
 
 - name: skylar tower 25
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: on
       brightness: 63
 
 - name: skylar tower off
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: off
 
 - name: santa protocol
@@ -292,26 +275,26 @@
     
 - name: skylar room prebed
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: on
       brightness: 192
     light.wled_loftbed:
       state: on
       brightness: 255
       rgb_color: [63, 255, 0]
-    switch.rainbow_light:
+    switch.0xf0d1b80000052281_switch:
       state: on
     
 
 - name: skylar room sleep
   entities:
-    light.skylar_tower:
+    light.0xb0ce18140003b334_light:
       state: off
     light.wled_loftbed:
       state: on
       brightness_pct: 100
       rgb_color: [63, 255, 0]
-    switch.rainbow_light:
+    switch.0xf0d1b80000052281_switch:
       state: on
     switch.wled_loftbed_nightlight:
       state: on

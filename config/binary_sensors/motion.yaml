@@ -1,16 +1,16 @@
-# - platform: mqtt
-#   name: "Garage Motion" # Dome Motion Sensor
-#   state_topic: "zwave2mqtt/garage_motion/48/1/0"
-#   payload_on: "true"
-#   payload_off: "false"
-#   device_class: motion
+- platform: mqtt
+  name: "Garage Motion" # Dome Motion Sensor
+  state_topic: "zwave2mqtt/garage_motion/48/1/0"
+  payload_on: "true"
+  payload_off: "false"
+  device_class: motion
 
-# - platform: mqtt
-#   name: "Kitchen Motion" # Kaipule Motion Sensor
-#   state_topic: "zwave2mqtt/kitchen_motion/48/1/0"
-#   payload_on: "true"
-#   payload_off: "false"
-#   device_class: motion
+- platform: mqtt
+  name: "Kitchen Motion" # Kaipule Motion Sensor
+  state_topic: "zwave2mqtt/kitchen_motion/48/1/0"
+  payload_on: "true"
+  payload_off: "false"
+  device_class: motion
 
 # - platform: command_line 
 #   name: vlc player

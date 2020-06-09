@@ -136,10 +136,10 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door_contact
-      - binary_sensor.laundry_door_contact
-      - binary_sensor.attic_door_contact
-      - binary_sensor.back_door_contact
+      - binary_sensor.front_door
+      - binary_sensor.laundry_door
+      - binary_sensor.attic_door
+      - binary_sensor.back_door
       from: 'off'
     condition:
       condition: and
@@ -167,10 +167,10 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door_contact
-      - binary_sensor.laundry_door_contact
-      - binary_sensor.attic_door_contact
-      - binary_sensor.back_door_contact
+      - binary_sensor.front_door
+      - binary_sensor.laundry_door
+      - binary_sensor.attic_door
+      - binary_sensor.back_door
       from: 'off'
       to: 'on'
       for: '00:01:00'
@@ -255,11 +255,11 @@ automation:
     trigger:
     - platform: state
       entity_id:
-      - binary_sensor.front_door_contact
-      - binary_sensor.laundry_door_contact
-      - binary_sensor.back_door_contact
-      - binary_sensor.side_door_contact
-      - binary_sensor.garage_door_contact
+      - binary_sensor.front_door
+      - binary_sensor.laundry_door
+      - binary_sensor.back_door
+      - binary_sensor.side_door
+      - binary_sensor.garage_door
       from: 'off'
     condition:
     - condition: state
@@ -419,118 +419,118 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
 
-  - id: Kitchen_Alarm_Smoke
-    alias: Kitchen Alarm Smoke
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: sensor.kitchen_smoke_smoke_detector
-      to: 'smoke'
-    action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.fire_alarm
-    - service: script.text_alert
-      data_template:
-        title: Security Alert - Smoke
-        message: Smoke Detected in Kitchen!!
-    - service: script.jarvis_alert
-      data_template:
-        message: Smoke Detected in Kitchen!
-    - delay:
-        seconds: 5
-    - service: script.fire_alarm
-    - delay:
-        seconds: 15
-    - service: notify.alexa_media_everywhere
-      data:
-        message: Smoke Detected in Kitchen
-        data:
-          type: announce
+  # - id: Kitchen_Alarm_Smoke
+  #   alias: Kitchen Alarm Smoke
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: sensor.kitchen_smoke_smoke_detector
+  #     to: 'smoke'
+  #   action:
+  #   - service: input_boolean.turn_on
+  #     entity_id: input_boolean.fire_alarm
+  #   - service: script.text_alert
+  #     data_template:
+  #       title: Security Alert - Smoke
+  #       message: Smoke Detected in Kitchen!!
+  #   - service: script.jarvis_alert
+  #     data_template:
+  #       message: Smoke Detected in Kitchen!
+  #   - delay:
+  #       seconds: 5
+  #   - service: script.fire_alarm
+  #   - delay:
+  #       seconds: 15
+  #   - service: notify.alexa_media_everywhere
+  #     data:
+  #       message: Smoke Detected in Kitchen
+  #       data:
+  #         type: announce
 
 
-  - id: Kitchen_Alarm_Co
-    alias: Kitchen Alarm CO
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: sensor.kitchen_smoke_carbon_monoxide_detector
-      to: 'co2'
-    action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.fire_alarm
-    - service: script.text_alert
-      data_template:
-        title: Security Alert - CO
-        message: CO Detected in Kitchen!!
-    - service: script.jarvis_alert
-      data_template:
-        message: Carbon Dioxide Detected in Kitchen!
-    - delay:
-        seconds: 5
-    - service: script.fire_alarm
-    - delay:
-        seconds: 15
-    - service: notify.alexa_media_everywhere
-      data:
-        message: Carbon Dioxide Detected in Garage
-        data:
-          type: announce
+  # - id: Kitchen_Alarm_Co
+  #   alias: Kitchen Alarm CO
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: sensor.kitchen_smoke_carbon_monoxide_detector
+  #     to: 'co2'
+  #   action:
+  #   - service: input_boolean.turn_on
+  #     entity_id: input_boolean.fire_alarm
+  #   - service: script.text_alert
+  #     data_template:
+  #       title: Security Alert - CO
+  #       message: CO Detected in Kitchen!!
+  #   - service: script.jarvis_alert
+  #     data_template:
+  #       message: Carbon Dioxide Detected in Kitchen!
+  #   - delay:
+  #       seconds: 5
+  #   - service: script.fire_alarm
+  #   - delay:
+  #       seconds: 15
+  #   - service: notify.alexa_media_everywhere
+  #     data:
+  #       message: Carbon Dioxide Detected in Garage
+  #       data:
+  #         type: announce
 
-  - id: Garage_Alarm_Smoke
-    alias: Garage Alarm Smoke
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: sensor.garage_smoke_smoke_detector
-      to: 'smoke'
-    action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.fire_alarm
-    - service: script.text_alert
-      data_template:
-        title: Security Alert - Smoke
-        message: Smoke Detected in Garage!!
-    - service: script.jarvis_alert
-      data_template:
-        message: Smoke Detected in Garage!
-    - delay:
-        seconds: 5
-    - service: script.fire_alarm
-    - delay:
-        seconds: 15
-    - service: notify.alexa_media_everywhere
-      data:
-        message: Smoke Detected in Garage
-        data:
-          type: announce
+  # - id: Garage_Alarm_Smoke
+  #   alias: Garage Alarm Smoke
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: sensor.garage_smoke_smoke_detector
+  #     to: 'smoke'
+  #   action:
+  #   - service: input_boolean.turn_on
+  #     entity_id: input_boolean.fire_alarm
+  #   - service: script.text_alert
+  #     data_template:
+  #       title: Security Alert - Smoke
+  #       message: Smoke Detected in Garage!!
+  #   - service: script.jarvis_alert
+  #     data_template:
+  #       message: Smoke Detected in Garage!
+  #   - delay:
+  #       seconds: 5
+  #   - service: script.fire_alarm
+  #   - delay:
+  #       seconds: 15
+  #   - service: notify.alexa_media_everywhere
+  #     data:
+  #       message: Smoke Detected in Garage
+  #       data:
+  #         type: announce
 
-  - id: Garage_Alarm_Co
-    alias: Garage Alarm CO
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: sensor.garage_smoke_carbon_monoxide_detector
-      to: 'co2'
-    action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.fire_alarm
-    - service: script.text_alert
-      data_template:
-        title: Security Alert - CO
-        message: CO Detected in Garage!!
-    - service: script.jarvis_alert
-      data_template:
-        message: Carbon dioxide Detected in Garage!
-    - delay:
-        seconds: 5
-    - service: script.fire_alarm
-    - delay:
-        seconds: 15
-    - service: notify.alexa_media_everywhere
-      data:
-        message: Carbon Dioxide Detected in Garage
-        data:
-          type: announce
+  # - id: Garage_Alarm_Co
+  #   alias: Garage Alarm CO
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: sensor.garage_smoke_carbon_monoxide_detector
+  #     to: 'co2'
+  #   action:
+  #   - service: input_boolean.turn_on
+  #     entity_id: input_boolean.fire_alarm
+  #   - service: script.text_alert
+  #     data_template:
+  #       title: Security Alert - CO
+  #       message: CO Detected in Garage!!
+  #   - service: script.jarvis_alert
+  #     data_template:
+  #       message: Carbon dioxide Detected in Garage!
+  #   - delay:
+  #       seconds: 5
+  #   - service: script.fire_alarm
+  #   - delay:
+  #       seconds: 15
+  #   - service: notify.alexa_media_everywhere
+  #     data:
+  #       message: Carbon Dioxide Detected in Garage
+  #       data:
+  #         type: announce
     
   - id: water_leak_detected
     alias: Welcome Home
@@ -584,22 +584,22 @@ script:
         title: "Lockdown Issue!"
         message: "Doors are open and it appears everyone has left!"
 
-  fire_alarm:
-    sequence:
-    - condition: state
-      entity_id: input_boolean.fire_alarm
-      state: "on"
-    - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.ha_speaker
-        volume_level: .75
-    - service: media_player.play_media
-      entity_id: media_player.ha_speaker
-      data:
-        media_content_id: http://192.168.7.40/audio/fire_alarm.mp3
-        media_content_type: "music"
+  # fire_alarm:
+  #   sequence:
+  #   - condition: state
+  #     entity_id: input_boolean.fire_alarm
+  #     state: "on"
+  #   - service: media_player.turn_on
+  #     entity_id: media_player.ha_speaker
+  #   - service: media_player.volume_set
+  #     data_template:
+  #       entity_id: media_player.ha_speaker
+  #       volume_level: .75
+  #   - service: media_player.play_media
+  #     entity_id: media_player.ha_speaker
+  #     data:
+  #       media_content_id: http://192.168.7.40/audio/fire_alarm.mp3
+  #       media_content_type: "music"
 
   security_check_garage:
     sequence:

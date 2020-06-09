@@ -1,25 +1,25 @@
 # Living Room
 
-# - platform: mqtt
-#   name: "Incense"
-#   state_topic: "zwave2mqtt/incense/37/1/0"
-#   command_topic: "zwave2mqtt/incense/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Incense"
+  state_topic: "zwave2mqtt/incense/37/1/0"
+  command_topic: "zwave2mqtt/incense/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
-# - platform: mqtt
-#   name: "Living Room Fan"
-#   state_topic: "zwave2mqtt/living_room_fan/37/1/0"
-#   command_topic: "zwave2mqtt/living_room_fan/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Living Room Fan"
+  state_topic: "zwave2mqtt/livingroom_fan/37/1/0"
+  command_topic: "zwave2mqtt/livingroom_fan/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
   
-# - platform: mqtt
-#   name: "Fireplace Lights"
-#   state_topic: "zwave2mqtt/fireplace_lights/37/1/0"
-#   command_topic: "zwave2mqtt/fireplace_lights/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Fireplace Lights"
+  state_topic: "zwave2mqtt/fireplace_lights/37/1/0"
+  command_topic: "zwave2mqtt/fireplace_lights/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
 # Notifications
 
@@ -80,19 +80,19 @@
 
 # Outside
 
-# - platform: mqtt
-#   name: "Driveway Light"
-#   state_topic: "zwave2mqtt/driveway_light/37/1/0"
-#   command_topic: "zwave2mqtt/driveway_light/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Driveway Light"
+  state_topic: "zwave2mqtt/driveway_light/37/1/0"
+  command_topic: "zwave2mqtt/driveway_light/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
-# - platform: mqtt
-#   name: "Front Porch"
-#   state_topic: "zwave2mqtt/front_porch/37/1/0"
-#   command_topic: "zwave2mqtt/front_porch/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Front Porch Light"
+  state_topic: "zwave2mqtt/front_porch_light/37/1/0"
+  command_topic: "zwave2mqtt/front_porch_light/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
 # Sonoff
 
@@ -107,35 +107,35 @@
 
 # Upstairs
 
-# - platform: mqtt
-#   name: "Upstairs Fan"
-#   state_topic: "zwave2mqtt/upstairs_fan/37/1/0"
-#   command_topic: "zwave2mqtt/upstairs_fan/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Croft Fan"
+  state_topic: "zwave2mqtt/croft_fan/37/1/0"
+  command_topic: "zwave2mqtt/croft_fan/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
-# - platform: mqtt
-#   name: "Theater Power"
-#   state_topic: "zwave2mqtt/theater_power/37/1/0"
-#   command_topic: "zwave2mqtt/theater_power/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Theater Power"
+  state_topic: "zwave2mqtt/theater_power/37/1/0"
+  command_topic: "zwave2mqtt/theater_power/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
-# - platform: mqtt
-#   name: "Upstairs"
-#   state_topic: "zwave2mqtt/upstairs_light/37/1/0"
-#   command_topic: "zwave2mqtt/upstairs_light/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Croft Light"
+  state_topic: "zwave2mqtt/croft_light/37/1/0"
+  command_topic: "zwave2mqtt/croft_light/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
 # Appliance
 
-# - platform: mqtt
-#   name: "Washer"
-#   state_topic: "zwave2mqtt/washer/37/1/0"
-#   command_topic: "zwave2mqtt/washer/37/1/0/set"
-#   payload_on: "true"
-#   payload_off: "false"
+- platform: mqtt
+  name: "Washer"
+  state_topic: "zwave2mqtt/washer/37/1/0"
+  command_topic: "zwave2mqtt/washer/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
 
 
 # alarm
