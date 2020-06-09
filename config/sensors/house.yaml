@@ -97,7 +97,15 @@
     days: 8
 - platform: history_stats
   name: AppleTV time
-  entity_id: media_player.apple_tv
+  entity_id: media_player.home_theater
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Game time
+  entity_id: media_player.playstation_4
   state: 'playing'
   type: time
   end: '{{ now() }}'
@@ -289,14 +297,22 @@
       entity_id: []
       value_template: >-
         {{ states.camera | list | count }}
+    entities_count:
+      friendly_name: 'Number of Entities'
+      entity_id: []
+      value_template: >-
+        {{ states | length }}
     hvac_action:
       friendly_name: 'HVAC Action'
+      entity_id: []
       value_template: "{{states.climate.home.attributes.hvac_action}}"
     today_is:
       friendly_name: 'Today is'
+      entity_id: []
       value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}" 
     holiday:
       friendly_name: 'Holiday'
+      entity_id: []
       value_template: >-
           {% if states.calendar.holidays_in_united_states.state == 'on' %}
             {{ states.calendar.holidays_in_united_states.attributes.message }}
@@ -307,6 +323,7 @@
           {% endif %}
     school_tomorrow:
       friendly_name: 'School Tomorrow'
+      entity_id: []
       value_template: >-
         {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
         {% if states.calendar.skylar_school.attributes.start_time == test + " 07:35:00" %}
