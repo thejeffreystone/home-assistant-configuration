@@ -1,42 +1,42 @@
-# - platform: mqtt
-#   name: "Washer"
-#   state_topic: "zwave2mqtt/washer/50/1/0"
-#   device_class: "power"
-#   unit_of_measurement: "kWh"
+- platform: mqtt
+  name: "Washer"
+  state_topic: "zwave2mqtt/washer/50/1/0"
+  device_class: "power"
+  unit_of_measurement: "kWh"
 
-# - platform: mqtt
-#   name: "Washer Power 1"
-#   state_topic: "zwave2mqtt/washer/49/1/4"
-#   device_class: "power"
-#   unit_of_measurement: "W"
+- platform: mqtt
+  name: "Washer Power 1"
+  state_topic: "zwave2mqtt/washer/49/1/4"
+  device_class: "power"
+  unit_of_measurement: "W"
 
-# - platform: mqtt
-#   name: "Washer_Power"
-#   state_topic: "zwave2mqtt/washer/50/1/2"
-#   device_class: "power"
-#   unit_of_measurement: "W"
+- platform: mqtt
+  name: "Washer_Power"
+  state_topic: "zwave2mqtt/washer/50/1/2"
+  device_class: "power"
+  unit_of_measurement: "W"
 
-# - platform: mqtt
-#   name: "Washer Power 3"
-#   state_topic: "zwave2mqtt/washer/50/1/9"
-#   device_class: "power"
-#   unit_of_measurement: "W"
+- platform: mqtt
+  name: "Washer Power 3"
+  state_topic: "zwave2mqtt/washer/50/1/9"
+  device_class: "power"
+  unit_of_measurement: "W"
 
-# - platform: mqtt
-#   name: "Washer Power kwh"
-#   state_topic: "zwave2mqtt/washer/50/1/1"
-#   device_class: "power"
-#   unit_of_measurement: "kWh"
+- platform: mqtt
+  name: "Washer Power kwh"
+  state_topic: "zwave2mqtt/washer/50/1/1"
+  device_class: "power"
+  unit_of_measurement: "kWh"
 
 
 - platform: template
   sensors:
-    washer_power:
-      friendly_name: "Washer Power"
-      entity_id: sensor.time
-      unit_of_measurement: ''
-      value_template: >-
-          {{ states.switch.washer.attributes.current_power_w | int }}
+    # washer_power:
+    #   friendly_name: "Washer Power"
+    #   entity_id: sensor.time
+    #   unit_of_measurement: ''
+    #   value_template: >-
+    #       {{ states.switch.washer.attributes.current_power_w | int }}
     low_battery:
       friendly_name: 'Low Battery'
       entity_id: sensor.time
