@@ -138,11 +138,14 @@ logbook:
       - automation
       - script
 
+# Lets try to make the logs less chatty and more fine tuned.       
 logger:
-  default: warning
-  #logs:
- 
-  #   homeassistant.components.sensor.alpha_vantage: debug
+  default: critical
+  logs:
+    homeassistant.core: warning
+    homeassistant.components.recorder: error # to spot db issues
+    homeassistant.config_entries: error
+    homeassistant.setup: error
 
 
 history:
