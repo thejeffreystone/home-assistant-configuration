@@ -407,18 +407,26 @@ automation:
       data_template:
         media: "http://192.168.7.40/audio/ML_Welcome_Show.mp3"
         volume: .5
-  - id: welcome_show_off
-    alias: Welcome Show Off
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.welcome_show
-      to: 'off'
-    action:
+    - delay:
+        minutes: 8
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
     - service: script.turn_off
       entity_id: script.youtube_audio
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.welcome_show
+  # - id: welcome_show_off
+  #   alias: Welcome Show Off
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_boolean.welcome_show
+  #     to: 'off'
+  #   action:
+  #   - service: media_player.media_stop
+  #     entity_id: media_player.ha_speaker
+  #   - service: script.turn_off
+  #     entity_id: script.youtube_audio
 
 # MK Trolly Show
   - id: trolly_audio_show_on

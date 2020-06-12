@@ -5,6 +5,28 @@
 #   @description    :   A Collection of Presence Related Trackers and Sensors 
 ###############################################################################
 
+# Testing Proximity Sensors
+proximity:
+  home_jeff:
+    devices:
+      - device_tracker.life360_jeffrey_stone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+  home_kat:
+    devices:
+      - device_tracker.life360_kat_stone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+  home:
+    devices:
+      - device_tracker.life360_jeffrey_stone
+      - device_tracker.life360_kat_stone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+
 sensor:
   - platform: template
     sensors:
@@ -430,6 +452,43 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.guest_mode
     initial_state: true
+
+
+  - id: disable_bad_traffic_home_jeff
+    alias: Disabling Jeff Bad Traffic Home
+    initial_state: true
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.jeff_ett_home
+      below: 40
+    - platform: state
+      entity_id: sensor.jeff_destination
+      to: Home
+    condition:
+    - condition: state
+      entity_id: input_boolean.jeff_traffic_alert_home
+      state: 'on'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.jeff_traffic_alert_home
+
+  - id: '1550107919204'
+    alias: Family Is Home Webhook
+    trigger:
+    - platform: webhook
+      webhook_id: home_webhook
+    condition: []
+    action:
+    - service: script.family_is_home
+
+  - id: '1550108034209'
+    alias: Family Is Away Webhook
+    trigger:
+    - platform: webhook
+      webhook_id: away_webhook
+    condition: []
+    action:
+    - service: script.family_is_away
 
 script:
   jeff_destination_zoo:

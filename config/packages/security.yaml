@@ -35,7 +35,13 @@ input_boolean:
     icon: mdi:dog-side
 
 
-#sensor:
+alarm_control_panel:
+  # - platform: arlo
+  #   home_mode_name: home
+  #   away_mode_name: armed
+  - platform: aarlo
+    home_mode_name: home
+    away_mode_name: Armed
  
 
 automation:
@@ -207,8 +213,11 @@ automation:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: binary_sensor.front_door_contact
+      entity_id: binary_sensor.front_door
       state: 'off'
+    - condition: state
+      entity_id: input_boolean.sentry_mode
+      state: 'on'
     action:
     - service: script.ah_report
       data_template:
@@ -256,7 +265,6 @@ automation:
     - platform: state
       entity_id:
       - binary_sensor.front_door
-      - binary_sensor.laundry_door
       - binary_sensor.back_door
       - binary_sensor.side_door
       - binary_sensor.garage_door
@@ -333,7 +341,7 @@ automation:
           ] | random }}
     - service: script.text_notify
       data_template:
-        who: "jeff"
+        who: "parents"
         title: "Security Armed"
         message: "Security System has been armed."    
 
@@ -358,7 +366,7 @@ automation:
           ] | random }}
     - service: script.text_notify
       data_template:
-        who: "jeff"
+        who: "parents"
         title: "Security Disarmed"
         message: "Security System as been disarmed."  
 
@@ -567,6 +575,33 @@ automation:
             {%- endmacro -%}
             {{issue_report(location)}}
 
+  - id: '1558630577206'
+    alias: Garage Is Open at 9pm
+    initial_state: true
+    trigger:
+    - at: '21:00:00'
+      platform: time
+    condition:
+    - condition: state
+      entity_id: binary_sensor.garage_door_contact
+      state: 'on'
+    action:
+    - data:
+        entity_id: input_boolean.garage_after_dark
+      service: input_boolean.turn_on
+  - id: '1559612300685'
+    alias: Garage Closed
+    initial_state: true
+    trigger:
+    - entity_id: binary_sensor.garage_door_contact
+      from: 'on'
+      platform: state
+      to: 'off'
+    condition: []
+    action:
+    - data:
+        entity_id: input_boolean.garage_after_dark
+      service: input_boolean.turn_off
 
 script:
   lockdown_issue:

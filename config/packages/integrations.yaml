@@ -1,0 +1,99 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   06/10/2020
+#   @package        :   Integrations
+#   @description    :   All the Integrations 
+###############################################################################
+
+# Google Calendar
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+# Using the HACS Arlo Integration 
+aarlo:
+  host: https://my.arlo.com
+  username: !secret arlo_user
+  password: !secret arlo_pass
+  db_motion_time: 30
+  db_ding_time: 10
+  recent_time: 10
+  last_format: '%m-%d %H:%M'
+  refresh_devices_every: 2
+  verbose_debug: True
+
+# Testing internet speedtest  
+speedtestdotnet:
+
+# Life360 used for presence detection
+life360:
+  accounts:
+    - username: !secret life360_username
+      password: !secret life360_password
+
+# Ecobee Thermostat
+ecobee:
+  api_key: !secret ecobee_api
+
+
+gdacs:
+  categories:
+    - Earthquake
+    - Tropical Cyclone
+  radius: 500
+  latitude: !secret MY_LATITUDE
+  longitude: !secret MY_LONGITUDE
+
+# TPLink / KASA - Hardcoding the IP Address
+tplink:
+  discovery: false
+  switch:
+    - host: 192.168.7.105
+    - host: 192.168.7.107
+    - host: 192.168.7.116
+    - host: 192.168.7.120
+    - host: 192.168.7.136
+    - host: 192.168.7.137
+
+# WZYE Devices - Using the HACS integration
+wyzeapi:
+  username: !secret wyze_user
+  password: !secret wyze_password
+
+# IFTTT (May be removed - I dont think I am using this.)
+ifttt:
+  key: !secret IFTTT_API_KEY 
+
+# Using the HACS Daily Snapshot Clean Up Plugin 
+clean_up_snapshots_service:
+  host: !secret snapshot_url
+  token: !secret snapshot_token
+  number_of_snapshots_to_keep: 3
+
+# Hardcoding the Wemo switch
+wemo:
+  discovery: true
+  static:
+  - 192.168.7.99
+
+homekit:
+  filter:
+    include_domains:
+      - light
+    include_entities:
+      - switch.croft_fan
+      - switch.driveway_light_2
+      - switch.incense
+      - switch.livingroom_fan
+      - switch.rail_lights
+      - switch.croft_light
+      - switch.ha_speaker
+      - switch.artemis
+      - switch.fireplace_lights_2
+      - switch.desk
+      - switch.forest
+      - switch.front_porch_light
+      - input_boolean.house_party_protocol
+      - switch.christmas_tree
+      - switch.rainbow_light
+      - switch.garage_fan

@@ -34,6 +34,17 @@ automation:
     action:
     - service: script.heartworm_on
 
+  - id: '1562630916597'
+    alias: Kat Pill Reminder
+    initial_state: true
+    trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.kat_pill_reminder', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+    - data:
+        message: Remember to take meds
+      service: notify.kat_ios
+
 
 script:
   # Check to see if heartworm is the reminder in the cal

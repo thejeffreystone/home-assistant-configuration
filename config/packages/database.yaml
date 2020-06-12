@@ -1,0 +1,44 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   06/10/2020
+#   @package        :   Database
+#   @description    :   Recorder and Logger Configurations 
+###############################################################################
+
+recorder:
+  db_url: !secret database
+  purge_keep_days: 2
+  exclude:
+    domains:
+      - automation
+      - weblink
+      - updater
+    entities:
+      - sun.sun # Don't record sun data
+      - sensor.last_boot # Comes from 'systemmonitor' sensor platform
+      - sensor.date
+
+logbook:
+  include:
+    domains:
+      - media_player
+      - automation
+      - script
+
+# Lets try to make the logs less chatty and more fine tuned.       
+logger:
+  default: critical
+  logs:
+    homeassistant.core: warning
+    homeassistant.components.recorder: error # to spot db issues
+    homeassistant.config_entries: error
+    homeassistant.setup: error
+
+
+history:
+  include:
+    domains:
+      - sensor
+      - switch
+      - media_player
+      - light

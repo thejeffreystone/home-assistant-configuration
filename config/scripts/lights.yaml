@@ -66,3 +66,49 @@ kitchen_lights_night:
   - service: light.turn_off
     entity_id: light.kitchen_cabinets
  
+theater_lights_out:
+  sequence:
+  - condition: state
+    entity_id: media_player.home_theater
+    state: 'idle'
+  - delay:
+      minutes: 30
+  - service: scene.turn_on
+    entity_id: scene.theater_dark
+
+theater_lights_down:
+  sequence:
+  - service: scene.turn_on
+    entity_id: scene.theater_dim 
+  - delay:
+      minutes: 1
+  - service: scene.turn_on
+    entity_id: scene.theater_dark 
+
+theater_lights_up_check:
+  sequence:
+  - delay:
+      seconds: 20
+  - service: script.turn_on
+    entity_id: script.theater_lights_up
+
+theater_lights_up:
+  sequence:
+  - condition: state
+    entity_id: media_player.home_theater
+    state: 'idle'
+  - service: scene.turn_on
+    entity_id: scene.theater_dim
+  - delay:
+      minutes: 1
+  - service: scene.turn_on
+    entity_id: scene.theater_bright
+  - delay:
+      minutes: 5
+  - service: script.turn_on
+    entity_id: script.theater_lights_out
+
+
+
+
+

@@ -1,0 +1,16 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   06/10/2020
+#   @package        :   Camera
+#   @description    :   All the Camera related stuff 
+###############################################################################
+
+camera:
+  - platform: mjpeg
+    name: Garage Door Cam 
+    mjpeg_url: !secret garage_cam
+  - platform: aarlo
+    ffmpeg_arguments: '-pred 1 -q:v 2'
+    
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg  

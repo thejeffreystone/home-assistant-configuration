@@ -12,6 +12,11 @@
 #   If you are running Hassio or Home Assistant as it is called now you will need a server that hosts local audio files if you want to leverage those
 ###############################################################################
 
+media_player:
+  - platform: yamaha
+    host: 192.168.7.152
+
+media_extractor:
 
 input_datetime:
   audible_notification_on:
@@ -34,6 +39,7 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
+    
 
   # - id: turn_off_audible_notifications_guests
   #   alias: Turn Off Audible Notifications at 7pm
@@ -57,6 +63,33 @@ automation:
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     action:
     - service: script.turn_on_ha_speaker
+
+  - id: turn_on_ha_receiver
+    alias: Turn on HA Receiver
+    initial_state: true
+    trigger:
+      - platform: time
+        at: '06:45:00'
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.tsr_6750_a3ed2f
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.tsr_6750_a3ed2f
+          volume_level: .80
+
+  - id: turn_off_ha_receiver
+    alias: Turn off HA Receiver
+    initial_state: true
+    trigger:
+      - platform: time
+        at: '23:30:00'
+    action:
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.tsr_6750_a3ed2f
+   
 
   - id: set_audible_time_off_guest
     alias: set audible time off guest

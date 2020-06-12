@@ -21,13 +21,29 @@ This document is mean to be a guid to the packages in this config. Below is a su
 
 The Announcement package handles reoccuring informational annoucements that happen though the day.
 
+### appliances.yaml
+
+The Appliance package contains any automations related to smart appliances, or dumb appliances that are trtying to be smart. I'm looking at you Washing Machine.
+
 ### audio.yaml
 
 The audio package is just for that. I use it for playing audio either from youtube, or from a local server. The package works for both. Check out the Disney Package for ways I sue this. But you can even randomize the urls to the audio betwene youtube and a local server. Total awesomeness. I hope to leverage this to build a version of my haunted mansion package that allows anyone with home assistant to drop it in, change the light effects and go. 
 
+### batteries.yaml
+
+The Batteries package handles anything related to batteries. Might need to rename this to power in the near future.
+
+### camera.yaml
+
+The Camera package contains camera specific configuration like Arlo and Foscam.
+
 ### daily.yaml
 
-The Daily package handles daily maintenance and cleanup tasks. 
+The Daily package contains automations and scripts specific to daily happenings. Let automating Coffee Time which handles the lights coming on in the morning.
+
+### database.yaml
+
+The Datbase package contains the logger database config. This might get renamed logging later.
 
 ### disney.yaml
 
@@ -47,9 +63,17 @@ You can find more information about how this works over at [How I turned my hosu
 
 The Holidays package handles automation around major holidays. This may be combined into the Events package in the future. In it you will find automation and scripts around ligting effects, music, and tweets. 
 
+### integrations.yaml
+
+The Integration package contains anything related to a third party integration that isn't its own package like wyze, or ifttt.
+
 ### jarvis.yaml
 
 The Jarvis package is badly named. It's current purpose is to enable some Jarvis like behavior via some scripts that have am Alexa custom routine attached to it. 
+
+### maintenance.yaml
+
+The Maintenance package handles daily maintenance and cleanup tasks. This was previously the daily.yamly but was renamed to be more in line with its contents.
 
 ### notify.yaml
 
@@ -89,9 +113,9 @@ The USPS package handles the USPS Informed Delivery integration. This is mostly 
 
 You can find my walk through of this on youtube at [Integrating USPS Informed Delivery with Home Assistant](https://www.youtube.com/watch?v=TjVeoAKn-r0)
 
-### weather_alerts_nws.yaml
+### weather.yaml
 
-The Weather Alerts package is focused on making sure Anchorage House is aware of any weather alerts. A lot of what is in here is based on the [eracknaphobia's NWS Alert Custom Component](https://github.com/eracknaphobia/nws_custom_component). 
+Previously named nws_weather_alerts, The Weather package is focused on making sure Anchorage House is aware of any weather alerts or events. Some of what is in here is based on the [eracknaphobia's NWS Alert Custom Component](https://github.com/eracknaphobia/nws_custom_component), and some is my config for consuming the NWS Weather api instead of darksky.  
 
 ### zigbee2mqtt.yaml 
 

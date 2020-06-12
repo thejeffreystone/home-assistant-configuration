@@ -238,3 +238,30 @@ automation:
               {{ states.sensor.mail_usps_mail.state }} pieces of mail today.
             {%- endif -%}
           call_interuption: 1
+
+  - alias: "Delivered Package Notification"
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.mail_fedex_delivered_2
+      - platform: state
+        entity_id: sensor.mail_ups_delivered
+    #send only if mail or packages are more than 0
+    condition:
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: "{{ states('sensor.mail_fedex_delivered_2') | int > 0 }}"
+          - condition: template
+            value_template: "{{ states('sensor.mail_ups_delivered') | int > 0 }}"
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "jeff"
+          title: "Package Delivered"
+          message: "Fedex/UPS just made a delivery"
+      - service: script.ah_report
+        data_template:
+          usps: >-
+              A package was just left on the porch.
+          call_interuption: 1

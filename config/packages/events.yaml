@@ -32,6 +32,39 @@ input_datetime:
     has_time: true
     initial: '14:45:00'
 
+input_number:
+  skylar_ps_time:
+    name: Skylar PS Time
+    initial: 120
+    min: 0
+    max: 360
+    step: 15
+    icon: mdi:clock
+  skylar_yt_time:
+    name: Skylar YT Time
+    initial: 60
+    min: 0
+    max: 360
+    step: 15
+    icon: mdi:youtube
+  skylar_tv_time:
+    name: Skylar TV Time
+    initial: 120
+    min: 0
+    max: 360
+    step: 15
+    icon: mdi:television-box
+
+input_select:
+  skylar_activity:
+    name: Skylar Activity
+    options:
+      - Restricted
+      - Limited
+      - Full
+    initial: Full
+    icon: mdi:human
+
 sensor:
   - platform: template
     sensors:
@@ -122,6 +155,38 @@ automation:
       data_template:
         version: "{{ states.binary_sensor.updater.attributes.newest_version }}"
 
+  # - id: set_skylar_activity_full
+  #   alias: Skylar Full Privileges
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_select.skylar_activity
+  #     to: 'Full'
+  #   action:
+  #   - service: scene.turn_on
+  #     entity_id: scene.skylar_full
+
+  # - id: set_skylar_activity_limited
+  #   alias: Skylar Limited Privileges
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_select.skylar_activity
+  #     to: 'Limited'
+  #   action:
+  #   - service: scene.turn_on
+  #     entity_id: scene.skylar_limited
+
+  # - id: set_skylar_activity_restricted
+  #   alias: Skylar Restricted Privileges
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_select.skylar_activity
+  #     to: 'Restricted'
+  #   action:
+  #   - service: scene.turn_on
+  #     entity_id: scene.skylar_restricted
 
 script:
 

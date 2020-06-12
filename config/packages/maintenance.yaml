@@ -1,0 +1,61 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   02/19/2019
+#   @package        :   Maintnance 
+#   @description    :   Maint Automation that occurs every day
+###############################################################################
+automation:
+  # Using the HACS Daily Snapshot Clean Up Plugin 
+  - id: daily_snapshot_clean_up
+    alias: Daily snapshot clean up
+    initial_state: 'on'
+    trigger: 
+    - platform: time
+      at: '03:00:00'
+    action:
+      - service: clean_up_snapshots_service.clean_up
+
+  # Morning Entity Refresh - For all those sensors that need a little push
+  - id: daily_entity_refresh
+    alias: Daily Entity Refresh
+    initial_state: 'on'
+    trigger: 
+    - platform: time
+      at: '04:30:00'
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.today_is 
+      - service: homeassistant.update_entity
+        entity_id: sensor.holiday
+  
+  # Nightly Entity Refresh - For all those sensors that need a little push
+  - id: daily_entity_refresh2
+    alias: Daily Entity Refresh2
+    initial_state: 'on'
+    trigger: 
+    - platform: time
+      at: '17:00:00'
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.school_tomorrow
+  
+# startup auotmations to update some custom sensors due to new order of home assistant firing up    
+  - id: startup_automations 
+    alias: startup_automations 
+    initial_state: 'on'
+    trigger:
+      platform: homeassistant
+      event: start
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.jeff_location
+      - service: homeassistant.update_entity
+        entity_id: sensor.kat_location
+      - service: homeassistant.update_entity
+        entity_id: sensor.skylar_location 
+      - service: homeassistant.update_entity
+        entity_id: sensor.today_is 
+      - service: homeassistant.update_entity
+        entity_id: sensor.holiday
+
+  

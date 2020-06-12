@@ -1,0 +1,118 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   06/12/2020
+#   @package        :   Appliances
+#   @description    :   Package for handling Smart Applicances and or automation to make dumb appliances seem smart.  
+###############################################################################
+
+automation:
+
+  - id: washer_running
+    alias: Washer Running
+    trigger:
+    - above: 5
+      entity_id: sensor.washer_power
+      platform: numeric_state
+    condition:
+      condition: or
+      conditions:
+      - condition: state
+        entity_id: sensor.washer_status
+        state: idle
+      - condition: state
+        entity_id: sensor.washer_status
+        state: complete
+    action:
+    - service: script.washer_running
+    initial_state: true
+
+  - id: washer_complete
+    alias: Washer Complete
+    trigger:
+    - below: 3
+      entity_id: sensor.washer_power
+      platform: numeric_state
+    condition:
+    - condition: state
+      entity_id: sensor.washer_status
+      state: running
+    action:
+    - service: script.washer_complete
+    initial_state: true
+
+  - id: washer_emptied
+    initial_state: true
+    alias: Washer Emptied
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.washer_door_contact
+      from: 'off'
+      to: 'on'
+    action:
+    - service: script.washer_idle
+    - service: script.turn_off
+      entity_id: script.washer_finished_notification_audible
+
+  - id: washer_notification
+    initial_state: true
+    alias: Washer Notification
+    trigger:
+    - platform: state
+      entity_id: sensor.washer_status
+      from: running
+      to: complete
+    - platform: event
+      event_type: event_washer_complete_notification
+    action:
+    - service: script.turn_on
+      entity_id: script.washer_finished_notification_audible
+
+script:
+
+  washer_finished_notification_audible:
+    sequence:
+    - delay:
+        minutes: 15
+    - service: script.washer_audible
+    - delay:
+        minutes: 30
+    - event: event_washer_complete_notification
+      event_data:
+        name: Washer Complete Notification
+        message: Washer has completed it's cycle
+
+  washer_audible:
+    sequence:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - condition: state
+      entity_id: sensor.washer_status
+      state: complete
+    - service: script.ah_report
+      data:
+        call_interuption: 1
+        call_washer_needs_emptying: 1
+    
+
+  washer_idle:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: house/washer/status
+        payload: idle
+        retain: true
+  washer_running:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: house/washer/status
+        payload: running
+        retain: true
+  washer_complete:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: house/washer/status
+        payload: complete
+        retain: true
