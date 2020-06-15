@@ -28,6 +28,16 @@
   device_class: "power"
   unit_of_measurement: "kWh"
 
+# zooz
+
+- platform: mqtt
+  name: "theater light up"
+  state_topic: "zwave2mqtt/theater/91/1/1"
+
+- platform: mqtt
+  name: "theater light down"
+  state_topic: "zwave2mqtt/theater/91/1/2"
+
 
 - platform: template
   sensors:
