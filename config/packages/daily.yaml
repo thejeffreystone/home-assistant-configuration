@@ -177,13 +177,14 @@ automation:
       entity_id: switch.forest
     - service: switch.turn_off
       entity_id: switch.livingroom_fan
+    - service: switch.turn_off
+      data:
+        entity_id: switch.ha_speaker
     - service: light.turn_off
       data:
-        entity_id: light.ha_speaker
-    - service: light.turn_off
-      data:
-        entity_id: light.kitchen_cabinets_2
+        entity_id: light.kitchen_cabinets
     - service: script.good_night_loft
+    - service: script.theater_lights_out
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
@@ -210,18 +211,19 @@ automation:
     - service: switch.turn_on
       data:
         entity_id: switch.front_porch_light
+    - service: scene.turn_on
+      entity_id: scene.normal_livingroom_lighting
     - service: script.sunset_garage_open
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
           {{ [ 
-            "Its getting dark at Anchorage House, so Im turning on the outside lights. ", 
-            "When the Sun goes down, I help out by turning on the outside lights. Its the little things. ",
-            "Switching to dark mode!",
+            "Its getting dark at Anchorage House, so Im turning on the outside and inside lights. ", 
+            "When the Sun goes down, I help out by turning on the lights. Its the little things. ",
+            "Switching to dark mode! The outuisde and inside lights are on.",
             "It is time to turn on the outside lights. You know...so bugs know where to die.",
             "Anchorage House is switching to night mode!",
-            "Anchorage House is going to the darkside. Of the planet that is. So the lights are on.",
-            "Its getting dark so let me spell out my name...Wait. Did I break into a random #Hamilton song? Pardon me. umm. I just turned on the outside lights at Anchorage House. " 
+            "Anchorage House is going to the darkside. Of the planet that is. So the lights are on."
             ] | random }}
         image: >-
           {{ [ "/config/www/tweet_images/lamp.jpg",
@@ -278,25 +280,47 @@ automation:
     trigger:
     - platform: sun
       event: sunset
-      offset: -01:00:00
+      offset: -02:00:00
+    condition:
+    - condition: template
+      value_template: >
+        {%- if states.weather.home.state != "sunny" or states.weather.home.state != "partlycloudy" or states.weather.home.state != "clear" -%}
+          true
+        {%- endif -%}
     action:
-      service: scene.turn_on
-      entity_id: scene.normal_livingroom_lighting
-  - id: inside_off_sunrise
-    alias: Inside off at Sunrise
+      - service: scene.turn_on
+        entity_id: scene.normal_livingroom_lighting
+      - service: scene.turn_on
+        entity_id: scene.normal_kitchen_lighting
+      - service: script.twitter_notify
+        data:
+          message: >-
+            {{ [ "It is dark inside the house due to the conditions outside the house so I am turning on the inside lights.",
+                  "When it gets dark enough outside I turn on the inside lights. ",
+                  "Since I monitor the conditions inside and outside the Anchorage House I know all the things. Like it is time to turn on the inside lights."
+              ] | random }}
+
+  - id: inside_off_after_sunrise
+    alias: Inside off after Sunrise
     initial_state: true
     trigger:
     - platform: sun
       event: sunrise
-      offset: 00:30:00
-    condition:
-    - condition: state
-      entity_id: sensor.nws_current_condition
-      state: "cloudy"
+      offset: 02:30:00
     action:
-    - service: script.inside_all_off
+    - service: script.livingroom_lights_off
+    - service: script.kitchen_lights_off
     - service: scene.turn_on
       entity_id: scene.jeff_light_off
+    - service: script.twitter_notify
+      data:
+        message: >-
+          {{ [ "Looks like a nice day outside so I am turning off the inside lights.",
+                "It is now bright enough to turn off the inside lights. ",
+                "The inside lights are no longer needed so I am turning them off.",
+                "Two and half hours after sunrise there is enough light to turn off the inside lights."
+             ] | random }}
+
   - id: ha_start
     alias: HA Startup
     initial_state: true
@@ -307,6 +331,7 @@ automation:
       service: frontend.set_theme
       data:
         name: midnight-AH
+
   - id: jeff_eta_home
     alias: Jeff eta home
     initial_state: true
