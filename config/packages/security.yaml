@@ -143,7 +143,7 @@ automation:
     - platform: state
       entity_id:
       - binary_sensor.front_door
-      - binary_sensor.laundry_door
+      - binary_sensor.laundry_room_door
       - binary_sensor.attic_door
       - binary_sensor.back_door
       from: 'off'
@@ -174,7 +174,7 @@ automation:
     - platform: state
       entity_id:
       - binary_sensor.front_door
-      - binary_sensor.laundry_door
+      - binary_sensor.laundry_room_door
       - binary_sensor.attic_door
       - binary_sensor.back_door
       from: 'off'
