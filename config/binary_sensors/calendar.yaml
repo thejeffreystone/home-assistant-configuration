@@ -12,5 +12,5 @@
   before: sunset
 - platform: tod
   name: Quiet time
-  after: '22:00'
+  after: '21:00'
   before: '07:00'
