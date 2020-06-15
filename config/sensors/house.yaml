@@ -3,74 +3,7 @@
   name: "Washer Status"
   state_topic: "house/washer/status"
 
-# MQTT Sensor for getting Various COVID-19 Stats. Data is sourced from pythonn scripts scaping 
-# various COVID data sites running on a secondary machine.   
-# - platform: mqtt
-#   name: "COVID19 Confirmed"
-#   state_topic: "covid/sensor/confirmed"
-# - platform: mqtt
-#   name: "COVID19 Recovered"
-#   state_topic: "covid/sensor/recovered"
-# - platform: mqtt
-#   name: "COVID19 Dead"
-#   state_topic: "covid/sensor/dead"
-# - platform: mqtt
-#   name: "COVID Old Confirmed"
-#   state_topic: "covid/sensor/old-confirmed"
-# - platform: mqtt
-#   name: "COVID Old Dead"
-#   state_topic: "covid/sensor/old-dead"
-# - platform: mqtt
-#   name: "COVID Old Recovered"
-#   state_topic: "covid/sensor/old-recovered"
-# - platform: mqtt
-#   name: "COVID PV Confirmed"
-#   state_topic: "covid/sensor/previous_confirmed"
-# - platform: mqtt
-#   name: "COVID PV Dead"
-#   state_topic: "covid/sensor/previous_dead"
-# - platform: mqtt
-#   name: "COVID PV Recovered"
-#   state_topic: "covid/sensor/previous_recovered"
-# - platform: mqtt
-#   name: "COVID PV New Cases"
-#   state_topic: "covid/sensor/previous_new_cases"
-# - platform: mqtt
-#   name: "COVID PV New Dead"
-#   state_topic: "covid/sensor/previous_new_deaths"
-# - platform: mqtt
-#   name: "COVID PV Active"
-#   state_topic: "covid/sensor/previous_active_cases"
-# - platform: mqtt
-#   name: "COVID PV Critical"
-#   state_topic: "covid/sensor/previous_critical_cases"
-# - platform: mqtt
-#   name: "COVID Old New Count"
-#   state_topic: "covid/sensor/old_new_cases"
-# - platform: mqtt
-#   name: "COVID Old Dead Count"
-#   state_topic: "covid/sensor/old_new_deaths"
-# - platform: mqtt
-#   name: "COVID Current Confirmed"
-#   state_topic: "covid/sensor/current_confirmed"
-# - platform: mqtt
-#   name: "COVID Current Dead"
-#   state_topic: "covid/sensor/current_dead"
-# - platform: mqtt
-#   name: "COVID Current Recovered"
-#   state_topic: "covid/sensor/current_recovered"
-# - platform: mqtt
-#   name: "COVID Current New Cases"
-#   state_topic: "covid/sensor/current_new_cases"
-# - platform: mqtt
-#   name: "COVID Current New Dead"
-#   state_topic: "covid/sensor/current_new_deaths"
-# - platform: mqtt
-#   name: "COVID Current Active"
-#   state_topic: "covid/sensor/current_active_cases"
-# - platform: mqtt
-#   name: "COVID Current Critical"
-#   state_topic: "covid/sensor/current_critical_cases"
+
 - platform: history_stats
   name: Jeff Driving Time
   entity_id: sensor.jeff_driving
@@ -151,13 +84,6 @@
   - sensor.living_room_temperature
   - sensor.master_bedroom_temperature
   - sensor.skylar_room_temperature
-# - platform: arlo
-#   monitored_conditions:
-#   - captured_today
-#   - last_capture
-#   - total_cameras
-#   - battery_level
-#   - signal_strength
 - platform: history_stats
   name: Outside Lights
   entity_id: group.outside_lights
@@ -225,41 +151,7 @@
   - battery_level
   - captured_today
   - signal_strength
-# - platform: statistics
-#   name: covid confirmed
-#   entity_id: sensor.us_coronavirus_confirmed
-#   max_age:
-#     hours: 24
-# - platform: statistics
-#   name: covid current
-#   entity_id: sensor.us_coronavirus_current
-#   max_age:
-#     hours: 24
-# - platform: statistics
-#   name: covid deaths
-#   entity_id: sensor.us_coronavirus_deaths
-#   max_age:
-#     hours: 24
-# - platform: statistics
-#   name: covid recovered
-#   entity_id: sensor.us_coronavirus_recovered
-#   max_age:
-#     hours: 24
-# - platform: statistics
-#   name: covid19 confirmed stats
-#   entity_id: sensor.covid19_confirmed
-#   max_age:
-#     hours: 24
-# - platform: statistics
-#   name: covid19 deaths stats
-#   entity_id: sensor.covid19_dead
-#   max_age:
-#     hours: 24
-# - platform: statistics
-#   name: covid19 recovered stats
-#   entity_id: sensor.covid19_recovered
-#   max_age:
-#     hours: 24
+
 - platform: template
   sensors:
     sensor_count:
