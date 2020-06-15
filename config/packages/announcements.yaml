@@ -120,6 +120,8 @@ automation:
         call_school_today: 1
         call_skylar_events: 1
         call_clothes_suggestion: 1
+    - service: switch.turn_off
+      entity_id: switch.0xf0d1b80000052281_switch
   
   # - id: skylar_morning_alarm_announcement
   #   alias: skylar morning alarm announcement
