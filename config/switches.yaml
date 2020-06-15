@@ -138,6 +138,16 @@
   payload_off: "false"
 
 
+# Theater:
+
+- platform: mqtt
+  name: "Theater Fan"
+  state_topic: "zwave2mqtt/theater/37/2/0"
+  command_topic: "zwave2mqtt/theater/37/2/0/set"
+  payload_on: "true"
+  payload_off: "false"
+
+
 # alarm
 
 # - platform: mqtt

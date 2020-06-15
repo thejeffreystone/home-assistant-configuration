@@ -195,32 +195,85 @@
   
 
 
-# - id: show_time
-#   alias: Show Time
-#   initial_state: true
-#   trigger:
-#   - platform: state
-#     entity_id: media_player.home_theater
-#     to: 'playing'
-#   action:
-#   - service: script.turn_off
-#     entity_id: script.theater_lights_up_check
-#   - service: script.turn_off
-#     entity_id: script.theater_lights_up
-#   - service: script.turn_off
-#     entity_id: script.theater_lights_out
-#   - service: script.turn_on
-#     entity_id: script.theater_lights_down
+- id: show_time
+  alias: Show Time
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: media_player.home_theater
+    to: 'playing'
+  condition:
+  - condition: state  
+    entity_id: light.theater_light
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.theater_lights_down
+  - service: script.turn_off
+    entity_id: script.theater_lights_up
 
-# - id: show_time_over
-#   alias: Show Time Over
-#   initial_state: true
-#   trigger:
-#   - platform: state
-#     entity_id: media_player.home_theater
-#     to: 'idle'
-#   action:
-#   - service: script.turn_on
-#     entity_id: script.theater_lights_up_check
-#   - service: script.turn_off
-#     entity_id: script.theater_lights_down
+- id: show_time start paused
+  alias: Show Time Start Paused
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: media_player.home_theater
+    to: 'idle'
+  condition:
+  - condition: state  
+    entity_id: script.theater_lights_down
+    state: 'on'
+  action:
+  - service: script.turn_off
+    entity_id: script.theater_lights_down
+  
+- id: show_time_over
+  alias: Show Time over
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: media_player.home_theater
+    to: 'idle'
+    for: 
+      seconds: 35
+  condition:
+  - condition: state  
+    entity_id: media_player.home_theater
+    state: 'idle'
+  action:
+  - service: script.turn_on
+    entity_id: script.theater_lights_up
+  - service: script.turn_off
+    entity_id: script.theater_lights_down
+
+- id: theater_fan_on
+  alias: Theater Fan On 
+  initial_state: true
+  trigger:
+  - above: '74'
+    platform: numeric_state
+    entity_id: sensor.theater_temperature
+  action:
+  - data:
+      entity_id: switch.theater_fan
+    service: switch.turn_off
+
+- id: theater_light_pressed_up
+  alias: Theater Light Pressed Up
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: sensor.theater_light_up
+  action:
+  - service: scene.turn_on
+    entity_id: scene.theater_bright
+
+- id: theater_light_pressed_down
+  alias: Theater Light Pressed Down
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: sensor.theater_light_down
+  action:
+  - service: scene.turn_on
+    entity_id: scene.theater_dark

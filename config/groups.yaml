@@ -70,4 +70,5 @@ livingroom:
   - switch.fireplace_lights
   - switch.rail_lights
 
-
+theater lights:
+  - light.theater_light

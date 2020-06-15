@@ -17,16 +17,44 @@ livingroom_lamps_on:
   - service: scene.turn_on 
     entity_id: scene.normal_livingroom_lighting
 
-# Turn off Living Room Lights if sun is up and cloud coverage is below 70%
-livingroom_lamps_off:
+# Turn off Living Room Lights if sun is up and it is sunny or partly cloudy
+livingroom_lights_off:
   sequence:
   - condition: and
     conditions:
       - condition: state  
         entity_id: sun.sun
         state: 'above_horizon'
+      - condition: state
+        entity_id: binary_sensor.living_room_occupancy
+        state: 'off'
+      - condition: template
+        value_template: >
+          {%- if states.weather.home.state == "sunny" or states.weather.home.state == "partlycloudy" -%}
+            true
+          {%- endif -%}
   - service: group.turn_off 
-    entity_id: group.livingroom_lamps
+    entity_id: group.livingroom
+
+
+# Turn off Kitchen Lights if sun is up and it is sunny or partly cloudy
+kitchen_lights_off:
+  sequence:
+  - condition: and
+    conditions:
+      - condition: state  
+        entity_id: sun.sun
+        state: 'above_horizon'
+      - condition: state
+        entity_id: binary_sensor.kitchen_occupancy
+        state: 'off'
+      - condition: template
+        value_template: >
+          {%- if states.weather.home.state == "sunny" or states.weather.home.state == "partlycloudy" -%}
+            true
+          {%- endif -%}
+  - service: group.turn_off 
+    entity_id: group.kitchen
   
 good_night_loft:
   sequence:
@@ -68,13 +96,25 @@ kitchen_lights_night:
  
 theater_lights_out:
   sequence:
-  - condition: state
-    entity_id: media_player.home_theater
-    state: 'idle'
-  - delay:
-      minutes: 30
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: >
+        {%- if states.media_player.home_theater != "playing" -%}
+          true
+        {%- endif -%}
+    - condition: template
+      value_template: >
+        {%- if states.media_player.playstation_4 != "playing" -%}
+          true
+        {%- endif -%}
+    - condition: state  
+      entity_id: binary_sensor.theater_occupancy
+      state: 'off'
   - service: scene.turn_on
     entity_id: scene.theater_dark
+  - service: switch.turn_off
+    entity_id: switch.theater_fan
 
 theater_lights_down:
   sequence:
@@ -85,28 +125,15 @@ theater_lights_down:
   - service: scene.turn_on
     entity_id: scene.theater_dark 
 
-theater_lights_up_check:
-  sequence:
-  - delay:
-      seconds: 20
-  - service: script.turn_on
-    entity_id: script.theater_lights_up
-
 theater_lights_up:
   sequence:
-  - condition: state
-    entity_id: media_player.home_theater
-    state: 'idle'
   - service: scene.turn_on
-    entity_id: scene.theater_dim
+    entity_id: scene.theater_dim 
   - delay:
       minutes: 1
   - service: scene.turn_on
     entity_id: scene.theater_bright
-  - delay:
-      minutes: 5
-  - service: script.turn_on
-    entity_id: script.theater_lights_out
+
 
 
 

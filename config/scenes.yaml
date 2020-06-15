@@ -331,7 +331,7 @@
 
 
 #######################################
-# Home Theater
+# Home Audio
 
 - name: normal audio
   entities:
@@ -343,3 +343,43 @@
   entities:
     media_player.tsr_6750_a3ed2f:
       state: off
+
+#######################################
+# Home Theather
+
+- name: theater dark
+  entities:
+    group.theater_lights:
+      state: off
+
+- name: theater dim
+  entities:
+    group.theater_lights:
+      state: on
+      brightness: 40
+
+- name: theater bright
+  entities:
+    group.theater_lights:
+      state: on
+      brightness: 255
+
+#######################################
+# Skylar
+# - name: Skylar Full
+#   entities:
+#     input_number.skylar_tv_time: 120
+#     input_number.skylar_ps_time: 120
+#     input_number.skylar_yt_time: 60
+
+# - name: Skylar restricted
+#   entities:
+#     input_number.skylar_tv_time: 0
+#     input_number.skylar_ps_time: 0
+#     input_number.skylar_yt_time: 0
+
+# - name: Skylar Limited
+#   entities:
+#     input_number.skylar_tv_time: 60
+#     input_number.skylar_ps_time: 60
+#     input_number.skylar_yt_time: 0
