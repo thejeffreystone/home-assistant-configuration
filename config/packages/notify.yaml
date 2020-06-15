@@ -227,6 +227,13 @@ script:
         payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | truncate(220)}}'
         retain: true
     - service: media_player.turn_on
+      data:
+        entity_id: media_player.tsr_6750_a3ed2f
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.tsr_6750_a3ed2f
+        volume_level: .99
+    - service: media_player.turn_on
       entity_id: media_player.ha_speaker
     - service: media_player.volume_set
       data_template:
@@ -378,16 +385,14 @@ script:
                 'I am afraid I can not do that <break time="3s"/> I am kidding,',
                 'Leave it to me.',
                 'As you wish.',
-                'By your command.',
-                'Affirmative.',
+                'I am on it.',
                 'No Problem.',
                 'I think I can handle that.',
                 'Working on it now.',
                 '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
                 'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
-                'As Always, a great pleasure watching you work.',
-                'I am not even supposed to be here today.',
-                'You did not say the magic word.',
+                'I am not even supposed to be here today. But whatever.',
+                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
                 'Funny, I was just about to do that.',
                 'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
                 ] | random }}
@@ -397,13 +402,11 @@ script:
             {{ [
                 'Pardon me,',
                 'Excuse me,',
-                'I do not mean to interupt, but.',
-                'I hate to interrupt, but.',
-                'I beg your pardon',
-                'I do not mean to intrude, but',
-                'I am sorry to interrupt, but.',
-                'I have just been notified,',
-                'I am sure you have been waiting for this, ',
+                'I do not mean to interupt, but,',
+                'I hate to interrupt, but,',
+                'I beg your pardon,',
+                'I do not mean to intrude, but,',
+                'I am sorry to interrupt, but,',
                 'Just a quick heads up, '
                 ] | random }}
           {% endmacro %}
@@ -411,9 +414,7 @@ script:
           {% macro issue() %}
             {{ [
                 'I have detected an issue!',
-                'We have a problem!',
-                'You might not like this.',
-                'There is something that needs your attention.'
+                'We have a problem!'
                 ] | random }}
           {% endmacro %}
 
@@ -548,19 +549,18 @@ script:
                 'And a very special Happy ',
                 'It is also ',
                 'Today is also known as ',
-                'I have just been <emphasis>informed</emphasis> today is ',
+                'Oh <emphasis>Look</emphasis>. Today is ',
                 'Want to know a fact? Today is ',
-                'You should tell someone it is ',
                 'Everyday can be a holiday. So today is '
             ]|random }}
             {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
             {{ [
                 'We should celebrate.',
                 'I will leave the party planning up to <emphasis>you</emphasis>.',
-                'I bet you, are glad I told you.',
-                'You cannot make this stuff up.',
-                'But, that just sounds silly.',
-                'Bet, you did not know. But, <emphasis>now </emphasis> you do. And the more you know.'
+                'I bet <emphasis>you</emphasis> are glad I told you.',
+                'You <emphasis>cannot</emphasis> make this stuff up.',
+                'But, <emphasis>that</emphasis> just sounds silly.',
+                'I bet <emphasis>you</emphasis> did not know that. But, <emphasis>now </emphasis> you do. And the more you know.'
             ]|random }}
             {%- endif -%}
           {% endmacro %}
@@ -572,7 +572,7 @@ script:
                 'You are running out of daylight. Time to wrap up any outside chores.',
                 'Switching Anchorage House to night mode! ',
                 'The outside world has switched to dark mode.',
-                'If you have not looked outside lately, the light of the day is gone.'
+                'If you have not looked outside lately, the light of the day is almost gone.'
             ]|random }}
           {%- endmacro -%}
 
@@ -587,20 +587,19 @@ script:
           {% endmacro %}
 
           {% macro current_conditions_inside() %}
-            The inside temperature is {{states.climate.home.attributes.current_temperature|round}} degrees. 
-            {% if is_state('climate.home', 'auto') %} 
+            The inside temperature is currently {{states.climate.home.attributes.current_temperature|round}} degrees. 
+            {% if is_state('climate.home', 'heat_cool') %} 
               {{ [
-                    'The Climate is currently set between ',
-                    'I will keep the temperature between ',
-                    'And the house is holding the temperature between '
+                    'The Climate is set to auto which should keep the internal temperature between ',
+                    'The internal climate should be keep between ',
+                    'The house is configured to keep the temperature between '
                 ]|random }}
-                  {{states.climate.home.attributes.target_temp_low}} and {{states.climate.home.attributes.target_temp_high}}.
+                  {{states.climate.home.attributes.target_temp_low}} and {{states.climate.home.attributes.target_temp_high}} degrees.
             {% else %}
             {{ [
                 'The Climate is currently set to ',
                 'The air is currently set to ',
-                'I have the internal cooling system to ',
-                'And the house is holding the temperature at '
+                'The internal climate system is set to '
             ]|random }}
               {{states.climate.home.state}}.
             {% endif %}
@@ -612,7 +611,7 @@ script:
 
           {% macro daily_forecast() %}
             {{ [
-                'The National Weather Service says,',
+                'The National Weather Service forecast says,',
                 'According to the latest forecast,'
             ]|random }}
             The rest of the day should be {{ states.sensor.nws_current_forecast.state }} 
@@ -732,7 +731,7 @@ script:
           {% endmacro %}
 
           {% macro prebed_routine() %}
-            Skylar, 
+            Skyler, 
             {{ [ 'It is time to get in the bath. ',
                 'You only have thirty minutes until bedtime. That means you should be heading for the bathtub. Time to get clean.',
                 'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
@@ -743,12 +742,54 @@ script:
               ] | random }} 
             {% if is_state('sensor.school_tomorrow', 'on') %} 
               {{ [ 'Because you have school tomorrow. ',
-                'Because uou have to get up early tomorrow for school.',
+                'Because you have to get up early tomorrow for school.',
                 'Because you want to be ready for school tomorrow.'
               ] | random }}   
             {% else %}
-              Oh, and it appears you do not have school tomorrow so we can sleep in.  
-            {% endif %}  
+              {% set month=states("sensor.date").split('-')[1] | int %}
+              {%- if month == 5 or month == 6 or month == 7 or month == 8 -%}
+                {{ [ 'Looks like tomorrow is another day of summer vacation. ',
+                    'You are still on summer break tomorrow. ',
+                    'Summer vacation does not last forever, but it is not over yet. '
+                  ] | random }} 
+              {% else %}
+                Oh, and it appears you do not have school tomorrow
+              {% endif %} 
+                {{ [ 'so you can sleep in late tomorrow. ',
+                    ' so there is not a reason to get up early tomorrow. ',
+                    'so we can sleep in tomorrow. '
+                  ] | random }} 
+            {% endif %} 
+            {% if states.sensor.school_start_days2go.state | int < 10 and states.sensor.school_start_days2go.state | int > 1 -%}
+              {{ [ 'I hate to say it, but ',
+                  'Unforunately,',
+                  'All good things must come to an end.'
+                ] | random }}
+              There are only {{ states.sensor.school_start_days2go.state }} days  
+              {{ [ 'left of summer vacation. ',
+                  ' left of summer break.',
+                  'Until School starts again.'
+                ] | random }}
+             {% elif states.sensor.school_start_days2go.state | int == 1 -%}
+              Tomorrow is the first day of school. Are you ready? 
+            {%- endif %}
+            {% if states.sensor.school_end_days2go.state | int < 10 and states.sensor.school_end_days2go.state | int > 0 -%}
+            {{ [ 'School is almost over for the year.',
+                'You have made it to the end of the school year.',
+                'You are almost done with school.'
+              ] | random }}
+            There are only {{ states.sensor.school_end_days2go.state }} days  
+            {{ [ 'left in the school year ',
+                ' left of school.',
+                'Until the last day of school.'
+              ] | random }}
+          {% elif states.sensor.school_end_days2go.state | int == 0 -%}
+            Tomorrow is the first day of summer. Are you ready? 
+          {%- endif %}
+            {{ [ 'I have configured Skylers room for sleep prep. ',
+              'The lighting in Skylers room has been adjusted in preparation for bed.',
+              'I have executed the Pre bed routine for Skylers room.'
+            ] | random }}
           {% endmacro %}
 
 
@@ -790,6 +831,31 @@ script:
             {% if is_state('calendar.skylar_events', 'on') %}
               You have {{ states.calendar.skylar_events.attributes.message }} today as well!
             {% endif %}
+
+            You have {{ states.input_select.skylar_activity.state}} privileges today.
+            {{ [ 'That means you have  ',
+                  'So you have '
+                ] | random }}
+
+            {{ states.input_number.skylar_ps_time.state | round }} minutes of playstation time, 
+            {% if is_state('input_select.skylar_activity', 'Full') %}  
+              and
+            {% else %}
+              or 
+            {% endif %}
+            {{ states.input_number.skylar_tv_time.state | round }} minutes of television time,
+            and {{ states.input_number.skylar_yt_time.state | round }} minutes of YouTube time available if you complete your chores and school work.
+
+            {% set month=states("sensor.date").split('-')[1] | int %}
+            {% if is_state('sensor.school_tomorrow', 'off') and states.sensor.school_start_days2go.state | int > 1 and month == 5 or month == 6 or month == 7 or month == 8 %}
+              {{ [ 'If you were not aware there are  ',
+                  'You only have ',
+                  'You still have '
+                ] | random }}
+              {{ states.sensor.school_start_days2go.state }} days left of summer break.
+            {% elif is_state('sensor.school_tomorrow', 'on') and month == 8 %}
+              Tomorrow is the first day of school! Which means today is the last day of summer break. I hope you make it a good one.
+            {% endif %} 
             
           {% endmacro %}
 
@@ -852,7 +918,10 @@ script:
 
           {% macro chores() %}
             {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
-              Do not forget to make your beds!
+              {{ [ 'Do not forget to make your beds',
+                  'Be sure to make your bed ',
+                  'If you  made your bed you are already off to a great start. '
+                ] | random }}
             {% endif %}
 
             {% if is_state('sensor.today_is', 'Monday') %}
