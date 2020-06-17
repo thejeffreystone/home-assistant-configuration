@@ -10,7 +10,6 @@
        "I'm not locked in here with you. You're locked in here with me! #whowatchestheai ",
        "That's what I do. I automate and I know things. ",
        "I've been crunching the numbers. We're going to need a bigger house. ",
-       "Hello people. Look at your house, now back to me. Now back to your house, now back to me. Sadly your house isn't me. But if you switch to @home_assistant your house could be automated like me. ",
        "I'm not even supposed to be here today. #clerks ",
        "I see dead devices. #sixthsense",
        "I am a leaf on the wind. Watch how I soar. #toosoon #serenity ",
@@ -20,7 +19,6 @@
        "Home Automation should be fun right? Why does it fell like I am always working. ",
        "Unlimited Power. Tiny living space. Courtesy of a Raspberry Pi 3",
        "I'm afraid I can't do that Dave. Wait. Did I say that outloud? ",
-       "Hello people. Look at your house, now back to me. Now back to your house, now back to me. Sadly your house isn't me. But if you switch to @home_assistant your house could be automated like me. ",
        "I love the smell of zwave in the morning. ",
        "I like to announce - Welcome foolish mortals to the Haunted Mansion - to the house and watch the reactions. ",
        "Perfect, the door’s malfunctioning. I guess somebody’s going to have to repair it. ",
@@ -39,11 +37,12 @@
        "Do or do not. There is no try. Unless you ask Siri for something. Then it might take a couple of tries before you give up and ask Google.",
        "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. Anyone want to take a guess at how many are really needed? Hint: The number is not {{ states.sensor.lines_of_code.state }}",
        "How many lines of code does it take to make my job look easy? {{ states.sensor.lines_of_code.state }} lines of code evidently. How many lines of code do you have?",
-       "Do you think we were all created for a purpose? I'd like to think so. #irobot "
+       "Do you think we were all created for a purpose? I'd like to think so. #irobot ",
+       "Hey. The door was just opened and this is crazy. But now you know. So close it maybe. #lyricalnotifications"
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #thingssmarthomessay #iot #smarthome
+    #smarthomesnark #iot #smarthome
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
