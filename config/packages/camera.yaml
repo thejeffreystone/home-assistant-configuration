@@ -8,9 +8,12 @@
 camera:
   - platform: mjpeg
     name: Garage Door Cam 
-    mjpeg_url: !secret garage_cam
+    mjpeg_url: !secret garage_cam # foscam
   - platform: aarlo
     ffmpeg_arguments: '-pred 1 -q:v 2'
+  - platform: ffmpeg
+    input: !secret livingroom_cam # wyze cam v2
+    name: livingroom
     
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg  
