@@ -40,7 +40,6 @@ automation:
     action:
     - service: script.ah_report
       data:
-        call_interuption: 1
         call_prebed_routine: 1
   
   - id: nightly_report
@@ -77,8 +76,12 @@ automation:
         call_morning_greeting: 1
         call_time_annc: 1
         call_weather_alerts: 1
+        call_skylar_dressed: 1
+        call_school_today: 1
+        call_skylar_events: 1
         call_todays_events: 1
         call_current_conditions_outside: 1
+        call_clothes_suggestion: 1
         call_current_conditions_inside: 1
         call_daily_forecast: 1
         call_upcoming_birthdays: 1
@@ -97,53 +100,55 @@ automation:
                 "#Homeassistant gives me the ability to make daily announcements like the one I just did using #Amazon Polly.",
                 "Each day at this time I provide the residents of this house an update that includes everything they need to know about the upcoming day. But with more snark."
              ] | random }}
-  
-  - id: skylar_morning_greeting
-    alias: Skylar Morning Greeting
-    initial_state: true
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    condition:
-    - condition: time
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-    action:
-    - service: script.ah_report
-      data:
-        call_interuption: 1
-        call_skylar_dressed: 1
-        call_school_today: 1
-        call_skylar_events: 1
-        call_clothes_suggestion: 1
     - service: switch.turn_off
       entity_id: switch.0xf0d1b80000052281_switch
-  
-  # - id: skylar_morning_alarm_announcement
-  #   alias: skylar morning alarm announcement
+
+  # - id: skylar_morning_greeting
+  #   alias: Skylar Morning Greeting
+  #   initial_state: true
   #   trigger:
-  #   - platform: time
-  #     at: '07:00:00'
-  #   condition:
-  #     condition: template
-  #     value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
+  #     platform: template
+  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+  #   # condition:
+  #   # - condition: time
+  #   #   weekday:
+  #   #   - mon
+  #   #   - tue
+  #   #   - wed
+  #   #   - thu
+  #   #   - fri
   #   action:
-  #   - service: notify.alexa_media_skylar_s_bedroom
+  #   - service: script.ah_report
   #     data:
-  #       message: Good Morning Skylar. Time to Rise and Shine. 
-  #       data:
-  #         type: tts
-  #   - delay:
-  #       seconds: 30
-  #   - service: notify.alexa_media_skylar_s_bedroom
-  #     data:
-  #       message: Good Morning Skylar. You have school today. Time to get up. 
-  #       data:
-  #         type: tts
+  #       call_interuption: 1
+  #       call_skylar_dressed: 1
+  #       call_school_today: 1
+  #       call_skylar_events: 1
+  #       call_clothes_suggestion: 1
+  #   - service: switch.turn_off
+  #     entity_id: switch.0xf0d1b80000052281_switch
+  
+  - id: skylar_morning_alarm_announcement
+    alias: skylar morning alarm announcement
+    trigger:
+    - platform: time
+      at: '07:00:00'
+    condition:
+      condition: template
+      value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
+    action:
+    - service: notify.alexa_media_skylar_s_bedroom
+      data:
+        message: Good Morning Skylar. Time to Rise and Shine. 
+        data:
+          type: tts
+    - delay:
+        seconds: 30
+    - service: notify.alexa_media_skylar_s_bedroom
+      data:
+        message: Good Morning Skylar. You have school today. Time to get up. 
+        data:
+          type: tts
   
   - id: set_skylar_morning_report_time
     alias: set skylar morning report time
