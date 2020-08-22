@@ -52,6 +52,27 @@ sensor:
       {% endfor %}
 
 automation:
+  
+  # - id: launch_window
+  #   alias: Launch Window Approaching
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.launch_window
+  #   condition:
+  #     - condition: template
+  #       value_template: "{{states('sensor.launch_window') != 'unknown'}}"
+
+  #   action:
+  #     - wait_template: >-
+  #         {{((as_timestamp(now()) - states('sensor.launch_window') | float) | abs < 601)}}
+  #     - service: script.ah_report
+  #       data:
+  #         call_launch: 1
+  #     - service: script.text_notify
+  #       data_template:
+  #         who: "jeff"
+  #         title: "Laumch Imminent"
+  #         message: "A Launch is imminent"
 
   - id: iss_tweet
     initial_state: true
