@@ -1,48 +1,79 @@
-play_skylars_christmas_playlist:
+
+########################################
+# Spotify Playlists
+# 
+# Chill - https://open.spotify.com/playlist/0dIzE1HeaUz1kmPX6DTnpY 
+# Background - https://open.spotify.com/playlist/3tKyL6gGSa5fdyCdo92L8m
+# Skylar - https://open.spotify.com/playlist/0hYKkmUpFFG37TtFX23cMM?si=ZQLOiV5iT2yPPBEAEqTP8w
+# Classical - https://open.spotify.com/playlist/09IWZAWNkNBl7TzWAoKXy3?si=NW4qtoxiTjqS0NpbynCoUQ
+# Christmas - https://open.spotify.com/playlist/5XgmUr452DupjZYfnAcHS0?si=Cncjle8GQd-4Uyk1k4NjyA
+# Jukebox - https://open.spotify.com/playlist/4rr6pL3qY8fBMrMDvpbEc8?si=NrIdThTuToCFIl1EGC_UEw
+# Scored - https://open.spotify.com/playlist/1XJddjZ9l71FPIJhpyL4vI?si=q-bbG_0fRjuH2wVHGIH2Yg
+# Disney - https://open.spotify.com/playlist/0zKtkdfsOFOg2EnjYa3QWb?si=pGDhUQlnTpaL0ESLIDozUw
+# Jazz - https://open.spotify.com/playlist/7INVZzAMFf4A5oiXec6FoF?si=Z62yVQ3UTjigoA8U782vtA
+# Bedtime - https://open.spotify.com/playlist/3luYE0ii9N8JaOaFnPW9MJ?si=mL4b0NIsTe6RcOK9ANEwGw
+#
+# Sources:
+#
+# Everywhere
+# Skylar's Bedroom
+# Living Room
+# Kitchen  
+#######################################
+play_spotify_playlist:
   sequence:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.spotify
-      volume_level: .4
   - service: media_player.select_source
     data_template:
-      entity_id: media_player.spotify
-      source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
-        {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
-        {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
-        is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
-        {% endif %}'
+      entity_id: media_player.spotify_jarvis
+      source: >
+          {{ source }}
   - service: media_player.play_media
     data_template:
-      entity_id: media_player.spotify
+      entity_id: media_player.spotify_jarvis
       media_content_type: playlist
-      media_content_id: spotify:user:spotify:playlist:2lmfykOn8EK0Ow8iH9XHLa
+      media_content_id: >
+        {% if playlist == 'chill' %}
+          https://open.spotify.com/playlist/0dIzE1HeaUz1kmPX6DTnpY?si=qzhiPR3UQg6H1pk_rq2Eiw
+        {% elif playlist == 'bedtime' %}
+          https://open.spotify.com/playlist/3luYE0ii9N8JaOaFnPW9MJ?si=puEZG_VgQuqsZ8CFcxFO9w
+        {% elif playlist == 'background' %}
+          https://open.spotify.com/playlist/3tKyL6gGSa5fdyCdo92L8m?si=WV_PS3S6S-WmdjeopUEX8Q
+        {% elif playlist == 'skylar' %}
+          https://open.spotify.com/playlist/0hYKkmUpFFG37TtFX23cMM?si=ZQLOiV5iT2yPPBEAEqTP8w
+        {% elif playlist == 'classical' %}
+          https://open.spotify.com/playlist/09IWZAWNkNBl7TzWAoKXy3?si=gk1eUcKpRXK1xeQxvYSPcQ
+        {% elif playlist == 'christmas' %}
+          https://open.spotify.com/playlist/5XgmUr452DupjZYfnAcHS0?si=1HULm9WMRAGd4R7kW3gsQA
+        {% elif playlist == 'jukebox' %}
+          https://open.spotify.com/playlist/4rr6pL3qY8fBMrMDvpbEc8?si=qJ8fTx-IRWewI-VZcGWkfg
+        {% elif playlist == 'scored' %}
+          https://open.spotify.com/playlist/1XJddjZ9l71FPIJhpyL4vI?si=q-bbG_0fRjuH2wVHGIH2Yg
+        {% elif playlist == 'disney' %}
+          https://open.spotify.com/playlist/0zKtkdfsOFOg2EnjYa3QWb?si=pGDhUQlnTpaL0ESLIDozUw
+        {% elif playlist == 'jazz' %}
+          https://open.spotify.com/playlist/7INVZzAMFf4A5oiXec6FoF?si=Z62yVQ3UTjigoA8U782vtA
+        {% endif %}
   - service: media_player.shuffle_set
     data:
-      entity_id: media_player.spotify
-      shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
-        is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}'
-play_skylars_playlist:
+      entity_id: media_player.spotify_jarvis
+      shuffle: 'true'
+
+skylar_bedtime_music:
+  alias: Slylar Bedtime Music
   sequence:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.spotify
-      volume_level: .4
-  - service: media_player.select_source
-    data_template:
-      entity_id: media_player.spotify
-      source: '{% if is_state("input_select.spotify_source", "Everywhere") %} Everywhere
-        {% elif is_state("input_select.spotify_source", "Living Room") %} Living Room
-        {% elif is_state("input_select.spotify_source", "Kitchen") %} Kitchen {% elif
-        is_state("input_select.spotify_source", "Master Bedroom") %} Master Bedroom
-        {% endif %}'
-  - service: media_player.play_media
-    data_template:
-      entity_id: media_player.spotify
-      media_content_type: playlist
-      media_content_id: spotify:user:spotify:playlist:0hYKkmUpFFG37TtFX23cMM
-  - service: media_player.shuffle_set
-    data:
-      entity_id: media_player.spotify
-      shuffle: '{% if is_state("input_boolean.shuffle_spotify", "On") %} True {% elif
-        is_state("input_select.shuffle_spotify", "Off") %} False {% endif %}'
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.skylar_s_bedroom
+        volume_level: .25
+    - service: script.play_spotify_playlist
+      data_template:
+        source: Skylar's Bedroom
+        playlist: bedtime
+
+kitchen_chill_music:
+  alias: Kitchen Chill Music
+  sequence:
+    - service: script.play_spotify_playlist
+      data_template:
+        source: Kitchen
+        playlist: chill

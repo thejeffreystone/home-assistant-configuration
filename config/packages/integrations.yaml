@@ -10,6 +10,10 @@ google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
 
+spotify:
+  client_id: !secret spotify_client
+  client_secret: !secret spotify_secret
+
 # Using the HACS Arlo Integration 
 aarlo:
   host: https://my.arlo.com
