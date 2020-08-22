@@ -1,8 +1,3 @@
-# MQTT Sensor for Washing Machine Status. 
-- platform: mqtt
-  name: "Washer Status"
-  state_topic: "house/washer/status"
-
 
 - platform: history_stats
   name: Jeff Driving Time
@@ -70,11 +65,11 @@
     days: 7
 - platform: statistics
   name: Outside Temp Stats
-  entity_id: sensor.accurite_back_porch_temperature
+  entity_id: sensor.back_porch_temperature
   sampling_size: 500
 - platform: statistics
   name: Garage Temp Stats
-  entity_id: sensor.accurite_garage_temperature
+  entity_id: sensor.garage_temperature
   sampling_size: 500
 - platform: min_max
   name: Inside Temp Stats
