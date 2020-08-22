@@ -141,10 +141,10 @@ driveway_off:
   - delay:
       seconds: 120
   - condition: state
-    entity_id: binary_sensor.side_door_contact
+    entity_id: binary_sensor.side_door
     state: 'off'
   - condition: state
-    entity_id: binary_sensor.garage_door_contact
+    entity_id: binary_sensor.garage_door
     state: 'off'
   - service: switch.turn_off
     entity_id: switch.driveway_light
