@@ -6,7 +6,7 @@
 ###############################################################################
 
 recorder:
-  db_url: !secret database
+  #db_url: !secret database
   purge_keep_days: 2
   exclude:
     domains:
@@ -27,7 +27,7 @@ logbook:
 
 # Lets try to make the logs less chatty and more fine tuned.       
 logger:
-  default: critical
+  default: error
   logs:
     homeassistant.core: warning
     homeassistant.components.recorder: error # to spot db issues
