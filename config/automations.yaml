@@ -61,7 +61,7 @@
     platform: state
     to: 'On'
   condition:
-  - above: '73'
+  - above: 73
     condition: numeric_state
     entity_id: sensor.upstairs_temperature
   action:
@@ -82,7 +82,7 @@
   - condition: state
     entity_id: switch.livingroom_fan
     state: 'off'
-  - above: '73'
+  - above: 73
     condition: numeric_state
     entity_id: sensor.living_room_temperature
   action:
@@ -101,12 +101,9 @@
   - condition: state
     entity_id: switch.croft_fan
     state: 'on'
-  - below: '72'
+  - below: 72
     condition: numeric_state
     entity_id: sensor.upstairs_temperature
-  - condition: state
-    entity_id: media_player.tsr_6750_a3ed2f
-    state: 'off'
   action:
   - data:
       entity_id: switch.croft_fan
@@ -167,12 +164,13 @@
   initial_state: true
   trigger:
   - platform: state
-    entity_id: binary_sensor.kitchen_motion_motion
+    entity_id: binary_sensor.kitchen_motion
     to: 'on'
   action:
-  - service: script.kitchen_lights_night
   - service: script.dog_mode_on
   - service: script.kitchen_lights_on
+  - service: script.kitchen_lights_night
+  
 
 - id: driveway_motion_lighting
   alias: Driveway Motion Lighting 
@@ -187,76 +185,90 @@
     state: 'below_horizon'
   action:
   - service: switch.turn_on
-    entity_id: switch.driveway_light_2
+    entity_id: switch.driveway_light
   - delay:
       minutes: 3
   - service: switch.turn_off
-    entity_id: switch.driveway_light_2
+    entity_id: switch.driveway_light
   
 
 
-- id: show_time
-  alias: Show Time
-  initial_state: true
-  trigger:
-  - platform: state
-    entity_id: media_player.home_theater
-    to: 'playing'
-  condition:
-  - condition: state  
-    entity_id: light.theater_light
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.theater_lights_down
-  - service: script.turn_off
-    entity_id: script.theater_lights_up
+# - id: show_time
+#   alias: Show Time
+#   initial_state: true
+#   trigger:
+#   - platform: state
+#     entity_id: media_player.home_theater
+#     to: 'playing'
+#   condition:
+#   - condition: state  
+#     entity_id: light.theater_light
+#     state: 'on'
+#   action:
+#   - service: script.turn_on
+#     entity_id: script.theater_lights_down
+#   - service: script.turn_off
+#     entity_id: script.theater_lights_up
 
-- id: show_time start paused
-  alias: Show Time Start Paused
-  initial_state: true
-  trigger:
-  - platform: state
-    entity_id: media_player.home_theater
-    to: 'idle'
-  condition:
-  - condition: state  
-    entity_id: script.theater_lights_down
-    state: 'on'
-  action:
-  - service: script.turn_off
-    entity_id: script.theater_lights_down
+# - id: show_time start paused
+#   alias: Show Time Start Paused
+#   initial_state: true
+#   trigger:
+#   - platform: state
+#     entity_id: media_player.home_theater
+#     to: 'idle'
+#   condition:
+#   - condition: state  
+#     entity_id: script.theater_lights_down
+#     state: 'on'
+#   action:
+#   - service: script.turn_off
+#     entity_id: script.theater_lights_down
   
 - id: show_time_over
   alias: Show Time over
   initial_state: true
   trigger:
   - platform: state
-    entity_id: media_player.home_theater
-    to: 'idle'
+    entity_id: media_player.theater_tv
+    to: 'off'
     for: 
-      seconds: 35
-  condition:
-  - condition: state  
-    entity_id: media_player.home_theater
-    state: 'idle'
+      minutes: 20
   action:
-  - service: script.turn_on
-    entity_id: script.theater_lights_up
-  - service: script.turn_off
-    entity_id: script.theater_lights_down
+  - service: scene.turn_on
+    entity_id: scene.theater_dark
 
 - id: theater_fan_on
   alias: Theater Fan On 
   initial_state: true
   trigger:
-  - above: '74'
+  - above: 74
     platform: numeric_state
     entity_id: sensor.theater_temperature
+  condition: 
+    - condition: state
+      entity_id: media_player.theater_tv
+      state: 'on'
   action:
   - data:
       entity_id: switch.theater_fan
-    service: switch.turn_off
+    service: switch.turn_on
+
+- id: theater_fan_off
+  alias: Theater Fan Off 
+  initial_state: true
+  trigger:
+  - below: 72
+    platform: numeric_state
+    entity_id: sensor.theater_temperature
+  condition: 
+    - condition: state
+      entity_id: media_player.theater_tv
+      state: 'off'
+  action:
+  - data:
+      entity_id: switch.theater_fan
+    service: switch.turn_on
 
 - id: theater_light_pressed_up
   alias: Theater Light Pressed Up
