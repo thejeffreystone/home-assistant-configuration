@@ -327,7 +327,6 @@ automation:
 
   - id: Freeze Warning Tweet
     alias: Freeze Warning Tweet
-    initial_state: 'on'
     trigger:
     - platform: time
       at: '08:00:00'
