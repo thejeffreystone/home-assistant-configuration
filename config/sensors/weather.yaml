@@ -34,40 +34,69 @@
 #     minutes: 5
 #     seconds: 0
 #     milliseconds: 0
-## Accurite 158 - Back Porch
+## Accurite 158 - Crawlspace
 - platform: mqtt
-  name: "Accurite Back Porch Temperature"
-  state_topic: "house/accurite-158/temperature"
+  name: "Crawlspace Temperature"
+  state_topic: "house/acurite-158/temperature"
   device_class: temperature
 - platform: mqtt
-  name: "Accurite Back Porch Humidity"
-  state_topic: "house/accurite-158/humidity"
+  name: "Crawlspace Humidity"
+  state_topic: "house/acurite-158/humidity"
+  device_class: humidity
+- platform: mqtt
+  name: "Crawlspace Model"
+  state_topic: "house/acurite-158/model"
+- platform: mqtt
+  name: "Crawlspace lupdate"
+  state_topic: "house/acurite-158/last_update"
+  device_class: timestamp
 
-# - platform: mqtt
-#   name: "Accurite Back Porch Status"
-#   state_topic: "house/accurite-158/status"
-# - platform: mqtt
-#   name: "Accurite Back Porch Battery"
-#   state_topic: "house/accurite-158/battery"
+## Accurite 10968 - Garage
 - platform: mqtt
-  name: "Accurite Back Porch Model"
-  state_topic: "house/accurite-158/model"
-- platform: mqtt
-  name: "Accurite Back Porch lupdate"
-  state_topic: "house/accurite-158/lastupdate"
-- platform: mqtt
-  name: "Accurite Garage Temperature"
-  state_topic: "house/accurite-10968/temperature"
+  name: "Garage Temperature"
+  state_topic: "house/acurite-10968/temperature"
   device_class: temperature
 - platform: mqtt
-  name: "Accurite Garage Humidity"
-  state_topic: "house/accurite-10968/humidity"
+  name: "Garage Humidity"
+  state_topic: "house/acurite-10968/humidity"
+  device_class: humidity
 - platform: mqtt
-  name: "Accurite Garage Model"
-  state_topic: "house/accurite-10968/model"
+  name: "Garage Model"
+  state_topic: "house/acurite-10968/model"
 - platform: mqtt
-  name: "Accurite Garage lupdate"
-  state_topic: "house/accurite-10968/lastupdate"
+  name: "Garage lupdate"
+  state_topic: "house/acurite-10968/last_update"
+  device_class: timestamp
+
+
+## Accurite 6045M - Back Porch
+- platform: mqtt
+  name: "Back Porch Temperature"
+  state_topic: "house/acurite-6045M/temperature"
+  device_class: temperature
+- platform: mqtt
+  name: "Back Porch Humidity"
+  state_topic: "house/acurite-6045M/humidity"
+  device_class: humidity
+- platform: mqtt
+  name: "Back Porch Model"
+  state_topic: "house/acurite-6045M/model"
+- platform: mqtt
+  name: "Back Porch lupdate"
+  state_topic: "house/acurite-6045M/last_update"
+  device_class: timestamp
+- platform: mqtt
+  name: "Lightning Strike Count"
+  state_topic: "house/acurite-6045M/lightning_count"
+- platform: mqtt
+  name: "Lightning Storm Distance"
+  state_topic: "house/acurite-6045M/storm_dist"
+
+- platform: mqtt
+  name: "Lightning total count"
+  state_topic: "house/lightning/total_count"
+
+
 
 - platform: statistics
   name: Inside Humidity Stats

@@ -1,0 +1,24 @@
+- platform: mqtt
+  name: "Lightning Detected" 
+  state_topic: "house/acurite-6045M/lightning_active"
+  payload_on: "1"
+  payload_off: "0"
+  device_class: safety
+- platform: mqtt
+  name: "Back Porch Sensor Battery" 
+  state_topic: "house/acurite-6045M/battery"
+  payload_on: "1"
+  payload_off: "0"
+  device_class: battery
+- platform: mqtt
+  name: "Garage Sensor Battery" 
+  state_topic: "house/acurite-10968/battery"
+  payload_on: "1"
+  payload_off: "0"
+  device_class: battery
+- platform: mqtt
+  name: "Crawlspace Sensor Battery" 
+  state_topic: "house/acurite-158/battery"
+  payload_on: "1"
+  payload_off: "0"
+  device_class: battery

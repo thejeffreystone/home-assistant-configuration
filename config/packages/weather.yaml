@@ -36,9 +36,9 @@ input_boolean:
   weather_alert_texts:
     name: Weather Alert Texts
     icon: mdi:telegram
-  # lightning_warning:
-  #   name: Lightning Warning
-  #   icon: mdi:flash-alert
+  lightning_warning:
+    name: Lightning Warning
+    icon: mdi:flash-alert
 
 ### You first need to find either your NWS Zone ID or County ID. I’m not sure which is better but I used my Zone ID here.
 ### You can find your Zone ID by going to https://alerts.weather.gov/ 7, scroll down to your state and click on the “zone list” then look for the entry for your county.
@@ -146,7 +146,6 @@ sensor:
 
 automation:
   - alias: 'NWS Weather Alert Pop Up Control'
-    initial_state: 'on'
     trigger:
       platform: state
       entity_id: sensor.nws_alerts
@@ -188,7 +187,6 @@ automation:
           {% endif %}
   
   - alias: 'NWS Weather Sensor Refresh'
-    initial_state: 'on'
     trigger:
       platform: state
       entity_id: sensor.nws_alerts
@@ -196,7 +194,6 @@ automation:
       - service: script.refresh_weather_alert_sensors
 
   - alias: NWS Notification Weather Alert
-    initial_state: 'on'
     trigger:
       platform: state
       entity_id: sensor.nws_alerts
@@ -228,7 +225,6 @@ automation:
             {% endif %}
 
   - alias: NWS Announce Weather Alert
-    initial_state: 'on'
     trigger:
       - platform: state
         entity_id: sensor.nws_alerts
@@ -285,7 +281,6 @@ automation:
             {% endif %}
 
   - alias: NWS Announce Weather Alert for Tornado
-    initial_state: 'on'
     trigger:
       - platform: state
         entity_id: sensor.nws_alerts
@@ -319,47 +314,58 @@ automation:
           title: "Tornado Warning!"
           message: "The National Weather Service Has issued a Tornado Warning for our area."
 
-  # - alias: Lightning Detected
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.lightning_active
-  #       to: 'on'
-  #   action:
-  #     - service: script.text_notify
-  #       data_template:
-  #         who: "jeff"
-  #         title: "Lightning Detected!"
-  #         message: "Lightning has been detected within 15 miles of Anchorage House"
+  - alias: Lightning Detected
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.lightning_detected
+        from: 'off'
+        to: 'on'
+      - platform: template
+        value_template: '{{ states.sensor.lightning_strike_count.state | int > states.sensor.lightning_total_count.state | int }}'
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.lightning_strike_count.state | int > states.sensor.lightning_total_count.state | int }}'
+      - condition: state
+        entity_id: input_boolean.lightning_warning
+        state: 'off'
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "jeff"
+          title: "Lightning Detected!"
+          message: "Lightning has been detected within 20 miles of Anchorage House"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.lightning_warning
   #     - service: script.lightning_warning_audible
 
-  # - alias: Lightning Warning Off
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.lightning_active
-  #       to: 'off'
-  #   action:
-  #     - service: script.text_notify
-  #       data_template:
-  #         who: "jeff"
-  #         title: "Lightning Threat Over."
-  #         message: "No more Lightning Strikes detected."
-  #     - service: script.lightning_clear_audible
-  
-  # - alias: 'lightning_update'
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: time_pattern
-  #       minutes: '/5'
-  #   action:
-  #     - service: homeassistant.update_entity
-  #       entity_id: sensor.lightning_strike_count
-  #     - service: homeassistant.update_entity
-  #       entity_id: binary_sensor.lightning_active
+
+  - alias: Lightning Warning Off
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.lightning_detected
+        from: 'on'
+        to: 'off'
+      - platform: template
+        value_template: '{{ states.sensor.lightning_strike_count.state | int == states.sensor.lightning_total_count.state | int }}'
+        for:
+          minutes: 20
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.lightning_strike_count.state | int == states.sensor.lightning_total_count.state | int }}'
+      - condition: state
+        entity_id: input_boolean.lightning_warning
+        state: 'on'
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "jeff"
+          title: "Lightning Threat Over."
+          message: "No more Lightning Strikes detected."
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.lightning_warning
+      #- service: script.lightning_clear_audible
 
   - alias: NWS Freeze Warning
-    initial_state: 'on'
     trigger:
       - platform: state
         entity_id: sensor.nws_alerts
@@ -375,7 +381,6 @@ automation:
         entity_id: input_boolean.freeze_warning
 
   - alias: Forecast Low Near Freezing
-    initial_state: 'on'
     trigger:
       - platform: numeric_state
         entity_id: sensor.nws_overnight_low
@@ -392,7 +397,6 @@ automation:
         entity_id: input_boolean.freeze_warning
   
   - alias: Forecast Low Above Freezing
-    initial_state: 'on'
     trigger:
       - platform: numeric_state
         entity_id: sensor.nws_overnight_low
@@ -409,7 +413,6 @@ automation:
         entity_id: input_boolean.freeze_warning
       
   - alias: Activate Tornado alarm 
-    initial_state: 'on'
     trigger:
     - platform: state
       entity_id: input_boolean.tornado_alarm 
@@ -420,7 +423,6 @@ automation:
       entity_id: script.tornado_alarm
 
   - alias: Deactivate Tornado alarm 
-    initial_state: 'on'
     trigger:
     - platform: state
       entity_id: input_boolean.tornado_alarm 
@@ -470,34 +472,32 @@ script:
           media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
           media_content_type: "music"
   
-  # lighning_warning_audible:
-  #   sequence: 
-  #     - condition: state
-  #       entity_id:  binary_sensor.day
-  #       state: 'on'
-  #     - service: script.twitter_notify_image
-  #       data_template:
-  #         tweet: '{{ [ "Did you see that flash? I did. Letting everyone know there is lightning nearby.", 
-  #         "When Lightning is near I notify the residents of Anchorage House to keep them safe.", 
-  #         "If the residents of Anchorage House didnt hear the thunder I just gave them a heads up.",
-  #         "Everyone inside! If you are near Anchorage House that is. Lightning is near." ] | random }}'
-  #         image: >-
-  #           {{ [ "/config/www/tweet_images/lightning.jpg",
-  #                "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
-  #     - service: script.ah_report
-  #       data:
-  #         call_interuption: 1
-  #         call_lightning_alert: 1
+  lightning_warning_audible:
+    sequence: 
+      - condition: state
+        entity_id:  binary_sensor.day
+        state: 'on'
+      - service: script.twitter_notify_image
+        data_template:
+          tweet: '{{ [ "Did you see that flash? I did. Letting everyone know there is lightning nearby.", 
+          "When Lightning is near I notify the residents of Anchorage House to keep them safe.", 
+          "If the residents of Anchorage House didnt hear the thunder I just gave them a heads up.",
+          "Everyone inside! If you are near Anchorage House that is. Lightning is near." ] | random }}'
+          image: >-
+            {{ [ "/config/www/tweet_images/lightning.jpg",
+                 "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
+      - service: script.ah_report
+        data:
+          call_lightning_alert: 1
   
-  # lighning_clear_audible:
-  #   sequence: 
-  #     - condition: state
-  #       entity_id:  binary_sensor.day
-  #       state: 'on'
-  #     - service: script.ah_report
-  #       data:
-  #         call_interuption: 1
-  #         call_lightning_clear: 1
+  lightning_clear_audible:
+    sequence: 
+      - condition: state
+        entity_id:  binary_sensor.day
+        state: 'on'
+      - service: script.ah_report
+        data:
+          call_lightning_clear: 1
 
   refresh_weather_alert_sensors:
     sequence: 
@@ -513,3 +513,5 @@ script:
         entity_id: sensor.flood_warning
       - service: homeassistant.update_entity
         entity_id: sensor.flood_watch 
+
+  
