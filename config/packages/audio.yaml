@@ -29,6 +29,7 @@ input_datetime:
     has_time: true
 
 
+
 automation:
   - id: turn_off_audible_notifications
     alias: Turn Off Audible Notifications
