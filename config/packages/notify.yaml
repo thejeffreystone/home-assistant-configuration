@@ -427,7 +427,8 @@ script:
                 'It is time to get the day started.',
                 'Glad to see everyone made it.',
                 'The early bird gets the worm.',
-                'from the bridge.'
+                'from the bridge.',
+                'Hooray you live to drink another day.'
               ] | random }}
               {% if is_state('input_boolean.guest_mode', 'on') %} 
                 {{ [ 'And a special welcome to our guests. ',
@@ -583,7 +584,7 @@ script:
                 'Looking outside,'
             ]|random }}
             It is currently {{states.weather.home_2.state}} and {{states.nws_current_temperature.state|round}} degrees in Grayson. 
-            The back porch is {{states.sensor.accurite_back_porch_temperature.state|round}} degrees.
+            The back porch is {{states.sensor.back_porch_temperature.state|round}} degrees.
           {% endmacro %}
 
           {% macro current_conditions_inside() %}
@@ -606,7 +607,7 @@ script:
           {% endmacro %}
 
           {% macro current_conditions_garage() %}
-            The garage is {{states.sensor.accurite_garage_temperature.state|round}} degrees with a humidity of {{states.sensor.accurite_garage_humidity.state|round}} percent.
+            The garage is {{states.sensor.garage_temperature.state|round}} degrees with a humidity of {{states.sensor.garage_humidity.state|round}} percent.
           {% endmacro %}
 
           {% macro daily_forecast() %}
@@ -831,20 +832,6 @@ script:
             {% if is_state('calendar.skylar_events', 'on') %}
               You have {{ states.calendar.skylar_events.attributes.message }} today as well!
             {% endif %}
-
-            You have {{ states.input_select.skylar_activity.state}} privileges today.
-            {{ [ 'That means you have  ',
-                  'So you have '
-                ] | random }}
-
-            {{ states.input_number.skylar_ps_time.state | round }} minutes of playstation time, 
-            {% if is_state('input_select.skylar_activity', 'Full') %}  
-              and
-            {% else %}
-              or 
-            {% endif %}
-            {{ states.input_number.skylar_tv_time.state | round }} minutes of television time,
-            and {{ states.input_number.skylar_yt_time.state | round }} minutes of YouTube time available if you complete your chores and school work.
 
             {% set month=states("sensor.date").split('-')[1] | int %}
             {% if is_state('sensor.school_tomorrow', 'off') and states.sensor.school_start_days2go.state | int > 1 and month == 5 or month == 6 or month == 7 or month == 8 %}
