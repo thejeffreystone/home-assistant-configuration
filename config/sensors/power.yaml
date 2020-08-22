@@ -11,13 +11,13 @@
   unit_of_measurement: "W"
 
 - platform: mqtt
-  name: "Washer_Power"
+  name: "Washer_Power 2"
   state_topic: "zwave2mqtt/washer/50/1/2"
   device_class: "power"
   unit_of_measurement: "W"
 
 - platform: mqtt
-  name: "Washer Power 3"
+  name: "Washer Power"
   state_topic: "zwave2mqtt/washer/50/1/9"
   device_class: "power"
   unit_of_measurement: "W"
