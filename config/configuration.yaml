@@ -73,11 +73,11 @@ device_tracker:
   #   track_new_devices: yes
   # - platform: owntracks
   # 
-  # - platform: eero_tracker
-  #   consider_home: 300
-  #   interval_seconds: 60
-  #   track_new_devices: yes
-  #   only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
+  - platform: eero_tracker
+    consider_home: 300
+    interval_seconds: 60
+    track_new_devices: yes
+    #only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
 
 # moved to integrations package
 # google:
@@ -216,10 +216,7 @@ geo_location:
 # ifttt:
 #   key: !secret IFTTT_API_KEY 
 
-# media_player:
-#   - platform: spotify
-#     client_id: !secret spotify_client
-#     client_secret: !secret spotify_secret
+
 
 group: !include groups.yaml
 
@@ -294,3 +291,9 @@ input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml
 input_datetime: !include input_datetime.yaml
 zone: !include zones.yaml
+
+
+shell_command:
+  grocy_consume_item: "curl -k -X POST https://{{server_ip}}:9192/api/stock/products/{{product_id}}/consume -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'GROCY-API-KEY: {{grocy_key}}' -H 'cache-control: no-cache' -d '{ \"amount\": {{amount}},  \"transaction_type\": \"consume\",  \"spoiled\": false }'"
+  grocy_chore_complete: "curl -k -X POST https://{{server_ip}}:9192/api/chores/{{chore_id}}/execute -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'GROCY-API-KEY: {{grocy_key}}' -H 'cache-control: no-cache' -d '{ \"tracked_time\": {{timestamp}},  \"done_by\": {{user}} }'"
+  grocy_add_item: "curl -k -X POST https://{{server_ip}}:9192/api/stock/products/{{product_id}}/add -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'GROCY-API-KEY: {{grocy_key}}' -H 'cache-control: no-cache' -d '{ \"amount\": {{amount}},  \"best_before_date\": {{best_before_date}},  \"transaction_type\": \"purchase\", \"price\": {{price}} }'"

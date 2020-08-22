@@ -5,13 +5,23 @@
 #   @description    :   Package for handling Smart Applicances and or automation to make dumb appliances seem smart.  
 ###############################################################################
 
+sensor:
+  # MQTT Sensor for DishWasher Status.  
+  - platform: mqtt
+    name: "DishWasher Status"
+    state_topic: "house/dishwasher/status"
+  # MQTT Sensor for Washing Machine Status. 
+  - platform: mqtt
+    name: "Washer Status"
+    state_topic: "house/washer/status"
+
 automation:
 
   - id: washer_running
     alias: Washer Running
     trigger:
     - above: 5
-      entity_id: sensor.washer_power
+      entity_id: sensor.washer_power_2
       platform: numeric_state
     condition:
       condition: or
@@ -24,13 +34,20 @@ automation:
         state: complete
     action:
     - service: script.washer_running
+    # Since the washer has run lets consume a detergent tablet
+    - service: shell_command.grocy_consume_item
+      data:
+        server_ip: !secret grocy_ip
+        grocy_key: !secret grocy_api_key
+        product_id: 6
+        amount: 1
     initial_state: true
 
   - id: washer_complete
     alias: Washer Complete
     trigger:
     - below: 3
-      entity_id: sensor.washer_power
+      entity_id: sensor.washer_power_2
       platform: numeric_state
     condition:
     - condition: state
@@ -45,7 +62,7 @@ automation:
     alias: Washer Emptied
     trigger:
     - platform: state
-      entity_id: binary_sensor.washer_door_contact
+      entity_id: binary_sensor.washer_door
       from: 'off'
       to: 'on'
     action:
@@ -66,6 +83,34 @@ automation:
     action:
     - service: script.turn_on
       entity_id: script.washer_finished_notification_audible
+  
+  
+  - id: dishwasher_idle
+    initial_state: true
+    alias: Dishwasher Idle
+    trigger:
+    - platform: state
+      entity_id: device_tracker.dishwasher
+      to: 'not_home'
+    action:
+    - service: script.dishwasher_idle
+  
+  # When dishwasher connects to network assume it is running cycle. Auto consume detergent in Grocy
+  - id: dishwasher_running
+    initial_state: true
+    alias: Dishwasher Running
+    trigger:
+    - platform: state
+      entity_id: device_tracker.dishwasher
+      to: 'home'
+    action:
+    - service: script.dishwasher_running
+    - service: shell_command.grocy_consume_item
+      data:
+        server_ip: !secret grocy_ip
+        grocy_key: !secret grocy_api_key
+        product_id: 7
+        amount: 1
 
 script:
 
@@ -91,7 +136,6 @@ script:
       state: complete
     - service: script.ah_report
       data:
-        call_interuption: 1
         call_washer_needs_emptying: 1
     
 
@@ -115,4 +159,18 @@ script:
       data:
         topic: house/washer/status
         payload: complete
+        retain: true
+  dishwasher_idle:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: house/dishwasher/status
+        payload: idle
+        retain: true
+  dishwasher_running:
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: house/dishwasher/status
+        payload: running
         retain: true
