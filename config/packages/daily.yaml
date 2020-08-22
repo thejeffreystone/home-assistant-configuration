@@ -36,10 +36,6 @@ automation:
       entity_id: scene.normal_livingroom_lighting
     - service: scene.turn_on
       entity_id: scene.normal_kitchen_lighting
-    - service: switch.turn_off
-      entity_id: switch.rainbow_light # Rainbow Light
-    - service: light.turn_on
-      entity_id: light.skylars_tower # Skylar's Lamp
     - service: scene.turn_on
       entity_id: scene.jeff_light_on
     - service: script.twitter_notify_image
@@ -184,7 +180,6 @@ automation:
       data:
         entity_id: light.kitchen_cabinets
     - service: script.good_night_loft
-    - service: script.theater_lights_out
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
@@ -244,7 +239,6 @@ automation:
         mode: 'Armed'
     - service: script.ah_report
       data:
-        call_interuption: 1
         call_dark_outside: 1
         call_garage_door_status: 1
 
@@ -266,7 +260,8 @@ automation:
             "I see the sun! Time to turn off the outside lights at Anchorage House. ", 
             "Dawn has broken at Anchorage House. Turning off the outside lights.",
             "Anchorage house has converted to the lightside after a few hours on the darkside. I think its safe to turn off the lights.",
-            "Light mode activated! So that means I'm turning off the outside lights."
+            "Light mode activated! So that means I'm turning off the outside lights.",
+            "Hooray you live to drink another day. I guess I will get the lights since the sun is up."
 
             ] | random }}
         image: >-
@@ -284,7 +279,7 @@ automation:
     condition:
     - condition: template
       value_template: >
-        {%- if states.weather.home.state != "sunny" or states.weather.home.state != "partlycloudy" or states.weather.home.state != "clear" -%}
+        {%- if states.weather.klzu_hourly.state != "sunny" or states.weather.klzu_hourly.state != "partlycloudy" or states.weather.klzu_hourly.state != "clear" -%}
           true
         {%- endif -%}
     action:
@@ -307,6 +302,12 @@ automation:
     - platform: sun
       event: sunrise
       offset: 02:30:00
+    condition:
+    - condition: template
+      value_template: >
+        {%- if states.weather.klzu_hourly.state == "sunny" or states.weather.klzu_hourly.state == "partlycloudy" or states.weather.klzu_hourly.state == "clear" -%}
+          true
+        {%- endif -%}
     action:
     - service: script.livingroom_lights_off
     - service: script.kitchen_lights_off
