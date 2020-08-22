@@ -146,7 +146,7 @@ automation:
       - binary_sensor.laundry_room_door
       - binary_sensor.attic_door
       - binary_sensor.back_door
-      from: 'off'
+      to: 'on'
     condition:
       condition: and
       conditions:
@@ -194,7 +194,6 @@ automation:
           " is open.",
           " does not close on its own."
           ] | random }}
-        call_interuption: 1
         call_snark_door_open: 1
     initial_state: true
 
@@ -268,7 +267,7 @@ automation:
       - binary_sensor.back_door
       - binary_sensor.side_door
       - binary_sensor.garage_door
-      from: 'off'
+      to: 'on'
     condition:
     - condition: state
       entity_id: input_boolean.sentry_mode
@@ -545,7 +544,7 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - binary_sensor.fridge_leak_water
+          - binary_sensor.0x286d9700010c9f39_water_leak
         from: 'off'
         to: 'on'
     action:
