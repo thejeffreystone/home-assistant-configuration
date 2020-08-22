@@ -146,7 +146,6 @@ automation:
                   ] | random }} 
               {{ states.sensor.usps_mail.state }} pieces of mail today.
             {%- endif -%}
-          call_interuption: 1
       - service: script.text_notify
         data_template:
           who: "jeff"
@@ -191,10 +190,8 @@ automation:
             {%- else -%}
               USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
             {%- endif -%}
-          call_interuption: 1
       
   - alias: "Mail Notif - Mail Delieveries"
-    initial_state: 'on'
     trigger:
       - platform: time
         at: '10:00:00'
@@ -237,7 +234,7 @@ automation:
                   ] | random }} 
               {{ states.sensor.mail_usps_mail.state }} pieces of mail today.
             {%- endif -%}
-          call_interuption: 1
+        
 
   - alias: "Delivered Package Notification"
     initial_state: true
