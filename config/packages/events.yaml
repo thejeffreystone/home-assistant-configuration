@@ -9,13 +9,16 @@ input_boolean:
   rex_manning_audio:
     name: Rex Manning audio
     icon: mdi:speaker-wireless
+  blackout_time:
+    name: Blackout Time
+    icon: mdi:closed-octagon
 
 input_datetime:
   school_first_day:
     name: First Day of School
     has_date: true
     has_time: false
-    initial: '2020-08-05'
+    initial: '2020-08-12'
   school_last_day:
     name: Last Day of School
     has_date: true
@@ -31,6 +34,16 @@ input_datetime:
     has_date: false
     has_time: true
     initial: '14:45:00'
+  blackout_time_start:
+    name: Blackout Time Start
+    has_date: false
+    has_time: true
+    initial: '12:00:00'
+  blackout_time_end:
+    name: Blackout Time End
+    has_date: false
+    has_time: true
+    initial: '16:00:00'
 
 input_number:
   skylar_ps_time:
@@ -154,18 +167,69 @@ automation:
     - service: rest_command.new_version_github_issue
       data_template:
         version: "{{ states.binary_sensor.updater.attributes.newest_version }}"
+  
+  - id: blackout_time_start
+    initial_state: true
+    alias: Blackout time Start
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.blackout_time_start', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: template
+      value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
+    action:
+    - service: script.ah_report
+      data:
+        call_interuption: 1
+        speech_message: "Blackout time has started."
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.blackout_time
 
-  # - id: set_skylar_activity_full
-  #   alias: Skylar Full Privileges
-  #   initial_state: true
-  #   trigger:
-  #   - platform: state
-  #     entity_id: input_select.skylar_activity
-  #     to: 'Full'
-  #   action:
-  #   - service: scene.turn_on
-  #     entity_id: scene.skylar_full
+  - id: blackout_time_end
+    initial_state: true
+    alias: Blackout time End
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.blackout_time_end', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: state
+      entity_id: input_boolean.blackout_time
+      state: 'on'
+    action:
+    - service: script.ah_report
+      data:
+        call_interuption: 1
+        speech_message: "Blackout time has ended"
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.blackout_time
 
+  - id: digital_learning_start
+    alias: Digital Learning Start
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: calendar.skylar_school
+      to: 'on'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.skylar_desk_on
+    - service: script.turn_on
+      entity_id: script.digital_learning_notification
+
+  - id: digital_learning_end
+    alias: Digital Learning End
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: calendar.skylar_school
+      to: 'off'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.skylar_desk_off
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.audible_notifications
+
+      
   # - id: set_skylar_activity_limited
   #   alias: Skylar Limited Privileges
   #   initial_state: true
@@ -209,6 +273,19 @@ script:
       data:
         media_content_id: http://192.168.7.40/audio/Rex_Manning_-_Say_No_More_Mon_Amour.mp3
         media_content_type: "music"
+
+  digital_learning_notification:
+    sequence:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - service: script.ah_report
+      data:
+        speech_message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk. I will be disabling audible notifications during school hours."
+    - delay:
+        minutes: 5
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.audible_notifications
 
 rest_command:
   new_version_github_issue:
