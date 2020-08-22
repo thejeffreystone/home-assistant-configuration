@@ -26,3 +26,16 @@ spotify_source:
   - Skylar's Bedroom
   - Kitchen
   initial: Living Room
+spotify_playlist:
+  name: Spotify Playlist
+  options:
+  - chill
+  - dedtime
+  - background
+  - scored
+  - jukebox
+  - classical
+  - disney
+  - jazz
+  - skylar
+  initial: background
