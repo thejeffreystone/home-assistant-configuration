@@ -559,9 +559,17 @@ script:
                 'We should celebrate.',
                 'I will leave the party planning up to <emphasis>you</emphasis>.',
                 'I bet <emphasis>you</emphasis> are glad I told you.',
+                'Wait. <emphasis>Really.</emphasis> That cannot be a <emphasis>Real</emphasis> holiday.',
+                'Wait. <emphasis>That</emphasis> is a <emphasis>Real</emphasis> holiday.',
                 'You <emphasis>cannot</emphasis> make this stuff up.',
                 'But, <emphasis>that</emphasis> just sounds silly.',
-                'I bet <emphasis>you</emphasis> did not know that. But, <emphasis>now </emphasis> you do. And the more you know.'
+                'You did not know did <emphasis>you</emphasis>? But, <emphasis>now </emphasis> you do.'
+            ]|random }}
+            {{ [
+                'Anyway.',
+                'Moving On.',
+                'Back to the morning announcements.',
+                'Right.'
             ]|random }}
             {%- endif -%}
           {% endmacro %}
@@ -580,11 +588,11 @@ script:
           {% macro current_conditions_outside() %}
             {{ [
                 'According to the National Weather Service,',
-                'Checking my weather sensors,',
+                'Checking the weather,',
                 'Looking outside,'
             ]|random }}
             It is currently {{states.weather.home_2.state}} and {{states.nws_current_temperature.state|round}} degrees in Grayson. 
-            The back porch is {{states.sensor.back_porch_temperature.state|round}} degrees.
+            The back porch is {{states.sensor.back_porch.state|round}} degrees.
           {% endmacro %}
 
           {% macro current_conditions_inside() %}
@@ -592,7 +600,7 @@ script:
             {% if is_state('climate.home', 'heat_cool') %} 
               {{ [
                     'The Climate is set to auto which should keep the internal temperature between ',
-                    'The internal climate should be keep between ',
+                    'The internal climate should be between ',
                     'The house is configured to keep the temperature between '
                 ]|random }}
                   {{states.climate.home.attributes.target_temp_low}} and {{states.climate.home.attributes.target_temp_high}} degrees.
@@ -607,7 +615,7 @@ script:
           {% endmacro %}
 
           {% macro current_conditions_garage() %}
-            The garage is {{states.sensor.garage_temperature.state|round}} degrees with a humidity of {{states.sensor.garage_humidity.state|round}} percent.
+            The garage is {{states.sensor.garage.state|round}} degrees with a humidity of {{states.sensor.garage.attributes.humidity|round}} percent.
           {% endmacro %}
 
           {% macro daily_forecast() %}
@@ -640,7 +648,8 @@ script:
             {{ [ 'The temperature is expected to be near or below freezing. <emphasis>Someone</emphasis> might want to bring the lemon tree in. ',
                  'It appears that it will be cold tonight. Like, the turn water solid <emphasis>kind</emphasis> of cold. Think of the poor plants.',
                  'I suggest bringing in the plants other wise, the temperature might kill them. And that will be on <emphasis>you</emphasis>.',
-                 'I would say winter is coming. But, based on the weather forecast <emphasis>it</emphasis> appears to be here. Grab the Dragon glass.'
+                 'I would say winter is coming. But, based on the weather forecast <emphasis>it</emphasis> appears to be here.',
+                 'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
                ] | random }}
             {% endif %}
           {% endmacro %}
@@ -655,9 +664,7 @@ script:
             {% if states.sensor.birthday_kat.state | int == 1 %}
               Tomorrow is Katherine's Birthday.
             {% endif %}
-            {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
-              Tomorrow is Jeff and Katherine's Wedding Anniversary. 
-            {% endif %} 
+            
           {% endmacro %}
 
           {% macro upcoming_holidays() %}
@@ -665,7 +672,7 @@ script:
               Tomorrow is Halloween. I hope you have picked out a costume.
               {{ [ 'I will be going as a dumb home. ',
                 'I have prepped the scary music. Just in case.',
-                'I will be going as HAL 9000. The Pod Bay Doors are being installed today.'
+                'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
               ] | random }}
             {% elif states.sensor.halloween_countdown.state | int < 30 %}
               There are only {{states.sensor.holiday_halloween.state}} days 
@@ -679,7 +686,7 @@ script:
             {% endif %}
 
             {% if states.sensor.christmas_countdown.state | int == 1 %}
-              Tomorrow is Christmas. <break time="2s"/> It is practically here! <break time="2s"/> Santa is coming tonight! Do not forget the cookies!
+              Tomorrow is Christmas. <break time="1s"/> It is practically here! <break time="1s"/> Santa is coming tonight! Do not forget the cookies!
             {% elif states.sensor.christmas_countdown.state | int < 31 %}
               There are only {{states.sensor.christmas_countdown.state}} days until christmas.
               {{ [ 'All I want for Christmas, is a hippopotamus.',
@@ -748,7 +755,7 @@ script:
               ] | random }}   
             {% else %}
               {% set month=states("sensor.date").split('-')[1] | int %}
-              {%- if month == 5 or month == 6 or month == 7 or month == 8 -%}
+              {%- if is_state('input_boolean.school_in_session', 'off') -%}
                 {{ [ 'Looks like tomorrow is another day of summer vacation. ',
                     'You are still on summer break tomorrow. ',
                     'Summer vacation does not last forever, but it is not over yet. '
@@ -796,7 +803,7 @@ script:
 
           {% macro school_today() %}
             {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-              Because you have Digital Learning today!
+              Because you have school today!
               {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
                 And guess what? It is early release!
               {% endif %}
@@ -834,13 +841,13 @@ script:
             {% endif %}
 
             {% set month=states("sensor.date").split('-')[1] | int %}
-            {% if is_state('sensor.school_tomorrow', 'off') and states.sensor.school_start_days2go.state | int > 1 and month == 5 or month == 6 or month == 7 or month == 8 %}
+            {% if is_state('input_boolean.school_in_session', 'off')  %}
               {{ [ 'If you were not aware there are  ',
                   'You only have ',
                   'You still have '
                 ] | random }}
               {{ states.sensor.school_start_days2go.state }} days left of summer break.
-            {% elif is_state('sensor.school_tomorrow', 'on') and month == 8 %}
+            {% elif is_state('sensor.school_tomorrow', 'on') and is_state('input_boolean.school_in_session', 'off') and month == 8 %}
               Tomorrow is the first day of school! Which means today is the last day of summer break. I hope you make it a good one.
             {% endif %} 
             
@@ -862,11 +869,11 @@ script:
               ] | random }} 
               today. So I suggest wearing shorts.
             {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
-              It is going to be a 
+              It is going to be 
               {{ [ 'bit warm ',
-                'rather warm outside ',
-                'almost too hot outside ',
-                'a little warm ',
+                ' rather warm outside ',
+                ' almost too hot outside ',
+                ' a little warm ',
               ] | random }} 
               today. So I suggest wearing shorts. 
             {% elif is_state('sensor.clothing_forecast', 'Hot') %}

@@ -51,6 +51,34 @@ sensor:
   - platform: nws_alerts
     zone_id: 'GAZ034,GAC135'
 
+  - platform: mqtt
+    name: "Back Porch"
+    state_topic: "house/acurite2mqtt/Acurite-6045M_3078"
+    unit_of_measurement: '°F'
+    value_template: "{{ value_json.temperature_F }}"
+    json_attributes_topic: "house/acurite2mqtt/Acurite-6045M_3078"
+    device_class: temperature
+  
+  - platform: mqtt
+    name: "Garage"
+    state_topic: "house/acurite2mqtt/Acurite-609TXC_73"
+    unit_of_measurement: '°F'
+    value_template: "{{ value_json.temperature_F }}"
+    json_attributes_topic: "house/acurite2mqtt/Acurite-609TXC_73"
+    device_class: temperature
+  
+  - platform: mqtt
+    name: "Crawlspace"
+    state_topic: "house/acurite2mqtt/Acurite-Tower_10968"
+    unit_of_measurement: '°F'
+    value_template: "{{ value_json.temperature_F }}"
+    json_attributes_topic: "house/acurite2mqtt/Acurite-Tower_10968"
+    device_class: temperature
+
+  - platform: mqtt
+    name: "Lightning total count"
+    state_topic: "house/lightning/total_count"
+
   - platform: template
     sensors:
       flood_watch:
@@ -143,6 +171,7 @@ sensor:
             {% else %}
               inactive
             {% endif %}
+      
 
 automation:
   - alias: 'NWS Weather Alert Pop Up Control'
@@ -316,15 +345,9 @@ automation:
 
   - alias: Lightning Detected
     trigger:
-      - platform: state
-        entity_id: binary_sensor.lightning_detected
-        from: 'off'
-        to: 'on'
       - platform: template
-        value_template: '{{ states.sensor.lightning_strike_count.state | int > states.sensor.lightning_total_count.state | int }}'
+        value_template: '{{ states.sensor.back_porch.attributes.strike_count | int > states.sensor.lightning_total_count.state | int }}'
     condition:
-      - condition: template
-        value_template: '{{ states.sensor.lightning_strike_count.state | int > states.sensor.lightning_total_count.state | int }}'
       - condition: state
         entity_id: input_boolean.lightning_warning
         state: 'off'
@@ -340,18 +363,13 @@ automation:
 
 
   - alias: Lightning Warning Off
+    mode: restart
     trigger:
-      - platform: state
-        entity_id: binary_sensor.lightning_detected
-        from: 'on'
-        to: 'off'
       - platform: template
-        value_template: '{{ states.sensor.lightning_strike_count.state | int == states.sensor.lightning_total_count.state | int }}'
+        value_template: '{{ states.sensor.back_porch.attributes.strike_count | int == states.sensor.lightning_total_count.state | int }}'
         for:
           minutes: 20
     condition:
-      - condition: template
-        value_template: '{{ states.sensor.lightning_strike_count.state | int == states.sensor.lightning_total_count.state | int }}'
       - condition: state
         entity_id: input_boolean.lightning_warning
         state: 'on'
