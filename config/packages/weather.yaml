@@ -60,7 +60,7 @@ sensor:
     device_class: temperature
   
   - platform: mqtt
-    name: "Garage"
+    name: "Crawlspace"
     state_topic: "house/acurite2mqtt/Acurite-609TXC_73"
     unit_of_measurement: '°F'
     value_template: "{{ value_json.temperature_F }}"
@@ -68,7 +68,7 @@ sensor:
     device_class: temperature
   
   - platform: mqtt
-    name: "Crawlspace"
+    name: "Garage"
     state_topic: "house/acurite2mqtt/Acurite-Tower_10968"
     unit_of_measurement: '°F'
     value_template: "{{ value_json.temperature_F }}"
@@ -78,6 +78,11 @@ sensor:
   - platform: mqtt
     name: "Lightning total count"
     state_topic: "house/lightning/total_count"
+
+  - platform: statistics
+    name: Inside Humidity Stats
+    entity_id: sensor.current_inside_humidity
+    sampling_size: 500
 
   - platform: template
     sensors:
@@ -171,7 +176,150 @@ sensor:
             {% else %}
               inactive
             {% endif %}
-      
+      backporch_weather:
+        friendly_name: Back Porch Weather
+        value_template: "{{ states.sensor.back_porch.state | round}} °F / {{ states.sensor.back_porch.attributes.humidity }} %"
+      garage_weather:
+        friendly_name: Garage Weather
+        value_template: "{{ states.sensor.garage.state | round}} °F / {{ states.sensor.garage.attributes.humidity }} %"
+      crawlspace_weather:
+        friendly_name: Crawlspace Weather
+        value_template: "{{ states.sensor.crawlspace.state | round}} °F / {{ states.sensor.crawlspace.attributes.humidity }} %"
+      clothing_forecast:
+        friendly_name: "Clothing Forecast"
+        unit_of_measurement: ''
+        entity_id: sensor.nws_daytime_temperature
+        value_template: >-
+            {%- if states('sensor.nws_daytime_temperature')|float > 63 %}
+              {%- if states('sensor.nws_daytime_temperature')|float < 80 %}
+                Nice
+              {% elif states('sensor.nws_daytime_temperature')|float > 95 %}
+                Hot
+              {% else %}
+                Toasty
+              {%- endif %}
+            {% elif states('sensor.nws_daytime_temperature')|float < 64 %}
+              {%- if states('sensor.nws_daytime_temperature')|float < 32 %}
+                Freezing
+              {% elif states('sensor.nws_daytime_temperature')|float > 50 %}
+                Chilly
+              {% else %}
+                Cold
+              {%- endif %}
+            {% else %}
+              Unknown
+            {%- endif %}
+      nws_current_forecast:
+        friendly_name: 'Current Forecast'
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.attributes.forecast[0].detailed_description | truncate(250, False) }}"
+      nws_current_rain_forecast:
+        friendly_name: 'Current Rain Chance'
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.attributes.forecast[0].precipitation_probability }}"
+        unit_of_measurement: '%'
+      nws_current_temperature:
+        friendly_name: 'Current Temperature'
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.attributes.temperature }}"
+        device_class: temperature
+      nws_daytime_temperature:
+        friendly_name: 'Daytime Temperature'
+        entity_id: weather.klzu_daynight
+        value_template: >-
+            {% if states.weather.klzu_daynight.attributes.forecast[0].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[0].temperature }}
+            {% elif states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[1].temperature }}
+            {% endif %}
+        device_class: temperature
+      nws_current_condition: 
+        friendly_name: 'Current Condition'
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.state }}"
+      nws_current_humidity:
+        friendly_name: 'Current Humidity'
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.attributes.humidity }}"
+      nws_current_visibility:
+        friendly_name: "Current Visability"
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.attributes.visibility }}"
+      nws_current_windspeed:
+        friendly_name: "Current Windspeed"
+        entity_id: weather.klzu_daynight
+        value_template: "{{ states.weather.klzu_daynight.attributes.wind_speed }}"
+      nws_overnight_low:
+        friendly_name: "Overnight Low"
+        entity_id: weather.klzu_daynight
+        unit_of_measurement: ''
+        value_template: >-
+            {% if states.weather.klzu_daynight.attributes.forecast[0].daytime == False %}
+              {{ states.weather.klzu_daynight.attributes.forecast[0].temperature }}
+            {% elif states.weather.klzu_daynight.attributes.forecast[1].daytime == False %}
+              {{ states.weather.klzu_daynight.attributes.forecast[1].temperature }}
+            {% endif %}
+      nws_overnight_forecast:
+        friendly_name: "Overnight Forecast"
+        entity_id: weather.klzu_daynight
+        unit_of_measurement: ''
+        value_template: >-
+            {% if states.weather.klzu_daynight.attributes.forecast[0].daytime == False %}
+              {{ states.weather.klzu_daynight.attributes.forecast[0].detailed_description | truncate(250, False) }}
+            {% elif states.weather.klzu_daynight.attributes.forecast[1].daytime == False %}
+              {{ states.weather.klzu_daynight.attributes.forecast[1].detailed_description | truncate(250, False) }}
+            {% elif states.weather.klzu_daynight.attributes.forecast[2].daytime == False %}
+              {{ states.weather.klzu_daynight.attributes.forecast[2].detailed_description | truncate(250, False) }}
+            {% endif %}
+      nws_forecast_tomorrow:
+        friendly_name: "Forecast Tomorrow"
+        entity_id: weather.klzu_daynight
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[1].detailed_description | truncate(250, False) }} 
+            {% elif states.weather.klzu_daynight.attributes.forecast[2].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[2].detailed_description | truncate(250, False) }} 
+            {%- endif %}
+      nws_forecast_rain_tomorrow:
+        friendly_name: "Rain Chance Tomorrow"
+        entity_id: weather.klzu_daynight
+        unit_of_measurement: '%'
+        value_template: >-
+            {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[1].precipitation_probability }} 
+            {% elif states.weather.klzu_daynight.attributes.forecast[2].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[2].precipitation_probability }} 
+            {%- endif %}
+      nws_forecast_tomorrow_night:
+        friendly_name: "Forecast Tomorrow Night"
+        entity_id: weather.klzu_daynight
+        unit_of_measurement: ''
+        value_template: >-
+            {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[2].detailed_description | truncate(250, False) }} 
+            {% elif states.weather.klzu_daynight.attributes.forecast[2].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[3].detailed_description | truncate(250, False) }}
+            {%- endif %}
+      nws_forecast_rain_tomorrow_night:
+        friendly_name: "Rain Chance Tomorrow Night"
+        entity_id: weather.klzu_daynight
+        unit_of_measurement: '%'
+        value_template: >-
+            {%- if states.weather.klzu_daynight.attributes.forecast[1].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[2].precipitation_probability  }} 
+            {% elif states.weather.klzu_daynight.attributes.forecast[2].daytime == True %}
+              {{ states.weather.klzu_daynight.attributes.forecast[3].precipitation_probability  }}
+            {%- endif %}
+      current_inside_humidity:
+        friendly_name: "Current Inside Humidity"
+        entity_id: climate.home
+        unit_of_measurement: '%'
+        value_template: "{{ states.climate.home.attributes.current_humidity }}"
+      lighting_stike_count:
+        friendly_name: "Lightning Strike Count"
+        entity_id: sensor.back_porch
+        value_template: "{{ states.sensor.back_porch.attributes.strike_count }}"
 
 automation:
   - alias: 'NWS Weather Alert Pop Up Control'
