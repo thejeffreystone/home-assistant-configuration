@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  <a name="logo" href="http://jeffreystone.net"><img src="https://github.com/thejeffreystone/home-assistant-configuration/blob/master/config/www/ahlogo_bw.png" alt="Anchorage House HA" width="200"></a>
+  <a name="logo" href="http://slacker-labs.com"><img src="https://github.com/thejeffreystone/home-assistant-configuration/blob/master/config/www/ahlogo_bw.png" alt="Anchorage House HA" width="200"></a>
   <br>
   Anchorage House
   <br>
@@ -9,7 +9,7 @@
 
 This repo contains the working [Home Assistant](https://home-assistant.io/) configuration for **Anchorage House**. Below are links to the devices currently being used, blog posts, and other HA enthusists that provided inspiration and configs to help build this config. All of the code is free to use.
 
-Be sure to follow me on twitter [@thejeffreystone](https://twitter.com/thejeffreystone) and on [YouTube](https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg) where I am starting to post videos of my Home Automation. I also post articles about this config and other Home Automation topics at [jeffreystone.net](https://jeffreystone.net)
+Be sure to follow me on twitter [@thejeffreystone](https://twitter.com/thejeffreystone) and on [YouTube](https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg) where I am starting to post videos of my Home Automation journey. I also post articles about this config and other Home Automation topics at [jeffreystone.net](https://slacker-labs.com)
 
 You can also follow Anchorage House on Twitter [@anchoragehouse2](https://twitter.com/anchoragehouse2) where it tweets about the cool stuff it does throughout the day as well as links to some of the best Home Assistent content creators out there.
 
@@ -25,7 +25,7 @@ When designing Anchorage House's automations I have made every effort to priorit
 
 **Third Law: An automation or action can be trigger by a physical switch or as the result of a direct iteraction only when Law 1 and Law 2 cannot be achieved.**
 
-For more about how they are used visit [https://jeffreystone.net/2020/04/02/the-three-laws-of-home-automation/](https://jeffreystone.net/2020/04/02/the-three-laws-of-home-automation/)
+For more about how they are used visit [https://slacker-labs.com/2020/04/02/the-three-laws-of-home-automation/](https://slacker-labs.com/2020/04/02/the-three-laws-of-home-automation/)
 
 <hr>
 
@@ -42,7 +42,7 @@ Hassio is the flavor of Home Assistant powering Anchorage House these days. Curr
 
 The old configurations are stored in branches for anyone that wants to see the previous iterations. However, the only branch guaranteed to work with the current version of Home Assistant is master.
 
-Read about the continuing work to automate **everything** over on [jeffreystone.net](https://jeffreystone.net). Feel free to reach out if you have questions. I love this stuff. 
+Read about the continuing work to automate **everything** over on [slacker-labs.com](https://slacker-labs.com). Feel free to reach out if you have questions. I love this stuff. 
 
 One last thing. Everything in this configuration is a combination of the things I want out of a home automation system flavored with the inspiration from others using Home Assistant. In some cases I took someone else's idea and made it my own, and in some I just completely stole it. So I would be remiss if I didn't acknowledge those that inpired this journey. If you like what you see here, please checkout their configs as well. I owe them thanks for sharing their work.   
 
@@ -122,7 +122,7 @@ One last thing. Everything in this configuration is a combination of the things 
 <br />
 <a target="_blank" href="https://www.amazon.com/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=thejeffreysto-20&keywords=Home Automation&index=aps&camp=1789&creative=9325&linkCode=xm2&linkId=8f8efaca6bcebfd793c383c68c070400">Find your next Home Automation device on Amazon using my affiliate link</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=thejeffreystone-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 <br />
-<a href="https://jeffreystone.net/affiliate-disclosure/">
+<a href="https://slacker-labs.com/affiliate-disclosure/">
 Affiliate Disclosure
 </a>
 </p>
