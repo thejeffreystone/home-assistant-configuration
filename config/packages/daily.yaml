@@ -249,9 +249,8 @@ automation:
     - platform: sun
       event: sunrise
     action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.front_porch_light
+    - service: homeassistant.turn_off
+      entity_id: group.outside_lights
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
@@ -301,7 +300,7 @@ automation:
     trigger:
     - platform: sun
       event: sunrise
-      offset: 02:30:00
+      offset: 01:30:00
     condition:
     - condition: template
       value_template: >
@@ -313,6 +312,8 @@ automation:
     - service: script.kitchen_lights_off
     - service: scene.turn_on
       entity_id: scene.jeff_light_off
+    - service: scene.turn_on
+      entity_id: scene.skylar_room_day
     - service: script.twitter_notify
       data:
         message: >-
@@ -423,9 +424,9 @@ automation:
         data_template:
           time: > 
             {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-              07:15
+              06:45
             {% elif states.binary_sensor.workday_sensor.state == 'on' %}
-              07:15
+              07:00
             {% else %}
-              07:25
+              07:30
             {% endif %}
