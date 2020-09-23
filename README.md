@@ -9,7 +9,7 @@
 
 This repo contains the working [Home Assistant](https://home-assistant.io/) configuration for **Anchorage House**. Below are links to the devices currently being used, blog posts, and other HA enthusists that provided inspiration and configs to help build this config. All of the code is free to use.
 
-Be sure to follow me on twitter [@thejeffreystone](https://twitter.com/thejeffreystone) and on [YouTube](https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg) where I am starting to post videos of my Home Automation journey. I also post articles about this config and other Home Automation topics at [jeffreystone.net](https://slacker-labs.com)
+Be sure to follow me on twitter [@thejeffreystone](https://twitter.com/thejeffreystone) and on [YouTube](https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg) where I am starting to post videos of my Home Automation journey. I also post articles about this config and other Home Automation topics at [slacker-labs.com](https://slacker-labs.com)
 
 You can also follow Anchorage House on Twitter [@anchoragehouse2](https://twitter.com/anchoragehouse2) where it tweets about the cool stuff it does throughout the day as well as links to some of the best Home Assistent content creators out there.
 
@@ -69,6 +69,7 @@ One last thing. Everything in this configuration is a combination of the things 
 ##### Cameras
 * [Arlo Pro 2 Cameras](https://www.amazon.com/gp/product/B075P84FH2/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=135cb25a4427888fd4f978770fe40e02&language=en_US)
 * [Foscam FI8918W](https://www.amazon.com/gp/product/B00466X9SY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=fd92b312f8005403ee7eed95cd3c1314&language=en_US)
+* [Wyze Cam](https://www.amazon.com/Wyze-Indoor-Wireless-Detection-Assistant/dp/B076H3SRXG/ref=as_li_ss_tl?crid=1EPYMX3F0YZD1&cv_ct_cx=wyze+cam&dchild=1&keywords=wyze+cam&pd_rd_i=B076H3SRXG&pd_rd_r=86f79129-57d1-47f6-bbe9-1ec0e8b22e34&pd_rd_w=pkdoh&pd_rd_wg=gbpqk&pf_rd_p=224b59c9-c98f-46fd-96d6-8e952866d6a3&pf_rd_r=243QSM6J6DSMYVSH288X&psc=1&qid=1600873696&sprefix=wyze,aps,172&sr=1-1-a14f3e51-9e3d-4cb5-bc68-d89d95c82244&linkCode=ll1&tag=thejeffreysto-20&linkId=82caffd3f9213edbfd2e64a1dbe8b3aa&language=en_US)
 
 ##### Switches
 * [MyQ Garage Door Opener](https://www.amazon.com/gp/product/B075H7Z5L8/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=e530b7bd83fb9a64b8af14190c99d759&language=en_US)
@@ -80,6 +81,7 @@ One last thing. Everything in this configuration is a combination of the things 
 * [TP-Link HS103 Wifi Switch](https://www.amazon.com/gp/product/B07B8W2KHZ/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=7b6243698ad735a044abe933f341a7d2&language=en_US)
 * [Honeywell Z-Wave Plug](https://www.amazon.com/gp/product/B07B3SWWTH/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=f5a78d3f1d95e66b83bf47dff0d62105&language=en_US)
 * [Sylvania Smart Zigbee Plug](https://www.amazon.com/gp/product/B01M6UM8QD/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=abfc93828c666f4fcd48386be9265fc0&language=en_US)
+* [Wyze Plug](https://www.amazon.com/Wyze-Labs-WLPP1-Smart-Two-Pack/dp/B07XZT24B8/ref=as_li_ss_tl?cv_ct_cx=Wyze+plug&dchild=1&keywords=Wyze+plug&pd_rd_i=B07XZT24B8&pd_rd_r=b4ac5aaf-80a7-4ad3-87e6-675b2c2fe388&pd_rd_w=vSV3A&pd_rd_wg=iGnZm&pf_rd_p=224b59c9-c98f-46fd-96d6-8e952866d6a3&pf_rd_r=017PDK4XWA0JJKXW6BMK&psc=1&qid=1600874038&sr=1-1-a14f3e51-9e3d-4cb5-bc68-d89d95c82244&linkCode=ll1&tag=thejeffreysto-20&linkId=0fc4ddfe870185f6e4fb59d2863d9ea7&language=en_US)
 
 ##### Lights
 * [Sengled LED Color Plus (Zigbee)](https://www.amazon.com/gp/product/B073ZBYXKQ/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=74939562b8889e2b750d9b01fd347b48&language=en_US)
@@ -89,26 +91,27 @@ One last thing. Everything in this configuration is a combination of the things 
 * [Z-Wave Door Sensor](https://www.amazon.com/gp/product/B01N5HB4U5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=b274f5e5d57b8a698ea6d94138a58afa&language=en_US)
 * [Z-Wave Garage Door Tilt Sensor](https://www.amazon.com/gp/product/B01MRZB0NT/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2515ffb412b6cd2113f755fe531ec203&language=en_US)
 * [Dome Motion Z-Wave Sensor](https://www.amazon.com/gp/product/B076Y6DXSY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=d9f4f6267d5372786a0da7e01c6ca172&language=en_US)
+* [Aqara Motion Sensor](https://www.amazon.com/Aqara-RTCGQ11LM-Motion-Sensor-White/dp/B07D1CRRVF/ref=as_li_ss_tl?dchild=1&keywords=aqara&qid=1600873881&s=electronics&sr=1-5-catcorr&linkCode=ll1&tag=thejeffreysto-20&linkId=2eb1709f03b48e89e25b5f4f20071a11&language=en_US)
 
 ##### Climate
 * [Ecobee Thermostat](https://www.amazon.com/gp/product/B07K2GTKQ5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=90bbaf5eadbd3b7493adde3095db7192&language=en_US)
 * [Ecobee Temp and Motion Sensors](https://www.amazon.com/gp/product/B07NQVWRR3/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=1d068c58194407eeaecfaa4afcff5fc8&language=en_US)
 * [USB SDR](https://www.amazon.com/gp/product/B011HVUEME/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=8cd0ed5020766e8cca206190aba7e972&language=en_US) For getting data from Accurite temperture and humidty sensors
 * [Accurite Temp and Humidty Sensors](https://www.amazon.com/AcuRite-06002M-Wireless-Temperature-Humidity/dp/B00T0K8NXC/ref=as_li_ss_tl?dchild=1&keywords=Accurite&qid=1589379213&s=hi&sr=1-1&linkCode=ll1&tag=thejeffreysto-20&linkId=2fd400c891fd29356129f7aa93c0a2ee&language=en_US)
+* [AcuRite Lightning Detector Sensor](https://www.amazon.com/AcuRite-06045M-Lightning-Detector-Temperature/dp/B01LNALL6C/ref=as_li_ss_tl?cv_ct_cx=Lightning+sensor&dchild=1&keywords=Lightning+sensor&pd_rd_i=B01LNALL6C&pd_rd_r=6674335c-679a-4753-b58e-0f9b81b5c8ee&pd_rd_w=jNNHQ&pd_rd_wg=WnAAD&pf_rd_p=224b59c9-c98f-46fd-96d6-8e952866d6a3&pf_rd_r=HVNXDV908VNCGWW3VD7W&psc=1&qid=1600874236&sr=1-1-a14f3e51-9e3d-4cb5-bc68-d89d95c82244&linkCode=ll1&tag=thejeffreysto-20&linkId=c009e162d0c4f028bc9f4db948152eab&language=en_US)
 
 ##### Security
 * [First Alert Z-Wave Smoke/CO2](https://www.amazon.com/gp/product/B00KMHXFAI/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=5da9bad04dc5b86f1bd582d22a6bea21&language=en_US)
 
 #### Integrations:
 * Amazon Echo - Voice Control and Music
-* IFTTT - Automations
+* ~~IFTTT - Automations~~ 
 * Life360 - Presence Detection
 * Spotify - Music
 * Google (Calendar API, GMail for sensors, and Google Home) - Voice Control, Automations based on Calendar, USPS Informed Delivery
 * Waze API - Transit time and Automations
-* Dropbox b- Config ackup
+* Dropbox - Config backup
 * MQTT - For Zwave, Zigbee, various sensors running on a different host.
-* Eero - Networked Devices
 * [RTL_433](https://github.com/merbanan/rtl_433) - Indoor and Outdoor Temperature Sensors
 * Cloudflare - 15 year SSL Cert
 * Splunk - Data Analytics
