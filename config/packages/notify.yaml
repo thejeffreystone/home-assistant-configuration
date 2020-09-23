@@ -58,6 +58,12 @@ notify:
     consumer_secret: !secret twitter_consumer_secret
     access_token: !secret twitter_access_token
     access_token_secret: !secret twitter_access_secret
+  - name: twitter_js
+    platform: twitter
+    consumer_key: !secret twitter2_consumer_key
+    consumer_secret: !secret twitter2_consumer_secret
+    access_token: !secret twitter2_access_token
+    access_token_secret: !secret twitter2_access_secret
   - platform: alexa_media
     name: alexa_media
 
@@ -234,15 +240,68 @@ script:
         entity_id: media_player.tsr_6750_a3ed2f
         volume_level: .99
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      data_template:
+        entity_id: >
+          {% if who == 'kitchen' %}
+            media_player.kitchen_display
+          {% elif who == 'croft' %}
+            media_player.upstairs_speaker
+          {% elif who == 'master_bedroom' %}
+            media_player.master_bedroom_speaker
+          {% elif who == 'studio' %}
+            media_player.theater
+          {% elif who == 'all_google' %}
+            media_player.house
+          {% elif who == 'main' %}
+            media_player.ha_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.ha_speaker
+            {% else %}
+            media_player.house
+            {% endif %}
+          {% endif %}
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
-        volume_level: >
-          {% if states.input_boolean.audible_notifications.state == 'on' %}
-          .50
+        entity_id: >
+          {% if who == 'kitchen' %}
+            media_player.kitchen_display
+          {% elif who == 'croft' %}
+            media_player.upstairs_speaker
+          {% elif who == 'master_bedroom' %}
+            media_player.master_bedroom_speaker
+          {% elif who == 'studio' %}
+            media_player.theater
+          {% elif who == 'all_google' %}
+            media_player.house
+          {% elif who == 'main' %}
+            media_player.ha_speaker
           {% else %}
-          .50
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.ha_speaker
+            {% else %}
+            media_player.house
+            {% endif %}
+          {% endif %}
+        volume_level: >
+          {% if who == 'kitchen' %}
+            .50
+          {% elif who == 'croft' %}
+            .50
+          {% elif who == 'master_bedroom' %}
+            .99
+          {% elif who == 'studio' %}
+            .30
+          {% elif who == 'all_google' %}
+            .99
+          {% elif who == 'main' %}
+            .99
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+              .75
+            {% else %}
+              .99
+            {% endif %}
           {% endif %}
     # media_player.googlehome0715, media_player.googlehomehub3492, media_player.upstairs_speaker
     - service: tts.amazon_polly_say
@@ -254,6 +313,8 @@ script:
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
+          {% elif who == 'studio' %}
+            media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
@@ -542,7 +603,7 @@ script:
               And do not forget. Today is also {{states.calendar.anchorage_holidays.attributes.message}}. 
             {% endif %}
             {% if states.calendar.birthdays.state == 'on' %}
-              Today is {{ states.calendar.birthdays.attributes.message }} !
+              Today is {{ states.calendar.birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper.
             {% endif %}
             {%- set event=states.calendar.national_holidays.attributes.message %}
             {% if 'Day' in event and 'National' in event%}
@@ -1405,9 +1466,15 @@ script:
 # Twitter
 ###############################################################################
 
+
   twitter_notify:
     sequence:
-      - service: notify.twitter
+      - service_template: >
+          {% if who == 'thejeffreystone' %}
+            notify.twitter_js
+          {% else %}
+            notify.twitter
+          {% endif %}
         data_template:
           message: >
             {% set msg = '' %}
@@ -1417,14 +1484,18 @@ script:
 
   twitter_notify_image:
     sequence:
-      - service: notify.twitter
+      - service_template: >
+          {% if who == 'thejeffreystone' %}
+            notify.twitter_js
+          {% else %}
+            notify.twitter
+          {% endif %}
         data_template:
           message: >-
             {{ tweet }} #iot #smarthome
           data:
             media: >-
               {{ image }}
-
 
   twitter_snark:
     sequence:
