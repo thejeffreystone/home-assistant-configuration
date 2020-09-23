@@ -24,7 +24,7 @@ automation:
       - service: script.twitter_notify_image
         data_template:
           tweet: >-
-            "Its a new month, so this is a good time to remind you that I am powered by @homeassistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+            "Its a new month, so this is a good time to remind you that I am powered by #homeassistant. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
           image: >-
             image: >-
             {{ [ "/config/www/tweet_images/robot1.jpg",
@@ -123,10 +123,32 @@ automation:
       - service: script.twitter_notify_image
         data_template:
           tweet: >-
-            "This is a good time to remind you that I am a bot powered by @home_assistant and configured by @thejeffreystone. Find my code at https://github.com/thejeffreystone/home-assistant-configuration"
+            "You can #homeassistant content related to Anchorage House at -> Blog: https://slacker-labs.com | Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | Config: https://github.com/thejeffreystone/home-assistant-configuration  "
           image: >-
             {{ [ "/config/www/tweet_images/robot1.jpg",
                     "/config/www/tweet_images/robot2.jpg"] | random }}
+
+  - id: thejeffreystone_info
+    alias: thejeffreystone Info
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '10:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set day=states("sensor.date").split('-')[2] | int %}
+        {%- if day == 15 -%}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify_image
+        data_template:
+          who: 'thejeffreystone'
+          tweet: >-
+            "You can find my #homeassistant content at -> Blog: https://slacker-labs.com | Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | Config: https://github.com/thejeffreystone/home-assistant-configuration "
+          image: "/config/www/tweet_images/sl_logo.png"
 
   # - id: net_speed_report
   #   initial_state: true
