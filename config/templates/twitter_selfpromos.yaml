@@ -2,23 +2,24 @@
   {# Twitter Self Promos #}
   {%- macro getRandomPromo() -%}
     {{- [
-       "Be sure to my follow my Github Repo -> https://github.com/thejeffreystone/home-assistant-configuration",
-       "Be sure to subscribe to my Youtube channel https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg for videos on Home Assistant.",
-       "Want to know how to add USPS Notifications to your Home Assistant? @thejeffreystone made a video -> https://www.youtube.com/watch?v=TjVeoAKn-r0",
-       "You can watch videos about how I came to be and all the cool things I'm learning to do at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg ",
-       "You can bring a little Disney #imagineering into your home using @home_assistant. Check out this video @thejeffreystone posted -> https://www.youtube.com/watch?v=Tm9ZXtk5P-s #homemadedisney",
-       "Anchorage House's Automation was built under the guiding principles of The Three Laws of Home Automation -> https://jeffreystone.net/2020/04/02/the-three-laws-of-home-automation/",
-       "You can read about how I came to be and all the cool things I'm learning to do at https://jeffreystone.net ",
-       "Be sure to follow along at https://jeffreystone.net so you can keep up today with the latest updates to my Home Asissitant Configuration",
-       "Do you use Zigbee2Mqtt? Your zigbee devices may have a firmware update waiting and uou might be able to leverage the OTA Update process. @thejeffreystone walks you though it at https://jeffreystone.net/2020/05/29/zigbee2mqtt-and-ota-device-firmware-updates/",
-       "Want to use Cloudflare to manage your SSL cert? You might have seen my article linked to on the Home Assistant forum. But in case not -> https://jeffreystone.net/2020/04/17/swapping-out-duckdns-for-cloudflare/",
-       "Tired of renewing Lets Encrypt certs? Migrate to Cloudflare for your SSL cert and they last almost forever. I show you how at https://jeffreystone.net/2020/04/17/swapping-out-duckdns-for-cloudflare/",
-       "I created dog mode for when I dont want to disarm my security system but the dog needs to go out -> https://jeffreystone.net/2020/04/14/where-we-are-going-we-need-dog-mode/",
-       "Do you forget to disarm your security system in the middle of the night? Home Assistant can solve that. https://jeffreystone.net/2020/04/14/where-we-are-going-we-need-dog-mode/",
-       "I built a security system using #homeassistant and you can too. Start the two part series at https://jeffreystone.net/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
-       "My #homeassistant security system is so good at recognizing threats it disarms itself. Learn how at https://jeffreystone.net/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
-       "Want to know how I was migrated from Hassbian to Home Assistant? Now you can at https://jeffreystone.net/2020/04/05/migrating-from-hassbian-to-hassio/",
-       "Did you see the post about how I can turn into Disney's Haunted Mansion on command using #home_assistant? Visit https://jeffreystone.net/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney"
+       "Be sure to Star My Github Repo -> https://github.com/thejeffreystone/home-assistant-configuration so you can stay up to date with changes to my config. ",
+       "Join my Github repo and you could be one of the {{ states.sensor.home_assistant_configuration.attributes.stargazers}} people currently following everything that happens in realtime. ",
+       "Be sure to subscribe to my Youtube channel https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg for videos on #homeassistant and building a smart home.",
+       "Want to know how to add USPS Notifications to your Home Assistant? Check out https://www.youtube.com/watch?v=TjVeoAKn-r0",
+       "You can watch videos on turning your home into a smart home at https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg ",
+       "You can bring a little Disney #imagineering into your home using #homeassistant. Check out this video -> https://www.youtube.com/watch?v=Tm9ZXtk5P-s #homemadedisney",
+       "Anchorage House's Automation was built under the guiding principles of The Three Laws of Home Automation -> https://slacker-labs.com/2020/04/02/the-three-laws-of-home-automation/",
+       "If you haven't already, checkout my blog at https://slacker-labs.com for articles om Home Automation and Smart Home tech ",
+       "Be sure to follow along at https://slacker-labs.com so you can keep up today with the latest how-tows, reviews, and join the conversation. ",
+       "Do you use Zigbee2Mqtt? Your zigbee devices may have a firmware update waiting and you might be able to leverage the OTA Update process. Checkout https://slacker-labs.com/2020/05/29/zigbee2mqtt-and-ota-device-firmware-updates/",
+       "Want to use Cloudflare to manage your SSL cert? You might have seen my article linked to on the Home Assistant forum. But in case not -> https://slacker-labs.com/2020/04/17/swapping-out-duckdns-for-cloudflare/",
+       "Tired of renewing Lets Encrypt certs? Migrate to Cloudflare for your SSL cert and they last almost forever. I show you how at https://slacker-labs.com/2020/04/17/swapping-out-duckdns-for-cloudflare/",
+       "I created dog mode for when I dont want to disarm my security system but the dog needs to go out -> https://slacker-labs.com/2020/04/14/where-we-are-going-we-need-dog-mode/",
+       "Do you forget to disarm your security system in the middle of the night? Home Assistant can solve that. https://slacker-labs.com/2020/04/14/where-we-are-going-we-need-dog-mode/",
+       "I built a security system using #homeassistant and you can too. Start the two part series at https://slacker-labs.com/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
+       "My #homeassistant security system is so good at recognizing threats it disarms itself. Learn how at https://slacker-labs.com/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
+       "Want to know how I migrated from Hassbian to Home Assistant? Now you can at https://slacker-labs.com/2020/04/05/migrating-from-hassbian-to-hassio/",
+       "Did you see the article about how I can turn into Disney's Haunted Mansion on command using #homeassistant? Visit https://slacker-labs.com/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney"
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

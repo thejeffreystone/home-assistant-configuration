@@ -36,7 +36,7 @@
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #homeassistant #iot #smarthome #Randomstats
+    #homeassistant #iot #smarthome #randomstats
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
