@@ -603,6 +603,25 @@ automation:
       service: input_boolean.turn_off
 
 script:
+  door_chime:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    - service: media_player.turn_on
+      entity_id: media_player.ha_speaker
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.ha_speaker
+        volume_level: .5
+    - service: media_player.play_media
+      entity_id: media_player.ha_speaker
+      data:
+        media_content_id: /media/sounds/door_open.wav
+        media_content_type: "music"
+
+
+
   lockdown_issue:
     sequence:
     - condition: state
