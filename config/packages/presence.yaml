@@ -174,7 +174,7 @@ automation:
       entity_id: input_boolean.kat_travel_monitor
     - service: script.ah_report
       data:
-        speech_message: 'Kat has arrived at worked.'
+        speech_message: 'Kat has arrived at work.'
         call_interuption: 1
   
   - id: kat_leaves_zoo
@@ -269,6 +269,35 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.skylar_school
     initial_state: true
+
+  - id: test_family_has_arrived
+    alias: Test Family Has arrived
+    trigger:
+    - entity_id: group.family
+      from: not_home
+      platform: state
+      to: home
+    action:
+    - service: script.text_notify
+      data_template:
+        who: "jeff"
+        title: "Family has arrived"
+        message: "Someone in the Family has arrived" 
+ 
+  - id: test_family_has_left
+    alias: Test Family Has left
+    trigger:
+    - entity_id: group.family
+      from: home
+      platform: state
+      to: not_home
+    action:
+    - service: script.text_notify
+      data_template:
+        who: "jeff"
+        title: "Family has left"
+        message: "Everyone in the Family has left" 
+
 
   - id: family_has_arrived
     alias: Family Has arrived
