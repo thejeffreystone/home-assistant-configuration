@@ -182,9 +182,9 @@ automation:
       entity_id: input_boolean.tiki_room_audio
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/tiki_room_audio.mp3"
+        media: "/media/disney/tiki_room_audio.mp3"
         volume: .5
   - id: tiki_room_off
     alias: Tiki Room Off
@@ -208,9 +208,9 @@ automation:
       entity_id: input_boolean.illuminations
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/illuminations.mp3"
+        media: "/media/disney/illuminations.mp3"
         volume: .5
   - id: illuminations_off
     alias: Illuminations Off
@@ -235,9 +235,9 @@ automation:
       entity_id: input_boolean.happy_ever_after_show
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/Happily_Ever_After_Audio.mp3"
+        media: "/media/disney/Happily_Ever_After_Audio.mp3"
         volume: .5
   - id: happy_ever_after_show_off
     alias: Happy Ever After Show Off
@@ -261,9 +261,9 @@ automation:
       entity_id: input_boolean.holiday_wishes
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/holidaywishes.mp3"
+        media: "/media/disney/holidaywishes.mp3"
         volume: .5
   - id: holiday_wishes_show_off
     alias: Holiday Wishes Show Off
@@ -325,9 +325,9 @@ automation:
       entity_id: input_boolean.spaceship_earth_ride
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/spaceship_earth_ride.mp3"
+        media: "/media/disney/spaceship_earth_ride.mp3"
         volume: .6
   - id: spaceship_earth_off
     alias: Spaceship Earth Off
@@ -351,9 +351,9 @@ automation:
       entity_id: input_boolean.boo_to_you_show
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/boo_to_you_audio.mp3"
+        media: "/media/disney/boo_to_you_audio.mp3"
         volume: .5
   - id: boo_to_you_show_off
     alias: Boo To You Show Off
@@ -377,9 +377,9 @@ automation:
       entity_id: input_boolean.holiday_wishes
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/holidaywishes.mp3"
+        media: "/media/disney/holidaywishes.mp3"
         volume: .5
   - id: holiday_wishes_off
     alias: Holiday Wishes Off
@@ -403,9 +403,9 @@ automation:
       entity_id: input_boolean.welcome_show
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/ML_Welcome_Show.mp3"
+        media: "/media/disney/ML_Welcome_Show.mp3"
         volume: .5
     - delay:
         minutes: 8
@@ -463,9 +463,9 @@ automation:
       entity_id: input_boolean.pandora_area_loop
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/Pandora_Area_Loop.mp3"
+        media: "/media/disney/Pandora_Area_Loop.mp3"
         volume: .4
   - id: pandora_audio_off
     alias: Pandora Audio Off
@@ -490,9 +490,9 @@ automation:
       entity_id: input_boolean.resort_room_audio
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/WDW_Resort_TV.mp3"
+        media: "/media/disney/WDW_Resort_TV.mp3"
         volume: .4
   - id: resort_room_audio_off
     alias: Resort Room Off
@@ -517,9 +517,9 @@ automation:
       entity_id: input_boolean.american_adventure
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/The_American_Adventure.mp3"
+        media: "/media/disney/The_American_Adventure.mp3"
         volume: .7
   - id: american_adventure_off
     alias: American Adventure Off
@@ -543,9 +543,9 @@ automation:
       entity_id: input_boolean.sleepy_hollow_audiobook
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/thelegendofsleepyhallow-readalong.mp3"
+        media: "/media/books/thelegendofsleepyhallow-readalong.mp3"
         volume: .4
   - id: sleepy_hollow_readalong_off
     alias: Sleepy Hollow Readalong Off
@@ -569,9 +569,9 @@ automation:
       entity_id: input_boolean.move_shake_dance
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/move_it_shake_dance_audio.mp3"
+        media: "/media/disney/move_it_shake_dance_audio.mp3"
         volume: .6
   - id: move_dance_off
     alias: Move It Shake It Off
@@ -701,7 +701,7 @@ script:
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
       data:
-        media_content_id: http://192.168.7.40/audio/wishes_5_min.mp3
+        media_content_id: media/disney/wishes_5_min.mp3
         media_content_type: "music"
   
   

@@ -9,6 +9,8 @@ homeassistant:
     haunted_sounds: /media/haunted_sounds
     music: /media/music
     sounds: /media/sounds
+    disney: /media/disney
+    books: /media/books
 
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
