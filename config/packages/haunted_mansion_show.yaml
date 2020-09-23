@@ -64,11 +64,12 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.ha_speaker
-        volume_level: .5
+        volume_level: .6
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
       data:
-        media_content_id: http://192.168.7.40/audio/haunted_mansion_preshow_full.mp3
+        #media_content_id: http://192.168.7.40/audio/haunted_mansion_preshow_full.mp3
+        media_content_id: http://192.168.7.40/audio/DL_Haunted_Mansion.mp3
         media_content_type: "music"
   
   haunted_mansion_lights:
@@ -77,17 +78,20 @@ script:
       entity_id: group.rgb_lr
       data:
         rgb_color: [255,255,255]
-    - delay: 00:01:06
+    #- delay: 00:01:06
+    - delay: 00:01:20
     - service: light.turn_on
       entity_id: group.rgb_lr
       data:
         rgb_color: [73,119,255]
-    - delay: 00:00:15
+    #- delay: 00:00:15
+    - delay: 00:00:25
     - service: light.turn_on
       entity_id: group.rgb_lr
       data:
         brightness_pct: 25
-    - delay: 00:00:37
+    #- delay: 00:00:37
+    - delay: 00:00:29
     - service: switch.turn_on
       entity_id: switch.rail_lights
     - service: switch.turn_off
@@ -100,7 +104,8 @@ script:
       entity_id: switch.rail_lights
     - service: switch.turn_off
       entity_id: switch.rail_lights
-    - delay: 00:00:10
+    #- delay: 00:00:10
+    - delay: 00:00:14
     - service: light.turn_on
       entity_id: group.rgb_lr
       data:
