@@ -2,7 +2,8 @@
 #   @author         :   Jeffrey Stone 
 #   @date           :   07/15/2019
 #   @package        :   Reminders
-#   @description    :   Autoamtions to set reminders
+#   @description    :   Automations to set reminders and chores...which are really just reminders to do the chores thus they belong in reminders. 
+#                       Leveraging Grocy for most of these. 
 ###############################################################################
 
 input_datetime:
@@ -19,21 +20,155 @@ input_boolean:
   washer_finished:
     name: Washer Finished
     icon: mdi:washing-machine
+  feed_fish:
+    name: Feed Fish 
+    icon: mdi:fishbowl
+  clean_litterbox:
+    name: Clean Litterbox
+    icon: mdi:cat
+  clean_washer:
+    name: Clean Washer
+    icon: mdi:washing-machine
+  clean_dishwasher:
+    name: Clean Dishwasher
+    icon: mdi:dishwasher  
+  clean_towel_day:
+    name: Clean Towel Day
+    icon: mdi:washing-machine
+  do_skylars_laundry:
+    name: Do Skylars Laundry
+    icon: mdi:washing-machine
+  clean_sheet_day:
+    name: Clean Sheet Day   
+    icon: mdi:bed
+  clean_kitchen:
+    name: Clean Kitchen
+    icon: mdi:stove
+  clean_bathrooms:
+    name: Clean Bathrooms
+    icon: mdi:toilet
+  clean_livingroom:
+    name: Clean Livingroom
+    icon: mdi:sofa
+  mow_yard:
+    name: Mow Yard
+    icon: mdi:robot-mower
+  clean_fish_tank:
+    name: Clean Fish Tank 
+  heartworm:
+    name: Heartworm
+    icon: mdi:dog-side
+  nextguard:
+    name: NextGuard
+    icon: mdi:dog-side
+  replace_hvac_filters:
+    name: Replace HVAC Filters
+    icon: mdi:hvac
+  clean_disposal:
+    name: Clean Disposal
+    icon: mdi:recycle
+  clean_dishwasher_filter:
+    name: Clean Dishwasher Filter
+    icon: mdi:diswasher
+  clean_washer_filter:
+    name: Clean DWasher Filter
+    icon: mdi:washing-machine
+
+    
+# Chore sensors are fed to MQTT by a script running on another box.     
+binary_sensor:
+  - platform: mqtt
+    name: "Empty the Litterbox"
+    state_topic: "house/chore/empty_the_litterbox"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Winstons Heartworm"
+    state_topic: "house/chore/winstons_heartworm"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Winstons Nextguard"
+    state_topic: "house/chore/winstons_flea_medicine"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Replace the HVAC Filter"
+    state_topic: "house/chore/replace_hvac_air_filters"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Washing Machine"
+    state_topic: "house/chore/clean_washing_machine"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Dishwasher"
+    state_topic: "house/chore/clean_dishwasher"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Skylars Laundry"
+    state_topic: "house/chore/skylars_laundry"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Kitchen"
+    state_topic: "house/chore/clean_kitchen"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Livingroom"
+    state_topic: "house/chore/clean_livingroom"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Bathrooms"
+    state_topic: "house/chore/clean_bathrooms"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Mow Yard"
+    state_topic: "house/chore/mow_yard"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Sheet Day"
+    state_topic: "house/chore/clean_sheet_day"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Disposal"
+    state_topic: "house/chore/clean_disposal"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Washing Machine Filter"
+    state_topic: "house/chore/clean_washing_machine_filter"
+    payload_on: "on"
+    payload_off: "off"
+  - platform: mqtt
+    name: "Clean Dishwasher Filter"
+    state_topic: "house/chore/clean_dishwasher_filter"
+    payload_on: "on"
+    payload_off: "off"
 
 automation:
+  # Replacing calendar based reminders with Grocy
+  # # Massive automation to call all the reminder scripts.
+  # - id: turn_reminders_on
+  #   alias: Turn Reminders On
+  #   initial_state: true
+  #   trigger:
+  #   - entity_id: calendar.reminders
+  #     from: 'off'
+  #     platform: state
+  #     to: 'on'
+  #   action:
+  #   - service: script.heartworm_on
 
-  # Massive automation to call all the reminder scripts.
-  - id: turn_reminders_on
-    alias: Turn Reminders On
-    initial_state: true
-    trigger:
-    - entity_id: calendar.reminders
-      from: 'off'
-      platform: state
-      to: 'on'
-    action:
-    - service: script.heartworm_on
-
+  #####################
+  # Send Medicine Reminders 
   - id: '1562630916597'
     alias: Kat Pill Reminder
     initial_state: true
@@ -45,12 +180,107 @@ automation:
         message: Remember to take meds
       service: notify.kat_ios
 
+  ####################
+  # Litterbox chore
+  # Turn on Reminder
+  - alias: Reminder On Litterbox 
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.empty_the_litterbox
+        to: 'on'
+    action:
+      - service: input_boolean.turn_on 
+        entity_id: input_boolean.clean_litterbox
+  # When clean litterbox is complete update Grocy via command to api to mark chore complete
+  - alias: Chore Complete Litterbox
+    trigger:
+      - platform: state
+        entity_id: input_boolean.clean_litterbox
+        to: 'off'
+    action:
+      - service: grocy.execute_chore
+        data:
+          chore_id: 4
+          done_by: 1
 
-script:
-  # Check to see if heartworm is the reminder in the cal
-  heartworm_on:
-    sequence:
-      - condition: template
-        value_template: '{{ states.calendar.reminders.attributes.message == "Heartworm" }}'
-      - service: input_boolean.turn_on
+  ####################
+  # HeartWorm Chore - See that Winston gets his heartworm meds
+  # Turn on reminder
+  - alias: Reminder On Heartworm 
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.winstons_heartworm
+        to: 'on'
+    action:
+      - service: input_boolean.turn_on 
         entity_id: input_boolean.heartworm
+
+  # # When Winston gets his heartworm mark it complete, and update Grocy via command to api to reduce stock and mark chore complete. 
+  - alias: Chore Complete Heartworm
+    trigger:
+      - platform: state
+        entity_id: input_boolean.heartworm
+        from: 'on'
+        to: 'off'
+    action:
+      - service: grocy.execute_chore
+        data:
+          chore_id: 2
+          done_by: 1
+
+  ###################
+  # Nextguard chore - See that Winston get his Flea/ Tick Meds
+  # Turn on reminder
+  - alias: Reminder On Nextguard 
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.winstons_nextguard
+        to: 'on'
+    action:
+      - service: input_boolean.turn_on 
+        entity_id: input_boolean.nextguard
+  # # When Winston gets his Nextguard mark it complete, and update Grocy via command to api to reduce stock and mark chore complete. 
+  - alias: Nextguard Complete 
+    trigger:
+      - platform: state
+        entity_id: input_boolean.nextguard
+        to: 'off'
+    action:
+      - service: grocy.execute_chore
+        data:
+          chore_id: 3
+          done_by: 1
+
+  ###################
+  # Skylars Laundry chore - Do Skylars Launder each week
+  # Turn on reminder
+  - alias: Reminder On Skylars Laundry
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.skylars_laundry
+        to: 'on'
+    action:
+      - service: input_boolean.turn_on 
+        entity_id: input_boolean.do_skylars_laundry
+  # # When its complete, and update Grocy via command to api to reduce stock and mark chore complete. 
+  - alias: Skylars Laundry Complete 
+    trigger:
+      - platform: state
+        entity_id: input_boolean.do_skylars_laundry
+        to: 'off'
+    action:
+      - service: grocy.execute_chore
+        data:
+          chore_id: 7
+          done_by: 1
+
+# Replacing calendar based reminders with Grocy          
+# script:
+#   # Check to see if heartworm is the reminder in the cal
+#   heartworm_on:
+#     sequence:
+#       - condition: template
+#         value_template: '{{ states.calendar.reminders.attributes.message == "Heartworm" }}'
+#       - service: input_boolean.turn_on
+#         entity_id: input_boolean.heartworm
+  

@@ -3,6 +3,10 @@
 #################################################################################
 ### Grops ###
 
+Family:
+  - person.jeffrey
+  - person.katherine
+
 House Conditions:
   - climate.first_floor
   - sensor.accurite_back_porch_temperature
@@ -72,3 +76,17 @@ livingroom:
 
 theater lights:
   - light.theater_light
+
+Chores:
+  - input_boolean.clean_litterbox
+  - input_boolean.heartworm
+  - input_boolean.nextguard
+  - input_boolean.clean_washer
+  - input_boolean.clean_dishwasher
+  - input_boolean.clean_towel_day
+  - input_boolean.clean_sheet_day
+  - input_boolean.clean_kitchen
+  - input_boolean.clean_livingroom
+  - input_boolean.clean_bathrooms
+  - input_boolean.mow_yard
+  - input_boolean.replace_hvac_filter

@@ -1,0 +1,19 @@
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   08/16/2019
+#   @package        :   Inventory
+#   @description    :   Automating Grocy Inventory Management. Here you will find notifications for inventory and helpers for adding stock
+#                       The scripts are meant to be exectuted via voice.
+#                       For any product that doesn't expire use '2999-12-31'
+###############################################################################
+
+
+script:
+  # Add HVAC Air Filters
+  purchased_hvac_air_filters:
+    sequence:
+      - service: grocy.add_product
+        data:
+          product_id: 3
+          amount: 1
+          price: 0.00
