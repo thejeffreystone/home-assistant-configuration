@@ -507,7 +507,7 @@ automation:
           message: "Lightning has been detected within 20 miles of Anchorage House"
       - service: input_boolean.turn_on
         entity_id: input_boolean.lightning_warning
-  #     - service: script.lightning_warning_audible
+      - service: script.lightning_warning_audible
 
 
   - alias: Lightning Warning Off
@@ -529,7 +529,7 @@ automation:
           message: "No more Lightning Strikes detected."
       - service: input_boolean.turn_off
         entity_id: input_boolean.lightning_warning
-      #- service: script.lightning_clear_audible
+      - service: script.lightning_clear_audible
 
   - alias: NWS Freeze Warning
     trigger:
