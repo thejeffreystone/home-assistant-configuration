@@ -131,12 +131,14 @@ automation:
   - id: skylar_morning_alarm_announcement
     alias: skylar morning alarm announcement
     trigger:
-    - platform: time
-      at: '07:00:00'
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     condition:
       condition: template
       value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
     action:
+    - service: scene.turn_on
+      entity_id: scene.skylar_room_morning
     - service: notify.alexa_media_skylar_s_bedroom
       data:
         message: Good Morning Skylar. Time to Rise and Shine. 
@@ -177,8 +179,8 @@ automation:
       data_template:
         time: >
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            07:15
+            07:00
           {% else %}
-            08:30
+            08:00
           {% endif %}
           
