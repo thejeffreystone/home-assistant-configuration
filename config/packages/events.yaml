@@ -12,6 +12,12 @@ input_boolean:
   blackout_time:
     name: Blackout Time
     icon: mdi:closed-octagon
+  school_in_session:
+    name: School In Session
+    icon: mdi:bus-school
+  school_is_digital:
+    name: Digital Learning
+    icon: mdi:laptop
 
 input_datetime:
   school_first_day:
@@ -210,6 +216,10 @@ automation:
     - platform: state
       entity_id: calendar.skylar_school
       to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_desk_on
@@ -223,34 +233,15 @@ automation:
     - platform: state
       entity_id: calendar.skylar_school
       to: 'off'
+    condition:
+      condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'off'
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_desk_off
     - service: input_boolean.turn_on
       entity_id: input_boolean.audible_notifications
-
-      
-  # - id: set_skylar_activity_limited
-  #   alias: Skylar Limited Privileges
-  #   initial_state: true
-  #   trigger:
-  #   - platform: state
-  #     entity_id: input_select.skylar_activity
-  #     to: 'Limited'
-  #   action:
-  #   - service: scene.turn_on
-  #     entity_id: scene.skylar_limited
-
-  # - id: set_skylar_activity_restricted
-  #   alias: Skylar Restricted Privileges
-  #   initial_state: true
-  #   trigger:
-  #   - platform: state
-  #     entity_id: input_select.skylar_activity
-  #     to: 'Restricted'
-  #   action:
-  #   - service: scene.turn_on
-  #     entity_id: scene.skylar_restricted
 
 script:
 
