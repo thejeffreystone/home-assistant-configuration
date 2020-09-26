@@ -114,7 +114,7 @@ automation:
     - service: persistent_notification.dismiss
       data:
         notification_id: "audioissue"
-    - service_template: persistent_notification.create
+    - service: persistent_notification.create
       data_template:
         notification_id: "audioissue"
         message: "Disney audio functions are disabled because the audible notifications are off."
@@ -184,7 +184,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/tiki_room_audio.mp3"
+        media: "http://192.168.7.40/audio/tiki_room_audio.mp3"
         volume: .5
   - id: tiki_room_off
     alias: Tiki Room Off
@@ -210,7 +210,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/illuminations.mp3"
+        media: "http://192.168.7.40/audio/illuminations.mp3"
         volume: .5
   - id: illuminations_off
     alias: Illuminations Off
@@ -237,7 +237,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/Happily_Ever_After_Audio.mp3"
+        media: "http://192.168.7.40/audio/Happily_Ever_After_Audio.mp3"
         volume: .5
   - id: happy_ever_after_show_off
     alias: Happy Ever After Show Off
@@ -263,7 +263,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/holidaywishes.mp3"
+        media: "http://192.168.7.40/audio/holidaywishes.mp3"
         volume: .5
   - id: holiday_wishes_show_off
     alias: Holiday Wishes Show Off
@@ -327,7 +327,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/spaceship_earth_ride.mp3"
+        media: "http://192.168.7.40/audio/spaceship_earth_ride.mp3"
         volume: .6
   - id: spaceship_earth_off
     alias: Spaceship Earth Off
@@ -353,7 +353,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/boo_to_you_audio.mp3"
+        media: "http://192.168.7.40/audio/boo_to_you_audio.mp3"
         volume: .5
   - id: boo_to_you_show_off
     alias: Boo To You Show Off
@@ -379,7 +379,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/holidaywishes.mp3"
+        media: "http://192.168.7.40/audio/holidaywishes.mp3"
         volume: .5
   - id: holiday_wishes_off
     alias: Holiday Wishes Off
@@ -405,7 +405,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/ML_Welcome_Show.mp3"
+        media: "http://192.168.7.40/audio/ML_Welcome_Show.mp3"
         volume: .5
     - delay:
         minutes: 8
@@ -465,7 +465,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/Pandora_Area_Loop.mp3"
+        media: "http://192.168.7.40/audio/Pandora_Area_Loop.mp3"
         volume: .4
   - id: pandora_audio_off
     alias: Pandora Audio Off
@@ -492,7 +492,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/WDW_Resort_TV.mp3"
+        media: "http://192.168.7.40/audio/WDW_Resort_TV.mp3"
         volume: .4
   - id: resort_room_audio_off
     alias: Resort Room Off
@@ -519,7 +519,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/The_American_Adventure.mp3"
+        media: "http://192.168.7.40/audio/The_American_Adventure.mp3"
         volume: .7
   - id: american_adventure_off
     alias: American Adventure Off
@@ -545,7 +545,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/books/thelegendofsleepyhallow-readalong.mp3"
+        media: "http://192.168.7.40/audio/thelegendofsleepyhallow-readalong.mp3"
         volume: .4
   - id: sleepy_hollow_readalong_off
     alias: Sleepy Hollow Readalong Off
@@ -571,7 +571,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "/media/disney/move_it_shake_dance_audio.mp3"
+        media: "http://192.168.7.40/audio/move_it_shake_dance_audio.mp3"
         volume: .6
   - id: move_dance_off
     alias: Move It Shake It Off
@@ -701,7 +701,7 @@ script:
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
       data:
-        media_content_id: media/disney/wishes_5_min.mp3
+        media_content_id: http://192.168.7.40/audio/http://192.168.7.40/audio/wishes_5_min.mp3
         media_content_type: "music"
   
   
