@@ -34,10 +34,7 @@ christmas_preshow:
   name: Christmas Preshow
   has_date: false
   has_time: true
-halloween_show:
-  name: Halloween Show
-  has_date: false
-  has_time: true
+
 good_night_routine:
   name: Good Night Routine
   has_date: false
