@@ -612,7 +612,7 @@ script:
         data:
           notification_id: "nwswxalert"
         ## Create a new persistant notification in the UI for a new alert
-      - service_template: >
+      - service: >
           {% if states.sensor.nws_alerts.state != '0' %}
             persistent_notification.create
           {% endif %}

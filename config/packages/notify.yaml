@@ -4,7 +4,7 @@
 #   @package        :   Notify
 #   @description    :   A Collection of Notification Scripts and Configs. 
 #                       Package modified from https://github.com/skalavala/smarthome/blob/master/packages/notify.yaml with inspiration
-#			from https://github.com/CCOSTAN/Home-AssistantConfig/blob/master/config/script/speech_engine.yaml		
+# 		                  from https://github.com/CCOSTAN/Home-AssistantConfig/blob/master/config/script/speech_engine.yaml		
 ###############################################################################
 #homeassistant:
 
@@ -150,7 +150,7 @@ script:
       - condition: state
         entity_id: input_boolean.text_notifications
         state: 'on'
-      - service_template: >
+      - service: >
             {% if who == 'jeff' %}
               notify.jeff_ios
             {% elif who == 'kat' %}
@@ -162,7 +162,7 @@ script:
             {% else %}
               notify.all_ios
             {% endif %}
-        data_template:
+        data:
           title: '{{ title }}'
           message: '{{ message }}'
           #data:
@@ -178,7 +178,7 @@ script:
 
   text_alert:
     sequence:
-      - service_template: >
+      - service: >
             {% if who == 'jeff' %}
               notify.jeff_ios
             {% elif who == 'kat' %}
@@ -190,7 +190,7 @@ script:
             {% else %}
               notify.all_ios
             {% endif %}
-        data_template:
+        data:
           title: '{{ title }}'
           message: '{{ message }}'
           #data:
@@ -390,6 +390,33 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.ha_speaker
+        volume_level: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          .65
+          {% else %}
+          .4
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.googlehome0715
+        volume_level: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          .65
+          {% else %}
+          .4
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.googlehomehub3492
+        volume_level: >
+          {% if states.input_boolean.audible_notifications.state == 'on' %}
+          .65
+          {% else %}
+          .4
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.upstairs_speaker
         volume_level: >
           {% if states.input_boolean.audible_notifications.state == 'on' %}
           .65
@@ -1469,7 +1496,7 @@ script:
 
   twitter_notify:
     sequence:
-      - service_template: >
+      - service: >
           {% if who == 'thejeffreystone' %}
             notify.twitter_js
           {% else %}
@@ -1484,7 +1511,7 @@ script:
 
   twitter_notify_image:
     sequence:
-      - service_template: >
+      - service: >
           {% if who == 'thejeffreystone' %}
             notify.twitter_js
           {% else %}
