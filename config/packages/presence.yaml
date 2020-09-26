@@ -185,7 +185,6 @@ automation:
       event: leave
       zone: zone.zoo_atlanta
       entity_id: person.katherine
-    condition:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.kat_travel_monitor
