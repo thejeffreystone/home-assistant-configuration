@@ -3,183 +3,103 @@
 #   @date           :   04/11/2020
 #   @package        :   Audio
 #   @description    :   Audio related configuration. 
+#   @notes          :   This package assumes you are running version .115.0 or greater. 
 #
-#   In order to use this package you will need a couple of things.
-#   
-#   Add to your configuration.yaml:
-#   media_extractor:
-#
-#   If you are running Hassio or Home Assistant as it is called now you will need a server that hosts local audio files if you want to leverage those
 ###############################################################################
 
+
+################################
+# Media Player section for any media players you want to define. Most of these are setup via the integrations flow in the UI, 
+# but if not you may need to modify the following section. 
+# For more info on Media Palyers visit https://www.home-assistant.io/integrations/media_player/
+# MODIFY this section as needed or comment it out completely if not needed.
 media_player:
   - platform: yamaha
     host: 192.168.7.152
 
+################################
+# Media extractor is used for playing youtube audio. For more info ->https://www.home-assistant.io/integrations/media_extractor/
+#
+# If you have this enabled in another package or in your configuration.yaml comment out the line below
 media_extractor:
 
-input_datetime:
-  audible_notification_on:
-    name: Audible Notifications On
-    has_date: false
-    has_time: true
-  audible_notification_off:
-    name: Audible Notifications Off
-    has_date: false
-    has_time: true
-
-
-
-automation:
-  - id: turn_off_audible_notifications
-    alias: Turn Off Audible Notifications
-    initial_state: true
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.audible_notifications
-    
-
-  # - id: turn_off_audible_notifications_guests
-  #   alias: Turn Off Audible Notifications at 7pm
-  #   initial_state: true
-  #   trigger:
-  #   - platform: time
-  #     at: '19:30:00'
-  #   condition:
-  #   - condition: state
-  #     entity_id: input_boolean.guest_mode
-  #     state: 'on'
-  #   action:
-  #   - service: input_boolean.turn_off
-  #     entity_id: input_boolean.audible_notifications
-
-  - id: turn_on_audible_notifications
-    alias: Turn On Audible Notifications at 7am
-    initial_state: true
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    action:
-    - service: script.turn_on_ha_speaker
-
-  - id: turn_on_ha_receiver
-    alias: Turn on HA Receiver
-    initial_state: true
-    trigger:
-      - platform: time
-        at: '06:45:00'
-    action:
-      - service: media_player.turn_on
-        data:
-          entity_id: media_player.tsr_6750_a3ed2f
-      - service: media_player.volume_set
-        data_template:
-          entity_id: media_player.tsr_6750_a3ed2f
-          volume_level: .80
-
-  - id: turn_off_ha_receiver
-    alias: Turn off HA Receiver
-    initial_state: true
-    trigger:
-      - platform: time
-        at: '23:30:00'
-    action:
-      - service: media_player.turn_off
-        data:
-          entity_id: media_player.tsr_6750_a3ed2f
-   
-
-  - id: set_audible_time_off_guest
-    alias: set audible time off guest
-    trigger:
-      - platform: state
-        entity_id: input_boolean.guest_mode
-        to: 'on'
-    action:
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.audible_notification_off
-        data_template:
-          time: >
-            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
-              19:30
-            {% else %}
-              20:30
-            {% endif %}
-
-  - id: set_audible_time_off_normal
-    alias: set audible time off normal
-    trigger:
-      - platform: state
-        entity_id: input_boolean.guest_mode
-        to: 'off'
-      - platform: state
-        entity_id: binary_sensor.school_tomorrow
-    action:
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.audible_notification_off
-        data_template:
-          time: > 
-            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
-              19:30
-            {% else %}
-              20:45
-            {% endif %}
-
-
-#   # Turn off Input Booleans when audio stops - Based on ha_speaker state.
-#   - id: reset_ib_when_stopped
-#     alias: Reset Input Booleans When Stopped
-#     initial_state: true
-#     trigger:
-#     - platform: state
-#       entity_id: media_player.ha_speaker
-#       to: "off"
-#     action:
-#     - service: homeassistant.turn_off 
-#       entity_id: group.disney_audio
-
+################################
+# Scripts to handle audio
 script:
 
+  ################################
+  # local_audio is meant to be used to play audio in your media folder. (https://www.home-assistant.io/integrations/media_source/)
+  # 
+  # Before using make sure you update as needed.
+  # 
+  # To call this using in the action section of your automation:
+  # 
+  # - service: script.local_audio
+  #   data:
+  #     volume: .5
+  #     media: /media/local_audio.mp3
+  #
   local_audio:
     sequence:
+    # Ensure that audible notifications are allowed. Comment out if not needed.
     - condition: state
       entity_id: input_boolean.audible_notifications
       state: 'on'
+    # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
     - condition: state
       entity_id: sensor.family_status
       state: Home
+    # Update the media player with the one you want to use
     - service: media_player.turn_on
       entity_id: media_player.ha_speaker
+    # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id: media_player.ha_speaker
         volume_level: >
           {{ volume }}
+    # This tells it to play the media and is set when the script is called. 
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
-      data_template:
+      data:
         media_content_type: "music"
         media_content_id: >
           {{ media }}
-
+  
+  
+  ################################
+  # youtube_audio is meant to be used to play audio from well youtube. 
+  # This scrtip requires the media_extractor integration.
+  # 
+  # Before using make sure you update as needed.
+  # 
+  # To call this using in the action section of your automation:
+  # 
+  # - service: script.youtube_audio
+  #   data:
+  #     volume: .5
+  #     media: https://www.youtube.com/watch?v=pVeX4C9B1Lk
+  #
   youtube_audio:
     sequence:
+    # Ensure that audible notifications are allowed. Comment out if not needed.
     - condition: state
       entity_id: input_boolean.audible_notifications
       state: 'on'
+    # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
     - condition: state
       entity_id: sensor.family_status
       state: Home
+    # Update the media player with the one you want to use
     - service: media_player.turn_on
       entity_id: media_player.ha_speaker
+    # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.ha_speaker
         volume_level: >
           {{ volume }}
+    # This tells it to play the media and is set when the script is called. 
     - service: media_extractor.play_media
       entity_id: media_player.ha_speaker
       data_template:

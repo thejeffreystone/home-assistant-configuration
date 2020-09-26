@@ -26,11 +26,104 @@ input_datetime:
     name: Skylar Bedtime Announcement
     has_date: false
     has_time: true
+  audible_notification_on:
+    name: Audible Notifications On
+    has_date: false
+    has_time: true
+  audible_notification_off:
+    name: Audible Notifications Off
+    has_date: false
+    has_time: true
+    
 
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes
 ################################
 automation:
+  - id: turn_off_audible_notifications
+    alias: Turn Off Audible Notifications
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.audible_notifications
+    
+
+  - id: turn_on_audible_notifications
+    alias: Turn On Audible Notifications at 7am
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+    - service: script.turn_on_ha_speaker
+
+  - id: turn_on_ha_receiver
+    alias: Turn on HA Receiver
+    initial_state: true
+    trigger:
+      - platform: time
+        at: '06:45:00'
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.tsr_6750_a3ed2f
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.tsr_6750_a3ed2f
+          volume_level: .80
+
+  - id: turn_off_ha_receiver
+    alias: Turn off HA Receiver
+    initial_state: true
+    trigger:
+      - platform: time
+        at: '23:30:00'
+    action:
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.tsr_6750_a3ed2f
+   
+
+  - id: set_audible_time_off_guest
+    alias: set audible time off guest
+    trigger:
+      - platform: state
+        entity_id: input_boolean.guest_mode
+        to: 'on'
+    action:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.audible_notification_off
+        data_template:
+          time: >
+            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
+              19:30
+            {% else %}
+              20:30
+            {% endif %}
+
+  - id: set_audible_time_off_normal
+    alias: set audible time off normal
+    trigger:
+      - platform: state
+        entity_id: input_boolean.guest_mode
+        to: 'off'
+      - platform: state
+        entity_id: binary_sensor.school_tomorrow
+    action:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.audible_notification_off
+        data_template:
+          time: > 
+            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
+              19:30
+            {% else %}
+              20:45
+            {% endif %}
+
+
   - id: prebed_routine
     initial_state: true
     alias: Skylar Nightly Announcements
