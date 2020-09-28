@@ -1,0 +1,47 @@
+#####################################################################
+# @CCOSTAN
+# Original Repo : https://github.com/CCOSTAN/Home-AssistantConfig
+## Plays the number of cuckoos per hour and 1 on the half hour.
+# More Info and Video: https://www.vcloudinfo.com/2017/11/building-digital-cuckoo-clock-with-home.html
+#####################################################################
+
+automation:
+  - alias: Cuckoo Clock
+    id: 33dcd8e2-e87c-4d18-82bc-c7f9b53a1624
+    mode: restart
+    trigger:
+      - platform: time_pattern
+        minutes: 0
+      - platform: time_pattern
+        minutes: 30
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.audible_notifications
+        state: 'on'
+      - condition: or  #Either we are home or Guest_Mode is on.
+        conditions:
+          - condition: state
+            entity_id: sensor.family_status
+            state: 'Home'
+          - condition: state
+            entity_id: input_boolean.guest_mode
+            state: 'on'
+
+    action:
+      - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.ha_speaker
+          volume_level: 0.22
+      - service: media_player.play_media
+        data:
+          entity_id: >
+              media_player.ha_speaker
+          media_content_id: >
+            {% if now().strftime("%M")|int == 30 %}
+            https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/sounds/cuckoo-clock-01.wav
+            {% else %}
+            https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/sounds/cuckoo-clock-{{now().strftime("%I")}}.wav
+            {% endif %}
+          media_content_type: audio/mp4
