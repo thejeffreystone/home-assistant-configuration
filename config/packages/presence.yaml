@@ -172,6 +172,7 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.kat_travel_monitor
+    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
     - service: script.ah_report
       data:
         speech_message: 'Kat has arrived at work.'
@@ -188,6 +189,7 @@ automation:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.kat_travel_monitor
+    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
     - service: script.ah_report
       data:
         call_interuption: 1
@@ -202,6 +204,7 @@ automation:
     condition: []
     action:
     - service: script.jeff_destination_home
+    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
     - service: script.ah_report
       data:
         call_interurption: 1
