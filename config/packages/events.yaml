@@ -184,6 +184,7 @@ automation:
       condition: template
       value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
     action:
+    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
     - service: script.ah_report
       data:
         call_interuption: 1
@@ -202,6 +203,7 @@ automation:
       entity_id: input_boolean.blackout_time
       state: 'on'
     action:
+    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
     - service: script.ah_report
       data:
         call_interuption: 1
@@ -236,7 +238,7 @@ automation:
     condition:
       condition: state
       entity_id: input_boolean.school_is_digital
-      state: 'off'
+      state: 'on'
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_desk_off
