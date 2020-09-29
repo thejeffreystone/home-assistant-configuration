@@ -254,11 +254,11 @@ script:
             "/media/haunted_sounds/Haunted-Vocals.mp3"
             ] | random -}}
   
-sensor:
-  # Halloween Countdown Sensor using Wolfram Alpha. See the note at the top for a link to how to set it up
-  - platform: rest
-    name: Halloween Countdown
-    resource: !secret WA_HALLOWEEN
-    value_template: "{{ (value|replace(' days', '')) | int }}"
-    unit_of_measurement: Days
-    scan_interval: 43200
+# sensor:
+#   # Halloween Countdown Sensor using Wolfram Alpha. See the note at the top for a link to how to set it up
+#   - platform: rest
+#     name: Halloween Countdown
+#     resource: !secret WA_HALLOWEEN
+#     value_template: "{{ (value|replace(' days', '')) | int }}"
+#     unit_of_measurement: Days
+#     scan_interval: 43200

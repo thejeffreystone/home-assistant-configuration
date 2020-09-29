@@ -11,7 +11,7 @@
 ################################
 # Media Player section for any media players you want to define. Most of these are setup via the integrations flow in the UI, 
 # but if not you may need to modify the following section. 
-# For more info on Media Palyers visit https://www.home-assistant.io/integrations/media_player/
+# For more info on Media Players visit https://www.home-assistant.io/integrations/media_player/
 # MODIFY this section as needed or comment it out completely if not needed.
 media_player:
   - platform: yamaha
