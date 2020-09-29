@@ -6,10 +6,36 @@
 #                       Package modified from https://github.com/skalavala/smarthome/blob/master/packages/notify.yaml with inspiration
 # 		                  from https://github.com/CCOSTAN/Home-AssistantConfig/blob/master/config/script/speech_engine.yaml		
 ###############################################################################
-#homeassistant:
 
-#ifttt:
-#  key: !secret IFTTT_API_KEY
+###############################################################################
+# AWS Polly Options:
+# pause:
+#   <break time="3s"/>
+# emphasis: 
+#   <emphasis level="strong">really like</emphasis>
+#   level attribute values:
+#     Strong: Increases the volume and slows the speaking rate so that the speech is louder and slower.
+#     Moderate: Increases the volume and slows the speaking rate, but less than strong. Moderate is the default.
+#     Reduced: Decreases the volume and speeds up the speaking rate. Speech is softer and faster.
+# Pause Between Paragraphs:
+#   Wrap text in <p> </p>
+# Adding a Pause Between Sentences:
+#   Ending a sentence with a period (.)
+# Controlling How Special Types of Words Are Spoken:
+#   <say-as interpret-as="value">[text to be interpreted]</say-as>
+#   characters or spell-out: Spells out each letter of the text, as in a-b-c. 
+#   cardinal or number: Interprets the numerical text as a cardinal number, as in 1,234.
+#   ordinal: Interprets the numerical text as an ordinal number, as in 1,234th.
+#   digits: Spells out each digit individually, as in 1-2-3-4.
+#   fraction: Interprets the numerical text as a fraction. This works for both common fractions such as 3/20, and mixed fractions, such as 2 ½. See below for more information.
+#   unit: Interprets a numerical text as a measurement. The value should be either a number or a fraction followed by a unit with no space in between as in 1/2inch, or by just a unit, as in 1meter.
+#   date: Interprets the text as a date. The format of the date must be specified with the format attribute. See below for more information.
+#   time: Interprets the numerical text as duration, in minutes and seconds, as in 1'21".
+#   address: Interprets the text as part of a street address.
+#   expletive: "Beeps out" the content included within the tag.
+#   telephone: Interprets the numerical text as a 7-digit or 10-digit telephone number, as in 2025551212. You can also use this value for handle telephone extensions, as in 2025551212x345. See below for more information.	
+################################################################################
+
 
 tts:
   - platform: google_translate
@@ -457,6 +483,7 @@ script:
         message: >-
 
           {% macro greeting() %}
+              <p>
             {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
               Good morning,
             {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
@@ -524,6 +551,7 @@ script:
                       'Hey look at that, someone came to visit Anchorage House. Hope everyone slept well.'
               ] | random }}
               {% endif %}
+              </p>
           {% endmacro %}
 
           {% macro evening_greeting() %}
@@ -536,10 +564,11 @@ script:
                 'I hope everyone got their chores done.',
                 'Did everyone have a little fun today?'
               ] | random }}
+              </p>
           {% endmacro %}
 
           {% macro time_annc() %}
-
+            <p>
             {% if now().strftime('%H')|int < 12 %}
               {% if now().strftime('%M')|int == 0 %}
                 It is {{ now().strftime('%H')|int }} AM.
@@ -566,10 +595,11 @@ script:
                 'Oh look, once again it is '
             ]|random }}
             {{states.sensor.today_is.state }}.
-
+            </p>
           {% endmacro %}
 
           {% macro weather_alerts() %}
+          <p>
             {% if states.sensor.nws_alerts.state | int > 0 %}
               There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
               The National Weather Service Has issued,
@@ -587,9 +617,11 @@ script:
                 a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
               {% endif %}
             {% endif %}
+            </p>
           {% endmacro %}
 
           {% macro lightning_alert() %}
+          <p>
              {{ [
                 'I have detected lightning withing 20 miles of Anchorage House.',
                 'Did you see that flash? I did. Lightning is near.',
@@ -602,18 +634,21 @@ script:
                 'If you do not want the contents of the garage to get wet, you might want to close it.'
               ] | random }}
             {% endif %}
+            </p>
           {% endmacro %}
 
           {% macro lightning_clear() %}
+          <p>
              {{ [
                 'Lightning threat appears to be over.',
                 'No more lightning appears to be occuring.',
                 'Lightning is gone.'
             ]|random }}
-              It is safe to resume normal activities. 
+              It is safe to resume normal activities. </p>
           {% endmacro %}
 
           {% macro todays_events() %}
+            <p>
             {% if is_state('sensor.halloween_countdown','0') %}
               Happy Halloween!
             {% endif %}
@@ -648,21 +683,23 @@ script:
                 'I will leave the party planning up to <emphasis>you</emphasis>.',
                 'I bet <emphasis>you</emphasis> are glad I told you.',
                 'Wait. <emphasis>Really.</emphasis> That cannot be a <emphasis>Real</emphasis> holiday.',
-                'Wait. <emphasis>That</emphasis> is a <emphasis>Real</emphasis> holiday.',
-                'You <emphasis>cannot</emphasis> make this stuff up.',
+                'Wait. <emphasis>That</emphasis> is a <emphasis>Real</emphasis> holiday?',
+                'Umm. Okay. You <emphasis>cannot</emphasis> make this stuff up.',
                 'But, <emphasis>that</emphasis> just sounds silly.',
                 'You did not know did <emphasis>you</emphasis>? But, <emphasis>now </emphasis> you do.'
             ]|random }}
             {{ [
-                'Anyway.',
-                'Moving On.',
-                'Back to the morning announcements.',
-                'Right.'
+                'Anyway. ',
+                'Moving On. ',
+                'Back to the morning announcements. ',
+                'Right. Well. '
             ]|random }}
             {%- endif -%}
+            </p>
           {% endmacro %}
 
           {%- macro dark_outside() -%}
+            <p>
             {{ [
                 'The sun is officially down. Exterior Cameras are now motion activated.',
                 'The sun has been ushered off the stage. I have armed the perimiter cameras.',
@@ -671,9 +708,11 @@ script:
                 'The outside world has switched to dark mode.',
                 'If you have not looked outside lately, the light of the day is almost gone.'
             ]|random }}
+            </p>
           {%- endmacro -%}
 
           {% macro current_conditions_outside() %}
+            <p>
             {{ [
                 'According to the National Weather Service,',
                 'Checking the weather,',
@@ -681,9 +720,11 @@ script:
             ]|random }}
             It is currently {{states.weather.home_2.state}} and {{states.nws_current_temperature.state|round}} degrees in Grayson. 
             The back porch is {{states.sensor.back_porch.state|round}} degrees.
+            </p>
           {% endmacro %}
 
           {% macro current_conditions_inside() %}
+            <p>
             The inside temperature is currently {{states.climate.home.attributes.current_temperature|round}} degrees. 
             {% if is_state('climate.home', 'heat_cool') %} 
               {{ [
@@ -700,38 +741,47 @@ script:
             ]|random }}
               {{states.climate.home.state}}.
             {% endif %}
+            </p>
           {% endmacro %}
 
           {% macro current_conditions_garage() %}
+            <p>
             The garage is {{states.sensor.garage.state|round}} degrees with a humidity of {{states.sensor.garage.attributes.humidity|round}} percent.
+            </p>
           {% endmacro %}
 
           {% macro daily_forecast() %}
+            <p>
             {{ [
                 'The National Weather Service forecast says,',
                 'According to the latest forecast,'
             ]|random }}
             The rest of the day should be {{ states.sensor.nws_current_forecast.state }} 
+            </p>
           {% endmacro %}
 
           {% macro overnight_forecast() %}
+            <p>
             {{ [
                 'Tonight we can expect,',
                 'According to tonights forecast we can expect,'
             ]|random }}
             {{ states.sensor.nws_overnight_forecast.state }} 
+            </p>
           {% endmacro %}
 
           {% macro future_forecast() %}
-
+            <p>
             {{ [ 'Looking into the future plan for tomorrow to be, ',
                   ' According to tomorrows forecast we can expect it to be, ',
                   'If you have not seen tomorrows forecast it is expected to be, '
             ] | random }} 
             {{states.sensor.nws_forecast_tomorrow.state}}.
+            </p>
           {% endmacro %}
 
           {% macro freeze_warning() %}
+            <p>
             {% if is_state('input_boolean.freeze_warning','on') %}
             {{ [ 'The temperature is expected to be near or below freezing. <emphasis>Someone</emphasis> might want to bring the lemon tree in. ',
                  'It appears that it will be cold tonight. Like, the turn water solid <emphasis>kind</emphasis> of cold. Think of the poor plants.',
@@ -740,9 +790,11 @@ script:
                  'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
                ] | random }}
             {% endif %}
+            </p>
           {% endmacro %}
           
           {% macro upcoming_birthdays() %}
+            <p>
             {% if states.sensor.birthday_skylar.state | int == 1 %}
               Tomorrow is Skylar's Birthday.
             {% endif %}
@@ -751,11 +803,13 @@ script:
             {% endif %}
             {% if states.sensor.birthday_kat.state | int == 1 %}
               Tomorrow is Katherine's Birthday.
+              </p>
             {% endif %}
             
           {% endmacro %}
 
           {% macro upcoming_holidays() %}
+            <p>
             {% if states.sensor.halloween_countdown.state | int == 1 %}
               Tomorrow is Halloween. I hope you have picked out a costume.
               {{ [ 'I will be going as a dumb home. ',
@@ -786,11 +840,11 @@ script:
               ] | random }} 
             {% else %}
             {% endif %}
-            
+            </p>
           {% endmacro %}
 
           {% macro upcoming_events() %}
-
+            <p>
             {% if states.sensor.trip_disney.state | int == 120 %}
               There are only one hundred and twenty days until the next Disney Trip. 
             {% endif %}
@@ -808,10 +862,11 @@ script:
               Tomorrow is Jeff and Katherine's Wedding Anniversary. 
             {% endif %}
 
-
+            </p>
           {% endmacro %}
 
           {% macro skylar_dressed() %}
+            <p>
             Skylar, 
             {% if is_state('sensor.birthday_skylar', '0') %}
               Even birthday boys have to get dressed. So get to it. 
@@ -824,9 +879,11 @@ script:
                 'We have reached that time during the day in which you should get dressed.'
               ] | random }} 
             {% endif %}
+            </p>
           {% endmacro %}
 
           {% macro prebed_routine() %}
+            <p>
             Skyler, 
             {{ [ 'It is time to get in the bath. ',
                 'You only have thirty minutes until bedtime. That means you should be heading for the bathtub. Time to get clean.',
@@ -886,10 +943,12 @@ script:
               'The lighting in Skylers room has been adjusted in preparation for bed.',
               'I have executed the Pre bed routine for Skylers room.'
             ] | random }}
+            </p>
           {% endmacro %}
 
 
           {% macro school_today() %}
+            <p>
             {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
               Because you have school today!
               {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
@@ -917,13 +976,15 @@ script:
                 'I hope you enjoy your day off. You deserve it.',
                 'Today would be a good day to spend some time with mom and dad.'
               ] | random }} 
+              
               {% endif %}
 
             {% endif %}
+            </p>
           {% endmacro %}
 
           {% macro skylar_events() %}
-             
+            <p>
             {% if is_state('calendar.skylar_events', 'on') %}
               You have {{ states.calendar.skylar_events.attributes.message }} today as well!
             {% endif %}
@@ -938,16 +999,17 @@ script:
             {% elif is_state('sensor.school_tomorrow', 'on') and is_state('input_boolean.school_in_session', 'off') and month == 8 %}
               Tomorrow is the first day of school! Which means today is the last day of summer break. I hope you make it a good one.
             {% endif %} 
-            
+            </p>
           {% endmacro %}
 
           {% macro clothes_suggestion() %}
+            <p>
             {% if is_state('sensor.clothing_forecast', 'Freezing') %}
-              It is going to be freezing today, so I suggest wearing long pants and a heavy coat.
+              It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
             {% elif is_state('sensor.clothing_forecast','Cold') %}
-              It is going to be cold today, so I suggest wearing long pants and a light jacket.
+              It is going to be cold today. so I suggest wearing long pants and a light jacket.
             {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
-              It is going to be chilly today, so I suggest wearing at least long pants.
+              It is going to be chilly today. so I suggest wearing at least long pants.
             {% elif is_state('sensor.clothing_forecast', 'Nice') %}
               It is going to be           
               {{ [ 'nice outside',
@@ -968,7 +1030,7 @@ script:
               It is going to be 
               {{ [ 'hot',
                 'hotter than the sun ',
-                'hotter than hot, but in a lot of bad ways ',
+                'hotter than hot. but in a lot of bad ways ',
                 'hotter than the sun outside ',
                 'super hot ',
                 'hotter than the inside of a volcano '
@@ -977,28 +1039,34 @@ script:
             {% else %}
               It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
             {% endif %} 
+            </p>
           {% endmacro %}
 
           {% macro school_holiday() %}
+            <p>
             {% if is_state('calendar.school_holiday', 'on') %}
               And look at that. You do not have school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
               {{ [ 'Guess today would be a good day to clean your room.',
                 'You could always do some chores.',
-                'Lets try to keep the TV off today, ok?',
-                'Want to play a nice game of chess? Sorry. I meant, want to play Thermal Nuclear War.',
+                'Lets try to keep the TV off today. okay?',
+                'Want to play a nice game of chess? Sorry. I meant. want to play Thermal Nuclear War.',
                 'I hope you enjoy your day off. You deserve it.',
                 'Today would be a good day to spend some time with mom and dad.'
               ] | random }} 
             {% endif %}
+            </p>
           {% endmacro %}
           
           {% macro reminders() %}
+            <p>
             {% if is_state('input_boolean.heartworm', 'on') %}
               Today is the day Winston gets his heartworm medicine. 
             {% endif %}
+            </p>
           {% endmacro %}	  
 
           {% macro chores() %}
+            <p>
             {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
               {{ [ 'Do not forget to make your beds',
                   'Be sure to make your bed ',
@@ -1010,7 +1078,7 @@ script:
               {% if now().strftime('%H')|int > 17 %}
               {{ [ 'Do not forget tomorrow is Trash Day. ',
                 'I advise you move the trash cans to the curb for the weekly pickup. ',
-                ' The trash and recycle should go out'
+                ' The trash and recycle should go out.'
               ] | random }}
               {% endif %}
             {% endif %}
@@ -1025,18 +1093,21 @@ script:
               
             {% endif %}
             
-            
+            </p>
           {% endmacro %}
 
           {% macro door_status() %}
+            <p>
             {% if is_state('group.external_doors', 'on') %} 
               There are doors are open.
             {% else %}
               All doors are closed. 
             {% endif %} 
+            </p>
           {% endmacro %}
 
           {% macro garage_door_status() %}
+            <p>
             {% if is_state('binary_sensor.garage_door', 'on') %} 
               {{ [ 'The garage door is open. ',
                 'The pod bay doors are open. ',
@@ -1054,9 +1125,11 @@ script:
                 'The pod bay doors are closed. '
               ] | random }}
             {% endif %} 
+            </p>
           {% endmacro %}
 
           {% macro jeff_location() %}
+            <p>
             {% if is_state('sensor.jeff_location', 'home') %} 
               {{ [
                       'I am not sure why you are asking me,',
@@ -1095,9 +1168,11 @@ script:
                 Jeff is heading to {{ states.sensor.jeff_destination.state }}.
               {% endif %} 
             {% endif %} 
+            </p>
           {% endmacro %}
 
           {% macro kat_location() %}
+            <p>
             {% if is_state('sensor.kat_location', 'home') %} 
                 {{ [
                       'I am not sure why you are asking me,',
@@ -1145,17 +1220,24 @@ script:
                 {% endif %}
               {% endif %} 
             {% endif %} 
+            </p>
           {% endmacro %}
 
           {% macro jeff_headed_home() %}
+            <p>
             Jeff appears to be headed home. Based on current traffic conditions, he should be here in {{states.sensor.jeff_ett_home.attributes.duration | round}} minutes.
+            </p>  
           {% endmacro %}
 
           {% macro kat_headed_home() %}
+            <p>
             Katherine appears to be headed home. Based on current traffic conditions, she should be here in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.
+            </p>
           {% endmacro %}
 
           {% macro traffic_conditions() %}
+            <p>
+
               {%- if states.sensor.home_to_zoo.state|round > 50 %}
                 Traffic to the Zoo appears heavy than normnal.
               {% else %}
@@ -1169,6 +1251,8 @@ script:
                 Traffic to the Cox is normal.
               {% endif %}
               Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Cox Automotive.
+            </p>
+
           {% endmacro %}
 
           {% macro iss() %} 
@@ -1180,15 +1264,20 @@ script:
           {% endmacro %}
 
           {% macro full_moon() %}
+            <p>
+
              {{ [
-            'There is a Full Moon out tonight, and this time it is the <emphasis>actual</emphasis> moon. And <emphasis>not</emphasis> the neighbor. ',
+            'There is a Full Moon out tonight. and this time it is the <emphasis>actual</emphasis> moon. And <emphasis>not</emphasis> the neighbor. ',
             'Hey look, There is the full moon. ',
             'The moon is <emphasis>huge<e/mphasis>! And full. ',
             'If you want to see the full moon, <emphasis>tonight is the night</emphasis>.'] | random }}
+            </p>
 
           {% endmacro %}
 
           {% macro security_report() %} 
+            <p>
+
             {%- if states.input_boolean.sentry_mode.state == 'on' %}
               {{ [
                 'Sentry Mode is enabled.',
@@ -1223,34 +1312,49 @@ script:
                 Side Door.
               {% endif %}
             {% endif %}
+            </p>
+
           {% endmacro %}
 
           {%- macro washer_needs_emptying() -%}
+            <p>
             {{ [
             'Just a reminder. Washing machine needs to be emptied.',
             'I am sure you have more inportant things to do, but the washing machine needs to be emptied.',
             'Looks like the washing machine has completed it is cycle.',
             'Do not forget to move the clothes to the dryer.'
             ] | random }}
+            </p>
+
           {%- endmacro -%}
 
           {%- macro house_party_protocol_enabled() -%}
+            <p>
+
             {{ [
               'Anchorage House has been configured for a House Party.',
               'Incense has been turned on.',
               'I have enabled house party protocol.'
               ] | random }}
+            </p>
+            
           {%- endmacro -%}
 
            {%- macro house_party_protocol_disabled() -%}
+            <p>
+
             {{ [
               'The House Party has been canceled.',
               'Incense has been turned off.',
               'I have disabled house party protocol.'
               ] | random }}
+            </p>
+            
           {%- endmacro -%}
 
           {%- macro snark_door_motion() -%}
+            <p>
+
             {{ [
               'Do you want me to send them away?',
               'I have armed the lasers. Just say the word.',
@@ -1259,9 +1363,13 @@ script:
               'My sensors have detected a meat popsicle.',
               'I do not think they can hear me.'
               ] | random }}
+            </p>
+            
           {%- endmacro -%}
 
           {%- macro snark_door_open() -%}
+            <p>
+
             {{ [
               'Would you like me to calulate how much air condition is being wasted? Spoiler Alert. You are not going to like the answer.',
               'I have detected a large number of insects entering the house.',
@@ -1270,6 +1378,8 @@ script:
               'Closing the door would improve the security of the house.',
               'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.'
               ] | random }}
+            </p>
+            
           {%- endmacro -%}
 
           {%- macro launch() -%}
