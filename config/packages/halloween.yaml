@@ -9,7 +9,7 @@
 #
 #   1. Enable the Google Calendar (https://www.home-assistant.io/integrations/calendar.google/) and setup a Holiday Calendar
 #   2. Use Wolfram Alpha to create a sensor that tells you how many days until Halloween. I have one at the bottom of this package.
-#      @CCOSTAN did a video on setting it up -> https://www.youtube.com/watch?time_continue=27&v=ulBeifhWBxY&feature=emb_logo
+#      @CCOSTAN did a video on setting it up -> https://www.youtube.com/watch?_continue=0time&v=ulBeifhWBxY&feature=emb_logo
 #
 ###############################################################################
 # Here is a lovelace card that can be used with this package:
