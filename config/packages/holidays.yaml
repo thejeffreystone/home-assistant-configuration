@@ -46,98 +46,12 @@
 #   For events with a year in the future, the state will be number of days to that exact moment in time.
 #  
 ###############################################################################
-input_boolean:
-  this_is_halloween:
-    name: This is Halloween
-  haunted_sounds:
-    name: Haunted Sounds
+
 
 automation:
-  - id: this_is_halloween_on
-    alias: This is Halloween On
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.this_is_halloween
-      to: 'on'
-    action:
-    - service: script.turn_on
-      entity_id: script.this_is_halloween
-  
-  - id: haunted_sounds_on
-    alias: Haunted Sounds On
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.haunted_sounds
-      to: 'on'
-    action:
-    - service: script.turn_on
-      entity_id: script.haunted_sounds
 
-  - id: haunted_sounds_off
-    alias: Haunted Sounds Off
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.haunted_sounds
-      to: 'off'
-    action:
-    - service: script.turn_off
-      entity_id: script.haunted_sounds
-  
-  - id: this_is_halloween_off
-    alias: This is Halloween Off
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.this_is_halloween
-      to: 'off'
-    action:
-    - service: script.turn_on
-      entity_id: script.kill_this_ride
-    - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
-  - id: this_is_halloween
-    alias: This is Halloween
-    initial_state: true
-    trigger:
-    - platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.halloween_show', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    condition:
-    - condition: state
-      entity_id: calendar.holidays_in_united_states
-      state: "on"
-    - condition: template
-      value_template: >
-        {%- set event=states.calendar.holidays_in_united_states.attributes.message %}
-        {%- if event == 'Halloween' %}
-          true
-        {%- endif -%}
-    action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.this_is_halloween
 
-  - id: operation_haunted_house
-    alias: Operation Haunted House
-    initial_state: true
-    trigger:
-    - platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.halloween_show', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    condition:
-    - condition: state
-      entity_id: calendar.holidays_in_united_states
-      state: "on"
-    - condition: template
-      value_template: >
-        {%- set event=states.calendar.holidays_in_united_states.attributes.message %}
-        {%- if event == 'Halloween' %}
-          true
-        {%- endif -%}
-    action:
-    - service: script.turn_on
-      entity_id: input_boolean.haunted_sounds
-
+# Holiday Wishes
   - id: wishes_five_min
     alias: Wishes Five Minute
     initial_state: true
@@ -177,50 +91,79 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.holiday_wishes
 
-script:
+# script:
 
-  haunted_sounds:
-    sequence:
-    - delay: 00:05:00
-    - service: shell_command.haunted_scream
-    - delay: 00:07:06
-    - service: shell_command.haunted_leotta
-    - delay: 00:02:36
-    - service: shell_command.haunted_raven
-    - delay: 00:04:03
-    - service: shell_command.haunted_harp
-    - delay: 00:01:40
-    - service: shell_command.haunted_door
-    - delay: 00:03:33
-    - service: shell_command.haunted_howling
-    - delay: 00:04:03
-    - service: shell_command.haunted_laugh2
-    - delay: 00:03:56
-    - service: shell_command.haunted_seance_horn
-    - delay: 00:08:00
-    - service: shell_command.haunted_piano
-    - delay: 00:03:10
-    - service: shell_command.haunted_clock
-    - delay: 00:07:33
-    - service: shell_command.haunted_ballroom
-    - delay: 00:03:18
-    - service: shell_command.haunted_door2
-    - delay: 00:05:00
-    - service: shell_command.haunted_bells
-    - delay: 00:02:18
-    - service: shell_command.haunted_laugh
-    - delay: 00:06:36
-    - service: shell_command.haunted_chains
+#   more_haunted_sounds:
+#     sequence:
+#     - service: script.youtube_audio
+#       data_template:
+#         volume: .5
+#         media: >
+#           {{- [
+#             "https://www.youtube.com/watch?v=pVeX4C9B1Lk",
+#             "https://www.youtube.com/watch?v=S_hKvncbL9w",
+#             "https://www.youtube.com/watch?v=zB-Y5OswETY",
+#             "https://www.youtube.com/watch?v=x5tmmRZYq4s",
+#             "https://www.youtube.com/watch?v=rxxC7RJ2b_E",
+#             "https://www.youtube.com/watch?v=Zhd8V9cDUsA",
+#             "https://www.youtube.com/watch?v=jmSI-jf6nLo",
+#             "https://www.youtube.com/watch?v=szxC3E7m9dk",
+#             "https://www.youtube.com/watch?v=TaejWf5NIfI",
+#             "https://www.youtube.com/watch?v=orDBUrmK9vU",
+#             "https://www.youtube.com/watch?v=nKltUaCxZPc",
+#             "https://www.youtube.com/watch?v=_A1yK0YU6U0",
+#             "https://www.youtube.com/watch?v=AQ1SE4tLIC"
+#             ] | random -}}
+
+#   haunted_sounds:
+#     sequence:
+#     - service: script.local_audio
+#       data_template:
+#         volume: .5
+#         media: >
+#           {{- [
+#             "/media/haunted_sounds/haunted_guest_welcome.mp3",
+#             "/media/haunted_sounds/ChainsRattling.mp3",
+#             "/media/haunted_sounds/CreakingDoorSpooky.mp3",
+#             "/media/haunted_sounds/DemonHaunting.mp3",
+#             "/media/haunted_sounds/Evil_Laugh_2.mp3",
+#             "/media/haunted_sounds/Evillaugh.mp3",
+#             "/media/haunted_sounds/audio/Scary.mp3",
+#             "/media/haunted_sounds/audio/raven.mp3",
+#             "/media/haunted_sounds/audio/EvilLaughCackle.mp3",
+#             "/media/haunted_sounds/audio/Haunted-CatScream.mp3",
+#             "/media/haunted_sounds/audio/Haunted-DragonRoaring.mp3",
+#             "/media/haunted_sounds/Haunted-Heart.mp3",
+#             "/media/haunted_sounds/Haunted-ScaryScream.mp3",
+#             "/media/haunted_sounds/Haunted-TRexRoar.mp3",
+#             "/media/haunted_sounds/Haunted-TollingBell.mp3",
+#             "/media/haunted_sounds/Haunted-Vocals.mp3"
+#             ] | random -}}
     
-
+#   haunted_house:
+#     sequence:
+#     - delay: '00:05:00'
+#     - service: script.haunted_sounds
+#     - delay: '00:0{{ range(2,5) | random | int }}:00'
+#     - service: script.haunted_sounds
+#     - delay: '00:0{{ range(2,5) | random | int }}:00'
+#     - service: script.haunted_sounds
+#     - delay: '00:0{{ range(2,5) | random | int }}:00'
+#     - service: script.haunted_sounds
+#     - delay: '00:0{{ range(2,5) | random | int }}:00'
+#     - service: script.haunted_sounds
+#     - delay: '00:0{{ range(2,5) | random | int }}:00'
+#     - service: script.haunted_sounds
+#     - delay: '00:0{{ range(2,5) | random | int }}:00'
+#     - service: script.haunted_sounds
   
 sensor:
-  - platform: rest
-    name: Halloween Countdown
-    resource: !secret WA_HALLOWEEN
-    value_template: "{{ (value|replace(' days', '')) | int }}"
-    unit_of_measurement: Days
-    scan_interval: 43200
+  # - platform: rest
+  #   name: Halloween Countdown
+  #   resource: !secret WA_HALLOWEEN
+  #   value_template: "{{ (value|replace(' days', '')) | int }}"
+  #   unit_of_measurement: Days
+  #   scan_interval: 43200
 
   - platform: rest
     name: Christmas Countdown
