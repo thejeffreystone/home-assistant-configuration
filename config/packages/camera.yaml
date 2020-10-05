@@ -14,6 +14,14 @@ camera:
   - platform: ffmpeg
     input: !secret livingroom_cam # wyze cam v2
     name: livingroom
-    
+  - platform: ffmpeg
+    input: !secret kitchen_cam # wyze cam v2
+    name: kitchen
+  - platform: ffmpeg
+    input: !secret theater_cam # wyze cam v2
+    name: theater
+  - platform: ffmpeg
+    input: !secret laundry_cam # wyze cam v2
+    name: laundry
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg  

@@ -278,16 +278,11 @@ group: !include groups.yaml
 ### Includes ###
 alert: !include_dir_merge_named alerts/
 automation: !include automations.yaml
-script: !include_dir_merge_named scripts
-#automation: !include automations.yaml
+script: !include scripts.yaml
 sensor: !include_dir_merge_list sensors
 binary_sensor: !include_dir_merge_list binary_sensors
-#light: !include_dir_merge_list lights
 light: !include lights.yaml
-#switch: !include_dir_merge_list switches
 switch: !include switches.yaml
-#script: !include_dir_merge_named scripts
-#intent_script: !include intents/intents.yaml
 scene: !include scenes.yaml
 input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml

@@ -69,8 +69,8 @@ automation:
       entity_id: scene.skylar_room_prebed
 
 
-  - id: jeff_lights_out
-    alias: Jeff lights out
+  - id: master_bedroom_lights_out
+    alias: Master Bedroom lights out
     initial_state: true
     trigger:
     - platform: time
@@ -81,41 +81,24 @@ automation:
       state: 'off'
     action:
     - service: scene.turn_on
-      entity_id: scene.jeff_light_off
-  - id: jeff_bedtime
-    alias: Jeff bedtime
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '22:00:00'
-    condition:
-    - condition: state
-      entity_id: light.jeff_light
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
-    action:
-    - service: scene.turn_on
-      entity_id: scene.jeff_bedtime
-  - id: jeff_night_light
-    alias: Jeff night light
+      entity_id: scene.master_bedroom_off
+
+  - id: master_bedroom_lights_out
+    alias: Master Bedroom lights out
     initial_state: true
     trigger:
     - platform: time
       at: '22:30:00'
     condition:
     - condition: state
-      entity_id: light.jeff_light
-      state: 'on'
-    - condition: state
       entity_id: input_boolean.vacation_mode
       state: 'off'
     action:
     - service: scene.turn_on
-      entity_id: scene.jeff_night_light
-  - id: jeff_light_on
-    alias: Jeff Light On
+      entity_id: scene.master_bedroom_dim
+
+  - id: master_bedroom_lights_on
+    alias: Master Bedroom Lights On
     initial_state: true
     trigger:
     - platform: time
@@ -126,34 +109,36 @@ automation:
       state: 'off'
     action:
     - service: scene.turn_on
-      entity_id: scene.jeff_light_on
-  # - id: jeff_alarm
-  #   alias: Jeff alarm
-  #   initial_state: true
-  #   trigger:
-  #   - platform: time
-  #     at: 05:15:00
-  #   condition:
-  #   - condition: state
-  #     entity_id: input_boolean.vacation_mode
-  #     state: 'off'
-  #   action:
-  #   - service: scene.turn_on
-  #     entity_id: scene.jeff_night_light
+      entity_id: scene.master_bedroom_on
+ 
 
-  # - id: jeff_wake_up
-  #   alias: Jeff wake up
-  #   initial_state: true
-  #   trigger:
-  #   - platform: time
-  #     at: 04:30:00
-  #   condition:
-  #   - condition: state
-  #     entity_id: input_boolean.vacation_mode
-  #     state: 'off'
-  #   action:
-  #   - service: scene.turn_on
-  #     entity_id: scene.jeff_wake_up
+  - id: master_bedroom_alarm
+    alias: Master bedroom alarm
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 06:00:00
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_on
+
+  - id: master_bedroom_wake_up
+    alias: Master bedroom Wake Up
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 05:50:00
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_dim
 
   - id: good_night
     alias: Good Night
@@ -268,31 +253,31 @@ automation:
               "/config/www/tweet_images/sunrise3.jpg",
               "/config/www/tweet_images/sunrise2.jpg"] | random }}
 
-  - id: inside_on_sunset
-    alias: Inside on at Sunset
-    initial_state: true
-    trigger:
-    - platform: sun
-      event: sunset
-      offset: -02:00:00
-    condition:
-    - condition: template
-      value_template: >
-        {%- if states.weather.klzu_hourly.state != "sunny" or states.weather.klzu_hourly.state != "partlycloudy" or states.weather.klzu_hourly.state != "clear" -%}
-          true
-        {%- endif -%}
-    action:
-      - service: scene.turn_on
-        entity_id: scene.normal_livingroom_lighting
-      - service: scene.turn_on
-        entity_id: scene.normal_kitchen_lighting
-      - service: script.twitter_notify
-        data:
-          message: >-
-            {{ [ "It is dark inside the house due to the conditions outside the house so I am turning on the inside lights.",
-                  "When it gets dark enough outside I turn on the inside lights. ",
-                  "Since I monitor the conditions inside and outside the Anchorage House I know all the things. Like it is time to turn on the inside lights."
-              ] | random }}
+  # - id: inside_on_sunset
+  #   alias: Inside on at Sunset
+  #   initial_state: true
+  #   trigger:
+  #   - platform: sun
+  #     event: sunset
+  #     offset: -02:00:00
+  #   condition:
+  #   - condition: template
+  #     value_template: >
+  #       {%- if states.weather.klzu_hourly.state != "sunny" or states.weather.klzu_hourly.state != "partlycloudy" or states.weather.klzu_hourly.state != "clear" -%}
+  #         true
+  #       {%- endif -%}
+  #   action:
+  #     - service: scene.turn_on
+  #       entity_id: scene.normal_livingroom_lighting
+  #     - service: scene.turn_on
+  #       entity_id: scene.normal_kitchen_lighting
+  #     - service: script.twitter_notify
+  #       data:
+  #         message: >-
+  #           {{ [ "It is dark inside the house due to the conditions outside the house so I am turning on the inside lights.",
+  #                 "When it gets dark enough outside I turn on the inside lights. ",
+  #                 "Since I monitor the conditions inside and outside the Anchorage House I know all the things. Like it is time to turn on the inside lights."
+  #             ] | random }}
 
   - id: inside_off_after_sunrise
     alias: Inside off after Sunrise
@@ -308,20 +293,11 @@ automation:
           true
         {%- endif -%}
     action:
-    - service: script.livingroom_lights_off
-    - service: script.kitchen_lights_off
-    - service: scene.turn_on
-      entity_id: scene.jeff_light_off
     - service: scene.turn_on
       entity_id: scene.skylar_room_day
-    - service: script.twitter_notify
-      data:
-        message: >-
-          {{ [ "Looks like a nice day outside so I am turning off the inside lights.",
-                "It is now bright enough to turn off the inside lights. ",
-                "The inside lights are no longer needed so I am turning them off.",
-                "Two and half hours after sunrise there is enough light to turn off the inside lights."
-             ] | random }}
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_off
+   
 
   - id: ha_start
     alias: HA Startup

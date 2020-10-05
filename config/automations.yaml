@@ -15,7 +15,6 @@
   - data:
       entity_id: switch.upstairs_fan
     service: switch.turn_on
-  
 
 - id: '1562066108032'
   alias: Living Room Fan On

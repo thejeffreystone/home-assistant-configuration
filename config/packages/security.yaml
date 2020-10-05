@@ -79,6 +79,12 @@ automation:
         entity_id: sensor.family_status
         state: Home
       - condition: state
+        entity_id: person.jeffrey
+        state: home
+      - condition: state
+        entity_id: person.katherine
+        state: home
+      - condition: state
         entity_id: input_boolean.guest_mode
         state: 'on'
     action:

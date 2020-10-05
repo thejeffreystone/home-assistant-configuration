@@ -39,6 +39,7 @@ transporter.py
 **.spotify-token-cache
 **zones.yaml
 **test.yaml
+**testing.yaml
 **.homekit*
 **.vscode
 **.pid

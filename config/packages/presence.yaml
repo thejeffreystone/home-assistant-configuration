@@ -244,6 +244,8 @@ automation:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.skylar_school
+    - service: switch.turn_off 
+      entity_id: switch.forest
     initial_state: true
 
   - id: skylar_left_school

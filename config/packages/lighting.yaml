@@ -1,0 +1,200 @@
+###############################################################################
+#   @author         :   thejefreystone 
+#   @date           :   10/05/2020
+#   @package        :   Lighting
+#   @description    :   All the Lightning specific configs. 
+###############################################################################
+
+
+automation:
+
+  # Living lights needed when dark and there is motion
+  - id: e1c9379a-0423-11eb-adc1-0242ac120002
+    alias: Living Room Lights Needed
+    initial_state: true
+    trigger:
+    - entity_id: binary_sensor.0x00158d0002751bb4_occupancy
+      from: 'off'
+      platform: state
+      to: 'on'
+    condition:
+    - below: 50
+      condition: numeric_state
+      entity_id: sensor.0x00158d0002751bb4_illuminance
+    - condition: time
+      after: '05:30:00'
+      before: '22:30:00'
+    action:
+    - service: scene.turn_on  
+      data:
+        entity_id: scene.normal_livingroom_lighting
+
+
+  # Inside lights are not needed when it gets bright enough...using living lux sensor as proxy for kitchen
+  - id: e1c9352e-0423-11eb-adc1-0242ac120002
+    alias: Inside Lights Not Needed
+    initial_state: true
+    trigger:
+    - entity_id: sensor.0x00158d0002751bb4_illuminance
+      above: 99
+      platform: numeric_state
+    condition:
+      - condition: state
+        entity_id: light.kitchen_cabinets
+        state: "on"
+      - condition: state
+        entity_id: light.0xb0ce18140003608a_light
+        state: "on"
+    action:
+    - service: scene.turn_on  
+      data:
+        entity_id: scene.livingroom_lighting_off
+    - service: scene.turn_on  
+      data:
+        entity_id: scene.kitchen_lighting_off
+    - service: script.twitter_notify
+      data:
+        message: >-
+          {{ [ "Looks like it is bright enough now, so I am turning off the inside lights.",
+                "It is now bright enough to turn off the inside lights, so thats what I did. Just now. ",
+                "There is enough natural light, so I am turning off the inside lights.",
+                ""
+              ] | random }}
+
+
+
+
+script:
+    
+
+  # Turn on Living Room Lights if sun is down or cloud coverage is above 70%
+  livingroom_lamps_on:
+    sequence:
+    - condition: or
+      conditions:
+        - condition: state  
+          entity_id: sun.sun
+          state: 'below_horizon'
+    - service: scene.turn_on 
+      entity_id: scene.normal_livingroom_lighting
+
+  # Turn off Living Room Lights if sun is up and it is sunny or partly cloudy
+  livingroom_lights_off:
+    sequence:
+    - condition: and
+      conditions:
+        - condition: state  
+          entity_id: sun.sun
+          state: 'above_horizon'
+        - condition: state
+          entity_id: binary_sensor.living_room_occupancy
+          state: 'off'
+        - condition: template
+          value_template: >
+            {%- if states.weather.home.state == "sunny" or states.weather.home.state == "partlycloudy" -%}
+              true
+            {%- endif -%}
+    - service: group.turn_off 
+      entity_id: group.livingroom
+
+
+  # Turn off Kitchen Lights if sun is up and it is sunny or partly cloudy
+  kitchen_lights_off:
+    sequence:
+    - condition: and
+      conditions:
+        - condition: state  
+          entity_id: sun.sun
+          state: 'above_horizon'
+        - condition: state
+          entity_id: binary_sensor.kitchen_occupancy
+          state: 'off'
+        - condition: template
+          value_template: >
+            {%- if states.weather.home.state == "sunny" or states.weather.home.state == "partlycloudy" -%}
+              true
+            {%- endif -%}
+    - service: group.turn_off 
+      entity_id: group.kitchen
+    
+  good_night_loft:
+    sequence:
+    - condition: state
+      entity_id: media_player.pn60e550_pn60e550
+      state: "off"
+    - service: switch.turn_off
+      entity_id: switch.croft_fan
+    - service: switch.turn_off
+      entity_id: switch.croft_light
+
+  kitchen_lights_on:
+    sequence:
+    - condition: state  
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: time
+      after: '05:30:00'
+      before: '22:30:00'
+    - service: scene.turn_on
+      entity_id: scene.normal_kitchen_lighting
+
+  kitchen_lights_night:
+    sequence:
+    - condition: and
+      conditions:
+        - condition: state  
+          entity_id: sun.sun
+          state: 'below_horizon'
+        - condition: time
+          after: '22:30:00'
+          before: '05:30:00'
+    - service: scene.turn_on
+      entity_id: scene.diminished_kitchen_lighting
+    - delay:
+        minutes: 18
+    - service: light.turn_off
+      entity_id: light.kitchen_cabinets
+  
+  theater_lights_out:
+    sequence:
+    - condition: and
+      conditions:
+      - condition: template
+        value_template: >
+          {%- if states.media_player.home_theater != "playing" -%}
+            true
+          {%- endif -%}
+      - condition: template
+        value_template: >
+          {%- if states.media_player.playstation_4 != "playing" -%}
+            true
+          {%- endif -%}
+      - condition: state  
+        entity_id: binary_sensor.theater_occupancy
+        state: 'off'
+    - service: scene.turn_on
+      entity_id: scene.theater_dark
+    - service: switch.turn_off
+      entity_id: switch.theater_fan
+
+  theater_lights_down:
+    sequence:
+    - service: scene.turn_on
+      entity_id: scene.theater_dim 
+    - delay:
+        minutes: 1
+    - service: scene.turn_on
+      entity_id: scene.theater_dark 
+
+  theater_lights_up:
+    sequence:
+    - service: scene.turn_on
+      entity_id: scene.theater_dim 
+    - delay:
+        minutes: 1
+    - service: scene.turn_on
+      entity_id: scene.theater_bright
+
+
+
+  

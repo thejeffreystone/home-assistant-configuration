@@ -256,9 +256,9 @@ automation:
       data_template:
         time: >
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            07:00
+            06:15
           {% else %}
-            07:58
+            07:15
           {% endif %}
 
   - id: set_morning_report_time
@@ -272,7 +272,7 @@ automation:
       data_template:
         time: >
           {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            07:00
+            07:10
           {% else %}
             08:00
           {% endif %}
