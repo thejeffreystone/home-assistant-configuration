@@ -19,6 +19,8 @@
        "I built a security system using #homeassistant and you can too. Start the two part series at https://slacker-labs.com/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
        "My #homeassistant security system is so good at recognizing threats it disarms itself. Learn how at https://slacker-labs.com/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
        "Want to know how I migrated from Hassbian to Home Assistant? Now you can at https://slacker-labs.com/2020/04/05/migrating-from-hassbian-to-hassio/",
+       "Use Home Assistant to build a haunted house -> https://youtu.be/3dsUEsu3Evo ",
+       "Randomize Home Assistant's automations to keep people guessing what will happen next. Like in a Haunted House -> https://youtu.be/3dsUEsu3Evo",
        "Did you see the article about how I can turn into Disney's Haunted Mansion on command using #homeassistant? Visit https://slacker-labs.com/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney"
        ] | random -}}
   {%- endmacro -%}
