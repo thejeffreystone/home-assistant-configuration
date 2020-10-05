@@ -218,8 +218,7 @@ script:
             "https://www.youtube.com/watch?v=TaejWf5NIfI",
             "https://www.youtube.com/watch?v=orDBUrmK9vU",
             "https://www.youtube.com/watch?v=nKltUaCxZPc",
-            "https://www.youtube.com/watch?v=_A1yK0YU6U0",
-            "https://www.youtube.com/watch?v=AQ1SE4tLIC"
+            "https://www.youtube.com/watch?v=_A1yK0YU6U0"
             ] | random -}}
 
   # Update this script with your local sounds.
