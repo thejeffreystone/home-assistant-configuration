@@ -201,7 +201,7 @@ script:
   # Each time this script is called it will play a random sound
   more_haunted_sounds:
     sequence:
-    - service: script.youtube_audio
+    - service: script.youtube_audio # This script is in the audio.yaml in the packages folder. 
       data_template:
         volume: .5
         # I try to ensure each of the following links is 60 seconds or less. 
@@ -230,7 +230,7 @@ script:
     - condition: state
       entity_id: input_boolean.haunted_sounds
       state: 'on'
-    - service: script.local_audio
+    - service: script.local_audio # This script is in the audio.yaml in the packages folder. 
       data_template:
         volume: .5
          # I try to ensure each of the following links is 60 seconds or less. 
