@@ -102,6 +102,15 @@
     switch.fireplace_lights:
       state: 'off'
 
+- name: livingroom lighting off
+  entities:
+    group.livingroom_tower:
+      state: 'off'
+    group.livingroom_lamps:
+      state: 'off'
+    switch.fireplace_lights:
+      state: 'off'
+
 - name: diminished kitchen lighting
   entities:
     light.kitchen_cabinets:
@@ -117,6 +126,13 @@
       brightness: 250
     switch.ha_speaker:
       state: 'on'
+
+- name: kitchen lighting off
+  entities:
+    light.kitchen_cabinets:
+      state: 'off'
+    switch.ha_speaker: #Need to rename
+      state: 'off'
 
 - name: lights out
   entities:
@@ -205,66 +221,37 @@
       state: 'on'
       brightness_pct: 100
       rgb_color: [0,128,0]
-    
 
-- name: jeff light on
+- name: master bedroom on
   entities:
     light.jeff_lamp:
       state: 'on'
       brightness: 255
+    switch.0xbc33acfffe217d35_switch:
+      state: 'on'
+    light.0xb0ce1814035bb3f0_light:
+      state: 'on'
+      brightness: 77
 
-- name: jeff light off
+- name: master bedroom off
   entities:
     light.jeff_lamp:
+      state: 'off'
+    switch.0xbc33acfffe217d35_switch:
+      state: 'off'
+    light.0xb0ce1814035bb3f0_light:
       state: 'off'
       
-
-- name: jeff wake up
+- name: master bedroom dim
   entities:
-    light.jeff_lamp:
+    light.0xb0ce1814035bb3f0_light:
       state: 'on'
-      brightness: 30
-
-- name: jeff bedtime
-  entities:
-    light.jeff_lamp:
-      state: 'on'
-      brightness: 127
-
-- name: jeff night light
-  entities:
-    light.jeff_lamp:
-      state: 'on'
-      brightness: 63
-
-- name: skylar tower on
-  entities:
-    light.0xb0ce18140003b334_light:
-      state: 'on'
-      brightness: 255
-
-- name: skylar tower 75
-  entities:
-    light.0xb0ce18140003b334_light:
-      state: 'on'
-      brightness: 192
-
-- name: skylar tower 50
-  entities:
-    light.0xb0ce18140003b334_light:
-      state: 'on'
-      brightness: 130
-
-- name: skylar tower 25
-  entities:
-    light.0xb0ce18140003b334_light:
-      state: 'on'
-      brightness: 63
-
-- name: skylar tower off
-  entities:
-    light.0xb0ce18140003b334_light:
+      brightness: 38
+    switch.0xbc33acfffe217d35_switch:
       state: 'off'
+    light.jeff_lamp:
+      state: 'off'
+    
 
 - name: santa protocol
   entities:
@@ -275,16 +262,13 @@
     
 - name: skylar room prebed
   entities:
-    light.0xb0ce18140003b334_light:
+    switch.forest:
       state: 'on'
-      brightness: 192
     light.wled_loftbed:
       state: 'on'
       brightness: 255
       rgb_color: [63, 255, 0]
     switch.0xf0d1b80000052281_switch:
-      state: 'on'
-    light.0xe20db9fffe003637_light:
       state: 'on'
     
 
@@ -300,33 +284,33 @@
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
-    light.0xe20db9fffe003637_light:
+    switch.forest:
       state: 'off'
 
 - name: skylar room morning
   entities:
-    light.0xe20db9fffe003637_light:
+    switch.forest:
       state: 'on'
 
 - name: skylar room day
   entities:
-    light.0xe20db9fffe003637_light:
+    switch.forest:
       state: 'off'
     switch.0xf0d1b80000052281_switch:
       state: 'off'
 
 
       
-- name: skylar desk on
+- name: jeff desk on
   entities:
     light.0xb0ce18140003b334_light:
       state: 'on'
-      brightness: 255
+      brightness: 204
     light.0xb0ce1814035bb3f0_light:
       state: 'on'
-      brightness: 127
+      brightness: 77
 
-- name: skylar desk off
+- name: jeff desk off
   entities:
     light.0xb0ce18140003b334_light:
       state: 'off'
