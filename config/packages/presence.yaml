@@ -274,63 +274,30 @@ automation:
       entity_id: input_boolean.skylar_school
     initial_state: true
 
-  - id: test_family_has_arrived
-    alias: Test Family Has arrived
-    trigger:
-    - entity_id: group.family
-      from: not_home
-      platform: state
-      to: home
-    action:
-    - service: script.text_notify
-      data_template:
-        who: "jeff"
-        title: "Family has arrived"
-        message: "Someone in the Family has arrived" 
- 
-  - id: test_family_has_left
-    alias: Test Family Has left
-    trigger:
-    - entity_id: group.family
-      from: home
-      platform: state
-      to: not_home
-    action:
-    - service: script.text_notify
-      data_template:
-        who: "jeff"
-        title: "Family has left"
-        message: "Everyone in the Family has left" 
-
-
+  #########################################################
   - id: family_has_arrived
     alias: Family Has arrived
     trigger:
+    - platform: webhook
+      webhook_id: home_webhook
     - entity_id: sensor.family_status
       from: Away
       platform: state
       to: Home
-    - entity_id: person.jeffrey
-      event: enter
-      platform: zone
-      zone: zone.home
-    - entity_id: person.katherine
-      event: enter
-      platform: zone
-      zone: zone.home
+    - entity_id: group.family
+      from: not_home
+      platform: state
+      to: home
+    - entity_id: device_tracker.mal
+      from: not_home
+      platform: state
+      to: home
+    mode: single
     condition:
     - condition: state
       entity_id: sensor.family_status
       state: Away
     action:
-    - service: script.vacation_canceled
-    - service: script.appliances_on
-    - service: script.standby
-    - service: script.washer_finished_notification_audible
-    - service: alarm_control_panel.aarlo_set_mode
-      data:
-        entity_id: alarm_control_panel.aarlo_ah_base_station
-        mode: 'home'
     - service: script.family_is_home
     initial_state: true
   
@@ -342,24 +309,22 @@ automation:
       from: Home
       platform: state
       to: Away
+    - platform: webhook
+      webhook_id: away_webhook
+    - entity_id: group.family
+      from: home
+      platform: state
+      to: not_home
+    mode: single
     condition:
     - condition: state
       entity_id: input_boolean.guest_mode
       state: 'off'
     action:
-    - service: script.appliances_off
-    - service: scene.turn_on
-      entity_id: scene.lights_out
-    - service: script.security_check_garage
-    - service: script.security_check_zones
-    - service: script.lockdown
-    - service: script.lockdown_issue
-    - service: script.all_fans_off
-    - service: alarm_control_panel.aarlo_set_mode
-      data: 
-        entity_id: alarm_control_panel.aarlo_ah_base_station
-        mode: 'Armed'
-  
+    - service: script.family_is_away
+    
+  #########################################################
+
   - id: jeff_is_home
     alias: Jeff is Home
     initial_state: true
@@ -368,12 +333,15 @@ automation:
       event: enter
       platform: zone
       zone: zone.home
+    mode: single
     action:
     - service: script.family_is_home
     - service: script.jeff_destination_na
     - service: script.driveway_on
     - entity_id: input_boolean.jeff_travel_monitor
       service: input_boolean.turn_off
+    - delay:
+        minutes: 2
   
   - id: jeff_arrives_summit
     alias: Jeff Arrives At Summit
@@ -420,11 +388,14 @@ automation:
       event: enter
       platform: zone
       zone: zone.home
+    mode: single
     action:
     - service: script.family_is_home
     - service: script.driveway_on
     - service: input_boolean.turn_off
       entity_id: input_boolean.kat_travel_monitor
+    - delay:
+        minutes: 2
   
   - id: welcome_home
     alias: Welcome Home
@@ -505,25 +476,68 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.jeff_traffic_alert_home
 
-  - id: '1550107919204'
-    alias: Family Is Home Webhook
-    trigger:
-    - platform: webhook
-      webhook_id: home_webhook
-    condition: []
-    action:
-    - service: script.family_is_home
+  # - id: '1550107919204'
+  #   alias: Family Is Home
+  #   trigger:
+  #   - platform: webhook
+  #     webhook_id: home_webhook
+  #   - entity_id: group.family
+  #     from: not_home
+  #     platform: state
+  #     to: home
+  #   condition: []
+  #   action:
+  #   - service: script.family_is_home
 
-  - id: '1550108034209'
-    alias: Family Is Away Webhook
-    trigger:
-    - platform: webhook
-      webhook_id: away_webhook
-    condition: []
-    action:
-    - service: script.family_is_away
+  # - id: '1550108034209'
+  #   alias: Family Is Away
+  #   trigger:
+  #   - platform: webhook
+  #     webhook_id: away_webhook
+  #   - entity_id: group.family
+  #     from: home
+  #     platform: state
+  #     to: not_home
+  #   condition: []
+  #   action:
+  #   - service: script.family_is_away
+
 
 script:
+  family_is_home:
+    sequence:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Away
+    - service: script.standby
+    - service: script.washer_finished_notification_audible
+    - service: mqtt.publish
+      data:
+        topic: house/family/status
+        payload_template: Home
+        retain: true
+
+  family_is_away:
+    sequence:
+    - condition: state
+      entity_id: sensor.family_status
+      state: Home
+    - service: script.appliances_off
+    - service: scene.turn_on
+      entity_id: scene.lights_out
+    - service: script.security_check_garage
+    - service: script.security_check_zones
+    - service: script.lockdown
+    - service: script.lockdown_issue
+    - service: scene.turn_on
+      entity_id: scene.all_fans_off
+    - service: mqtt.publish
+      data:
+        topic: house/family/status
+        payload_template: Away
+        retain: true
+
+
   jeff_destination_zoo:
     sequence:
     - service: mqtt.publish

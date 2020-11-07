@@ -315,7 +315,7 @@ script:
           {% elif who == 'croft' %}
             .50
           {% elif who == 'master_bedroom' %}
-            .99
+            .50
           {% elif who == 'studio' %}
             .30
           {% elif who == 'all_google' %}
@@ -817,7 +817,7 @@ script:
                 'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
               ] | random }}
             {% elif states.sensor.halloween_countdown.state | int < 30 %}
-              There are only {{states.sensor.holiday_halloween.state}} days 
+              There are only {{states.sensor.halloween_countdown.state}} days 
               {{ [ 'until Halloween.',
                 'until Halloween. It might not be enough time. ',
                 'and counting until the best holiday ever.',

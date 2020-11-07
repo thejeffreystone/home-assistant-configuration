@@ -246,7 +246,7 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_notify_image
         data_template:
-          message: >-
+          tweet: >-
             {{ [ "There are only {{states.sensor.halloween_countdown.state}} days until Halloween.",
                 "Halloween is only {{states.sensor.halloween_countdown.state}} days away. It might not be enough time. ",
                 "Halloween is coming. {{states.sensor.halloween_countdown.state}} days and counting.",
@@ -254,7 +254,7 @@ automation:
                 "You have {{states.sensor.halloween_countdown.state}} days until you need a Halloween costume.",
                 "Only {{states.sensor.halloween_countdown.state}} days until Halloween. But who is counting. amirite?",
                 "Would it be cliche if I went as a haunted house for Halloween? Asking for a another house.",
-                "Just in case I wanted to be HAL 9000 for Halloween I ordered some Pod Bay Doors."
+                "Just in case I wanted to be HAL 9000 for Halloween I ordered some Pod Bay Doors. They need to get here in {{states.sensor.halloween_countdown.state}} days."
               ] | random }}
           image: >-
             {{ [ "/config/www/tweet_images/halloween/potion.jpg",

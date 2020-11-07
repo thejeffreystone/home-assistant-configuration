@@ -13,9 +13,9 @@
 # but if not you may need to modify the following section. 
 # For more info on Media Players visit https://www.home-assistant.io/integrations/media_player/
 # MODIFY this section as needed or comment it out completely if not needed.
-media_player:
-  - platform: yamaha
-    host: 192.168.7.152
+# media_player:
+#   - platform: yamaha
+#     host: 192.168.7.152
 
 ################################
 # Media extractor is used for playing youtube audio. For more info ->https://www.home-assistant.io/integrations/media_extractor/

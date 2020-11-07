@@ -213,6 +213,7 @@ automation:
       - binary_sensor.aarlo_motion_driveway
       from: 'off'
       to: 'on'
+    mode: single
     condition:
     - condition: state
       entity_id: input_boolean.audible_notifications
@@ -236,6 +237,8 @@ automation:
           ] | random }}
           {{ trigger.to_state.attributes.friendly_name }}.
         call_snark_door_motion: 1
+    - delay:
+        minutes: 2
     initial_state: true
   
   - id: garage_opened_night
@@ -320,10 +323,10 @@ automation:
       entity_id: script.security_response
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.security_alarm
     - service: scene.turn_on
-      entity_id: scene.lr_red
-    - service: script.livingroom_lamps_on
-    - service: script.livingroom_lamps_off
+      entity_id: scene.normal_livingroom_lighting
 
   - id: sentry_mode_enabled
     alias: Sentry Mode Enabled Annoucement
@@ -683,20 +686,30 @@ script:
       state: "off"
     - service: input_boolean.turn_on
       entity_id: input_boolean.sentry_mode
+    - service: alarm_control_panel.aarlo_set_mode
+      data: 
+        entity_id: alarm_control_panel.aarlo_ah_base_station
+        mode: 'Armed'
 
   standby:
     sequence:
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.sentry_mode
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.security_issue
+    - service: script.vacation_canceled
+    - service: script.disarm_security
     - service: input_boolean.turn_off
       entity_id: input_boolean.lockdown_issue
+    - service: alarm_control_panel.aarlo_set_mode
+      data:
+        entity_id: alarm_control_panel.aarlo_ah_base_station
+        mode: 'home'
+  
+  disarm_security:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.sentry_mode
+      state: 'on'
     - service: input_boolean.turn_off
-      entity_id: input_boolean.security_alarm
+      entity_id: input_boolean.sentry_mode
+   
 
   visitors_here:
     sequence:
@@ -727,6 +740,9 @@ script:
 
   vacation_canceled:
     sequence:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
     - data:
         entity_id: input_boolean.vacation_mode
       service: input_boolean.turn_off

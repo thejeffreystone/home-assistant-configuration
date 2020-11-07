@@ -401,3 +401,17 @@
 #     input_number.skylar_tv_time: 60
 #     input_number.skylar_ps_time: 60
 #     input_number.skylar_yt_time: 0
+
+- name: all fans off
+  entities:
+    switch.croft_fan:
+      state: 'off'
+    switch.livingroom_fan:
+      state: 'off'
+
+- name: all fans on
+  entities:
+    switch.croft_fan:
+      state: 'on'
+    switch.livingroom_fan:
+      state: 'on'

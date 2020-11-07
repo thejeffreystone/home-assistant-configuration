@@ -69,6 +69,20 @@ automation:
       entity_id: scene.skylar_room_prebed
 
 
+  - id: master_bedroom_lights_dim
+    alias: Master Bedroom lights dim
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '22:30:00'
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_dim
+
   - id: master_bedroom_lights_out
     alias: Master Bedroom lights out
     initial_state: true
@@ -82,20 +96,6 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.master_bedroom_off
-
-  - id: master_bedroom_lights_out
-    alias: Master Bedroom lights out
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '22:30:00'
-    condition:
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
-    action:
-    - service: scene.turn_on
-      entity_id: scene.master_bedroom_dim
 
   - id: master_bedroom_lights_on
     alias: Master Bedroom Lights On
@@ -406,3 +406,11 @@ automation:
             {% else %}
               07:30
             {% endif %}
+
+script:
+  sunset_garage_open:
+    sequence:
+    - condition: state
+      entity_id: group.garage_doors
+      state: 'on'
+    - service: script.driveway_all_on

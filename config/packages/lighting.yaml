@@ -58,14 +58,79 @@ automation:
           {{ [ "Looks like it is bright enough now, so I am turning off the inside lights.",
                 "It is now bright enough to turn off the inside lights, so thats what I did. Just now. ",
                 "There is enough natural light, so I am turning off the inside lights.",
-                ""
+                "Thanks to #homeassistant and an Aqara Sensor I know it is bright enought to turn off the inside lights."
               ] | random }}
 
 
 
 
 script:
+
+  inside_all_off:
+    sequence:
+    - data:
+        entity_id: light.tower_lamp_4
+      service: light.turn_off
+    - data:
+        entity_id: light.living_room_lamp
+      service: light.turn_off
+    - data:
+        entity_id: light.front_door_lamp
+      service: light.turn_off
+    - data:
+        entity_id: light.kitchen_cabinets
+      service: light.turn_off
+    - data:
+        entity_id: light.kitchen_cabinet_lights
+      service: light.turn_off
+    - entity_id: switch.fireplace_lights
+      service: switch.turn_off
+    - entity_id: switch.upstairs
+      service: switch.turn_off
+    - entity_id: light.jeff_lamp
+      service: light.turn_off
+
+  inside_all_on:
+    sequence:
+    - service: scene.turn_on
+      entity_id: scene.normal_livingroom_lighting
+    - service: scene.turn_on
+      entity_id: scene.normal_kitchen_lighting
+    - service: switch.turn_on
+      entity_id: switch.fireplace_lights
+    - service: switch.turn_on
+      entity_id: switch.croft_light
+    - service: switch.turn_on
+      entity_id: switch.rail_lights
+    - service: scene.turn_on
+      entity_id: scene.jeff_light_on
     
+  driveway_on:
+    sequence:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    - data:
+        entity_id: switch.driveway_light
+      service: switch.turn_on
+    - data:
+        entity_id: light.side_door_light
+      service: light.turn_on
+  
+  driveway_off:
+    sequence:
+    - delay:
+        seconds: 120
+    - condition: state
+      entity_id: binary_sensor.side_door
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.garage_door
+      state: 'off'
+    - service: switch.turn_off
+      entity_id: switch.driveway_light
+    - service: light.turn_off
+      entity_id: light.side_door_light
 
   # Turn on Living Room Lights if sun is down or cloud coverage is above 70%
   livingroom_lamps_on:

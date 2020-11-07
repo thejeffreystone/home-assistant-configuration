@@ -73,7 +73,7 @@ automation:
     - condition: template
       value_template: >
         {%- set event=states.calendar.holidays_in_united_states.attributes.message %}
-        {%- if event == 'Halloween' %}
+        {%- if event == 'Halloween' and states.calendar.holidays_in_united_states.state == 'on'%}
           true
         {%- endif -%}
     # If all conditions are true, then lets turn this thing on.

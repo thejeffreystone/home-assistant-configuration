@@ -114,6 +114,21 @@ automation:
 
 script:
 
+  appliances_on:
+    sequence:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.box_fans
+  
+  appliances_off:
+    sequence:
+    - data:
+        entity_id: switch.incense
+      service: switch.turn_off
+    - data:
+        entity_id: switch.artemis
+      service: switch.turn_off
+
   washer_finished_notification_audible:
     sequence:
     - delay:

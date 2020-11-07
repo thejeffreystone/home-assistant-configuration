@@ -90,29 +90,34 @@ sensor:
         friendly_name: 'Flood Watch'
         entity_id: sensor.time
         value_template: >-
-            {% if 'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-              'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-              'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-              'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-              'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-              'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-            %}
-              {{ states.sensor.nws_alerts.attributes.spoken_desc }}
+            {% if states.sensor.nws_alerts.state | int > 0  %}
+              {% if 'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
+                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
+                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
+                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
+                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
+                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
+              %}
+                active
+              {% endif %}
             {% else %}
               inactive
             {% endif %}
+          
       flood_warning:
         friendly_name: 'Flood Warning'
         entity_id: sensor.time
         value_template: >-
-            {% if 'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-              'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-              'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-              'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-              'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-              'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-            %}
-              {{ states.sensor.nws_alerts.attributes.spoken_desc }}
+            {% if states.sensor.nws_alerts.state | int > 0  %}
+              {% if 'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
+                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
+                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
+                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
+                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
+                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
+              %}
+                active
+              {% endif %}
             {% else %}
               inactive
             {% endif %}
@@ -120,6 +125,7 @@ sensor:
         friendly_name: 'Thunderstorm Warning'
         entity_id: sensor.time
         value_template: >-
+          {% if states.sensor.nws_alerts.state | int > 0  %}
             {% if 'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
               'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
@@ -127,14 +133,16 @@ sensor:
               'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
               'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
             %}
-              {{ states.sensor.nws_alerts.attributes.spoken_desc }}
-            {% else %}
-              inactive
+              active
             {% endif %}
+          {% else %}
+            inactive   
+          {% endif %}
       tstorm_watch:
         friendly_name: 'Thunderstorm Watch'
         entity_id: sensor.time
         value_template: >-
+          {% if states.sensor.nws_alerts.state | int > 0  %}
             {% if 'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
               'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
@@ -142,14 +150,16 @@ sensor:
               'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
               'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
             %}
-              {{ states.sensor.nws_alerts.attributes.spoken_desc }}
-            {% else %}
-              inactive
+              active
             {% endif %}
+          {% else %}
+            inactive
+          {% endif %}
       tornado_watch:
         friendly_name: 'Tornado Watch'
         entity_id: sensor.time
         value_template: >-
+          {% if states.sensor.nws_alerts.state | int > 0  %}
             {% if 'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
               'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
@@ -157,14 +167,16 @@ sensor:
               'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
               'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
             %}
-              {{ states.sensor.nws_alerts.attributes.spoken_desc }}
-            {% else %}
-              inactive
+              active
             {% endif %}
+          {% else %}
+            inactive
+          {% endif %}
       tornado_warning:
         friendly_name: 'Tornado Warning'
         entity_id: sensor.time
         value_template: >-
+          {% if states.sensor.nws_alerts.state | int > 0  %}
             {% if 'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
               'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
               'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
@@ -172,10 +184,11 @@ sensor:
               'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
               'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
             %}
-              {{ states.sensor.nws_alerts.attributes.spoken_desc }}
-            {% else %}
-              inactive
+              active
             {% endif %}
+          {% else %}
+            inactive
+          {% endif %}
       backporch_weather:
         friendly_name: Back Porch Weather
         value_template: "{{ states.sensor.back_porch.state | round}} °F / {{ states.sensor.back_porch.attributes.humidity }} %"
@@ -602,6 +615,16 @@ automation:
   
 
 script:
+
+  store_lightning_count:
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: house/lightning/total_count
+          payload_template: "{{ states.sensor.back_porch.attributes.strike_count | int }}"
+          retain: true
+
+
   nws_popup_on_wx_alert:
     alias: NWS Weather Alert Pop Up
     sequence:
