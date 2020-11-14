@@ -399,6 +399,7 @@ automation:
   
   - id: welcome_home
     alias: Welcome Home
+    mode: queued
     trigger:
       - platform: state
         entity_id:
@@ -413,9 +414,10 @@ automation:
       entity_id: sensor.family_status
       state: Home
     action:
-      - service: script.family_is_home
-      - wait_template: >-
-          {{ states.binary_sensor.laundry_room_door.state == 'on' }}
+      # - service: script.family_is_home
+      # - wait_template: >-
+      #     {{ states.binary_sensor.laundry_room_door.state == 'on' }}
+      - delay: 00:01:30 
       - service: script.ah_report
         data_template:
           call_interuption: 1

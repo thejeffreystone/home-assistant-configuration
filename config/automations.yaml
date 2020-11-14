@@ -1,4 +1,3 @@
-
 - id: upstairs_fan_on
   alias: Upstairs Fan On
   initial_state: true
@@ -15,7 +14,6 @@
   - data:
       entity_id: switch.upstairs_fan
     service: switch.turn_on
-
 - id: '1562066108032'
   alias: Living Room Fan On
   initial_state: true
@@ -54,57 +52,17 @@
   - data:
       entity_id: switch.croft_fan
     service: switch.turn_off
-
-
-
-# - id: turn_off_ha_speaker
-#   alias: Turn Off HA Speaker
-#   trigger:
-#   - platform: state
-#     entity_id: media_player.hass_speaker
-#     from: 'playing'
-#     to: 'idle'
-#   action:
-#   - service: media_player.turn_off
-#     entity_id: media_player.hass_speaker
-#   initial_state: true
-
 - id: turn_off_kitchen_speaker
   alias: Turn Off Kitchen Display
   trigger:
   - platform: state
     entity_id: media_player.googlehomehub3492
-    from: 'playing'
-    to: 'idle'
+    from: playing
+    to: idle
   action:
   - service: media_player.turn_off
     entity_id: media_player.googlehomehub3492
   initial_state: true
-
-# - id: turn_off_ha_speaker
-#   alias: Turn Off HA Speaker
-#   trigger:
-#   - platform: state
-#     entity_id: media_player.ha_speaker
-#     from: 'playing'
-#     to: 'idle'
-#   action:
-#   - service: switch.turn_off
-#     entity_id: switch.ha_speaker
-#   - service: media_player.turn_off
-#     entity_id: media_player.ha_speaker
-#   - service: script.kill_this_ride
-#   initial_state: true
-
-# - id: save_old_covid_stats
-#   alias: Old Covid Stats archive
-#   trigger:
-#   - platform: time
-#     at: '15:12:15'
-#   action:
-#   - service: script.save_old_covid_stats
-#   initial_state: true
-
 - id: kitchen_occupency_lighting
   alias: Kitchen Occupency Lighting
   initial_state: true
@@ -116,19 +74,17 @@
   - service: script.dog_mode_on
   - service: script.kitchen_lights_on
   - service: script.kitchen_lights_night
-  
-
 - id: driveway_motion_lighting
-  alias: Driveway Motion Lighting 
+  alias: Driveway Motion Lighting
   initial_state: true
   trigger:
   - platform: state
     entity_id: binary_sensor.aarlo_motion_driveway
     to: 'on'
   condition:
-  - condition: state  
+  - condition: state
     entity_id: sun.sun
-    state: 'below_horizon'
+    state: below_horizon
   action:
   - service: switch.turn_on
     entity_id: switch.driveway_light
@@ -136,41 +92,6 @@
       minutes: 3
   - service: switch.turn_off
     entity_id: switch.driveway_light
-  
-
-
-# - id: show_time
-#   alias: Show Time
-#   initial_state: true
-#   trigger:
-#   - platform: state
-#     entity_id: media_player.home_theater
-#     to: 'playing'
-#   condition:
-#   - condition: state  
-#     entity_id: light.theater_light
-#     state: 'on'
-#   action:
-#   - service: script.turn_on
-#     entity_id: script.theater_lights_down
-#   - service: script.turn_off
-#     entity_id: script.theater_lights_up
-
-# - id: show_time start paused
-#   alias: Show Time Start Paused
-#   initial_state: true
-#   trigger:
-#   - platform: state
-#     entity_id: media_player.home_theater
-#     to: 'idle'
-#   condition:
-#   - condition: state  
-#     entity_id: script.theater_lights_down
-#     state: 'on'
-#   action:
-#   - service: script.turn_off
-#     entity_id: script.theater_lights_down
-  
 - id: show_time_over
   alias: Show Time over
   initial_state: true
@@ -178,44 +99,41 @@
   - platform: state
     entity_id: media_player.theater_tv
     to: 'off'
-    for: 
+    for:
       minutes: 20
   action:
   - service: scene.turn_on
     entity_id: scene.theater_dark
-
 - id: theater_fan_on
-  alias: Theater Fan On 
+  alias: Theater Fan On
   initial_state: true
   trigger:
   - above: 74
     platform: numeric_state
     entity_id: sensor.theater_temperature
-  condition: 
-    - condition: state
-      entity_id: media_player.theater_tv
-      state: 'on'
+  condition:
+  - condition: state
+    entity_id: media_player.theater_tv
+    state: 'on'
   action:
   - data:
       entity_id: switch.theater_fan
     service: switch.turn_on
-
 - id: theater_fan_off
-  alias: Theater Fan Off 
+  alias: Theater Fan Off
   initial_state: true
   trigger:
   - below: 72
     platform: numeric_state
     entity_id: sensor.theater_temperature
-  condition: 
-    - condition: state
-      entity_id: media_player.theater_tv
-      state: 'off'
+  condition:
+  - condition: state
+    entity_id: media_player.theater_tv
+    state: 'off'
   action:
   - data:
       entity_id: switch.theater_fan
     service: switch.turn_on
-
 - id: theater_light_pressed_up
   alias: Theater Light Pressed Up
   initial_state: true
@@ -225,7 +143,6 @@
   action:
   - service: scene.turn_on
     entity_id: scene.theater_bright
-
 - id: theater_light_pressed_down
   alias: Theater Light Pressed Down
   initial_state: true
@@ -235,3 +152,30 @@
   action:
   - service: scene.turn_on
     entity_id: scene.theater_dark
+- id: motion_detected_at_front_door
+  alias: motion_detected_at_front_door
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.aarlo_motion_front_door
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.audible_notifications
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.front_door
+    state: 'off'
+  action:
+  - service: script.ah_report
+    data_template:
+      speech_message: '{{ [ "I have detected motion at the ", "Someone may be at the
+        ", "There is movement at the ", "My sensors are picking up motion at the ",
+        "We appear to have a visitor at the " ] | random }} {{ trigger.to_state.attributes.friendly_name
+        }}.
+
+        '
+      call_snark_door_motion: 1
+  mode: single
+  initial_state: true

@@ -530,10 +530,10 @@ automation:
         value_template: '{{ states.sensor.back_porch.attributes.strike_count | int == states.sensor.lightning_total_count.state | int }}'
         for:
           minutes: 20
-    condition:
-      - condition: state
-        entity_id: input_boolean.lightning_warning
-        state: 'on'
+    # condition:
+    #   - condition: state
+    #     entity_id: input_boolean.lightning_warning
+    #     state: 'on'
     action:
       - service: script.text_notify
         data_template:
