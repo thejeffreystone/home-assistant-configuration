@@ -13,6 +13,7 @@ automation:
   # Turn on Haunted Mansion Show when input_boolean is flipped on
   - id: haunted_mansion_on
     alias: Haunted Mansion On
+    mode: single
     initial_state: true
     trigger:
     - platform: state
@@ -21,6 +22,8 @@ automation:
     action:
     - service: script.turn_on
       entity_id: script.haunted_mansion_start
+    - delay: 00:20:00
+    
   # Turn off Haunted Mansion Show when input_boolean is flipped off
   - id: haunted_mansion_off
     alias: Haunted Mansion Off
