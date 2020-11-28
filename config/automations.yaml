@@ -1,3 +1,70 @@
+- id: family_has_arrived
+  alias: Family Has arrived
+  trigger:
+  - entity_id: sensor.family_status
+    from: Away
+    platform: state
+    to: Home
+  - platform: zone
+    entity_id: person.jeffrey
+    zone: zone.home
+    event: enter
+  - entity_id: device_tracker.mal
+    from: not_home
+    platform: state
+    to: home
+  - platform: zone
+    entity_id: person.katherine
+    zone: zone.home
+    event: enter
+  condition: []
+  action:
+  - service: script.family_is_home
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.to_state.attributes.friendly_name == "jeffrey"
+          }}'
+      sequence:
+      - service: script.jeff_destination_na
+        data: {}
+      - service: input_boolean.turn_off
+        data: {}
+        entity_id: input_boolean.jeff_travel_monitor
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.to_state.attributes.friendly_name =="katherine"
+          }}'
+      sequence:
+      - service: input_boolean.turn_off
+        data: {}
+        entity_id: input_boolean.kat_travel_monitor
+    default: []
+  - service: script.driveway_on
+    data: {}
+  mode: single
+  initial_state: true
+- id: family_has_left
+  alias: Family Has Left
+  initial_state: true
+  trigger:
+  - entity_id: sensor.family_status
+    from: Home
+    platform: state
+    to: Away
+  - platform: webhook
+    webhook_id: away_webhook
+  - entity_id: group.family
+    from: home
+    platform: state
+    to: not_home
+  mode: single
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: script.family_is_away
 - id: upstairs_fan_on
   alias: Upstairs Fan On
   initial_state: true
@@ -65,15 +132,34 @@
   initial_state: true
 - id: kitchen_occupency_lighting
   alias: Kitchen Occupency Lighting
-  initial_state: true
   trigger:
   - platform: state
     entity_id: binary_sensor.kitchen_motion
     to: 'on'
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
   - service: script.dog_mode_on
-  - service: script.kitchen_lights_on
-  - service: script.kitchen_lights_night
+  - choose:
+    - conditions:
+      - condition: time
+        after: 05:30:00
+        before: '22:30:00'
+      sequence:
+      - scene: scene.normal_kitchen_lighting
+    - conditions:
+      - condition: time
+        after: '22:30:00'
+        before: 05:30:00
+      sequence:
+      - scene: scene.diminished_kitchen_lighting
+      - delay: 00:18:00
+      - scene: scene.kitchen_lighting_off
+    default: []
+  initial_state: true
+  mode: single
 - id: driveway_motion_lighting
   alias: Driveway Motion Lighting
   initial_state: true
@@ -177,5 +263,39 @@
 
         '
       call_snark_door_motion: 1
+  - delay: 00:02:00
   mode: single
   initial_state: true
+- id: improved_welcome_home
+  alias: Improved Welcome Home
+  mode: queued
+  max: 4
+  trigger:
+  - platform: state
+    entity_id:
+    - person.jeffrey
+    - person.katherine
+    - person.uncle_matt
+    - person.papa
+    from: not_home
+    to: home
+  condition:
+  - condition: state
+    entity_id: sensor.family_status
+    state: Home
+  action:
+  - service: script.family_is_home
+  - delay: 00:02:00
+  - service: script.ah_report
+    data_template:
+      call_interuption: 1
+      welcome_home: "{% set person = trigger.to_state.attributes.friendly_name %}\
+        \ {%- macro greeting_sentence(person) -%} {{ [\n  person + \" has arrived.\"\
+        ,\n  person + \" is in the neighborhood.\",\n  person + \" is arriving.\"\
+        ,\n  \"My sensors are picking up the presence of additional humans. \" ~ person\
+        \ +\" has been identified as home.\",\n  \"Welcome back home \" ~ person,\n\
+        \  \"Guess who is home?\" ~ person +\" is!\",\n  \"I am sensing a disturbance\
+        \ in the force. \"  ~ person +\" must be home!\",\n  person + \" is now in\
+        \ the house.\",\n  person ~ \"! You are home!\",\n  \"I know a secret! \"\
+        \  ~ person +\" is home!\",\n  person + \" has finally made it home.\"\n \
+        \ ] | random }}\n{%- endmacro -%} {{greeting_sentence(person)}}\n"
