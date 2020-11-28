@@ -90,6 +90,12 @@ notify:
     consumer_secret: !secret twitter2_consumer_secret
     access_token: !secret twitter2_access_token
     access_token_secret: !secret twitter2_access_secret
+  - name: twitter_sl
+    platform: twitter
+    consumer_key: !secret twitter3_consumer_key
+    consumer_secret: !secret twitter3_consumer_secret
+    access_token: !secret twitter3_access_token
+    access_token_secret: !secret twitter3_access_secret
   - platform: alexa_media
     name: alexa_media
 
@@ -311,7 +317,7 @@ script:
           {% endif %}
         volume_level: >
           {% if who == 'kitchen' %}
-            .50
+            .80
           {% elif who == 'croft' %}
             .50
           {% elif who == 'master_bedroom' %}
