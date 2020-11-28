@@ -27,12 +27,22 @@ logbook:
 
 # Lets try to make the logs less chatty and more fine tuned.       
 logger:
-  default: error
+  default: warning
   logs:
-    homeassistant.core: warning
+    homeassistant.core: info
+    homeassistant.loader: error
     homeassistant.components.recorder: error # to spot db issues
     homeassistant.config_entries: error
-    homeassistant.setup: error
+    homeassistant.setup: error 
+    homeassistant.components.roku: critical
+    homeassistant.helpers.entity: critical
+    homeassistant.components.automation: error
+    homeassistant.components.tplink: error
+    homeassistant.components.waze_travel_time: error
+    homeassistant.components.statistics.sensor: critical
+    homeassistant.components.nws: error
+    homeassistant.components.wemo: error
+    homeassistant.helpers.event: critical
 
 
 history:
