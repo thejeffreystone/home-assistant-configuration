@@ -384,9 +384,9 @@ automation:
         data_template:
           time: > 
             {% if states.sensor.school_tomorrow.state == 'on' %}
-              19:00
-            {% else %}
               20:00
+            {% else %}
+              20:15
             {% endif %}
 
   - id: set_good_morning_time
