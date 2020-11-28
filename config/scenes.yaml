@@ -382,25 +382,7 @@
       state: 'on'
       brightness: 255
 
-#######################################
-# Skylar
-# - name: Skylar Full
-#   entities:
-#     input_number.skylar_tv_time: 120
-#     input_number.skylar_ps_time: 120
-#     input_number.skylar_yt_time: 60
-
-# - name: Skylar restricted
-#   entities:
-#     input_number.skylar_tv_time: 0
-#     input_number.skylar_ps_time: 0
-#     input_number.skylar_yt_time: 0
-
-# - name: Skylar Limited
-#   entities:
-#     input_number.skylar_tv_time: 60
-#     input_number.skylar_ps_time: 60
-#     input_number.skylar_yt_time: 0
+######################################
 
 - name: all fans off
   entities:
@@ -415,3 +397,16 @@
       state: 'on'
     switch.livingroom_fan:
       state: 'on'
+
+######################################
+# Holiday
+#
+- name: holiday inside on
+  entities: 
+    switch.av_system:
+      state: 'on'
+
+- name: holiday off
+  entities: 
+    switch.av_system:
+      state: 'off' 
