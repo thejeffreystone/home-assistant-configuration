@@ -71,7 +71,7 @@ One last thing. Everything in this configuration is a combination of the things 
 * [Foscam FI8918W](https://www.amazon.com/gp/product/B00466X9SY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=fd92b312f8005403ee7eed95cd3c1314&language=en_US)
 * [Wyze Cam](https://www.amazon.com/Wyze-Indoor-Wireless-Detection-Assistant/dp/B076H3SRXG/ref=as_li_ss_tl?crid=1EPYMX3F0YZD1&cv_ct_cx=wyze+cam&dchild=1&keywords=wyze+cam&pd_rd_i=B076H3SRXG&pd_rd_r=86f79129-57d1-47f6-bbe9-1ec0e8b22e34&pd_rd_w=pkdoh&pd_rd_wg=gbpqk&pf_rd_p=224b59c9-c98f-46fd-96d6-8e952866d6a3&pf_rd_r=243QSM6J6DSMYVSH288X&psc=1&qid=1600873696&sprefix=wyze,aps,172&sr=1-1-a14f3e51-9e3d-4cb5-bc68-d89d95c82244&linkCode=ll1&tag=thejeffreysto-20&linkId=82caffd3f9213edbfd2e64a1dbe8b3aa&language=en_US)
 
-##### Switches
+##### Switches / Plugs
 * [MyQ Garage Door Opener](https://www.amazon.com/gp/product/B075H7Z5L8/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=e530b7bd83fb9a64b8af14190c99d759&language=en_US)
 * [GE Z-Wave Switches](https://www.amazon.com/gp/product/B01M1AHC3R/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=74a1bf32886f6e643619beac4eafbe2a&language=en_US)
 * [Sonoff WiFi Smart Switch ](https://www.amazon.com/gp/product/B078GDFYTY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2a2da928247fa3f7209e721694f36c33&language=en_US)
@@ -82,16 +82,20 @@ One last thing. Everything in this configuration is a combination of the things 
 * [Honeywell Z-Wave Plug](https://www.amazon.com/gp/product/B07B3SWWTH/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=f5a78d3f1d95e66b83bf47dff0d62105&language=en_US)
 * [Sylvania Smart Zigbee Plug](https://www.amazon.com/gp/product/B01M6UM8QD/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=abfc93828c666f4fcd48386be9265fc0&language=en_US)
 * [Wyze Plug](https://www.amazon.com/Wyze-Labs-WLPP1-Smart-Two-Pack/dp/B07XZT24B8/ref=as_li_ss_tl?cv_ct_cx=Wyze+plug&dchild=1&keywords=Wyze+plug&pd_rd_i=B07XZT24B8&pd_rd_r=b4ac5aaf-80a7-4ad3-87e6-675b2c2fe388&pd_rd_w=vSV3A&pd_rd_wg=iGnZm&pf_rd_p=224b59c9-c98f-46fd-96d6-8e952866d6a3&pf_rd_r=017PDK4XWA0JJKXW6BMK&psc=1&qid=1600874038&sr=1-1-a14f3e51-9e3d-4cb5-bc68-d89d95c82244&linkCode=ll1&tag=thejeffreysto-20&linkId=0fc4ddfe870185f6e4fb59d2863d9ea7&language=en_US)
+* [Honeywell UltraPro Z-Wave Plus Smart Light Switch](https://www.amazon.com/gp/product/B07B3LY1SJ/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=thejeffreysto-20&linkId=5de0fc01098e2fa71220ff455a2b4016&language=en_US)
+* [Innr Zigbee Plugs](https://www.amazon.com/gp/product/B07SQGG8Z7/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=thejeffreysto-20&linkId=6ba995598ce5131986b1586f60f67a6c&language=en_US)
 
 ##### Lights
 * [Sengled LED Color Plus (Zigbee)](https://www.amazon.com/gp/product/B073ZBYXKQ/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=74939562b8889e2b750d9b01fd347b48&language=en_US)
 * [Cree Connect Bulbs (Zigbee)](https://www.amazon.com/gp/product/B01701DL7A/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=93c44ca1fc96f2554f9aa73afe5f9943&language=en_US)
+* [Sylvania BR30 LED Bulb](https://www.amazon.com/gp/product/B07H918FN5/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=thejeffreysto-20&linkId=7fb3f747a87fe205283c425b211e7d67&language=en_US)
 
 ##### Sensors
 * [Z-Wave Door Sensor](https://www.amazon.com/gp/product/B01N5HB4U5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=b274f5e5d57b8a698ea6d94138a58afa&language=en_US)
 * [Z-Wave Garage Door Tilt Sensor](https://www.amazon.com/gp/product/B01MRZB0NT/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=2515ffb412b6cd2113f755fe531ec203&language=en_US)
 * [Dome Motion Z-Wave Sensor](https://www.amazon.com/gp/product/B076Y6DXSY/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=d9f4f6267d5372786a0da7e01c6ca172&language=en_US)
 * [Aqara Motion Sensor](https://www.amazon.com/Aqara-RTCGQ11LM-Motion-Sensor-White/dp/B07D1CRRVF/ref=as_li_ss_tl?dchild=1&keywords=aqara&qid=1600873881&s=electronics&sr=1-5-catcorr&linkCode=ll1&tag=thejeffreysto-20&linkId=2eb1709f03b48e89e25b5f4f20071a11&language=en_US)
+* [Aqara Temp / Humidity Sensor](https://www.amazon.com/gp/product/B07D37FKGY/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=thejeffreysto-20&linkId=6df9beb4ac6d13af685d63e73fa78534&language=en_US)
 
 ##### Climate
 * [Ecobee Thermostat](https://www.amazon.com/gp/product/B07K2GTKQ5/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=thejeffreysto-20&linkId=90bbaf5eadbd3b7493adde3095db7192&language=en_US)
