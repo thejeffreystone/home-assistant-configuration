@@ -23,14 +23,7 @@ automation:
     - service: script.jarvis_voice
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
-        message: >
-        <p>
-          {{ [
-            'Anchorage House has been configured for a House Party.',
-            'Incense has been turned on.',
-            'I have enabled house party protocol.'
-            ] | random }}
-        </p>
+        message: Incense has been turned on.
   
   - id: house_party_protocol_off
     alias: Turn Off House Party Protocol
@@ -45,11 +38,5 @@ automation:
     - service: script.jarvis_voice
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
-        message: >
-        <p>
-          {{ [
-            'The House Party has been canceled.',
-            'Incense has been turned off.',
-            'I have disabled house party protocol.'
-            ] | random }}
-        </p>
+        message: Incense has been turned off.
+            

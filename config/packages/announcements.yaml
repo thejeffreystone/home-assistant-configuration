@@ -163,20 +163,12 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_morning
-    - service: script.skylar_morning_briefing
-    # - service: notify.alexa_media_skylar_s_bedroom
-    #   data:
-    #     message: Good Morning Skylar. Time to Rise and Shine. 
-    #     data:
-    #       type: tts
-    # - delay:
-    #     seconds: 30
-    # - service: notify.alexa_media_skylar_s_bedroom
-    #   data:
-    #     message: Good Morning Skylar. You have school today. Time to get up. 
-    #     data:
-    #       type: tts
-
+    - service: >
+        {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
+          script.skylar_morning_briefing_jarvis
+        {% else %}
+          script.skylar_morning_briefing_alexa
+        {%- endif %}
   
   - id: set_skylar_morning_report_time
     alias: set skylar morning report time
@@ -232,23 +224,20 @@ script:
         who: kitchen
         message: !include ../templates/speech/event_briefing.yaml
 
-  skylar_morning_briefing:
+  skylar_morning_briefing_jarvis:
     sequence:
-    - service: >
-        {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
-          script.jarvis_voice
-        {% else %}
-          notify.alexa_media_skylar_s_bedroom
-        {%- endif %}
-      data: >
-        {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
+    - service: script.jarvis_voice
+      data: 
           who: main
           message: !include ../templates/speech/skylar_morning_briefing.yaml
-        {% else %}
-          message: !include ../templates/speech/skylar_morning_briefing.yaml 
+
+  skylar_morning_briefing_alexa:
+    sequence:
+    - service: notify.alexa_media_skylar_s_bedroom
+      data: 
+          message: !include ../templates/speech/skylar_morning_briefing.yaml
           data:
             type: tts
-        {%- endif %}
 
   skylar_nightly_briefing:
     sequence:
