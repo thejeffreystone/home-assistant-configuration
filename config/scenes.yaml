@@ -10,7 +10,10 @@
     group.rgb_lr:
       state: 'on'
       brightness_pct: 100
-      rgb_color: [255,255,255]
+      rgb_color:
+      - 255
+      - 255
+      - 255
     switch.fireplace_lights:
       state: 'on'
     light.0xe20db9fffe004207_light:
@@ -29,22 +32,18 @@
     light.0xb0ce1814035bb3f0_light:
       state: 'on'
       brightness: 100
-
-
+  id: 18855f121a1d411b832f8eb320a342d6
 - name: normal livingroom lighting
   entities:
     group.rgb_lr:
       state: 'on'
       brightness: 255
       color_temp: 369
-      rgb_color: [255,255,255]
-    # light.front_door_lamp:
-    #   state: 'on'
-    #   brightness: 255
-    # light.living_room_lamp:
-    #   state: 'on'
-    #   brightness: 250
-
+      rgb_color:
+      - 255
+      - 255
+      - 255
+  id: 8ae2129ba4484194ae25880851a10e70
 - name: dimished livingroom lighting
   entities:
     light.livingroom_tower:
@@ -55,7 +54,7 @@
       state: 'off'
     switch.fireplace_lights:
       state: 'off'
-
+  id: f04e51bf6fd34d28964735238c132796
 - name: illuminations livingroom lighting two
   entities:
     light.tower_lamp_2:
@@ -70,7 +69,7 @@
       state: 'off'
     switch.fireplace_lights:
       state: 'off'
-
+  id: d7d01cb26e1f488cae4fa471adf670a8
 - name: illuminations livingroom lighting three
   entities:
     light.tower_lamp_2:
@@ -86,11 +85,7 @@
       color_temp: 369
     switch.fireplace_lights:
       state: 'off'
-
-# light.0xb0ce18140003608a_light = Tower Lamp
-# light.0xb0ce181400051072_light_2 = Front Door Lamp
-# light0xb0ce181400051b4c_light_2 = Table Lampo
-
+  id: 44d4480a14c4442b9409dda5d51be101
 - name: night time livingroom lighting
   entities:
     group.livingroom_tower:
@@ -101,7 +96,7 @@
       state: 'off'
     switch.fireplace_lights:
       state: 'off'
-
+  id: 85749b94d00549eda5e04699918fcc37
 - name: livingroom lighting off
   entities:
     group.livingroom_tower:
@@ -110,35 +105,35 @@
       state: 'off'
     switch.fireplace_lights:
       state: 'off'
-
+  id: d05c18cf0ddb4002ad0b28cc0c7f98f2
 - name: diminished kitchen lighting
   entities:
     light.kitchen_cabinets:
       state: 'on'
       brightness: 10
-    switch.ha_speaker:
+    switch.kitchen_light_strip:
       state: 'off'
-
+  id: c0d8602152fb480d9731f8671f388b1b
 - name: normal kitchen lighting
   entities:
     light.kitchen_cabinets:
       state: 'on'
       brightness: 250
-    switch.ha_speaker:
+    switch.kitchen_light_strip:
       state: 'on'
-
+  id: bbabfe8623f64c5d9678b603018fece6
 - name: kitchen lighting off
   entities:
     light.kitchen_cabinets:
       state: 'off'
-    switch.ha_speaker: #Need to rename
+    switch.kitchen_light_strip:
       state: 'off'
-
+  id: d2f97475841a4b50b0ba06f22f0374cf
 - name: lights out
   entities:
     light.kitchen_cabinets:
       state: 'off'
-    switch.ha_speaker:
+    switch.kitchen_light_strip:
       state: 'off'
     switch.croft_light:
       state: 'off'
@@ -152,8 +147,7 @@
       state: 'off'
     switch.rail_lights:
       state: 'off'
-
-
+  id: e9a130a78603423185af94e892c70cd9
 - name: haunted preshow
   entities:
     group.kitchen:
@@ -164,16 +158,15 @@
       state: 'on'
       brightness: 255
     switch.rail_lights:
-      state: 'off' 
-
+      state: 'off'
+  id: 98d16bf23ea64d63859f0fa6b8262407
 - name: haunted lights out
   entities:
     group.kitchen:
       state: 'off'
     group.livingroom:
       state: 'off'
-    
-
+  id: efe48036612a43a1be2e8ed8862e6db1
 - name: wishes preshow
   entities:
     switch.ge_14291_in_wall_smart_switch_switch_2:
@@ -186,7 +179,7 @@
       state: 'on'
     switch.christmas_tree:
       state: 'off'
-
+  id: 8fe178935ec747c6801fc3f367a10a49
 - name: wishes show
   entities:
     switch.christmas_tree:
@@ -200,28 +193,37 @@
     light.0xb0ce181400051072_light:
       state: 'on'
       brightness: 20
-
+  id: cf27a902be0f49c6bd1727c0d617065c
 - name: table lamp blue
   entities:
     group.livingroom_lamps:
       state: 'on'
       brightness_pct: 100
-      rgb_color: [65,105,255]
-
+      rgb_color:
+      - 65
+      - 105
+      - 255
+  id: b76a807484234e2382443165742f2db6
 - name: tower lamp red
   entities:
     group.livingroom_tower:
       state: 'on'
       brightness_pct: 100
-      rgb_color: [255,40,0]
-    
+      rgb_color:
+      - 255
+      - 40
+      - 0
+  id: 8778e240c51743d3add7c59150e40d0e
 - name: front lamp green
   entities:
     group.livingroom_lamps:
       state: 'on'
       brightness_pct: 100
-      rgb_color: [0,128,0]
-
+      rgb_color:
+      - 0
+      - 128
+      - 0
+  id: c70ecd369eae4513b69a875ad54a53e0
 - name: master bedroom on
   entities:
     light.jeff_lamp:
@@ -232,7 +234,7 @@
     light.0xb0ce1814035bb3f0_light:
       state: 'on'
       brightness: 77
-
+  id: d250bb4c5c1644b0a7064a9f36ffec32
 - name: master bedroom off
   entities:
     light.jeff_lamp:
@@ -241,7 +243,7 @@
       state: 'off'
     light.0xb0ce1814035bb3f0_light:
       state: 'off'
-      
+  id: 06e4b59c35f14054ab7e741445b7fd21
 - name: master bedroom dim
   entities:
     light.0xb0ce1814035bb3f0_light:
@@ -251,15 +253,14 @@
       state: 'off'
     light.jeff_lamp:
       state: 'off'
-    
-
+  id: 85953e56acc94c8b8614347de8aab96a
 - name: santa protocol
   entities:
     switch.christmas_tree:
       state: 'on'
     switch.rail_lights:
       state: 'on'
-    
+  id: 76d0eb7f2e194ecab470de1f38203ce6
 - name: skylar room prebed
   entities:
     switch.forest:
@@ -267,11 +268,13 @@
     light.wled_loftbed:
       state: 'on'
       brightness: 255
-      rgb_color: [63, 255, 0]
+      rgb_color:
+      - 63
+      - 255
+      - 0
     switch.0xf0d1b80000052281_switch:
       state: 'on'
-    
-
+  id: cc8606f7345f48d59b3c32e900122d75
 - name: skylar room sleep
   entities:
     input_boolean.audible_notifications:
@@ -279,28 +282,29 @@
     light.wled_loftbed:
       state: 'on'
       brightness_pct: 100
-      rgb_color: [63, 255, 0]
+      rgb_color:
+      - 63
+      - 255
+      - 0
     switch.0xf0d1b80000052281_switch:
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
     switch.forest:
       state: 'off'
-
+  id: f4e8d2f594c446ee9f0e41cf46dc1c72
 - name: skylar room morning
   entities:
     switch.forest:
       state: 'on'
-
+  id: dca10298716d46ad86cb894bfac295a5
 - name: skylar room day
   entities:
     switch.forest:
       state: 'off'
     switch.0xf0d1b80000052281_switch:
       state: 'off'
-
-
-      
+  id: b25b0c6dcec049929b2bde5d08f3ce53
 - name: jeff desk on
   entities:
     light.0xb0ce18140003b334_light:
@@ -309,104 +313,227 @@
     light.0xb0ce1814035bb3f0_light:
       state: 'on'
       brightness: 77
-
+  id: 1538d090abe0494d9fa6c225adc83593
 - name: jeff desk off
   entities:
     light.0xb0ce18140003b334_light:
       state: 'off'
     light.0xb0ce1814035bb3f0_light:
       state: 'off'
-      
-
-
-
-#########################################
-# Haunted Manshion show scenes
-#
-# These scenes are used in the Haunted Mansion show that
-# takes place when requested
-
-- name : lr_cool_white
+  id: 82791dafcf674b9cbbad6565b3b49b86
+- name: lr_cool_white
   entities:
     group.rgb_lr:
       state: 'on'
       brightness: 255
-      rgb_color: [255,255,255]
-
-- name : lr_blue
+      rgb_color:
+      - 255
+      - 255
+      - 255
+  id: 0058f17baf6e44bc9dbc537892669a57
+- name: lr_blue
   entities:
     group.rgb_lr:
       state: 'on'
       brightness: 255
-      color_name: "blue"
-
-- name : lr_red
+      color_name: blue
+  id: fc10ec354fbe4e29acf2caeb8156e41c
+- name: lr_red
   entities:
     group.rgb_lr:
       state: 'on'
       brightness: 255
-      rgb_color: [255,40,0]
-
-
-#######################################
-# Home Audio
-
+      rgb_color:
+      - 255
+      - 40
+      - 0
+  id: 8018cda7184d43148370ef32fc474228
 - name: normal audio
   entities:
     media_player.tsr_6750_a3ed2f:
       state: 'on'
       source: HDMI1
-
+  id: fd8de445a54447b6ac4750333790c8d3
 - name: quiet audio
   entities:
     media_player.tsr_6750_a3ed2f:
       state: 'off'
-
-#######################################
-# Home Theather
-
+  id: 9d88c3bce2374ceebbbfa716be1b3efb
 - name: theater dark
   entities:
     group.theater_lights:
       state: 'off'
-
+  id: 7e5b57ca735f4fc6b5ca75d4f41b63f0
 - name: theater dim
   entities:
     group.theater_lights:
       state: 'on'
       brightness: 40
-
+  id: 59b3ac43a09f43e1bd6ac40950b97d13
 - name: theater bright
   entities:
     group.theater_lights:
       state: 'on'
       brightness: 255
-
-######################################
-
+  id: 1834362d4b2140b6874d0c6d9c0067e9
 - name: all fans off
   entities:
     switch.croft_fan:
       state: 'off'
     switch.livingroom_fan:
       state: 'off'
-
+  id: 6f191916879f4a5290282d675c8d6e39
 - name: all fans on
   entities:
     switch.croft_fan:
       state: 'on'
     switch.livingroom_fan:
       state: 'on'
-
-######################################
-# Holiday
-#
+  id: 2f3792fca2f64ba28ed39e7a7b6025f8
 - name: holiday inside on
-  entities: 
+  entities:
     switch.av_system:
       state: 'on'
-
+  id: a5e09ec5988a4eab92d0ea527fe72a6a
 - name: holiday off
-  entities: 
+  entities:
     switch.av_system:
-      state: 'off' 
+      state: 'off'
+  id: e4408be905b94d13b918f727362c679b
+- id: '1606860122273'
+  name: test
+  entities:
+    switch.wled_loftbed_nightlight:
+      duration: 60
+      fade: true
+      target_brightness: 0
+      friendly_name: WLED-loftbed Nightlight
+      icon: mdi:weather-night
+      state: 'off'
+    switch.wled_loftbed_sync_send:
+      udp_port: 21324
+      friendly_name: WLED-loftbed Sync Send
+      icon: mdi:upload-network-outline
+      state: 'off'
+    switch.wled_loftbed_sync_receive:
+      udp_port: 21324
+      friendly_name: WLED-loftbed Sync Receive
+      icon: mdi:download-network-outline
+      state: 'on'
+    light.wled_loftbed:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      intensity: 128
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      speed: 128
+      friendly_name: WLED-loftbed
+      icon: mdi:led-strip-variant
+      supported_features: 55
+      state: 'off'
