@@ -125,18 +125,18 @@ automation:
         state: 'full_moon'
     action:
       - service: script.jarvis_voice
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-          <p>
-            {{ [
-            'There is a Full Moon out tonight. and this time it is the <emphasis>actual</emphasis> moon. And <emphasis>not</emphasis> the neighbor. ',
-            'Hey look, There is the full moon. ',
-            'The moon is <emphasis>huge<e/mphasis>! And full. ',
-            'If you went outside right now you might see the full moon. <break time="2s"/> Of course if you wait long enough there will be one inside the house too. ',
-            'If you want to see the full moon, <emphasis>tonight is the night</emphasis>.'] 
-            | random }}
-          </p>
+        data_template:
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >
+            <p>
+              {{ [
+              'There is a Full Moon out tonight. and this time it is the <emphasis>actual</emphasis> moon. And <emphasis>not</emphasis> the neighbor. ',
+              'Hey look, There is the full moon. ',
+              'The moon is <emphasis>huge<e/mphasis>! And full. ',
+              'If you went outside right now you might see the full moon. <break time="2s"/> Of course if you wait long enough there will be one inside the house too. ',
+              'If you want to see the full moon, <emphasis>tonight is the night</emphasis>.'] 
+              | random }}
+            </p>
       - service: script.twitter_notify_image
         data_template:
           tweet: >-

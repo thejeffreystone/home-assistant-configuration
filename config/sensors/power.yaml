@@ -43,13 +43,11 @@
   sensors:
     # washer_power:
     #   friendly_name: "Washer Power"
-    #   entity_id: sensor.time
     #   unit_of_measurement: ''
     #   value_template: >-
     #       {{ states.switch.washer.attributes.current_power_w | int }}
     low_battery:
       friendly_name: 'Low Battery'
-      entity_id: sensor.time
       value_template: >
         {%- set threshold = 15 -%}
         {%- set domains = ['light', 'switch', 'sensor', 'zwave', 'lock', 'binary_sensor'] -%}

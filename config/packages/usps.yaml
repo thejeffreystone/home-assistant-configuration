@@ -30,11 +30,6 @@ sensor:
     sensors:
       mail_deliveries_message:
         friendly_name: "Deliveries Summary"
-        entity_id: 
-          - sensor.mail_usps_mail
-          - sensor.mail_usps_delivering
-          - sensor.mail_fedex_delivering_2
-          - sensor.mail_ups_delivering
         value_template: > 
           {# Deliveries Sentence #}
             {% macro deliveries_sentence() -%}
