@@ -1,17 +1,16 @@
- >
+>
   {# Twitter Great Content #}
   {%- macro getRandomPromo() -%}
     {{- [
-       "Want to get YouTube Certified in Home Assistant? @ccostan has the courses to get you there. Subscribe at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
-       "Checkout one of my favorite Home Assistant Youtubers @ccostan at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
-       "Don't miss @Dr_Zzs next live stream and besure to follow him on Youtube at https://www.youtube.com/channel/UC7G4tLa4Kt6A9e3hJ-HO8ng ",
-       "Looking for some great Home Assistant content? @JuanMTech has you covered. Subscribe at https://www.youtube.com/user/Jfelipe83M ",
-       "Want some Home Assistant and Home Automation content? @hasscasts has what you want at https://hasscasts.com",
-       "Need some How-To's to juice up your Home Assistant skills? @juanMTech has something for everyone at https://www.juanmtech.com"
-       ] | random -}}
+        "Want to get YouTube Certified in Home Assistant? @ccostan has the courses to get you there. Subscribe at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
+        "Checkout one of my favorite Home Assistant Youtubers @ccostan at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
+        "Don't miss @Dr_Zzs next live stream and besure to follow him on Youtube at https://www.youtube.com/channel/UC7G4tLa4Kt6A9e3hJ-HO8ng ",
+        "Looking for some great Home Assistant content? @JuanMTech has you covered. Subscribe at https://www.youtube.com/user/Jfelipe83M ",
+        "Need some How-To's to juice up your Home Assistant skills? @juanMTech has something for everyone at https://www.juanmtech.com"
+        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #homeassistant #youcandoit #spreadtheword #givingback
+    #homeassistant #youcandoit #givingback
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
@@ -19,7 +18,7 @@
       {%- for item in data.split("\n")  if item | trim != "" -%}
         {{ item | trim }} {% endfor -%}
   {%- endmacro -%}
-  
+
   {# a macro to call all macros :)  #}
     {%- macro mother_of_all_macros() -%}
       {{ getRandomPromo() }}

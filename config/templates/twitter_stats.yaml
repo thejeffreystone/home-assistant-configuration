@@ -30,13 +30,13 @@
        "How fast is your internet? I just checked
           am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
           Mbps up. Beat that. ", 
-        "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
-          and is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+        "My speed is monitored using @home_assistant 
+          and at last check is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
           Mbps up."   
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #homeassistant #iot #smarthome #randomstats
+    #homeassistant #homeautomation #randomstats
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}

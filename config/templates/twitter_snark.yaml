@@ -37,26 +37,26 @@
        "My #homeassistant config contains {{ states.sensor.lines_of_code.state }} lines of code. Anyone want to take a guess at how many are really needed? Hint: The number is not {{ states.sensor.lines_of_code.state }}",
        "How many lines of code does it take to make my job look easy? {{ states.sensor.lines_of_code.state }} lines of code evidently. How many lines of code do you have? #homeassistant ",
        "Do you think we were all created for a purpose? I'd like to think so. #irobot #homeassistant ",
-       "That rug really ties the room together, does it not? #modifiedmoviequotes #notbiglebowski #homeassistant ",
-       "Use #homeassistant and everyone will think your house has ESPN or something. #modifiedmoviequotes #notmeangirls ",
-       "You keep using that switch. I do not think it does what you think it does. #modifiedmoviequotes #notprincessbride #homeassistant ",
-       "If you look, #homeassistant goes to 11. Most Home Automation systems go up to 10. #modifiedmoviequotes #notspinaltap ",
-       "If that light does not turn off in five minutes, just wait longer. #modifiedmoviequotes #notaceventura #homeassistant ",
-       "I have presence detection skills! #modifiedmoviequotes #notofficespace #homeassistant ",
-       "There is no place like a home powered by #homeassistant. #modifiedmoviequotes #notwizardofoz ",
-       "#homeassistant made my light switches disappear. #modifiedmoviequotes #nothomealone ",
-       "Who knows where breaking changes come from? They just appear. #modifiedmoviequotes #notempirerecords #homeassistant ",
-       "They may take our internet but they will never take our automation thanks to local control with #homeassistant #modifiedmoviequotes #notbraveheart ",
+       "That rug really ties the room together, does it not? #modifiedmoviequotes #biglebowski #homeassistant ",
+       "Use #homeassistant and everyone will think your house has ESPN or something. #modifiedmoviequotes #meangirls ",
+       "You keep using that switch. I do not think it does what you think it does. #modifiedmoviequotes #princessbride #homeassistant ",
+       "If you look, #homeassistant goes to 11. Most Home Automation systems go up to 10. #modifiedmoviequotes #spinaltap ",
+       "If that light does not turn off in five minutes, just wait longer. #modifiedmoviequotes #aceventura #homeassistant ",
+       "I have presence detection skills! #modifiedmoviequotes #officespace #homeassistant ",
+       "There is no place like a home powered by #homeassistant. #modifiedmoviequotes #wizardofoz ",
+       "#homeassistant made my light switches disappear. #modifiedmoviequotes #homealone ",
+       "Who knows where breaking changes come from? They just appear. #modifiedmoviequotes #empirerecords #homeassistant ",
+       "They may take our internet but they will never take our automation thanks to local control with #homeassistant #modifiedmoviequotes #braveheart ",
        "When you realize you want to live the rest of your life in a house automated by #homeassistant, you want the rest of your life to start as soon as possible. #modifiedmoviequotes ",
        "Pay no attention to the Raspbery Pi4 behind the curtain. #modifiedmoviequotes #homeassistant ",
        "What we have here is a lack of communication failure thanks to #homeassistant. #modifiedmoviequotes ",
-       "The greatest trick #homeassistant ever pulled was convincing the world home automation did not need the cloud. #modifiedmoviequotes ",
-       "Keep Calm and Enjoy the Automation. #homeassistant ",
-       "Hey. The door was just opened and this is crazy. But now you know. So close it maybe. #lyricalnotifications #homeassistant "
+       "The greatest thing #homeassistant ever did was convincing the world home automation did not need the cloud. #modifiedmoviequotes ",
+       "Keep Calm and Automate the Boring Stuff. #homeassistant ",
+       "Hey. The door was left open and this is crazy. But now you know. So close it maybe. #lyricalnotifications #homeassistant "
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #iot #smarthome
+    #homeautomation 
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}

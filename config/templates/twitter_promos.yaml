@@ -12,18 +12,17 @@
   {%- endmacro -%}
   {%- macro getRandomLead() -%}
     {{- [
-       "All you need is #home_assistant, and these config files ->‏",
-       "Just grab @home_assistant and checkout ",
-       "Just grab #home_assistant and for inspiration checkout ",
-       "It is easy. Install #home_assistant, and add some config files like ",
-       "You can't go wrong with #home_assistant. For an example of what you can do checkout "
+       "All you need is #homeassistant, and these config files ->‏",
+       "Just grab #homeassistant and checkout ",
+       "Just grab #homeassistant and for inspiration checkout ",
+       "It is easy. Install #homeassistant, and add some config files like ",
+       "You can't go wrong with #homeassistant. For an example of what you can do checkout "
        ] | random -}}
   {%- endmacro -%}
   {%- macro getRandomPromo() -%}
     {{- [
        "https://github.com/CCOSTAN/Home-AssistantConfig#logo cc: @ccostan ‏",
        "https://github.com/skalavala/mysmarthome ",
-       "https://github.com/thejeffreystone/home-assistant-configuration cc: @thejeffreystone ",
        "https://github.com/arsaboo/homeassistant-config ",
        "https://github.com/Vasiley/Home-Assistant-Main ",
        "https://github.com/JamesMcCarthy79/Home-Assistant-Config ",
@@ -33,7 +32,7 @@
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}
-    #homeassistant #youcandoit #spreadtheword #givingback
+    #homeautomation #youcandoit #givingback
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
