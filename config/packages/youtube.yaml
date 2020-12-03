@@ -15,12 +15,6 @@
     - platform: socialblade
       name: slackerlabs_info
       channel_id: UCipZJ6748kd8TbelSxcvcVg
-
-    - platform: twitter_sensor
-      consumer_key: !secret twitter2_consumer_key
-      consumer_secret: !secret twitter2_consumer_secret
-      access_token_key: !secret twitter2_access_token
-      access_token_secret: !secret twitter2_access_secret
   
   # automation:
   #   - alias: YouTube Notification - SlackerLabs
