@@ -157,3 +157,26 @@
 #   payload_on: "true"
 #   payload_off: "false"
 
+# Master Bedroom
+
+- platform: mqtt
+  name: "Master Bath Fan"
+  state_topic: "zwave2mqtt/master_bath_fan/37/1/0"
+  command_topic: "zwave2mqtt/master_bath_fan/37/1/0/set"
+  payload_on: "true"
+  payload_off: "false"
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
