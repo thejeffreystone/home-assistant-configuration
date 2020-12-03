@@ -83,4 +83,9 @@ skylar_school:
   name: Skylar at School
 shuffle_spotify:
   name: Spotify Shuffle
-
+good_morning_report:
+  name: Good Morning Report 
+master_bedroom_alarm:
+  name: Master Bedroom Alarm
+skylar_awake:
+  name: Skylar Awake

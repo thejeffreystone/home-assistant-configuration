@@ -1,0 +1,55 @@
+>
+  {# Security Report #}
+  {%- macro getReport() -%}
+    <p>
+    {%- if states.input_boolean.sentry_mode.state == 'on' %}
+      {{ [
+        'Sentry Mode is enabled.',
+        'Sentry mode is currently active.',
+        'Barn Door Protocol is currently in effect.',
+        'My security system is currently armed.'
+        ] | random}} 
+    {% else %}
+      {{ [
+        'Sentry Mode is disabled.',
+        'Sentry mode is currently inactive.',
+        'My security system is currently disarmed.'
+        ] | random}} 
+    {% endif %}
+    {%- if states.group.external_doors.state == 'off' %}
+      All external doors are secured.
+    {% else %}
+      The following doors are open,
+      {%- if states.binary_sensor.front_door.state == 'on' %}
+        Front Door.
+      {% endif %}
+      {%- if states.binary_sensor.back_door.state == 'on' %}
+        Back Door.
+      {% endif %}
+      {%- if states.binary_sensor.laundry_room_door.state == 'on' %}
+        Laundry Room Door.
+      {% endif %}
+      {%- if states.binary_sensor.garage_door.state == 'on' %}
+        Garage Door.
+      {% endif %}
+      {%- if states.binary_sensor.side_door.state == 'on' %}
+        Side Door.
+      {% endif %}
+    {% endif %}
+    </p>
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

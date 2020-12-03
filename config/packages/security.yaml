@@ -191,21 +191,32 @@ automation:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     action:
-    - service: script.ah_report
+    - service: script.jarvis_voice
       data_template:
-        speech_message: >
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
           The {{ trigger.to_state.attributes.friendly_name }}
           {{ [
           " is standing open.",
           " is open.",
-          " does not close on its own."
+          " does not close on its own.",
+          " was left standing open "
           ] | random }}
-        call_snark_door_open: 1
+          {{ [
+              'Can we get any more moths in here?',
+              'Can a human be so kind and close it?',
+              'The air quality in this house has actually improved.',
+              'Closing the door would improve the internal climate of the house.',
+              'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
+              'They always say when one door closes another one opens...that must of been waht happened',
+              'And the automatic door closer appears to be broken. So...'
+          ] | random }}
+
     initial_state: true
 
   
-  - id: motion_detected
-    alias: motion_detected
+  - id: motion_detected_sentry_mode
+    alias: motion_detected_sentry_mode
     trigger:
     - platform: state
       entity_id:
@@ -225,9 +236,10 @@ automation:
       entity_id: input_boolean.sentry_mode
       state: 'on'
     action:
-    - service: script.ah_report
+    - service: script.jarvis_voice
       data_template:
-        speech_message: >
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
           {{ [
           "I have detected motion at the ",
           "Someone may be at the ",
@@ -236,7 +248,14 @@ automation:
           "We appear to have a visitor at the "
           ] | random }}
           {{ trigger.to_state.attributes.friendly_name }}.
-        call_snark_door_motion: 1
+          {{ [
+              'Do you want me to send them away?',
+              'I have armed the lasers. Just say the word.',
+              'I was not informed there would be guests.',
+              'They do not appear to have any gifts, so I suggest no opening the door.',
+              'My sensors have detected a meat popsicle.',
+              'I do not think they can hear me.'
+            ] | random }}
     - delay:
         minutes: 2
     initial_state: true
@@ -337,9 +356,10 @@ automation:
       from: 'off'
       to: 'on'
     action:
-    - service: script.ah_report
-      data_template: 
-        speech_message: >
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
           {{ [
           "Barn door protocol has been activated.",
           "Anchorage House has been secured! ",
@@ -363,9 +383,10 @@ automation:
       to: 'off'
     
     action:
-    - service: script.ah_report
-      data_template: 
-        speech_message: >
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
           {{ [
           "Barn door protocol has been deactivated.",
           "I am no longer monitoring the access points. ",
@@ -387,9 +408,10 @@ automation:
         from: 'off'
         to: 'on'
     action:
-      - service: script.ah_report
+      - service: script.jarvis_voice
         data_template:
-          speech_message: >
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >
             {{ [
             "Guest Mode has been enabled.",
             "I have switched to the system to guest mode.",
@@ -749,9 +771,27 @@ script:
 
   activate_barn_door_protocol:
     sequence:
-    - service: script.ah_report
-      data:
-        call_confirmation: 1
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >-
+          {{ [
+                'Okay.', 
+                'If you insist.',
+                'I am afraid I can not do that <break time="1s"/> I am kidding,',
+                'Leave it to me.',
+                'As you wish.',
+                'I am on it.',
+                'No Problem.',
+                'I think I can handle that.',
+                'Working on it now.',
+                '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
+                'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
+                'I am not even supposed to be here today. But whatever.',
+                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
+                'Funny, I was just about to do that.',
+                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
+                ] | random }}
     - delay:
         seconds: 2
     - service: script.lockdown
@@ -764,9 +804,27 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: "Home"
-    - service: script.ah_report
-      data:
-        call_confirmation: 1
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >-
+          {{ [
+                'Okay.', 
+                'If you insist.',
+                'I am afraid I can not do that <break time="1s"/> I am kidding,',
+                'Leave it to me.',
+                'As you wish.',
+                'I am on it.',
+                'No Problem.',
+                'I think I can handle that.',
+                'Working on it now.',
+                '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
+                'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
+                'I am not even supposed to be here today. But whatever.',
+                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
+                'Funny, I was just about to do that.',
+                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
+                ] | random }}
     - delay:
         seconds: 2
     - service: input_boolean.turn_off
@@ -777,10 +835,10 @@ script:
     - condition: state
       entity_id: group.external_doors
       state: "on"
-    - service: script.ah_report
-      data:
-        call_issue: 1
-        sspeech_message: >
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
             {{ [
             "I was unable to activate barn door protocol due to an open door.",
             "You may want to check the external doors. I was unable to secure them all.",
@@ -806,9 +864,27 @@ script:
 
   activate_guest_mode:
     sequence:
-    - service: script.ah_report
-      data:
-        call_confirmation: 1
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >-
+          {{ [
+                'Okay.', 
+                'If you insist.',
+                'I am afraid I can not do that <break time="1s"/> I am kidding,',
+                'Leave it to me.',
+                'As you wish.',
+                'I am on it.',
+                'No Problem.',
+                'I think I can handle that.',
+                'Working on it now.',
+                '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
+                'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
+                'I am not even supposed to be here today. But whatever.',
+                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
+                'Funny, I was just about to do that.',
+                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
+                ] | random }}
     - delay:
         seconds: 2
     - service: input_boolean.turn_on

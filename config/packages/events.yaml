@@ -185,10 +185,10 @@ automation:
       value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
     action:
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.ah_report
-      data:
-        call_interuption: 1
-        speech_message: "Blackout time has started."
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: "Blackout time has started."
     - service: input_boolean.turn_on
       entity_id: input_boolean.blackout_time
 
@@ -204,10 +204,10 @@ automation:
       state: 'on'
     action:
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.ah_report
-      data:
-        call_interuption: 1
-        speech_message: "Blackout time has ended"
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: "Blackout time has ended"
     - service: input_boolean.turn_off
       entity_id: input_boolean.blackout_time
 
@@ -272,9 +272,10 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: script.ah_report
-      data:
-        speech_message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk. I will be disabling audible notifications during school hours."
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk. I will be disabling audible notifications during school hours."
     - delay:
         minutes: 5
     - service: input_boolean.turn_off

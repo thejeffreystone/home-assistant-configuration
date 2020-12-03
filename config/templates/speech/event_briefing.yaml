@@ -1,0 +1,79 @@
+>
+  {# Event Report #}
+  {%- macro getReport() -%}
+    <p>
+        {% if states.sensor.birthday_skylar.state | int == 1 %}
+          Tomorrow is Skylar's Birthday.
+        {% endif %}
+        {% if states.sensor.birthday_jeff.state | int == 1 %}
+          Tomorrow is Jeff's Birthday.
+        {% endif %}
+        {% if states.sensor.birthday_kat.state | int == 1 %}
+          Tomorrow is Katherine's Birthday.
+        {% endif %}
+      </p>
+      <p>
+        {% if states.sensor.halloween_countdown.state | int == 1 %}
+          Tomorrow is Halloween. I hope you have picked out a costume.
+          {{ [ 'I will be going as a dumb home. ',
+            'I have prepped the scary music. Just in case.',
+            'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
+          ] | random }}
+        {% elif states.sensor.halloween_countdown.state | int < 30 %}
+          There are only {{states.sensor.halloween_countdown.state}} days 
+          {{ [ 'until Halloween.',
+            'until Halloween. It might not be enough time. ',
+            'and counting until the best holiday ever.',
+            'until you need a costume.'
+          ] | random }} 
+          
+        {% else %}  
+        {% endif %}
+        {% if states.sensor.christmas_countdown.state | int == 1 %}
+          Tomorrow is Christmas. <break time="1s"/> It is practically here! <break time="1s"/> Santa is coming tonight! Do not forget the cookies!
+        {% elif states.sensor.christmas_countdown.state | int < 31 %}
+          There are only {{states.sensor.christmas_countdown.state}} days until christmas.
+          {{ [ 'All I want for Christmas, is a hippopotamus.',
+            'Hey Skylar, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
+            'Do not forget to put something under the tree for <emphasis>your</emphasis> favorite smarthome.',
+            'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
+            'I do not want to be a smarthome. I want to be a dentist.',
+            'Do not eat all the cookies. '
+          ] | random }} 
+        {% else %}
+        {% endif %}
+      </p>
+      <p>
+        {% if states.sensor.trip_disney.state | int == 120 %}
+          There are only one hundred and twenty days until the next Disney Trip. 
+        {% endif %}
+        {% if states.sensor.trip_disney.state | int == 60 %}
+          There are only on sixty days until the next Disney Trip. 
+        {% endif %}
+        {% if states.sensor.trip_disney.state | int < 32 %}
+            {% if states.sensor.trip_disney.state | int > 1 %}
+            There are {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
+            {% else %}
+            There is {{ states.sensor.trip_disney.state }} day until the next Disney Trip!
+            {% endif %}
+        {% endif %}
+        {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
+          Tomorrow is Jeff and Katherine's Wedding Anniversary. 
+        {% endif %}
+      </p>
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

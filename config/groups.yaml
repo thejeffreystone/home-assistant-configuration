@@ -7,6 +7,10 @@ Family:
   - person.jeffrey
   - person.katherine
 
+arriving:
+  name: Arriving
+  entities: []
+
 
 House Conditions:
   - climate.first_floor

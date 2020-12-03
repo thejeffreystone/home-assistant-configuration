@@ -78,7 +78,41 @@ automation:
       at: '08:00:00'
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_promos
+      - service: script.twitter_selfpromos
+        data:
+          who: 'thejeffreystone'
+
+  - id: tweet_recent_content_js
+    alias: Tweet Recent Content js
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '13:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_recent_content
+        data:
+          who: 'thejeffreystone'
+
+  - id: tweet_recent_content
+    alias: Tweet Recent Contents
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_recent_content
+
+  - id: tweet_follow_me
+    alias: Tweet Follow Me
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_follow_me
 
   - id: tweet_some_promos2
     alias: Tweet Some Promos2
@@ -89,6 +123,16 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_selfpromos
+
+  # - id: tweet_some_promos3
+  #   alias: Tweet Some Promos3
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '13:00:00'
+  #   action:
+  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+  #     - service: script.twitter_selfpromos_sl
 
   # The whole purpose of this automation is to tweet out some links to great Home Assistant content. This is not sponsored in any way.
   # I just wanted a way to give back to those I have borrowed from. Tweets ever Friday.
@@ -146,6 +190,28 @@ automation:
       - service: script.twitter_notify_image
         data_template:
           who: 'thejeffreystone'
+          tweet: >-
+            You can find my #homeassistant content at -> Blog: https://slacker-labs.com | Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | Config: https://github.com/thejeffreystone/home-assistant-configuration
+          image: "/config/www/tweet_images/sl_logo.png"
+
+  - id: slackerlabs_info
+    alias: SlackerLabs Info
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '10:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {% set day=states("sensor.date").split('-')[2] | int %}
+        {%- if day == 1 -%}
+          true
+        {%- endif -%}
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - service: script.twitter_notify_image
+        data_template:
+          who: 'slackerlabs'
           tweet: >-
             You can find my #homeassistant content at -> Blog: https://slacker-labs.com | Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | Config: https://github.com/thejeffreystone/home-assistant-configuration
           image: "/config/www/tweet_images/sl_logo.png"

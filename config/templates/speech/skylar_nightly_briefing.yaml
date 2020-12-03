@@ -1,0 +1,80 @@
+>
+  {# Skylar Nightly Report #}
+  {%- macro getReport() -%}
+    <p>
+      Skyler, 
+      {{ [ 'It is time to get in the bath. ',
+          'It is almost bedtime. That means you should be heading for the bathtub. Time to get clean.',
+          'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
+          'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics. But in the mean time, <emphasis>you</emphasis> should start a bath.',
+          'I hate to say it but, it is time to get cleaned up.',
+          'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. Bath time now, <emphasis>sir</emphasis>.',
+          'The count down clock has started. Time to get cleaned up, and get your pajamas on.'
+        ] | random }} 
+      {% if is_state('sensor.school_tomorrow', 'on') %} 
+        {{ [ 'Because you have school tomorrow. ',
+          'Because you have to get up early tomorrow for school.',
+          'Because you want to be ready for school tomorrow.'
+        ] | random }}   
+      {% else %}
+        {% set month=states("sensor.date").split('-')[1] | int %}
+        {%- if is_state('input_boolean.school_in_session', 'off') -%}
+          {{ [ 'Looks like tomorrow is another day of summer vacation. ',
+              'You are still on summer break tomorrow. ',
+              'Summer vacation does not last forever, but it is not over yet. '
+            ] | random }} 
+        {% else %}
+          Oh, and it appears you do not have school tomorrow
+        {% endif %} 
+          {{ [ 'so you can sleep in late tomorrow. ',
+              ' so there is not a reason to get up early tomorrow. ',
+              'so we can sleep in tomorrow. '
+            ] | random }} 
+      {% endif %} 
+      {% if states.sensor.school_start_days2go.state | int < 10 and states.sensor.school_start_days2go.state | int > 1 -%}
+        {{ [ 'I hate to say it, but ',
+            'Unforunately,',
+            'All good things must come to an end.'
+          ] | random }}
+        There are only {{ states.sensor.school_start_days2go.state }} days  
+        {{ [ 'left of summer vacation. ',
+            ' left of summer break.',
+            'Until School starts again.'
+          ] | random }}
+      {% elif states.sensor.school_start_days2go.state | int == 1 -%}
+        Tomorrow is the first day of school. Are you ready? 
+      {%- endif %}
+      {% if states.sensor.school_end_days2go.state | int < 10 and states.sensor.school_end_days2go.state | int > 0 -%}
+      {{ [ 'School is almost over for the year.',
+          'You have made it to the end of the school year.',
+          'You are almost done with school.'
+        ] | random }}
+      There are only {{ states.sensor.school_end_days2go.state }} days  
+      {{ [ 'left in the school year ',
+          ' left of school.',
+          'Until the last day of school.'
+        ] | random }}
+      {% elif states.sensor.school_end_days2go.state | int == 0 -%}
+        Tomorrow is the first day of summer. Are you ready? 
+      {%- endif %}
+        {{ [ 'I have configured Skylers room for sleep prep. ',
+          'The lighting in Skylers room has been adjusted in preparation for bed.',
+          'I have executed the Pre bed routine for Skylers room.'
+        ] | random }}
+    </p>
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

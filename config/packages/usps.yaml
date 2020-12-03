@@ -126,9 +126,10 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.ah_report
-        data_template:
-          usps: >-
+      - service: script.jarvis_voice
+        data:
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >-
             {%- if states.sensor.usps_mail.state | int == 1 -%} 
               {{ [ 
                 "USPS is delivering", 
@@ -182,9 +183,10 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.ah_report
+      - service: script.jarvis_voice
         data_template:
-          usps: >
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >
             {%- if states.sensor.usps_packages.state | int == 1 -%}
               USPS is delivering {{ states.sensor.usps_packages.state }} package today.
             {%- else -%}
@@ -214,9 +216,10 @@ automation:
           who: "jeff"
           title: "Delivering Today"
           message: "{{ states('sensor.mail_deliveries_message')}}"
-      - service: script.ah_report
+      - service: script.jarvis_voice
         data_template:
-          usps: >-
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >-
             {%- if states.sensor.mail_usps_mail.state | int == 1 -%} 
               {{ [ 
                 "USPS is delivering", 
@@ -257,8 +260,9 @@ automation:
           who: "jeff"
           title: "Package Delivered"
           message: "Fedex/UPS just made a delivery"
-      - service: script.ah_report
+      - service: script.jarvis_voice
         data_template:
-          usps: >-
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >-
               A package was just left on the porch.
           call_interuption: 1

@@ -165,6 +165,7 @@ automation:
       data:
         entity_id: light.kitchen_cabinets
     - service: script.good_night_loft
+    - service: script.reset_annc_switches
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
@@ -222,10 +223,7 @@ automation:
       data:
         entity_id: alarm_control_panel.aarlo_ah_base_station
         mode: 'Armed'
-    - service: script.ah_report
-      data:
-        call_dark_outside: 1
-        call_garage_door_status: 1
+    - service: script.nightly_briefing_report
 
   - id: outside_lights_off_sunrise
     alias: Outside Lights off at Sunrise
@@ -384,7 +382,7 @@ automation:
         data_template:
           time: > 
             {% if states.sensor.school_tomorrow.state == 'on' %}
-              20:00
+              19:45
             {% else %}
               20:15
             {% endif %}

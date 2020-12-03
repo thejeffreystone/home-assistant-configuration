@@ -20,10 +20,17 @@ automation:
     action:
     - service: homeassistant.turn_on
       entity_id: group.incense
-    - service: script.ah_report
+    - service: script.jarvis_voice
       data_template:
-        call_confirmation: 1
-        call_house_party_protocol_enabled: 1
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
+        <p>
+          {{ [
+            'Anchorage House has been configured for a House Party.',
+            'Incense has been turned on.',
+            'I have enabled house party protocol.'
+            ] | random }}
+        </p>
   
   - id: house_party_protocol_off
     alias: Turn Off House Party Protocol
@@ -35,7 +42,14 @@ automation:
     action:
     - service: homeassistant.turn_off
       entity_id: group.incense
-    - service: script.ah_report
+    - service: script.jarvis_voice
       data_template:
-        call_confirmation: 1
-        call_house_party_protocol_disabled: 1
+        who: '{{ states.sensor.room_audio.state }}'
+        message: >
+        <p>
+          {{ [
+            'The House Party has been canceled.',
+            'Incense has been turned off.',
+            'I have disabled house party protocol.'
+            ] | random }}
+        </p>

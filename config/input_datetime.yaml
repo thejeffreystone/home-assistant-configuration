@@ -47,3 +47,8 @@ morning_standby:
   name: Morning Standby
   has_date: false
   has_time: true
+
+skylar_awake_at:
+  name: Skylar Awake At
+  has_date: false
+  has_time: true

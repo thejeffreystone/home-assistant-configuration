@@ -428,9 +428,10 @@ automation:
         - condition: template
           value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
     action:
-      - service: script.ah_report
+      - service: script.jarvis_voice
         data_template:
-          speech_message: >
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >
             {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
               The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
             {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
@@ -446,16 +447,17 @@ automation:
             {% endif %}
       - service: script.twitter_notify_image
         data_template:
-          tweet: '{{ [ "Anchorage House is battening down the hatches. Servere Weather is imminent. ", 
-          "The weather outside is getting intense, so I just made a weather announcement.", 
-          "Anchorage House monitors the NWS for severe weather using #HomeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta " ] | random }}'
+          tweet: '{{ [ "Anchorage House is battening down the hatches. Servere Weather is imminent. #homeassistant #weather ", 
+          "The weather outside is getting intense, so I just made a weather announcement. #homeassistant #weather ", 
+          "Anchorage House monitors the NWS for severe weather using #homeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta #homeassistant #weather " ] | random }}'
           image: >-
             {{ [ "/config/www/tweet_images/lightning.jpg",
                  "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
       - delay: '00:00:15'
-      - service: script.ah_report
+      - service: script.jarvis_voice
         data_template:
-          speech_message: >
+          who: main
+          message: >
             {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
               The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
             {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
@@ -487,9 +489,9 @@ automation:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
       - service: script.twitter_notify_image
         data_template:
-          tweet: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. ", 
-          "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area.", 
-          "I just activated the internal Tornado Alarm. Thanks for the heads up @NWSAtlanta " ] | random }}'
+          tweet: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. #homeassistant #weather ", 
+          "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area. #homeassistant #weather ", 
+          "I just activated the internal Tornado Alarm. Thanks for the heads up @NWSAtlanta #homeassistant #weather " ] | random }}'
           image: >-
             "/config/www/tweet_images/tornado.jpg"
       - delay: '00:00:15'
@@ -503,6 +505,11 @@ automation:
         data_template:
           title: "Tornado Warning!"
           message: "The National Weather Service Has issued a Tornado Warning for our area."
+      - service: notify.alexa_media_skylar_s_bedroom
+        data:
+          message: A Tornado Warning has been issued for our area. Head to the closet. 
+          data:
+            type: tts
 
   - alias: Lightning Detected
     trigger:
@@ -675,18 +682,42 @@ script:
           image: >-
             {{ [ "/config/www/tweet_images/lightning.jpg",
                  "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
-      - service: script.ah_report
-        data:
-          call_lightning_alert: 1
+      - service: script.jarvis_voice
+        data_template:
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >-
+            <p>
+              {{ [
+                  'I have detected lightning withing 20 miles of Anchorage House.',
+                  'Did you see that flash? I did. Lightning is near.',
+                  'If you didnt hear the thunder you will soon. '
+                ]|random }}
+              If anyone is outside they shoudld seek shelter inside. 
+              {% if is_state('binary_sensor.garage_door', 'on') %} 
+                {{ [ 'The garage door needs to be closed. ',
+                  'Can someone close the garage?. ',
+                  'If you do not want the contents of the garage to get wet, you might want to close it.'
+                ] | random }}
+              {% endif %}
+            </p>
   
   lightning_clear_audible:
     sequence: 
       - condition: state
         entity_id:  binary_sensor.day
         state: 'on'
-      - service: script.ah_report
-        data:
-          call_lightning_clear: 1
+      - service: script.jarvis_voice
+        data_template:
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >-
+            <p>
+              {{ [
+                'Lightning threat appears to be over.',
+                'No more lightning appears to be occuring.',
+                'Lightning is gone.'
+            ]|random }}
+              It is safe to resume normal activities. 
+            </p>
 
   refresh_weather_alert_sensors:
     sequence: 

@@ -1,0 +1,147 @@
+>
+  {# Morning Wakeup Report #}
+  {%- macro getReport() -%}
+    <p>
+    {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
+      Good morning.
+    {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
+      Good afternoon.
+    {% else %}
+      Good evening.
+    {% endif %}
+    </p>
+    <p>
+    {% if now().strftime('%H')|int < 12 %}
+      {% if now().strftime('%M')|int == 0 %}
+        It is {{ now().strftime('%H')|int }} AM.
+      {% else %}
+        It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
+      {% endif %}
+
+    {% elif now().strftime('%H')|int > 12 %}
+      {% if now().strftime('%M')|int == 0 %}
+        It is {{ now().strftime('%H')|int }} PM.
+      {% else %}
+        It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
+      {% endif %}
+    
+    {% else %}
+
+    {% endif %}
+
+    {{ [
+        'Today is ',
+        'If you have not been keeping track today is ',
+        'Do you know what day of the week it is? Today is',
+        'I hate to be the bearer of bad news, but today is ',
+        'Oh look, once again it is '
+    ]|random }}
+    {{states.sensor.today_is.state }}.
+    </p>
+    <p>
+      It is currently {{states.weather.home_2.state}} and {{states.sensor.back_porch.state|round}} degrees in Grayson. 
+    </p>
+    <p>
+      {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+        It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
+      {% elif is_state('sensor.clothing_forecast','Cold') %}
+        It is going to be cold today. so I suggest wearing long pants and a light jacket.
+      {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+        It is going to be chilly today. so I suggest wearing at least long pants.
+      {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+        It is going to be           
+        {{ [ 'nice outside',
+          'pretty nice outside ',
+          'a good day to be outside ',
+          'rather enjoyable outside ',
+        ] | random }} 
+        today. So I suggest wearing shorts.
+      {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+        It is going to be 
+        {{ [ 'bit warm ',
+          ' rather warm outside ',
+          ' almost too hot outside ',
+          ' a little warm ',
+        ] | random }} 
+        today. So I suggest wearing shorts. 
+      {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+        It is going to be 
+        {{ [ 'hot',
+          'hotter than the sun ',
+          'hotter than hot. but in a lot of bad ways ',
+          'hotter than the sun outside ',
+          'super hot ',
+          'hotter than the inside of a volcano '
+        ] | random }} 
+        today. So I suggest wearing shorts.
+      {% else %}
+        It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+      {% endif %} 
+    </p>
+    <p>
+      {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
+        {{ [ 'Skylar has school today.',
+          'Skylar needs to head to school in about forty minutes. ',
+          'Skylar should go to school today. '
+        ] | random }} 
+        {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
+          But It is early release!
+        {% endif %}
+      {% endif %}
+    </p>
+    <p>
+      {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
+        Today for Lunch at school  
+        {% if states.calendar.skylar_school.attributes.description == 'lunch-nuggets' %}
+          they are having Chicken Nuggets.          
+        {% elif states.calendar.skylar_school.attributes.description == 'lunch-gwinnettburger' %}
+          they are having Gwinnetts Best Burger.
+            {{ [ 'Which seems like an overstatement if you ask me.',
+              'But is it really?',
+              'If you like this, I know where to find Texas Best Barbeque.'
+            ] | random }}
+        {% elif states.calendar.skylar_school.attributes.description == 'lunch-pizza' %}
+          it is Pizza.
+        {% elif states.calendar.skylar_school.attributes.description == 'lunch-minipups' %}
+          it is Mini Corn Pups.
+        {% elif states.calendar.skylar_school.attributes.description == 'lunch-hotdogs' %}
+          it is Mini Corn Pups.
+        {% else %}
+        it might be a good day to take something.
+        {% endif %}
+      {% endif %}
+    </p>
+    <p>
+      {% if is_state('input_boolean.skylar_is_awake', 'on') %}
+        Skylar was up and moving at {{ states.input_datetime.skylar_awake_at.state }}.
+        {% if is_state('media_player.theater_tv', 'on') %}
+          and he appears to be in the Theater
+        {% endif %}
+      {% else %}
+        It doesn't appear that Skylar is out of bed yet. 
+      {% endif %}
+    </p>
+    <p>
+      {%- if states.sensor.home_to_zoo.state|round > 50 %}
+        Traffic to the Zoo appears heavy than normnal.
+      {% else %}
+        Traffic to the Zoo is normal.
+      {% endif %}
+      Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo.
+    </p>
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
