@@ -149,7 +149,7 @@ script:
     - condition: state
       entity_id: sensor.washer_status
       state: complete
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >
@@ -157,10 +157,10 @@ script:
             {{ [
             'Just a reminder. Washing machine needs to be emptied.',
             'I am sure you have more inportant things to do, but do not forget to empty the washer.',
-            'Looks like the washing machine has completed it is cycle. You know what to do. <break time="1s"/> I hope.',
+            'Looks like the washing machine has completed it is cycle. You know what to do,,I hope.',
             'Do not forget to move the clothes to the dryer.',
             'Someone forgot to move the clothes to the dryer. I am not going to name any names. But there is a camera in there. ',
-            'Do you like when your clothes smell like mildew? Because that is what is happeneing. <break time="1s"/> Right now. '
+            'Do you like when your clothes smell like mildew? Because that is what is happening,,Right now. '
             ] | random }}
           </p>
     

@@ -121,7 +121,7 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data:
           who: '{{ states.sensor.room_audio.state }}'
           message: >-
@@ -178,7 +178,7 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >
@@ -211,7 +211,7 @@ automation:
           who: "jeff"
           title: "Delivering Today"
           message: "{{ states('sensor.mail_deliveries_message')}}"
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >-
@@ -255,7 +255,7 @@ automation:
           who: "jeff"
           title: "Package Delivered"
           message: "Fedex/UPS just made a delivery"
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >-

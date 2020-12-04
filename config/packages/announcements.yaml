@@ -100,7 +100,7 @@ automation:
         to: 'on'
     condition:
       - condition: time
-        after: '07:00:00'
+        after: '06:45:00'
         before: '08:30:00'
       - condition: state
         entity_id: input_boolean.good_morning_report
@@ -200,64 +200,66 @@ script:
       
   security_briefing:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.alexa_audio.state }}'
         message: !include ../templates/speech/security_report.yaml
 
   event_briefing:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.alexa_audio.state }}'
         message: !include ../templates/speech/event_briefing.yaml
 
-  skylar_morning_briefing_jarvis:
+  skylar_morning_briefing:
     sequence:
-    - service: script.jarvis_voice
+    - service: >
+        {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
+          script.speech_engine
+        {% else %}
+          script.alexa_voice
+        {%- endif %}
       data: 
-          who: main
+          who: >
+            {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
+              theater
+            {% else %}
+              skylar_bedroom
+            {%- endif %}
           message: !include ../templates/speech/skylar_morning_briefing.yaml
-
-  skylar_morning_briefing_alexa:
-    sequence:
-    - service: notify.alexa_media_skylar_s_bedroom
-      data: 
-          message: !include ../templates/speech/skylar_morning_briefing.yaml
-          data:
-            type: tts
 
   skylar_nightly_briefing:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: !include ../templates/speech/skylar_nightly_briefing.yaml
 
   nightly_briefing_report:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: !include ../templates/speech/nightly_briefing.yaml
 
   sundown_briefing:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: !include ../templates/speech/sundown_briefing.yaml
 
   morning_briefing:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: kitchen
         message: !include ../templates/speech/morning_briefing.yaml
 
   morning_wakeup_report:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: master_bedroom
         message: !include ../templates/speech/morning_wakeup_report.yaml

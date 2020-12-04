@@ -193,7 +193,7 @@ automation:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     action:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >
@@ -210,8 +210,8 @@ automation:
               'The air quality in this house has actually improved.',
               'Closing the door would improve the internal climate of the house.',
               'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
-              'They always say when one door closes another one opens...that must of been waht happened',
-              'And the automatic door closer appears to be broken. So...'
+              'They always say when one door closes another one opens...that must of been what happened',
+              'And the automatic door closer appears to be broken. So, you know what to do.'
           ] | random }}
 
     initial_state: true
@@ -238,7 +238,7 @@ automation:
       entity_id: input_boolean.sentry_mode
       state: 'on'
     action:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >
@@ -358,7 +358,7 @@ automation:
       from: 'off'
       to: 'on'
     action:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >
@@ -385,7 +385,7 @@ automation:
       to: 'off'
     
     action:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >
@@ -410,7 +410,7 @@ automation:
         from: 'off'
         to: 'on'
     action:
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >
@@ -773,7 +773,7 @@ script:
 
   activate_barn_door_protocol:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >-
@@ -806,7 +806,7 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: "Home"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >-
@@ -837,7 +837,7 @@ script:
     - condition: state
       entity_id: group.external_doors
       state: "on"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >
@@ -866,7 +866,7 @@ script:
 
   activate_guest_mode:
     sequence:
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: >-

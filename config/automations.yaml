@@ -254,7 +254,7 @@
     entity_id: binary_sensor.front_door
     state: 'off'
   action:
-  - service: script.jarvis_voice
+  - service: script.speech_engine
     data_template:
       who: '{{ states.sensor.room_audio.state }}'
       message: '{{ [ "I have detected motion at the ", "Someone may be at the

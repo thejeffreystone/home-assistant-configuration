@@ -185,7 +185,7 @@ automation:
       value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
     action:
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: "Blackout time has started."
@@ -204,7 +204,7 @@ automation:
       state: 'on'
     action:
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: "Blackout time has ended"
@@ -272,7 +272,7 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk. I will be disabling audible notifications during school hours."

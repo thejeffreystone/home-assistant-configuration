@@ -124,11 +124,11 @@
           Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo.
 
           {%- if states.sensor.home_to_summit.state|round > 50 %}
-            Traffic to the Cox Automotive appears heavy than normnal.
+            Traffic to Summit appears heavy than normnal.
           {% else %}
-            Traffic to the Cox is normal.
+            Traffic to Summit is normal.
           {% endif %}
-          Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Cox Automotive.
+          Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}.
       </p>
   {%- endmacro -%}
 

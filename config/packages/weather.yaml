@@ -51,33 +51,33 @@ sensor:
   - platform: nws_alerts
     zone_id: 'GAZ034,GAC135'
 
-  - platform: mqtt
-    name: "Back Porch"
-    state_topic: "house/acurite2mqtt/Acurite-6045M_3078"
-    unit_of_measurement: '°F'
-    value_template: "{{ value_json.temperature_F }}"
-    json_attributes_topic: "house/acurite2mqtt/Acurite-6045M_3078"
-    device_class: temperature
+  # - platform: mqtt
+  #   name: "Back Porch"
+  #   state_topic: "house/acurite2mqtt/Acurite-6045M_3078"
+  #   unit_of_measurement: '°F'
+  #   value_template: "{{ value_json.temperature_F }}"
+  #   json_attributes_topic: "house/acurite2mqtt/Acurite-6045M_3078"
+  #   device_class: temperature
   
-  - platform: mqtt
-    name: "Crawlspace"
-    state_topic: "house/acurite2mqtt/Acurite-609TXC_73"
-    unit_of_measurement: '°F'
-    value_template: "{{ value_json.temperature_F }}"
-    json_attributes_topic: "house/acurite2mqtt/Acurite-609TXC_73"
-    device_class: temperature
+  # - platform: mqtt
+  #   name: "Crawlspace"
+  #   state_topic: "house/acurite2mqtt/Acurite-609TXC_73"
+  #   unit_of_measurement: '°F'
+  #   value_template: "{{ value_json.temperature_F }}"
+  #   json_attributes_topic: "house/acurite2mqtt/Acurite-609TXC_73"
+  #   device_class: temperature
   
-  - platform: mqtt
-    name: "Garage"
-    state_topic: "house/acurite2mqtt/Acurite-Tower_10968"
-    unit_of_measurement: '°F'
-    value_template: "{{ value_json.temperature_F }}"
-    json_attributes_topic: "house/acurite2mqtt/Acurite-Tower_10968"
-    device_class: temperature
+  # - platform: mqtt
+  #   name: "Garage"
+  #   state_topic: "house/acurite2mqtt/Acurite-Tower_10968"
+  #   unit_of_measurement: '°F'
+  #   value_template: "{{ value_json.temperature_F }}"
+  #   json_attributes_topic: "house/acurite2mqtt/Acurite-Tower_10968"
+  #   device_class: temperature
 
-  - platform: mqtt
-    name: "Lightning total count"
-    state_topic: "house/lightning/total_count"
+  # - platform: mqtt
+  #   name: "Lightning total count"
+  #   state_topic: "house/lightning/total_count"
 
   - platform: statistics
     name: Inside Humidity Stats
@@ -185,13 +185,13 @@ sensor:
           {% endif %}
       backporch_weather:
         friendly_name: Back Porch Weather
-        value_template: "{{ states.sensor.back_porch.state | round}} °F / {{ states.sensor.back_porch.attributes.humidity }} %"
+        value_template: "{{ states.sensor.back_porch_temperature.state | round}} °F / {{ states.sensor.back_porch_humidity.state }} %"
       garage_weather:
         friendly_name: Garage Weather
-        value_template: "{{ states.sensor.garage.state | round}} °F / {{ states.sensor.garage.attributes.humidity }} %"
+        value_template: "{{ states.sensor.garage_temperature.state | round}} °F / {{ states.sensor.garage_humidity.state }} %"
       crawlspace_weather:
         friendly_name: Crawlspace Weather
-        value_template: "{{ states.sensor.crawlspace.state | round}} °F / {{ states.sensor.crawlspace.attributes.humidity }} %"
+        value_template: "{{ states.sensor.crawlspace_temperature.state | round}} °F / {{ states.sensor.crawlspace_humidity.state }} %"
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
@@ -309,7 +309,7 @@ sensor:
         value_template: "{{ states.climate.home.attributes.current_humidity }}"
       lighting_stike_count:
         friendly_name: "Lightning Strike Count"
-        value_template: "{{ states.sensor.back_porch.attributes.strike_count }}"
+        value_template: "{{ states.sensor.back_porch_strike_count.state }}"
 
 automation:
   - alias: 'NWS Weather Alert Pop Up Control'
@@ -405,7 +405,7 @@ automation:
         - condition: template
           value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
     action:
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >
@@ -431,7 +431,7 @@ automation:
             {{ [ "/config/www/tweet_images/lightning.jpg",
                  "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
       - delay: '00:00:15'
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: main
           message: >
@@ -491,7 +491,7 @@ automation:
   - alias: Lightning Detected
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.back_porch.attributes.strike_count | int > states.sensor.lightning_total_count.state | int }}'
+        value_template: '{{ states.sensor.back_porch_strike_count.state | int > states.sensor.lightning_total_count.state | int }}'
     condition:
       - condition: state
         entity_id: input_boolean.lightning_warning
@@ -511,7 +511,7 @@ automation:
     mode: restart
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.back_porch.attributes.strike_count | int == states.sensor.lightning_total_count.state | int }}'
+        value_template: '{{ states.sensor.back_porch_strike_count.state | int == states.sensor.lightning_total_count.state | int }}'
         for:
           minutes: 20
     condition:
@@ -605,7 +605,7 @@ script:
       - service: mqtt.publish
         data:
           topic: house/lightning/total_count
-          payload_template: "{{ states.sensor.back_porch.attributes.strike_count | int }}"
+          payload_template: "{{ states.sensor.back_porch_strike_count.state | int }}"
           retain: true
 
 
@@ -659,7 +659,7 @@ script:
           image: >-
             {{ [ "/config/www/tweet_images/lightning.jpg",
                  "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >-
@@ -683,7 +683,7 @@ script:
       - condition: state
         entity_id:  binary_sensor.day
         state: 'on'
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >-

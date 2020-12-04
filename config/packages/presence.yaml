@@ -198,7 +198,7 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.kat_travel_monitor
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: 'Kat has arrived at work.'
@@ -215,7 +215,7 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.kat_travel_monitor
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: Katherine appears to be headed home. Based on current traffic conditions, she should be here in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.
@@ -231,7 +231,7 @@ automation:
     action:
     - service: script.jeff_destination_home
     - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: Jeff appears to be headed home. Based on current traffic conditions, he should be here in {{states.sensor.jeff_ett_home.attributes.duration | round}} minutes. 
@@ -449,7 +449,7 @@ automation:
       - wait_template: "{{ states.binary_sensor.kitchen_door.state == 'on' }}"
         timeout: '00:01:00'
       - delay: '00:02:00'
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: main
           message: >

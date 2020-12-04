@@ -20,7 +20,7 @@ automation:
     action:
     - service: homeassistant.turn_on
       entity_id: group.incense
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: Incense has been turned on.
@@ -35,7 +35,7 @@ automation:
     action:
     - service: homeassistant.turn_off
       entity_id: group.incense
-    - service: script.jarvis_voice
+    - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: Incense has been turned off.

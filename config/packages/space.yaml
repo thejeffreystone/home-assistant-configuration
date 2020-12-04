@@ -66,7 +66,7 @@ automation:
   #   action:
   #     - wait_template: >-
   #         {{((as_timestamp(now()) - states('sensor.launch_window') | float) | abs < 601)}}
-  #     - service: script.ah_report
+  #     - service: script.speech_engine
   #       data:
   #         call_launch: 1
   #     - service: script.text_notify
@@ -107,7 +107,7 @@ automation:
   #       to: 'on'
   #       from: 'off'
   #   action:
-  #     - service: script.ah_report
+  #     - service: script.speech_engine
   #       data:
   #         call_interuption: 1
   #         call_iss: 1
@@ -124,7 +124,7 @@ automation:
         entity_id: sensor.moon
         state: 'full_moon'
     action:
-      - service: script.jarvis_voice
+      - service: script.speech_engine
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
           message: >

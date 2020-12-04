@@ -10,7 +10,6 @@
   origin: device_tracker.life360_kat_stone
   destination: zone.home
   region: 'US'
-  incl_filter: US-78 W
 - platform: waze_travel_time
   name: "Home To Summit"
 #  api_key: !secret google_api

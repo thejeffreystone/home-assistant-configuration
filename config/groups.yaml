@@ -18,6 +18,19 @@ House Conditions:
   - sensor.accurite_garage_temperature
   - sensor.accurite_garage_humidity
 
+occupancy:
+  - binary_sensor.kitchen_occupancy
+  - binary_sensor.living_room_occupancy
+  - binary_sensor.master_bedroom_occupancy
+  - binary_sensor.skylar_room_occupancy
+  - binary_sensor.croft_occupancy
+  - binary_sensor.theater_occupancy
+
+audio_devices:
+  - media_player.kitchen_display
+  - media_player.upstairs_speaker
+  - media_player.master_bedroom_speaker
+
 Outside Lights:
   - switch.driveway_light
   - switch.front_porch_light

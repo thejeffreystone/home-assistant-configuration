@@ -113,19 +113,30 @@ sensor:
       room_audio:
         friendly_name: "Room Audio"
         value_template: >-
-            {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
-              theater
-            {% elif is_state('binary_sensor.kitchen_occupancy', 'on') %}
-              kitchen
-            {% elif is_state('binary_sensor.living_room_occupancy', 'on') and is_state('input_boolean.audible_notifications', 'on') %}
-              main
-            {% elif is_state('binary_sensor.croft_occupancy', 'on') %}
-              croft
-            {% elif is_state('binary_sensor.master_bedroom_occupancy', 'on') %}
-              master_bedroom
-            {% else %}
-              all_google
-            {%- endif %}
+          {% set sensor_count = expand('group.occupancy') | selectattr('state', 'eq', 'on') | list | count %}
+          {% if sensor_count >= 1 %}
+            {% for sensor in expand('group.occupancy') %}
+              {% if as_timestamp(sensor.last_changed) == as_timestamp(expand('group.occupancy') | selectattr('state', 'eq', 'on') | map(attribute='last_changed') | max) %}
+                {%- if sensor.name == 'Theater Occupancy' and is_state('media_player.theater_tv', 'on') %}
+                  theater
+                {% elif sensor.name == 'Kitchen Occupancy' %}
+                  kitchen
+                {% elif sensor.name == 'Living Room Occupancy' and is_state('input_boolean.audible_notifications', 'on') %}
+                  main
+                {% elif sensor.name == 'Living Room Occupancy' and is_state('input_boolean.audible_notifications', 'off') %}
+                  kitchen
+                {% elif sensor.name == 'Croft Occupancy' %}
+                  croft
+                {% elif sensor.name == 'Master Bedroom Occupancy' %}
+                  master_bedroom
+                {% else %}
+                  all_google
+                {%- endif %}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            main
+          {% endif %}
       alexa_audio:
         friendly_name: "Alexa Audio"
         value_template: >-
