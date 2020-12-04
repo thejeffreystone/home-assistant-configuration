@@ -7,7 +7,7 @@
 
 automation:
 
-  - id: coffee_time
+  - id: 3a0175f8-9caf-45fb-a461-585474f73e6b
     alias: Coffee Time
     initial_state: true
     trigger:
@@ -25,7 +25,7 @@ automation:
         entity_id: alarm_control_panel.aarlo_ah_base_station
         mode: 'home'
 
-  - id: good_morning
+  - id: ce3d7e63-3eaa-4cc5-959b-1334e6c5c4e6
     alias: Good Morning
     initial_state: true
     trigger:
@@ -54,7 +54,7 @@ automation:
           {{ [ "/config/www/tweet_images/coffee.jpg",
                 "/config/www/tweet_images/coffee2.jpg"] | random }}
 
-  - id: skylar_bedtime
+  - id: ff00b2a6-be6a-4f1f-ac14-84de9d42bb6a
     alias: Skylar Bedtime
     initial_state: true
     trigger:
@@ -69,7 +69,7 @@ automation:
       entity_id: scene.skylar_room_prebed
 
 
-  - id: master_bedroom_lights_dim
+  - id: 745ee642-26ef-4818-8068-67f8ffccb29f
     alias: Master Bedroom lights dim
     initial_state: true
     trigger:
@@ -83,7 +83,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.master_bedroom_dim
 
-  - id: master_bedroom_lights_out
+  - id: 68891fc2-b631-4195-ae63-b660e04f1615
     alias: Master Bedroom lights out
     initial_state: true
     trigger:
@@ -97,7 +97,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.master_bedroom_off
 
-  - id: master_bedroom_lights_on
+  - id: 27b83e67-b509-427a-aa2f-1ce4bb7ad0ab
     alias: Master Bedroom Lights On
     initial_state: true
     trigger:
@@ -112,7 +112,7 @@ automation:
       entity_id: scene.master_bedroom_on
  
 
-  - id: master_bedroom_alarm
+  - id: b054e477-be50-480e-bd2e-2996b3e1c997
     alias: Master bedroom alarm
     initial_state: true
     trigger:
@@ -126,7 +126,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.master_bedroom_on
 
-  - id: master_bedroom_wake_up
+  - id: 1feafed1-0de9-44a4-a2f0-e693bc637ea1
     alias: Master bedroom Wake Up
     initial_state: true
     trigger:
@@ -140,7 +140,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.master_bedroom_dim
 
-  - id: good_night
+  - id: 0d5cea61-f295-4e5d-87a9-f12dfb5b67d6
     alias: Good Night
     initial_state: true
     trigger:
@@ -165,6 +165,8 @@ automation:
       data:
         entity_id: light.kitchen_cabinets
     - service: script.good_night_loft
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.audible_notifications
     - service: script.reset_annc_switches
     - service: script.twitter_notify_image
       data_template:
@@ -181,7 +183,7 @@ automation:
               "/config/www/tweet_images/clock.jpg"] | random }}
         
 
-  - id: outside_lights_on_sunset
+  - id: 79886677-4fdb-4cec-ad46-92a9c3c75681
     alias: Outside Lights on at Sunset
     initial_state: true
     trigger:
@@ -195,6 +197,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.normal_livingroom_lighting
     - service: script.sunset_garage_open
+    - service: script.sundown_briefing
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
@@ -212,7 +215,7 @@ automation:
               "/config/www/tweet_images/light.jpg",
               "/config/www/tweet_images/lamp2.jpg"] | random }}
 
-  - id: sunset
+  - id: a01624c1-1222-4d53-a9b3-95eee9a6a4b0
     alias: Sunset
     initial_state: true
     trigger:
@@ -223,9 +226,8 @@ automation:
       data:
         entity_id: alarm_control_panel.aarlo_ah_base_station
         mode: 'Armed'
-    - service: script.nightly_briefing_report
 
-  - id: outside_lights_off_sunrise
+  - id: 18656c32-65ab-4578-9cc0-2de5820290de
     alias: Outside Lights off at Sunrise
     initial_state: true
     trigger:
@@ -277,7 +279,7 @@ automation:
   #                 "Since I monitor the conditions inside and outside the Anchorage House I know all the things. Like it is time to turn on the inside lights."
   #             ] | random }}
 
-  - id: inside_off_after_sunrise
+  - id: 9c4e0720-6496-49a9-ad49-fe59b52fc056
     alias: Inside off after Sunrise
     initial_state: true
     trigger:
@@ -297,7 +299,7 @@ automation:
       entity_id: scene.master_bedroom_off
    
 
-  - id: ha_start
+  - id: 86fd5de9-3136-4d86-aef9-268f097eae35
     alias: HA Startup
     initial_state: true
     trigger:
@@ -308,7 +310,7 @@ automation:
       data:
         name: midnight-AH
 
-  - id: jeff_eta_home
+  - id: 82b96b73-2407-49d7-8ea2-1f78a69e025b
     alias: Jeff eta home
     initial_state: true
     trigger:
@@ -355,7 +357,7 @@ automation:
               ] | random }}
 
 
-  - id: set_coffee_time
+  - id: 49fcdf4f-5cb1-442a-9a1a-16eefc3da503
     alias: set soffee time
     trigger:
       - platform: time
@@ -371,7 +373,7 @@ automation:
               07:15
             {% endif %}
 
-  - id: set_skylar_nightly_report_time
+  - id: 7ad448b3-f2f0-4dfc-9549-732fa6396bc5
     alias: set skylar nightly report time
     trigger:
       - platform: time
@@ -387,7 +389,7 @@ automation:
               20:15
             {% endif %}
 
-  - id: set_good_morning_time
+  - id: bd8e4e20-f138-49ec-a9f6-d23ab1450b98
     alias: set good morning time
     trigger:
       - platform: time

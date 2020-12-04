@@ -11,7 +11,6 @@ arriving:
   name: Arriving
   entities: []
 
-
 House Conditions:
   - climate.first_floor
   - sensor.accurite_back_porch_temperature

@@ -13,4 +13,4 @@
 - platform: tod
   name: Quiet time
   after: '21:00'
-  before: '07:00'
+  before: '06:00'

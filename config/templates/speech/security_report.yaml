@@ -7,34 +7,35 @@
         'Sentry Mode is enabled.',
         'Sentry mode is currently active.',
         'Barn Door Protocol is currently in effect.',
-        'My security system is currently armed.'
+        'My security system is currently armed.',
+        'Anchorage House is in lockdown mode. '
         ] | random}} 
     {% else %}
       {{ [
         'Sentry Mode is disabled.',
         'Sentry mode is currently inactive.',
-        'My security system is currently disarmed.'
+        'My security system is currently disarmed.',
+        'Anchorage House is currently in standby. '
         ] | random}} 
     {% endif %}
     {%- if states.group.external_doors.state == 'off' %}
-      All external doors are secured.
+      All external doors are currently secured.
     {% else %}
-      The following doors are open,
-      {%- if states.binary_sensor.front_door.state == 'on' %}
-        Front Door.
+      {% set open_doors = expand('group.external_doors')| selectattr('state', 'eq', 'on') | map(attribute='name')|join(' and ') %}
+      {% set open_door_count = expand('group.external_doors') | selectattr('state', 'eq', 'on') | list | count %}
+      {% if open_door_count == 1 %}
+        {% set is_are = ' is ' %}
+      {% else %}
+        {% set is_are = ' are ' %}
       {% endif %}
-      {%- if states.binary_sensor.back_door.state == 'on' %}
-        Back Door.
-      {% endif %}
-      {%- if states.binary_sensor.laundry_room_door.state == 'on' %}
-        Laundry Room Door.
-      {% endif %}
-      {%- if states.binary_sensor.garage_door.state == 'on' %}
-        Garage Door.
-      {% endif %}
-      {%- if states.binary_sensor.side_door.state == 'on' %}
-        Side Door.
-      {% endif %}
+      {%- macro announcement(open_doors, is_are) -%}
+        {{ [
+          open_doors ~ is_are + " standing open.",
+          open_doors ~ is_are + " not secured.",
+          open_doors ~ is_are + " open."
+          ] | random }}
+        {%- endmacro -%}
+      {{announcement(open_doors)}}
     {% endif %}
     </p>
   {%- endmacro -%}

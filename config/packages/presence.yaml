@@ -76,7 +76,9 @@ sensor:
         friendly_name: "Skylar's Current Location"
         unit_of_measurement: ''
         value_template: >-
-            {%- if is_state('input_boolean.skylar_school', 'on')%}
+            {% if is_state('person.skylar', 'home') %}
+              home
+            {%- elif is_state('input_boolean.skylar_school', 'on') or is_state('person.skylar', 'Starling')%}
               school
             {%- elif is_state('sensor.jeff_location', 'home') and is_state('sensor.kat_location', 'home') and is_state('input_boolean.skylar_school', 'off')%}
               home
@@ -168,10 +170,14 @@ automation:
       - platform: state
         entity_id: binary_sensor.skylar_room_occupancy
         to: 'on'
+        from: 'off'
     condition:
       - condition: time
         after: '05:00:00'
         before: '08:30:00'
+      - condition: state
+        entity_id: input_boolean.skylar_awake
+        state: 'off'
     action:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.skylar_awake_at
@@ -212,7 +218,8 @@ automation:
     - service: script.jarvis_voice
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
-        message:
+        message: Katherine appears to be headed home. Based on current traffic conditions, she should be here in {{states.sensor.kat_ett_home.attributes.duration | round}} minutes.
+        
   
   - id: '1550109528753'
     alias: Jeff Is Heading Home
@@ -227,7 +234,7 @@ automation:
     - service: script.jarvis_voice
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
-        message:
+        message: Jeff appears to be headed home. Based on current traffic conditions, he should be here in {{states.sensor.jeff_ett_home.attributes.duration | round}} minutes. 
 
   - id: jeff_heading_to_work
     alias: Jeff Is Heading To Work
@@ -253,7 +260,7 @@ automation:
     condition:
       condition: time
       after: '07:25:00'
-      before: '08:30:00'
+      before: '09:00:00'
       weekday:
         - mon
         - tue
@@ -440,8 +447,8 @@ automation:
       - service: script.standby
       - service: script.washer_finished_notification_audible
       - wait_template: "{{ states.binary_sensor.kitchen_door.state == 'on' }}"
-        timeout: '00:1:00'
-      - delay: '00:01:00'
+        timeout: '00:01:00'
+      - delay: '00:02:00'
       - service: script.jarvis_voice
         data_template:
           who: main

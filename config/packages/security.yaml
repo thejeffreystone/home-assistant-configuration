@@ -143,6 +143,8 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.garage_after_dark
 
+
+
   - id: door_chime
     alias: Door Chine
     trigger:

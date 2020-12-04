@@ -44,46 +44,34 @@ input_datetime:
 # Announcment Automation - fires at the time of the above input_datetimes
 ################################
 automation:
-  - id: turn_off_audible_notifications
-    alias: Turn Off Audible Notifications
-    initial_state: true
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.audible_notifications
-    
-
-  - id: turn_on_audible_notifications
-    alias: Turn On Audible Notifications at 7am
+  
+  - id: 81bee5ee-6820-4626-aebf-3deb8de69e4d
+    alias: Turn On Audible Notifications
     initial_state: true
     trigger:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     action:
-    - service: script.turn_on_ha_speaker
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.audible_notifications
 
-
-  - id: set_audible_time_off_guest
-    alias: set audible time off guest
+  # Turn off audible notifications if they have't been turned off yet. 
+  - id: e0e9c774-6abe-42aa-bdab-32108bebb0e9
+    alias: Turn Off Audible Notifications
+    initial_state: true
     trigger:
-      - platform: state
-        entity_id: input_boolean.guest_mode
-        to: 'on'
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
     action:
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.audible_notification_off
-        data_template:
-          time: >
-            {% if states.binary_sensor.school_tomorrow.state == 'on' %}
-              19:30
-            {% else %}
-              20:30
-            {% endif %}
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.audible_notifications
 
 
-  - id: prebed_routine
+  - id: cb0063e4-1dfe-4537-8b9e-4f64b2eba35d
     initial_state: true
     alias: Skylar Nightly Announcements
     trigger:
@@ -92,16 +80,16 @@ automation:
     action:
     - service: script.skylar_nightly_briefing
   
-  - id: nightly_report
-    initial_state: true
-    alias: Nightly Report
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    action:
-    - service: script.nightly_briefing_report
+  # - id: 15056866-5ac7-4b33-a371-ab9e449548d1
+  #   initial_state: true
+  #   alias: Nightly Report
+  #   trigger:
+  #     platform: template
+  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+  #   action:
+  #   - service: script.nightly_briefing_report
 
-  - id: good_morning_report
+  - id: 1d8f396a-f6ec-460d-97e3-d11900418f95
     alias: Good Morning Report
     initial_state: true
     trigger:
@@ -116,7 +104,7 @@ automation:
         before: '08:30:00'
       - condition: state
         entity_id: input_boolean.good_morning_report
-        state: 'on'
+        state: 'off'
     action:
     - service: script.morning_briefing
     - service: script.twitter_notify
@@ -135,7 +123,7 @@ automation:
       entity_id: input_boolean.good_morning_report
 
   
-  - id: master_bedroom_report
+  - id: e8580ba4-fa76-4185-818b-fba3c3cea41c
     alias: Master Bedroom Report
     initial_state: true
     trigger:
@@ -152,7 +140,7 @@ automation:
     action:
     - service: script.morning_wakeup_report
         
-  - id: skylar_morning_alarm_announcement
+  - id: 09bf89e7-180c-40fb-9543-5bd862e21049
     alias: skylar morning alarm announcement
     trigger:
       platform: template
@@ -170,7 +158,7 @@ automation:
           script.skylar_morning_briefing_alexa
         {%- endif %}
   
-  - id: set_skylar_morning_report_time
+  - id: bbbafc52-eab1-44cd-ac24-4f9b7f4210b6
     alias: set skylar morning report time
     trigger:
     - platform: time
@@ -214,14 +202,14 @@ script:
     sequence:
     - service: script.jarvis_voice
       data_template:
-        who: kitchen
+        who: '{{ states.sensor.alexa_audio.state }}'
         message: !include ../templates/speech/security_report.yaml
 
   event_briefing:
     sequence:
     - service: script.jarvis_voice
       data_template:
-        who: kitchen
+        who: '{{ states.sensor.alexa_audio.state }}'
         message: !include ../templates/speech/event_briefing.yaml
 
   skylar_morning_briefing_jarvis:
@@ -252,6 +240,13 @@ script:
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
         message: !include ../templates/speech/nightly_briefing.yaml
+
+  sundown_briefing:
+    sequence:
+    - service: script.jarvis_voice
+      data_template:
+        who: '{{ states.sensor.room_audio.state }}'
+        message: !include ../templates/speech/sundown_briefing.yaml
 
   morning_briefing:
     sequence:
