@@ -100,47 +100,47 @@ notify:
     name: alexa_media
 
 
-automation:
+# automation:
 
-  - id: audio_isssue
-    alias: Audio Issue
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: media_player.ha_speaker
-      to: 'unavailable'
-    condition:
-    - condition: state
-      entity_id: binary_sensor.day
-      state: 'on'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.audible_notifications
-      - service: script.text_notify
-        data_template:
-          who: "jeff"
-          title: "Audio Issue"
-          message: "HA Audible Notifications turning off due to Chromecast Issue"
+#   - id: audio_isssue
+#     alias: Audio Issue
+#     initial_state: true
+#     trigger:
+#     - platform: state
+#       entity_id: media_player.ha_speaker
+#       to: 'unavailable'
+#     condition:
+#     - condition: state
+#       entity_id: binary_sensor.day
+#       state: 'on'
+#     action:
+#       - service: input_boolean.turn_off
+#         entity_id: input_boolean.audible_notifications
+#       - service: script.text_notify
+#         data_template:
+#           who: "jeff"
+#           title: "Audio Issue"
+#           message: "HA Audible Notifications turning off due to Chromecast Issue"
 
-  - id: audio_isssue_cleared
-    alias: Audio Issue Cleared
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: media_player.ha_speaker
-      from: 'unavailable'
-      to: 'off'
-    condition:
-    - condition: state
-      entity_id: binary_sensor.day
-      state: 'on'
-    action:
-      - service: script.text_notify
-        data_template:
-          who: "jeff"
-          title: "Audio Issue Cleared"
-          message: "Main hromecast is back on"
-      - service: script.turn_on_ha_speaker
+#   - id: audio_isssue_cleared
+#     alias: Audio Issue Cleared
+#     initial_state: true
+#     trigger:
+#     - platform: state
+#       entity_id: media_player.ha_speaker
+#       from: 'unavailable'
+#       to: 'off'
+#     condition:
+#     - condition: state
+#       entity_id: binary_sensor.day
+#       state: 'on'
+#     action:
+#       - service: script.text_notify
+#         data_template:
+#           who: "jeff"
+#           title: "Audio Issue Cleared"
+#           message: "Main hromecast is back on"
+#       - service: script.turn_on_ha_speaker
 
 
   
@@ -303,9 +303,9 @@ script:
             media_player.ha_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+              media_player.ha_speaker
             {% else %}
-            media_player.house
+              media_player.house
             {% endif %}
           {% endif %}
         volume_level: >
@@ -345,9 +345,9 @@ script:
             media_player.ha_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+              media_player.ha_speaker
             {% else %}
-            media_player.house
+              media_player.house
             {% endif %}
           {% endif %}
         message: >-
@@ -368,39 +368,107 @@ script:
 #   => Only Announce when Audible Notifications are on
 ###############################################################################
 
-  voice_notify:
+  speech_engine:
     sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/lastmsg'
+          payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | truncate(220)}}'
+          retain: true
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/lastloc'
+          payload: '{{ who }}'
+          retain: true
       - condition: template
-        value_template: '{{ states.input_boolean.audible_notifications.state == "on" }}'
+        value_template: '{{ states.binary_sensor.quiet_time.state == "off" }}'
       - condition: state
-        entity_id: sensor.family_status
-        state: 'Home'
+        entity_id: group.family
+        state: 'home'
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
-      - service: tts.google_translate_say
-        data_template:
-          entity_id: media_player.guest_tv
-          message: >-
-            {{message }}
-
+      - service: >      
+          {% if voice == 'alexa' %}
+            script.alexa_voice
+          {% elif who in ['skylar_bedroom','kitchen_echo','livingroom_echo']  %}
+            script.alexa_voice
+          {% elif voice == 'jarvis' %}
+            {% if who == 'main' and is_state('media_player.ha_speaker','playing') %}
+              {% set who = 'livingroom_echo' %}
+              script.alexa_voice
+            {% else %}
+              script.speech_engine
+            {% endif %}
+          {% else %}
+            {% if who == 'main' and is_state('media_player.ha_speaker','playing') %}
+              {% set who = 'livingroom_echo' %}
+              script.alexa_voice
+            {% else %}
+              script.speech_engine
+            {% endif %}
+          {% endif %}
+        data:
+          who: '{{ who }}'
+          message: >
+            {{ message }}
+  
+  # Called wheh notification needs to play on echos
+  alexa_voice:
+    sequence:
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {% if who == 'skylar_bedroom' %}
+            notify.alexa_media_skylar_s_bedroom
+          {% elif who == 'kitchen_echo' %}
+            notify.alexa_media_kitchen
+          {% elif who == 'livingroom_echo' %}
+            notify.alexa_media_living_room
+          {% else %}
+            notify.alexa_media_living_room
+          {% endif %}
+    - service: script.dim_main_volume
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {% if who == 'skylar_bedroom' %}
+            notify.alexa_media_skylar_s_bedroom
+          {% elif who == 'kitchen_echo' %}
+            notify.alexa_media_kitchen
+          {% elif who == 'livingroom_echo' and is_state('media_player.ha_speaker','playing')  %}
+            {% set old_volume = states.media_player.ha_speaker.attributes.volume_level %}
+            media_player.ha_speaker
+          {% else %}
+            notify.alexa_media_living_room
+          {% endif %}
+        volume_level: >
+            {% if is_state('input_boolean.audible_notifications.state','on') %}
+              .6
+            {% else %}
+              .4
+            {% endif %}
+    - service: >
+        {% if who == 'skylar_bedroom' %}
+          notify.alexa_media_skylar_s_bedroom
+        {% elif who == 'kitchen_echo' %}
+          notify.alexa_media_kitchen
+        {% elif who == 'livingroom_echo' %}
+          notify.alexa_media_living_room
+        {% else %}
+          notify.alexa_media_living_room
+        {% endif %}
+      data: 
+          message: >
+            {{ message }}
+          data:
+            type: tts
+    - delay: 00:00:20
+    - service: script.raise_main_volume
  
-
+  # Default audible notifications. Notifcations play on the google devices. 
   jarvis_voice:
     sequence:
-    - service: mqtt.publish
-      data_template:
-        topic: 'house/polly/lastmsg'
-        payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | truncate(220)}}'
-        retain: true
-    - condition: template
-      value_template: '{{ states.binary_sensor.quiet_time.state == "off" }}'
-    - condition: state
-      entity_id: group.family
-      state: 'home'
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
     - service: media_player.turn_on
       data_template:
         entity_id: >
@@ -460,7 +528,7 @@ script:
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'studio' %}
+          {% elif who == 'theater' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
@@ -482,7 +550,31 @@ script:
           </speak>
         cache: true
   
+  dim_main_volume:
+    sequence:
+    - condition: state
+      entity_id: 'media_player.ha_speaker'
+      state: 'playing'
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.old_volume
+        value: >
+          {{ states.media_player.ha_speaker.attributes.volume_level }}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.ha_speaker
+        volume_level: .2
   
+  raise_main_volume:
+    sequence:
+    - condition: state
+      entity_id: 'media_player.ha_speaker'
+      state: 'playing'
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.ha_speaker
+        volume_level: >
+          {{ states.input_number.old_volume.state }}    
 
 ###############################################################################
 # Twitter
@@ -584,7 +676,7 @@ script:
 ###############################################################################
 #   weather_report:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_weather_alerts: 1
 #           call_current_conditions_outside: 1
@@ -600,7 +692,7 @@ script:
 # ###############################################################################
 #   traffic_report:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_traffic_conditions: 1
 
@@ -609,7 +701,7 @@ script:
 # ###############################################################################
 #   security_report:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_security_report: 1
 
@@ -618,13 +710,13 @@ script:
 # ###############################################################################
 #   jeff_eta_report:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_jeff_location: 1
 
 #   jeff_headed_home_annc:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_jeff_headed_home: 1
 
@@ -634,12 +726,12 @@ script:
 # ###############################################################################
 #   kat_eta_report:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_kat_location: 1
 
 #   kat_headed_home_annc:
 #     sequence:
-#       - service: script.ah_report
+#       - service: script.speech_engine
 #         data:
 #           call_kat_headed_home: 1
