@@ -5,6 +5,19 @@
 #   @description    :   Maint Automation that occurs every day
 ###############################################################################
 automation:
+  - id: mqtt_shelly_announce
+    alias: Shelly Sync at HA Start
+    trigger:
+    - platform: homeassistant
+      event: start
+    action:
+    - delay: 00:00:20
+    - service: mqtt.publish
+      data:
+        topic: shellies/command
+        payload: announce
+
+
   # Using the HACS Daily Snapshot Clean Up Plugin 
   - id: daily_snapshot_clean_up
     alias: Daily snapshot clean up
