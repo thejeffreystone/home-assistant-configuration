@@ -1,47 +1,12 @@
-# Living Room
-# Sengled LED Lights
-# - platform: mqtt
-#   name: "Livingroom Tower"
-#   schema: json
-#   command_topic: "homeassistant/0xb0ce18140003608a"
-#   brightness_state_topic: "smartthings/Tower Lamp/level"
-#   brightness_command_topic: "smartthings/Tower Lamp/level"
-#   color_temp_command_topic: "smartthings/Tower Lamp/colorTemperature"
-#   color_temp_state_topic: "smartthings/Tower Lamp/colorTemperature"
-#   brightness_scale: 101
-#   payload_on: "on"
-#   payload_off: "off"
-#   retain: true
 
-# - platform: mqtt
-#   name: "Front Lamp"
-#   state_topic: "smartthings/Front Lamp/switch"
-#   command_topic: "smartthings/Front Lamp/switch"
-#   brightness_state_topic: "smartthings/Front Lamp/level"
-#   brightness_command_topic: "smartthings/Front Lamp/level"
-#   brightness_scale: 101
-#   payload_on: "on"
-#   payload_off: "off"
-#   retain: true
-
-# - platform: mqtt
-#   name: "Front Door Lamp"
-#   state_topic: "smartthings/Front Door Lamp/switch"
-#   command_topic: "smartthings/Front Door Lamp/switch"
-#   brightness_state_topic: "smartthings/Front Door Lamp/level"
-#   brightness_command_topic: "smartthings/Front Door Lamp/level"
-#   brightness_scale: 101
-#   payload_on: "on"
-#   payload_off: "off"
-#   retain: true
 
 # Outside
 - platform: mqtt
   name: "Side Door Light"
-  command_topic: "zwave2mqtt/side_door_light/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/side_door_light/38/1/0/set"
+  command_topic: "zwave2mqtt/side_door_bulb/38/1/0/set"    
+  brightness_command_topic: "zwave2mqtt/side_door_bulb/38/1/0/set"
   brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/side_door_light/38/1/0"
+  brightness_state_topic: "zwave2mqtt/side_door_bulb/38/1/0"
   on_command_type: "brightness"
   payload_off: 0
 

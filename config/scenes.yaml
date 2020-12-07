@@ -16,13 +16,13 @@
       - 255
     switch.fireplace_lights:
       state: 'on'
-    light.0xe20db9fffe004207_light:
+    light.living_room_tower_lamp_level_light_color_on_off:
       state: 'on'
       brightness: 100
-    light.0xe20db9fffe003637_light:
+    light.living_room_lamp:
       state: 'on'
       brightness: 100
-    switch.0xf0d1b80000052281_switch:
+    light.front_door_lamp_level_light_color_on_off:
       state: 'on'
     switch.rail_lights:
       state: 'on'
@@ -229,9 +229,9 @@
     light.jeff_lamp:
       state: 'on'
       brightness: 255
-    switch.0xbc33acfffe217d35_switch:
+    switch.kat_lamp_on_off:
       state: 'on'
-    light.0xb0ce1814035bb3f0_light:
+    light.tower_spotlight_level_on_off:
       state: 'on'
       brightness: 77
   id: d250bb4c5c1644b0a7064a9f36ffec32
@@ -239,17 +239,17 @@
   entities:
     light.jeff_lamp:
       state: 'off'
-    switch.0xbc33acfffe217d35_switch:
+    switch.kat_lamp_on_off:
       state: 'off'
-    light.0xb0ce1814035bb3f0_light:
+    light.tower_spotlight_level_on_off:
       state: 'off'
   id: 06e4b59c35f14054ab7e741445b7fd21
 - name: master bedroom dim
   entities:
-    light.0xb0ce1814035bb3f0_light:
+    light.tower_spotlight_level_on_off:
       state: 'on'
       brightness: 38
-    switch.0xbc33acfffe217d35_switch:
+    switch.kat_lamp_on_off:
       state: 'off'
     light.jeff_lamp:
       state: 'off'
@@ -272,7 +272,7 @@
       - 63
       - 255
       - 0
-    switch.0xf0d1b80000052281_switch:
+    switch.rainbow_light_on_off:
       state: 'on'
   id: cc8606f7345f48d59b3c32e900122d75
 - name: skylar room sleep
@@ -286,11 +286,13 @@
       - 63
       - 255
       - 0
-    switch.0xf0d1b80000052281_switch:
+    switch.rainbow_light_on_off:
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
     switch.forest:
+      state: 'off'
+    input_boolean.skylar_awake:
       state: 'off'
   id: f4e8d2f594c446ee9f0e41cf46dc1c72
 - name: skylar room morning
@@ -302,15 +304,18 @@
   entities:
     switch.forest:
       state: 'off'
-    switch.0xf0d1b80000052281_switch:
+    switch.rainbow_light_on_off:
       state: 'off'
   id: b25b0c6dcec049929b2bde5d08f3ce53
 - name: jeff desk on
   entities:
-    light.0xb0ce18140003b334_light:
+    light.tower_accent_level_light_color_on_off:
       state: 'on'
-      brightness: 204
-    light.0xb0ce1814035bb3f0_light:
+      brightness: 255
+    light.desk_accent_level_light_color_on_off:
+      state: 'on'
+      brightness: 77
+    light.tower_spotlight_level_on_off:
       state: 'on'
       brightness: 77
   id: 1538d090abe0494d9fa6c225adc83593
@@ -537,3 +542,21 @@
       icon: mdi:led-strip-variant
       supported_features: 55
       state: 'off'
+- id: '1607288511176'
+  name: side door off
+  entities:
+    light.side_door_light:
+      friendly_name: Side Door Light Off
+      assumed_state: true
+      supported_features: 1
+      state: 'off'
+      brightness: 0
+- id: '160728851117618'
+  name: side door on
+  entities:
+    light.side_door_light:
+      friendly_name: Side Door Light On
+      assumed_state: true
+      supported_features: 1
+      state: 'on'
+      brightness: 255
