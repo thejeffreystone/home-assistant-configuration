@@ -117,7 +117,7 @@ sensor:
           {% if sensor_count >= 1 %}
             {% for sensor in expand('group.occupancy') %}
               {% if as_timestamp(sensor.last_changed) == as_timestamp(expand('group.occupancy') | selectattr('state', 'eq', 'on') | map(attribute='last_changed') | max) %}
-                {%- if sensor.name == 'Theater Occupancy' and is_state('media_player.theater_tv', 'on') %}
+                {%- if is_state('media_player.theater_tv', 'on') %}
                   theater
                 {% elif sensor.name == 'Kitchen Occupancy' %}
                   kitchen

@@ -137,6 +137,7 @@ automation:
       - wed
       - thu
       - fri
+      - sat
     action:
     - service: script.morning_wakeup_report
         
@@ -151,12 +152,7 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_morning
-    - service: >
-        {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
-          script.skylar_morning_briefing_jarvis
-        {% else %}
-          script.skylar_morning_briefing_alexa
-        {%- endif %}
+    - service: script.skylar_morning_briefing_jarvis
   
   - id: bbbafc52-eab1-44cd-ac24-4f9b7f4210b6
     alias: set skylar morning report time
@@ -214,12 +210,7 @@ script:
 
   skylar_morning_briefing:
     sequence:
-    - service: >
-        {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
-          script.speech_engine
-        {% else %}
-          script.alexa_voice
-        {%- endif %}
+    - service: script.speech_engine
       data: 
           who: >
             {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
@@ -233,21 +224,21 @@ script:
     sequence:
     - service: script.speech_engine
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
+        who: main
         message: !include ../templates/speech/skylar_nightly_briefing.yaml
 
   nightly_briefing_report:
     sequence:
     - service: script.speech_engine
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
+        who: main
         message: !include ../templates/speech/nightly_briefing.yaml
 
   sundown_briefing:
     sequence:
     - service: script.speech_engine
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
+        who: kitchen
         message: !include ../templates/speech/sundown_briefing.yaml
 
   morning_briefing:

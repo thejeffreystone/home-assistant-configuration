@@ -444,11 +444,7 @@ automation:
           object_id: "arriving"
           add_entities: >-
             {{ trigger.to_state.entity_id }}
-      - service: script.standby
-      - service: script.washer_finished_notification_audible
-      - wait_template: "{{ states.binary_sensor.kitchen_door.state == 'on' }}"
-        timeout: '00:01:00'
-      - delay: '00:02:00'
+      - delay: '00:03:00'
       - service: script.speech_engine
         data_template:
           who: main
@@ -532,7 +528,6 @@ script:
       entity_id: sensor.family_status
       state: Away
     - service: script.standby
-    - service: script.washer_finished_notification_audible
     - service: mqtt.publish
       data:
         topic: house/family/status
