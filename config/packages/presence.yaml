@@ -168,7 +168,7 @@ automation:
     initial_state: true
     trigger:
       - platform: state
-        entity_id: binary_sensor.skylar_room_occupancy
+        entity_id: binary_sensor.lumi_lumi_sensor_motion_aq2_8b807502_ias_zone
         to: 'on'
         from: 'off'
     condition:
@@ -453,15 +453,17 @@ automation:
             {% set peoplecount = expand('group.arriving') | count %}
             {% if peoplecount == 1 %}
               {% set is_are = ' is ' %}
+              {% set has_have = ' has ' %}
             {% else %}
               {% set is_are = ' are ' %}
+              {% set has_have = ' have ' %}
             {% endif %}
             {%- macro greeting_sentence(person, is_are) -%}
             {{ [
-              person + " has arrived.",
+              person ~ has_have + " arrived.",
               person ~ is_are + " in the neighborhood.",
               person ~ is_are + " arriving.",
-              "My sensors are picking up the presence of additional humans. " ~ person +" has been identified as home.",
+              "My sensors are picking up the presence of additional humans. " ~ person ~ has_have + " been identified as home.",
               "Welcome back home " ~ person,
               "Guess who is home?" ~ person ~ is_are,
               "I am sensing a disturbance in the force. "  ~ person +" must be home!",
@@ -469,12 +471,11 @@ automation:
               person ~ "! You are home!",
               person  ~ is_are + " now here.  Hash tag Welcome Home.",
               person  ~ is_are + " now here.  Hash tag Home.",
-              person  ~ is_are + " now here.  Hash tag Smart Home.",
               "I know a secret! "  ~ person ~ is_are +" home!",
-              "Just a quick announcement. " ~ person +" has arrived!",
+              "Just a quick announcement. " ~ person ~ has_have +" arrived!",
               "Hey" ~ person + "! High Five! Glad you are finally home.",
-              "Just a quick announcement. " ~ person +" has arrived!",
-              person + " has finally made it home."
+              "Just a quick announcement. " ~ person ~has_have + "  arrived!",
+              person ~ has_have + " finally made it home."
               ] | random }}
             {%- endmacro -%}
             {{greeting_sentence(person)}}
