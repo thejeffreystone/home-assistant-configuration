@@ -19,12 +19,10 @@ House Conditions:
   - sensor.accurite_garage_humidity
 
 occupancy:
-  - binary_sensor.kitchen_occupancy
-  - binary_sensor.living_room_occupancy
-  - binary_sensor.master_bedroom_occupancy
-  - binary_sensor.skylar_room_occupancy
+  - binary_sensor.kitchen_motion_occupancy
+  - binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
+  - binary_sensor.master_bedroom_motion_occupancy
   - binary_sensor.croft_occupancy
-  - binary_sensor.theater_occupancy
 
 audio_devices:
   - media_player.kitchen_display
@@ -34,7 +32,7 @@ audio_devices:
 Outside Lights:
   - switch.driveway_light
   - switch.front_porch_light
-  - light.cree_side_door_light
+  - light.cree_side_door_lightlevel_on_off
   
 External Doors:
   - binary_sensor.side_door
@@ -63,23 +61,26 @@ livingroom lamps:
   - light.front_door_lamp_level_light_color_on_off
 
 incense:
-  - switch.incense
-  - switch.artemis
   - switch.forest_incense_on_off
+  - switch.innr1_on_off
+  - switch.incense
 
 all fans:
   - switch.croft_fan
   - switch.livingroom_fan
 
 Skylars Bedroom:
-  - switch.forest # skylars tower
+  - light.skylars_lamp_level_light_color_on_off # skylars lamp
   - switch.rainbow_light_on_off # rainbow light
   - light.wled_loftbed
 
 Master Bedroom:
-  - light.jeff_lamp
-  - switch.kat_lamp_on_off
-
+  - light.jeff_lamp_level_light_color_on_off
+  - light.tower_spotlight_level_on_off
+  - light.kat_lamp
+  - light.kitchen_sink_level_light_color_on_off
+  - light.desk_accent_level_light_color_on_off
+  - switch.tplink_a2
 
 kitchen:
   - light.kitchen_cabinets

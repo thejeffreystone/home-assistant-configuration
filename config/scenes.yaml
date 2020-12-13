@@ -202,7 +202,7 @@
       rgb_color:
       - 65
       - 105
-      - 255
+      - 255g
   id: b76a807484234e2382443165742f2db6
 - name: tower lamp red
   entities:
@@ -224,47 +224,72 @@
       - 128
       - 0
   id: c70ecd369eae4513b69a875ad54a53e0
+
 - name: master bedroom on
   entities:
-    light.jeff_lamp:
+    light.jeff_lamp_level_light_color_on_off:
       state: 'on'
       brightness: 255
-    switch.kat_lamp_on_off:
+      color_temp: 369
+    light.kat_lamp:
       state: 'on'
+      brightness: 255
     light.tower_spotlight_level_on_off:
+      state: 'off'
+    light.kitchen_sink_level_light_color_on_off:
       state: 'on'
-      brightness: 77
+      brightness: 255
+      color_temp: 369
+    light.desk_accent_level_light_color_on_off:
+      state: 'off'
   id: d250bb4c5c1644b0a7064a9f36ffec32
+
 - name: master bedroom off
   entities:
-    light.jeff_lamp:
+    light.jeff_lamp_level_light_color_on_off:
       state: 'off'
-    switch.kat_lamp_on_off:
+    light.kat_lamp:
       state: 'off'
     light.tower_spotlight_level_on_off:
+      state: 'off'
+    light.kitchen_sink_level_light_color_on_off:
+      state: 'off'
+    light.desk_accent_level_light_color_on_off:
       state: 'off'
   id: 06e4b59c35f14054ab7e741445b7fd21
+
 - name: master bedroom dim
   entities:
-    light.tower_spotlight_level_on_off:
+    light.desk_accent_level_light_color_on_off:
+      state: 'off'
+    light.kat_lamp:
+      state: 'off'
+    light.jeff_lamp_level_light_color_on_off:
+      state: 'off'
+    light.kitchen_sink_level_light_color_on_off:
       state: 'on'
-      brightness: 38
-    switch.kat_lamp_on_off:
-      state: 'off'
-    light.jeff_lamp:
-      state: 'off'
+      rgb_color:
+        - 255
+        - 255
+        - 255
+      color_temp: 369
+      brightness: 102
   id: 85953e56acc94c8b8614347de8aab96a
+
 - name: santa protocol
   entities:
-    switch.christmas_tree:
+    switch.kasa2:
       state: 'on'
     switch.rail_lights:
       state: 'on'
   id: 76d0eb7f2e194ecab470de1f38203ce6
+
 - name: skylar room prebed
   entities:
-    switch.forest:
+    light.skylars_lamp_level_light_color_on_off:
       state: 'on'
+      color_temp: 369
+      brightness: 255
     light.wled_loftbed:
       state: 'on'
       brightness: 255
@@ -275,6 +300,7 @@
     switch.rainbow_light_on_off:
       state: 'on'
   id: cc8606f7345f48d59b3c32e900122d75
+
 - name: skylar room sleep
   entities:
     input_boolean.audible_notifications:
@@ -290,42 +316,75 @@
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
-    switch.forest:
+    light.skylars_lamp_level_light_color_on_off:
       state: 'off'
     input_boolean.skylar_awake:
       state: 'off'
   id: f4e8d2f594c446ee9f0e41cf46dc1c72
+
 - name: skylar room morning
   entities:
-    switch.forest:
+    slight.skylars_lamp_level_light_color_on_off:
       state: 'on'
+      color_temp: 369
+      brightness: 38
   id: dca10298716d46ad86cb894bfac295a5
+
 - name: skylar room day
   entities:
-    switch.forest:
+    slight.skylars_lamp_level_light_color_on_off:
       state: 'off'
     switch.rainbow_light_on_off:
       state: 'off'
+    light.wled_loftbed:
+      state: 'off'
   id: b25b0c6dcec049929b2bde5d08f3ce53
-- name: jeff desk on
+
+- name: studio on
   entities:
-    light.tower_accent_level_light_color_on_off:
+    light.jeff_lamp_level_light_color_on_off:
       state: 'on'
       brightness: 255
-    light.desk_accent_level_light_color_on_off:
-      state: 'on'
-      brightness: 77
     light.tower_spotlight_level_on_off:
       state: 'on'
-      brightness: 77
+      brightness: 38
+    light.kat_lamp:
+      state: 'on'
+      brightness: 255
+    light.kitchen_sink_level_light_color_on_off:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 10
+        - 0
+        - 255
+    light.desk_accent_level_light_color_on_off:
+      state: 'on'
+      brightness: 255
   id: 1538d090abe0494d9fa6c225adc83593
-- name: jeff desk off
+
+- name: studio off
   entities:
-    light.0xb0ce18140003b334_light:
+    light.tower_spotlight_level_on_off:
       state: 'off'
-    light.0xb0ce1814035bb3f0_light:
+    light.desk_accent_level_light_color_on_off:
+      state: 'off'
+    switch.tplink_a2:
       state: 'off'
   id: 82791dafcf674b9cbbad6565b3b49b86
+
+- name: film time
+  id: film_time
+  entities:
+    switch.tplink_a2:
+      state: 'on'
+
+- name: film time over
+  id: film_time_over
+  entities:
+    switch.tplink_a2:
+      state: 'off'
+
 - name: lr_cool_white
   entities:
     group.rgb_lr:
@@ -353,17 +412,7 @@
       - 40
       - 0
   id: 8018cda7184d43148370ef32fc474228
-- name: normal audio
-  entities:
-    media_player.tsr_6750_a3ed2f:
-      state: 'on'
-      source: HDMI1
-  id: fd8de445a54447b6ac4750333790c8d3
-- name: quiet audio
-  entities:
-    media_player.tsr_6750_a3ed2f:
-      state: 'off'
-  id: 9d88c3bce2374ceebbbfa716be1b3efb
+
 - name: theater dark
   entities:
     group.theater_lights:

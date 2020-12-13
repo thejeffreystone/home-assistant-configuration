@@ -295,8 +295,7 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_day
-    - service: scene.turn_on
-      entity_id: scene.master_bedroom_off
+    
    
 
   - id: 86fd5de9-3136-4d86-aef9-268f097eae35
@@ -413,4 +412,4 @@ script:
     - condition: state
       entity_id: group.garage_doors
       state: 'on'
-    - service: script.driveway_all_on
+    - service: script.driveway_on
