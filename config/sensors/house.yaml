@@ -147,44 +147,53 @@
   - captured_today
   - signal_strength
 
+# Amazon Polly Sensors to see last message and location of audible notification
+- platform: mqtt
+  name: "Jarvis Last Msg"
+  state_topic: "house/polly/lastmsg"
+- platform: mqtt
+  name: "Jarvis Last Location"
+  state_topic: "house/polly/lastloc"
+
+
 - platform: template
   sensors:
     sensor_count:
       friendly_name: 'Number of Sensors'
       value_template: >-
-        {{ states.sensor | list | count }}
+        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count }}
     automation_count:
       friendly_name: 'Number of Automations'
       value_template: >-
-        {{ states.automation| list | count }}
+        {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count }}
     script_count:
       friendly_name: 'Number of Scripts'
       value_template: >-
-        {{ states.script | list | count }}
+        {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count }}
     binary_sensor_count:
       friendly_name: 'Number of Binary Sensors'
       value_template: >-
-        {{ states.binary_sensor | list | count }}
+        {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count }}
     tracker_count:
       friendly_name: 'Number of Devices'
       value_template: >-
-        {{ states.device_tracker| list | count }}
+        {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count }}
     lights_count:
       friendly_name: 'Number of Lights'
       value_template: >-
-        {{ states.light | list | count }}
+        {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count }}
     switches_count:
       friendly_name: 'Number of Switches'
       value_template: >-
-        {{ states.switch | list | count }}
+        {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count }}
     camera_count:
       friendly_name: 'Number of online Cameras'
       value_template: >-
-        {{ states.camera | list | count }}
+        {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count }}
     entities_count:
       friendly_name: 'Number of Entities'
       value_template: >-
-        {{ states | length }}
+        {{ states | rejectattr('state', 'eq', 'unavailable') | list | count}}
     hvac_action:
       friendly_name: 'HVAC Action'
       value_template: "{{states.climate.home.attributes.hvac_action}}"
