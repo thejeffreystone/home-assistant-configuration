@@ -75,9 +75,9 @@ sensor:
   #   json_attributes_topic: "house/acurite2mqtt/Acurite-Tower_10968"
   #   device_class: temperature
 
-  # - platform: mqtt
-  #   name: "Lightning total count"
-  #   state_topic: "house/lightning/total_count"
+  - platform: mqtt
+    name: "Lightning total count"
+    state_topic: "house/lightning/total_count"
 
   - platform: statistics
     name: Inside Humidity Stats
