@@ -262,7 +262,7 @@ script:
     - service: mqtt.publish
       data_template:
         topic: 'house/polly/lastmsg'
-        payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | truncate(220)}}'
+        payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | striptags | truncate(220)}}'
         retain: true
     - service: media_player.turn_on
       data_template:
@@ -373,7 +373,7 @@ script:
       - service: mqtt.publish
         data_template:
           topic: 'house/polly/lastmsg'
-          payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | truncate(220)}}'
+          payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | striptags | truncate(220)}}'
           retain: true
       - service: mqtt.publish
         data_template:
@@ -398,14 +398,14 @@ script:
               {% set who = 'livingroom_echo' %}
               script.alexa_voice
             {% else %}
-              script.speech_engine
+              script.jarvis_voice
             {% endif %}
           {% else %}
             {% if who == 'main' and is_state('media_player.ha_speaker','playing') %}
               {% set who = 'livingroom_echo' %}
               script.alexa_voice
             {% else %}
-              script.speech_engine
+              script.jarvis_voice
             {% endif %}
           {% endif %}
         data:
