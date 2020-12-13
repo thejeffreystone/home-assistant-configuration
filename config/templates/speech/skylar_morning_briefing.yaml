@@ -55,6 +55,9 @@
     <p>
       {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
         Because you have school today!
+        {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
+          And today is a digital learning day.
+        {% endif %}
         {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
           And guess what? It is early release!
         {% endif %}

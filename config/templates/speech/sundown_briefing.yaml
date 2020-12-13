@@ -42,20 +42,25 @@
           'If you have not looked outside lately, the light of the day is almost gone.'
       ]|random }}
       </p>
-      <p>
+      
         {% if is_state('binary_sensor.garage_door', 'on') %} 
+        <p>
           {{ [ 'The garage door is open. ',
             'The pod bay doors are open. ',
             'Someone forgot to close the garage.'
           ] | random }}
-        {% elif is_state('binary_sensor.side_door', 'on') %} 
+          </p>
+        {% elif is_state('binary_sensor.side_door', 'on') %}
+        <p> 
           {{ [ 'The side door is ajar. ',
             'The side door is open. ',
             'Someone forgot to close the side door.'
           ] | random }}
+          </p>
           {% else %}
+
           {% endif %}
-      </p>
+      
     <p>
       {% if states.sensor.nws_alerts.state | int > 0 %}
         There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
@@ -82,25 +87,29 @@
       ]|random }}
       {{ states.sensor.nws_overnight_forecast.state }} 
       </p>
-      <p>
+      
         {% if is_state('input_boolean.freeze_warning','on') %}
+        <p>
         {{ [ 'The temperature is expected to be near or below freezing. <emphasis>Someone</emphasis> might want to bring the lemon tree in. ',
             'It appears that it will be cold tonight. Like, the turn water solid <emphasis>kind</emphasis> of cold. Think of the poor plants.',
             'I suggest bringing in the plants other wise, the temperature might kill them. And that will be on <emphasis>you</emphasis>.',
             'I would say winter is coming. But, based on the weather forecast <emphasis>it</emphasis> appears to be here.',
             'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
           ] | random }}
+          </p>
         {% endif %}
-      </p>
+      
         {% if is_state('sensor.today_is', 'Tuesday') %}
-        {% if now().strftime('%H')|int > 17 %}
-          {{ [ 'Do not forget to bring in the trash cans. ',
-          'The trash cans will feel lonely if you leave them out all night. ',
-          'The <say-as interpret-as="characters">HOA</say-as> will get mad if you leave those trash cans out on the street.'
-        ] | random }}
-        {% endif %}
+          
+          {% if now().strftime('%H')|int > 17 %}
+          <p>
+            {{ [ 'Do not forget to bring in the trash cans. ',
+            'The trash cans will feel lonely if you leave them out all night. ',
+            'The <say-as interpret-as="characters">HOA</say-as> will get mad if you leave those trash cans out on the street.'
+          ] | random }}
+          </p>
+          {% endif %}
       {% endif %}
-      </p>
       <p>
       {% if states.sensor.halloween_countdown.state | int == 1 %}
       Tomorrow is Halloween. I hope you have picked out a costume.

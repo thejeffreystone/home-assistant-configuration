@@ -2,13 +2,9 @@
   {# Morning Wakeup Report #}
   {%- macro getReport() -%}
     <p>
-    {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
+    
       Good morning.
-    {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-      Good afternoon.
-    {% else %}
-      Good evening.
-    {% endif %}
+    
     </p>
     <p>
     {% if now().strftime('%H')|int < 12 %}
@@ -83,7 +79,10 @@
         {{ [ 'Skylar has school today.',
           'Skylar needs to head to school in about forty minutes. ',
           'Skylar should go to school today. '
-        ] | random }} 
+        ] | random }}
+        {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
+          And today is a digital learning day so the commute will be short.
+        {% endif %} 
         {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
           But It is early release!
         {% endif %}
@@ -112,7 +111,7 @@
       {% endif %}
     </p>
     <p>
-      {% if is_state('input_boolean.skylar_is_awake', 'on') %}
+      {% if is_state('input_boolean.skylar_awake', 'on') %}
         Skylar was up and moving at {{ states.input_datetime.skylar_awake_at.state }}.
         {% if is_state('media_player.theater_tv', 'on') %}
           and he appears to be in the Theater

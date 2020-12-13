@@ -152,8 +152,8 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_morning
-    - service: script.skylar_morning_briefing_jarvis
-  
+    - service: script.skylar_morning_briefing
+    
   - id: bbbafc52-eab1-44cd-ac24-4f9b7f4210b6
     alias: set skylar morning report time
     trigger:
@@ -213,10 +213,12 @@ script:
     - service: script.speech_engine
       data: 
           who: >
-            {%- if is_state('binary_sensor.theater_occupancy', 'on') and is_state('media_player.theater_tv', 'on') %}
+            {%- if is_state('media_player.theater_tv', 'on') %}
               theater
-            {% else %}
+            {%- elif is_state('binary_sensor.skylar_room_occupancy', 'on') %}
               skylar_bedroom
+            {% else %}
+              main
             {%- endif %}
           message: !include ../templates/speech/skylar_morning_briefing.yaml
 
