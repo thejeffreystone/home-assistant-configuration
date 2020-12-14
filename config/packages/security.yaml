@@ -45,6 +45,16 @@ alarm_control_panel:
  
 
 automation:
+  - id: dog_mode_activated
+    alias: Dog Mode Activated
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion
+      to: 'on'
+    action:
+    - service: script.dog_mode_on
+
+    
   - id: enable_vacation_mode
     alias: Enable Vacation Mode
     initial_state: true
