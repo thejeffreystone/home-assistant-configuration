@@ -74,9 +74,11 @@ sensor:
   # - platform: command_line
   #   name: ha_log
   #   command: "ls -sh /home/homeassistant/.homeassistant/home-assistant.log | cut -f1 -d ' '"
+
+  # unit of measurement deprecated in 2020.12.0
   - platform: uptime
     name: Time Online
-    unit_of_measurement: days
+    #unit_of_measurement: days 
   - platform: command_line
     name: Lines of Code
     command: "find /config -name '*.yaml' | xargs cat | wc -l"
