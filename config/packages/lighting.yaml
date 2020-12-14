@@ -10,7 +10,7 @@ automation:
 
   # Kitchen lights needed when dark and there is motion
   - id: e1cb3d56-0423-11eb-adc1-0242ac120002
-    alias: Living Room Lights Needed
+    alias: Kitchen Lights Needed
     initial_state: true
     trigger:
     - entity_id: binary_sensor.kitchen_motion_2
@@ -25,13 +25,22 @@ automation:
     - below: 70
       condition: numeric_state
       entity_id: sensor.kitchen_illuminance
-    - condition: time
-      after: '05:30:00'
-      before: '22:30:00'
     action:
-    - service: scene.turn_on  
-      data:
-        entity_id: scene.normal_kitchen_lighting
+    - choose:
+      - conditions:
+        - condition: time
+          after: 05:30:00
+          before: '22:30:00'
+        sequence:
+        - scene: scene.normal_kitchen_lighting
+      - conditions:
+        - condition: time
+          after: '22:30:00'
+          before: 05:30:00
+        sequence:
+        - scene: scene.diminished_kitchen_lighting
+        - delay: 00:18:00
+        - scene: scene.kitchen_lighting_off
 
   # Living lights needed when dark and there is motion
   - id: e1c9379a-0423-11eb-adc1-0242ac120002
