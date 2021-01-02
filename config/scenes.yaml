@@ -169,7 +169,7 @@
   id: efe48036612a43a1be2e8ed8862e6db1
 - name: wishes preshow
   entities:
-    switch.ge_14291_in_wall_smart_switch_switch_2:
+    switch.croft_light:
       state: 'off'
     group.rgb_lr:
       state: 'off'
@@ -177,36 +177,36 @@
       state: 'off'
     switch.rail_lights:
       state: 'on'
-    switch.christmas_tree:
+    switch.kasa2:
       state: 'off'
   id: 8fe178935ec747c6801fc3f367a10a49
 - name: wishes show
   entities:
-    switch.christmas_tree:
+    switch.kasa2:
       state: 'on'
-    light.0xb0ce181400051b4c_light:
-      state: 'on'
-      brightness: 20
-    light.0xb0ce18140003608a_light:
+    light.living_room_lamp:
       state: 'on'
       brightness: 20
-    light.0xb0ce181400051072_light:
+    light.front_door_lamp_level_light_color_on_off:
+      state: 'on'
+      brightness: 20
+    light.living_room_tower_lamp_level_light_color_on_off:
       state: 'on'
       brightness: 20
   id: cf27a902be0f49c6bd1727c0d617065c
 - name: table lamp blue
   entities:
-    group.livingroom_lamps:
+    light.living_room_lamp:
       state: 'on'
       brightness_pct: 100
       rgb_color:
       - 65
       - 105
-      - 255g
+      - 255
   id: b76a807484234e2382443165742f2db6
 - name: tower lamp red
   entities:
-    group.livingroom_tower:
+    light.living_room_tower_lamp_level_light_color_on_off:
       state: 'on'
       brightness_pct: 100
       rgb_color:
@@ -216,7 +216,7 @@
   id: 8778e240c51743d3add7c59150e40d0e
 - name: front lamp green
   entities:
-    group.livingroom_lamps:
+    light.front_door_lamp_level_light_color_on_off:
       state: 'on'
       brightness_pct: 100
       rgb_color:
@@ -235,7 +235,8 @@
       state: 'on'
       brightness: 255
     light.tower_spotlight_level_on_off:
-      state: 'off'
+      state: 'on'
+      brightness: 255
     light.kitchen_sink_level_light_color_on_off:
       state: 'on'
       brightness: 255
@@ -274,6 +275,8 @@
         - 255
       color_temp: 369
       brightness: 102
+    light.tower_spotlight_level_on_off:
+      state: 'off'
   id: 85953e56acc94c8b8614347de8aab96a
 
 - name: santa protocol
@@ -344,10 +347,10 @@
   entities:
     light.jeff_lamp_level_light_color_on_off:
       state: 'on'
-      brightness: 255
+      brightness: 5
     light.tower_spotlight_level_on_off:
       state: 'on'
-      brightness: 38
+      brightness: 255
     light.kat_lamp:
       state: 'on'
       brightness: 255
@@ -355,12 +358,16 @@
       state: 'on'
       brightness: 255
       rgb_color:
-        - 10
-        - 0
+        - 7
+        - 130
         - 255
     light.desk_accent_level_light_color_on_off:
       state: 'on'
       brightness: 255
+      rgb_color:
+        - 7
+        - 130
+        - 255
   id: 1538d090abe0494d9fa6c225adc83593
 
 - name: studio off
@@ -372,6 +379,27 @@
     switch.tplink_a2:
       state: 'off'
   id: 82791dafcf674b9cbbad6565b3b49b86
+
+- name: work time
+  entities:
+    light.jeff_lamp_level_light_color_on_off:
+      state: 'on'
+      brightness: 255
+      color_temp: 369
+    light.kat_lamp:
+      state: 'off'
+    light.tower_spotlight_level_on_off:
+      state: 'on'
+      brightness: 255
+    light.kitchen_sink_level_light_color_on_off:
+      state: 'on'
+      brightness: 255
+      color_temp: 369
+    light.desk_accent_level_light_color_on_off:
+      state: 'on'
+      brightness: 255
+      color_temp: 369
+  id: e1cb3a90-0423-11eb-adc1-0242ac120002
 
 - name: film time
   id: film_time

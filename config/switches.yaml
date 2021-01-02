@@ -115,7 +115,7 @@
   payload_off: "false"
 
 - platform: mqtt
-  name: "Theater Power"
+  name: "Zwave Dual Power"
   state_topic: "zwave2mqtt/theater_power/37/1/0"
   command_topic: "zwave2mqtt/theater_power/37/1/0/set"
   payload_on: "true"
@@ -165,16 +165,6 @@
   command_topic: "zwave2mqtt/master_bath_fan/37/1/0/set"
   payload_on: "true"
   payload_off: "false"
-
-- platform: mqtt
-  name: "Master Bedroom Fan"
-  state_topic: "shellies/shelly-master-bedroom-fan/relay/0"
-  command_topic: "shellies/shelly-master-bedroom-fan/relay/0/command"
-  availability_topic: "shellies/shelly-master-bedroom-fan/online"
-  payload_on: "on"
-  payload_off: "off"
-  payload_available: "true"
-  payload_not_available: "false"
   
   
   
