@@ -127,8 +127,10 @@ automation:
     alias: Master Bedroom Report
     initial_state: true
     trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.daily_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+      #platform: template
+      #value_template: "{{ states('sensor.time') == (state_attr('input_datetime.daily_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+      platform: time
+      at: input_datetime.daily_report
     condition:
     - condition: time
       weekday:

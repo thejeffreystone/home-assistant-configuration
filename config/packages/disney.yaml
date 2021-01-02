@@ -184,7 +184,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/tiki_room_audio.mp3"
+        media: "http://192.168.7.40/tiki_room_audio.mp3"
         volume: .5
   - id: tiki_room_off
     alias: Tiki Room Off
@@ -210,7 +210,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/illuminations.mp3"
+        media: "http://192.168.7.40/illuminations.mp3"
         volume: .5
   - id: illuminations_off
     alias: Illuminations Off
@@ -237,7 +237,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/Happily_Ever_After_Audio.mp3"
+        media: "http://192.168.7.40/Happily_Ever_After_Audio.mp3"
         volume: .5
   - id: happy_ever_after_show_off
     alias: Happy Ever After Show Off
@@ -263,8 +263,9 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/holidaywishes.mp3"
+        media: "http://192.168.7.40/holidaywishes.mp3"
         volume: .5
+
   - id: holiday_wishes_show_off
     alias: Holiday Wishes Show Off
     initial_state: true
@@ -327,7 +328,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/spaceship_earth_ride.mp3"
+        media: "http://192.168.7.40/spaceship_earth_ride.mp3"
         volume: .6
   - id: spaceship_earth_off
     alias: Spaceship Earth Off
@@ -353,7 +354,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/boo_to_you_audio.mp3"
+        media: "http://192.168.7.40/boo_to_you_audio.mp3"
         volume: .5
   - id: boo_to_you_show_off
     alias: Boo To You Show Off
@@ -379,8 +380,9 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/holidaywishes.mp3"
+        media: "http://192.168.7.40/holidaywishes.mp3"
         volume: .5
+
   - id: holiday_wishes_off
     alias: Holiday Wishes Off
     initial_state: true
@@ -405,7 +407,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/ML_Welcome_Show.mp3"
+        media: "http://192.168.7.40/ML_Welcome_Show.mp3"
         volume: .5
     - delay:
         minutes: 8
@@ -465,7 +467,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/Pandora_Area_Loop.mp3"
+        media: "http://192.168.7.40/Pandora_Area_Loop.mp3"
         volume: .4
   - id: pandora_audio_off
     alias: Pandora Audio Off
@@ -492,7 +494,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/WDW_Resort_TV.mp3"
+        media: "http://192.168.7.40/WDW_Resort_TV.mp3"
         volume: .4
   - id: resort_room_audio_off
     alias: Resort Room Off
@@ -519,7 +521,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/The_American_Adventure.mp3"
+        media: "http://192.168.7.40/The_American_Adventure.mp3"
         volume: .7
   - id: american_adventure_off
     alias: American Adventure Off
@@ -545,7 +547,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/thelegendofsleepyhallow-readalong.mp3"
+        media: "http://192.168.7.40/thelegendofsleepyhallow-readalong.mp3"
         volume: .4
   - id: sleepy_hollow_readalong_off
     alias: Sleepy Hollow Readalong Off
@@ -571,7 +573,7 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/audio/move_it_shake_dance_audio.mp3"
+        media: "http://192.168.7.40/move_it_shake_dance_audio.mp3"
         volume: .6
   - id: move_dance_off
     alias: Move It Shake It Off
@@ -701,8 +703,11 @@ script:
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
       data:
-        media_content_id: http://192.168.7.40/audio/http://192.168.7.40/audio/wishes_5_min.mp3
+        media_content_id: http://192.168.7.40/wishes_5_min.mp3
         media_content_type: "music"
+    - delay: 00:03:00
+    - service: scene.turn_on
+      entity_id: scene.wishes_preshow
   
   
   wishes_lights_on:
@@ -778,7 +783,7 @@ script:
       entity_id: media_player.ha_speaker
     - service: script.youtube_audio
       data_template:
-        media: "http://192.168.7.40/audio/haunted_guest_welcome.mp3"
+        media: "http://192.168.7.40/haunted_guest_welcome.mp3"
         volume: .5
 
 # Random Disney Park Music
@@ -788,12 +793,12 @@ script:
       data_template:
         volume: .4
         media: >
-         {{- ["http://192.168.7.40/audio/Liberty_square_audio.mp3",
-            "http://192.168.7.40/audio/adventureland_loop.mp3",
-            "http://192.168.7.40/audio/be_our_guest.mp3",
-            "http://192.168.7.40/audio/epcot_entrance_loop.mp3",
-            "http://192.168.7.40/audio/frontierland_loop.mp3",
-            "http://192.168.7.40/audio/tomorrowland_loop.mp3",
+         {{- ["http://192.168.7.40/Liberty_square_audio.mp3",
+            "http://192.168.7.40/adventureland_loop.mp3",
+            "http://192.168.7.40/be_our_guest.mp3",
+            "http://192.168.7.40/epcot_entrance_loop.mp3",
+            "http://192.168.7.40/frontierland_loop.mp3",
+            "http://192.168.7.40/tomorrowland_loop.mp3",
             "https://www.youtube.com/watch?v=IyWlxq2kOvw",
             "https://www.youtube.com/watch?v=ngRdzcvr0rg",
             "https://youtu.be/UW9WKIvF9y4",

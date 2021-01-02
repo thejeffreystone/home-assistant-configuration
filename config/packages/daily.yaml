@@ -110,35 +110,7 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.master_bedroom_on
- 
 
-  - id: b054e477-be50-480e-bd2e-2996b3e1c997
-    alias: Master bedroom alarm
-    initial_state: true
-    trigger:
-    - platform: time
-      at: 06:00:00
-    condition:
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
-    action:
-    - service: scene.turn_on
-      entity_id: scene.master_bedroom_on
-
-  - id: 1feafed1-0de9-44a4-a2f0-e693bc637ea1
-    alias: Master bedroom Wake Up
-    initial_state: true
-    trigger:
-    - platform: time
-      at: 05:50:00
-    condition:
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
-    action:
-    - service: scene.turn_on
-      entity_id: scene.master_bedroom_dim
 
   - id: 0d5cea61-f295-4e5d-87a9-f12dfb5b67d6
     alias: Good Night
@@ -161,9 +133,8 @@ automation:
     - service: switch.turn_off
       data:
         entity_id: switch.ha_speaker
-    - service: light.turn_off
-      data:
-        entity_id: light.kitchen_cabinets
+    - service: scene.turn_on
+      entity_id: scene.kitchen_lighting_off
     - service: script.good_night_loft
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications

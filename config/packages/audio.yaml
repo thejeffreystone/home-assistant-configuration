@@ -58,6 +58,7 @@ script:
         entity_id: media_player.ha_speaker
         volume_level: >
           {{ volume }}
+    - delay: 00:00:05
     # This tells it to play the media and is set when the script is called. 
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
