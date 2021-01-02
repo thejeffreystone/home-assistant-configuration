@@ -2,11 +2,9 @@
   {# Twitter Great Content #}
   {%- macro getRandomPromo() -%}
     {{- [
-        "Want to get YouTube Certified in Home Assistant? @ccostan has the courses to get you there. Subscribe at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
         "Checkout one of my favorite Home Assistant Youtubers @ccostan at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
-        "Don't miss @Dr_Zzs next live stream and besure to follow him on Youtube at https://www.youtube.com/channel/UC7G4tLa4Kt6A9e3hJ-HO8ng ",
-        "Looking for some great Home Assistant content? @JuanMTech has you covered. Subscribe at https://www.youtube.com/user/Jfelipe83M ",
-        "Need some How-To's to juice up your Home Assistant skills? @juanMTech has something for everyone at https://www.juanmtech.com"
+        "Looking for some great Home Assistant content? @BeardedTinker has you covered. Subscribe at https://www.youtube.com/c/BeardedTinker ",
+        "Want some cool Home Assistant project ideas? @EverySmartHome has something for you at https://www.youtube.com/c/EverythingSmartHome"
         ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

@@ -1,0 +1,36 @@
+>
+  {# Interjections #}
+  {%- macro getReport() -%}
+    {{ [
+      'Okay.', 
+      'If you insist.',
+      'I am afraid I can not do that <break time="1s"/> I am kidding,',
+      'Leave it to me.',
+      'As you wish.',
+      'I am on it.',
+      'No Problem.',
+      'I think I can handle that.',
+      'Working on it now.',
+      '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
+      'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
+      'I am not even supposed to be here today. But whatever.',
+      'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
+      'Funny, I was just about to do that.',
+      'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
+      ] | random }}
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getReport() }}
+  {%- endmacro -%}
+
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}

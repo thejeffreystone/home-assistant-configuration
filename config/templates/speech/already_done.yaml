@@ -1,0 +1,24 @@
+>
+  {# Interjections #}
+  {%- macro getReport() -%}
+    {{ [
+      'Okay. Well, I have already handled that.', 
+      'Looks like someone already did that, but I will gladly take credit.',
+      'I am so fast it is already done.'
+      ]| random }}
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getReport() }}
+  {%- endmacro -%}
+
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}
