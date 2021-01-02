@@ -39,6 +39,12 @@ input_boolean:
   lightning_warning:
     name: Lightning Warning
     icon: mdi:flash-alert
+  tornado_alarm:
+    name: Tornado Alarm
+    icon: mdi:speaker-wireless
+  tstorm_alarm:
+    name: T-Storm Alarm
+    icon: mdi:speaker-wireless
 
 ### You first need to find either your NWS Zone ID or County ID. I’m not sure which is better but I used my Zone ID here.
 ### You can find your Zone ID by going to https://alerts.weather.gov/ 7, scroll down to your state and click on the “zone list” then look for the entry for your county.
@@ -185,13 +191,13 @@ sensor:
           {% endif %}
       backporch_weather:
         friendly_name: Back Porch Weather
-        value_template: "{{ states.sensor.back_porch_temperature.state | round}} °F / {{ states.sensor.back_porch_humidity.state }} %"
+        value_template: "{{ states.sensor.acurite_6045m_3078_t.state | round}} °F / {{ states.sensor.acurite_6045m_3078_h.state }} %"
       garage_weather:
         friendly_name: Garage Weather
-        value_template: "{{ states.sensor.garage_temperature.state | round}} °F / {{ states.sensor.garage_humidity.state }} %"
+        value_template: "{{ states.sensor.acurite_tower_10968_t.state | round}} °F / {{ states.sensor.acurite_tower_10968_h.state }} %"
       crawlspace_weather:
         friendly_name: Crawlspace Weather
-        value_template: "{{ states.sensor.crawlspace_temperature.state | round}} °F / {{ states.sensor.crawlspace_humidity.state }} %"
+        value_template: "{{ states.sensor.acurite_609txc_73_t.state | round}} °F / {{ states.sensor.acurite_609txc_73_h.state }} %"
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
@@ -491,7 +497,7 @@ automation:
   - alias: Lightning Detected
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.back_porch_strike_count.state | int > states.sensor.lightning_total_count.state | int }}'
+        value_template: '{{ states.sensor.acurite_6045m_3078_strcnt.state | int > states.sensor.lightning_total_count.state | int }}'
     condition:
       - condition: state
         entity_id: input_boolean.lightning_warning
@@ -511,7 +517,7 @@ automation:
     mode: restart
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.back_porch_strike_count.state | int == states.sensor.lightning_total_count.state | int }}'
+        value_template: '{{ states.sensor.acurite_6045m_3078_strcnt.state | int == states.sensor.lightning_total_count.state | int }}'
         for:
           minutes: 20
     condition:
@@ -605,7 +611,7 @@ script:
       - service: mqtt.publish
         data:
           topic: house/lightning/total_count
-          payload_template: "{{ states.sensor.back_porch_strike_count.state | int }}"
+          payload_template: "{{ states.sensor.acurite_6045m_3078_strcnt.state | int }}"
           retain: true
 
 
