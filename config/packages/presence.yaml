@@ -458,7 +458,7 @@ automation:
               {% set is_are = ' are ' %}
               {% set has_have = ' have ' %}
             {% endif %}
-            {%- macro greeting_sentence(person, is_are) -%}
+            {%- macro greeting_sentence(person, is_are, has_have) -%}
             {{ [
               person ~ has_have + " arrived.",
               person ~ is_are + " in the neighborhood.",
@@ -474,11 +474,11 @@ automation:
               "I know a secret! "  ~ person ~ is_are +" home!",
               "Just a quick announcement. " ~ person ~ has_have +" arrived!",
               "Hey" ~ person + "! High Five! Glad you are finally home.",
-              "Just a quick announcement. " ~ person ~has_have + "  arrived!",
+              "Just a quick announcement. " ~ person ~ has_have + "  arrived!",
               person ~ has_have + " finally made it home."
               ] | random }}
             {%- endmacro -%}
-            {{greeting_sentence(person)}}
+            {{greeting_sentence(person, is_are, has_have)}}
       - service: group.set
         data:
           object_id: "arriving"
@@ -543,10 +543,8 @@ script:
     - service: script.appliances_off
     - service: scene.turn_on
       entity_id: scene.lights_out
-    - service: script.security_check_garage
-    - service: script.security_check_zones
-    - service: script.lockdown
-    - service: script.lockdown_issue
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.sentry_mode
     - service: scene.turn_on
       entity_id: scene.all_fans_off
     - service: mqtt.publish

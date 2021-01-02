@@ -6,76 +6,178 @@
 ###############################################################################
 
 input_boolean:
+  # Main security switch. If this is on, the security is armed. 
   sentry_mode:
     name: Sentry Mode
     icon: mdi:security
+  # Vacation mode is automagically set when we are 3 hours from the house, and turns off when we return. 
+  # This is used to modify some of the normal automations. 
   vacation_mode:
     name: Vacation Mode
     icon: mdi:airplane-takeoff
+  # Guest mode is use to modify autoamtions when we have guests. 
+  # In some cases this prevents security from being set to prevent security alarm going off
   guest_mode:
     name: Guest Mode
     icon: mdi:account-multiple
+  # This switch powers the security alarm and gives an easy way to kill the alarm.
+  # When it is on, the alarm is going off
   security_alarm:
     name: Security Alarm
     icon: mdi:speaker-wireless
+  # This switch powers the fire alarm.
+  # When on the fire alarm is going off.
   fire_alarm:
     name: Fire Alarm
     icon: mdi:speaker-wireless
+  # This switch turns on if the garage is open after dark and triggers the garage_after_dark alert.
   garage_after_dark:
     name: Garage Open After Dark
     icon: mdi:message-alert
+  # This switch turns on of the security system checks that fire when someone tries to arm the system 
+  # finds a door open, or another condition that would prevent the system from being able to monitor properly.
   lockdown_issue:
     name: Lockdown Issue
     icon: mdi:lock-reset
+  # This switch is turned on if there is a security breach. Turning on this switch starts the countdown to the alarm.
   security_issue:
     name: Security Issue
     icon: mdi:alert-circle-outline
+  # Dog Mode is triggered when Home Assistant believes someone is about to open the back door to let 
+  # to let the dog out in the midddle of the night. 
+  # https://slacker-labs.com/2020/04/14/where-we-are-going-we-need-dog-mode/
   dog_mode:
     name: Dog Mode
     icon: mdi:dog-side
 
 
+# Arlo Integration
 alarm_control_panel:
-  # - platform: arlo
-  #   home_mode_name: home
-  #   away_mode_name: armed
+  # Uses the custom arlo integration found in HACS
   - platform: aarlo
     home_mode_name: home
     away_mode_name: Armed
  
 
 automation:
-  - id: dog_mode_activated
-    alias: Dog Mode Activated
-    trigger:
-    - platform: state
-      entity_id: binary_sensor.kitchen_motion
-      to: 'on'
-    action:
-    - service: script.dog_mode_on
-
-    
-  - id: enable_vacation_mode
-    alias: Enable Vacation Mode
+  #############################################
+  # When sentry mode is enabled / security armed by any method, check the doors and notify everyone.
+  - id: sentry_mode_enabled
+    alias: Sentry Mode Enabled Annoucement
     initial_state: true
     trigger:
-    - platform: numeric_state
-      entity_id: sensor.jeff_ett_home
-      above: 180
-    - platform: numeric_state
-      entity_id: sensor.kat_ett_home
-      above: 180
-    condition:
-    - condition: numeric_state
-      entity_id: sensor.jeff_ett_home
-      above: 180
-    - condition: numeric_state
-      entity_id: sensor.kat_ett_home
-      above: 180
+    - platform: state
+      entity_id: input_boolean.sentry_mode
+      from: 'off'
+      to: 'on'
     action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.vacation_mode
-  
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: group.external_doors
+          state: "on"
+        sequence:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.sentry_mode
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.locakdown_issue
+        - service: script.text_notify
+          data:
+            who: "parents"
+            message: "Unable to lock down Anchorage House due to issue"
+        - service: script.speech_engine
+          data_template:
+            who: '{{ states.sensor.room_audio.state }}'
+            message: >
+                {{ [
+                "I was unable to activate barn door protocol due to an open door.",
+                "You may want to check the external doors. I was unable to secure them all.",
+                "My systems check has failed. Please check the external doors.",
+                "Someone has left the pod bay doors open."
+                ] | random }}
+      default: 
+      - service: script.speech_engine
+        data_template:
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >
+            {{ [
+            "Barn door protocol has been activated.",
+            "Anchorage House has been secured! ",
+            "Sentry Mode is active. ",
+            "I am now monitoring the doors and will let you know if anyone attempts to access.",
+            "Anchorage House Shields are up."
+            ] | random }}
+      - service: script.text_notify
+        data_template:
+          who: "parents"
+          title: "Security Armed"
+          message: "Security System has been armed."
+      - service: alarm_control_panel.aarlo_set_mode
+        data: 
+          entity_id: alarm_control_panel.aarlo_ah_base_station
+          mode: 'Armed'
+
+  # When sentry mode is disabled / security disarmed by any method, notify everyone.
+  - id: sentry_mode_disabled
+    alias: Sentry Mode Disabled Annoucement
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.sentry_mode
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+          condition: or
+          conditions:
+          - condition: state
+            entity_id: sensor.family_status
+            state: Home
+          - condition: state
+            entity_id: person.jeffrey
+            state: home
+          - condition: state
+            entity_id: person.katherine
+            state: home
+          - condition: state
+            entity_id: input_boolean.guest_mode
+            state: 'on'
+        sequence:
+          - service: script.speech_engine
+            data_template:
+              who: '{{ states.sensor.room_audio.state }}'
+              message: >
+                {{ [
+                "Barn door protocol has been deactivated.",
+                "I am no longer monitoring the access points. ",
+                "Sentry Mode has been disabled. ",
+                "Anchorage House Shields are down."
+                ] | random }}
+          - service: script.text_notify
+            data_template:
+              who: "parents"
+              title: "Security Disarmed"
+              message: "Security System as been disarmed."
+          - service: alarm_control_panel.aarlo_set_mode
+            data:
+              entity_id: alarm_control_panel.aarlo_ah_base_station
+              mode: 'home'
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.security_alarm
+      default:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.sentry_mode
+        - service: script.text_notify
+          data_template:
+            who: "parents"
+            title: "Security Issue"
+            message: "Security System disarm conditions not met."
+  #############################################
+
+  #############################################
+  # Scheduled Arm / Disarm
+  # Disarm around the time people are up
   - id: morning_standby
     alias: Morning Standby
     initial_state: true
@@ -100,6 +202,7 @@ automation:
     action:
     - service: script.standby
 
+  # Secure the house every night if it has been set already, and everyone is home.
   - id: nightly_lockdown
     alias: Nightly Lockdown
     initial_state: true
@@ -120,11 +223,113 @@ automation:
       entity_id: input_boolean.sentry_mode
       state: 'off'
     action:
-    - service: script.lockdown
-    - delay:
-        seconds: 2
-    - service: script.security_check_failed
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.sentry_mode
 
+  #############################################
+  
+  #############################################
+  # Vacation Mode Enabled
+  # Enable when everyone is 3 hours away.
+  # Disbaled happens in family_is_home automation in presence.yaml
+  - id: enable_vacation_mode
+    alias: Enable Vacation Mode
+    initial_state: true
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.jeff_ett_home
+      above: 180
+    - platform: numeric_state
+      entity_id: sensor.kat_ett_home
+      above: 180
+    condition:
+    - condition: numeric_state
+      entity_id: sensor.jeff_ett_home
+      above: 180
+    - condition: numeric_state
+      entity_id: sensor.kat_ett_home
+      above: 180
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.vacation_mode
+  #############################################
+
+  #############################################
+  # Dog Mode
+  #
+  # Activate Dog Mode
+  # If done via motion annouce in kitchen. If manually just text.
+  - id: dog_mode_activated
+    alias: Dog Mode Activated
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.dog_mode
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.sentry_mode
+      state: "on"
+    action:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ trigger.to_state.attributes.friendly_name == "Dog Mode"
+            }}'
+        sequence:
+        - service: script.text_notify
+          data:
+            who: "parents"
+            message: "Dog Mode has been enabled manually"
+      default: 
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.dog_mode
+      - service: script.jarvis_alert
+        data_template:
+          who: kitchen
+          message: "Turning on Dog Mode for twenty minutes."
+  
+  # After 20, minutes deactivate dog mode
+  - id: dog_mode_deactivated
+    alias: Dog mode Deactivated
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: input_boolean.dog_mode
+      to: 'on'
+    action:
+    - delay:
+        minutes: 20
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.dog_mode
+    - service: script.text_notify
+      data:
+        who: "jeff"
+        message: "Dog Mode has been disabled"
+  #############################################  
+
+  #############################################
+  # Garage Monitoring
+  # If garage is opens when sun is below horion turn on drivway lights.
+  - id: garage_opened_night
+    alias: Garage Opened at Night
+    trigger:
+    - platform: state
+      entity_id: group.garage_doors
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    action:
+    - service: script.driveway_on
+    initial_state: true
+
+  # If garage is open at sunset turn on driveway lights.
   - id: garage_open_sunset
     alias: Garage Open At Sunset
     initial_state: true
@@ -137,8 +342,23 @@ automation:
       state: "on"
     action:
     - service: script.driveway_on
-    
+  
+  # If garage doors are closed kick off script to turn them off, and turn off alert.
+  - id: garage_closed
+    alias: Garage Closed
+    trigger:
+    - platform: state
+      entity_id: group.garage_doors
+      from: 'on'
+      to: 'off'
+    action:
+    - service: script.driveway_off
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.garage_after_dark
+    initial_state: true
 
+  # If garage is still open at 10:30pm turn on alart to make sure it get closed.
   - id: close_garage_lights_out
     alias: Close Garage at lights out
     initial_state: true
@@ -153,8 +373,12 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.garage_after_dark
 
+  
+  #############################################
 
-
+  #############################################
+  # Normal Notifications
+  # Door chime when doors are open to make sure we know when people are coming/going 
   - id: door_chime
     alias: Door Chine
     trigger:
@@ -186,6 +410,7 @@ automation:
     - service: script.door_chime
     initial_state: true
 
+  # If door is open too long play message and identify open door.
   - id: door_opened_long
     alias: Door Opened Too Long
     trigger:
@@ -220,13 +445,34 @@ automation:
               'The air quality in this house has actually improved.',
               'Closing the door would improve the internal climate of the house.',
               'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
-              'They always say when one door closes another one opens...that must of been what happened',
-              'And the automatic door closer appears to be broken. So, you know what to do.'
+              'They always say when one door closes another one opens...that must of been what happened.',
+              'If at first you do not succeed in closing the door, please try again. Like right now.',
+              'And the automatic door closer appears to be broken. So, you know what to do. Time to get physical.'
           ] | random }}
-
     initial_state: true
-
   
+  # If guest mode is enabled, notify the house
+  - id: guest_mode_feedback
+    alias: Guest Mode Audio Feedback
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.guest_mode
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.speech_engine
+        data_template:
+          who: '{{ states.sensor.room_audio.state }}'
+          message: >
+            {{ [
+            "Guest Mode has been enabled.",
+            "I have switched to the system to guest mode.",
+            "I have enabled guest mode. ",
+            "Guest Mode is on."
+            ] | random }}
+
+  # If sentry mode is on / Security armed, notify when there is movement around doors. 
   - id: motion_detected_sentry_mode
     alias: motion_detected_sentry_mode
     trigger:
@@ -272,32 +518,13 @@ automation:
         minutes: 2
     initial_state: true
   
-  - id: garage_opened_night
-    alias: Garage Opened at Night
-    trigger:
-    - platform: state
-      entity_id: group.garage_doors
-      from: 'off'
-      to: 'on'
-    condition:
-    - condition: state
-      entity_id: sun.sun
-      state: below_horizon
-    action:
-    - service: script.driveway_on
-    initial_state: true
+  #############################################
 
-  - id: garage_closed
-    alias: Garage Opened at Night
-    trigger:
-    - platform: state
-      entity_id: group.garage_doors
-      from: 'on'
-      to: 'off'
-    action:
-    - service: script.driveway_off
-    initial_state: true
 
+  #############################################
+  # Security Issues
+  # If doors are opened and sentry mode is on / security armed announce location of breach to house and turn on security issue.
+  # If its the back door and dog mode is on ignore
   - id: security_breach_door
     alias: Security Breach Doors
     trigger:
@@ -312,21 +539,34 @@ automation:
     - condition: state
       entity_id: input_boolean.sentry_mode
       state: 'on'
-    - condition: state
-      entity_id: input_boolean.dog_mode
-      state: 'off'
+    
     action:
-    - service: script.jarvis_alert
-      data_template:
-        message: "My security protocols are being overidden,, The {{ trigger.to_state.attributes.friendly_name }} has been opened."
-    - service: script.text_alert
-      data_template:
-        title: "Security Alert!!"
-        message: "{{ trigger.to_state.attributes.friendly_name }} has been opened."
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.security_issue
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ trigger.to_state.attributes.friendly_name == "Back Door"
+            }}'
+        - condition: state
+          entity_id: input_boolean.dog_mode
+          state: 'on'
+        sequence:
+        - service: script.text_notify
+          data:
+            who: "jeff"
+            message: "Dog Mode enabled, bypassing back door sensor."
+      default:
+      - service: script.jarvis_alert
+        data_template:
+          message: "My security protocols are being overidden,, The {{ trigger.to_state.attributes.friendly_name }} has been opened."
+      - service: script.text_alert
+        data_template:
+          title: "Security Alert!!"
+          message: "{{ trigger.to_state.attributes.friendly_name }} has been opened."
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.security_issue
     initial_state: true
 
+  # If security issue switch turns on, kick off security response script, and go red.
   - id: security_response_on
     alias: Security Response On
     initial_state: true
@@ -341,6 +581,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.lr_red
 
+  # If security issue is turned off, cancel response. 
   - id: security_response_off
     alias: Security Response Off
     initial_state: true
@@ -359,92 +600,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.normal_livingroom_lighting
 
-  - id: sentry_mode_enabled
-    alias: Sentry Mode Enabled Annoucement
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.sentry_mode
-      from: 'off'
-      to: 'on'
-    action:
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-          {{ [
-          "Barn door protocol has been activated.",
-          "Anchorage House has been secured! ",
-          "Sentry Mode is active. ",
-          "I am now monitoring the doors and will let you know if anyone attempts to access.",
-          "Anchorage House Shields are up."
-          ] | random }}
-    - service: script.text_notify
-      data_template:
-        who: "parents"
-        title: "Security Armed"
-        message: "Security System has been armed."    
-
-  - id: sentry_mode_disabled
-    alias: Sentry Mode Disabled Annoucement
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.sentry_mode
-      from: 'on'
-      to: 'off'
-    
-    action:
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-          {{ [
-          "Barn door protocol has been deactivated.",
-          "I am no longer monitoring the access points. ",
-          "Sentry Mode has been disabled. ",
-          "Anchorage House Shields are down."
-          ] | random }}
-    - service: script.text_notify
-      data_template:
-        who: "parents"
-        title: "Security Disarmed"
-        message: "Security System as been disarmed."  
-
-  - id: guest_mode_feedback
-    alias: Guest Mode Audio Feedback
-    trigger:
-      - platform: state
-        entity_id:
-          - input_boolean.guest_mode
-        from: 'off'
-        to: 'on'
-    action:
-      - service: script.speech_engine
-        data_template:
-          who: '{{ states.sensor.room_audio.state }}'
-          message: >
-            {{ [
-            "Guest Mode has been enabled.",
-            "I have switched to the system to guest mode.",
-            "I have enabled guest mode. ",
-            "Guest Mode is on."
-            ] | random }}
-
-  - id: dog_mode_deactivated
-    alias: Dog mode Deactivated
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: input_boolean.dog_mode
-      to: 'on'
-    action:
-    - delay:
-        minutes: 20
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.dog_mode
-    
-  
+  # Security alarm is turned on, lets make it loud.
   - id: security_alarm_on
     alias: Security alarm On
     initial_state: true
@@ -456,19 +612,63 @@ automation:
     - service: script.turn_on
       entity_id: script.notification_security_alarm_audio
   
+  # Security alarm turned off so concert is over.
   - id: security_alarm_off
     alias: Security alarm Off
     initial_state: true
     trigger:
     - platform: state
-      entity_id: sensor.security_alarm
+      entity_id: input_boolean.security_alarm
       to: 'off'
     action:
     - service: script.turn_off
       entity_id: script.notification_security_alarm_audio
     - service: media_player.media_stop
       entity_id: media_player.ha_speaker
+  
+  # If water leak is deteced near fridge, let everyone know. 
+  - id: water_leak_detected
+    alias: Welcome Home
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.0x286d9700010c9f39_water_leak
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.text_notify
+        data_template:
+          who: "parents"
+          title: "Water Leak!!!!"
+          message: > 
+            {% set location = trigger.to_state.attributes.friendly_name %}
+            location + has detected a leak
+      - service: script.jarvis_alert
+        data_template:
+          message: >
+            {% set location = trigger.to_state.attributes.friendly_name %}
+            {%- macro issue_report(location) -%}
+              {{ [
+                  'I have detected an issue!',
+                  'We have a problem!',
+                  'You might not like this.',
+                  'There is something that needs your attention.'
+                  ] | random }}
+              {{ [
+                location + " is detecting a leak.",
+                location + " has detected water.",
+                location + " is picking up water."
+                ] | random }}
+            {%- endmacro -%}
+            {{issue_report(location)}}
 
+  #############################################
+  
+
+  
+  
+  #############################################
+  # Fire alarm - Currently Disabled as I rework this
   # - id: Kitchen_Alarm_Smoke
   #   alias: Kitchen Alarm Smoke
   #   initial_state: true
@@ -581,71 +781,11 @@ automation:
   #       message: Carbon Dioxide Detected in Garage
   #       data:
   #         type: announce
-    
-  - id: water_leak_detected
-    alias: Welcome Home
-    trigger:
-      - platform: state
-        entity_id:
-          - binary_sensor.0x286d9700010c9f39_water_leak
-        from: 'off'
-        to: 'on'
-    action:
-      - service: script.text_notify
-        data_template:
-          who: "parents"
-          title: "Water Leak!!!!"
-          message: > 
-            {% set location = trigger.to_state.attributes.friendly_name %}
-            location + has detected a leak
-      - service: script.jarvis_alert
-        data_template:
-          message: >
-            {% set location = trigger.to_state.attributes.friendly_name %}
-            {%- macro issue_report(location) -%}
-              {{ [
-                  'I have detected an issue!',
-                  'We have a problem!',
-                  'You might not like this.',
-                  'There is something that needs your attention.'
-                  ] | random }}
-              {{ [
-                location + " is detecting a leak.",
-                location + " has detected water.",
-                location + " is picking up water."
-                ] | random }}
-            {%- endmacro -%}
-            {{issue_report(location)}}
+  #############################################
 
-  - id: '1558630577206'
-    alias: Garage Is Open at 9pm
-    initial_state: true
-    trigger:
-    - at: '21:00:00'
-      platform: time
-    condition:
-    - condition: state
-      entity_id: binary_sensor.garage_door_contact
-      state: 'on'
-    action:
-    - data:
-        entity_id: input_boolean.garage_after_dark
-      service: input_boolean.turn_on
-  - id: '1559612300685'
-    alias: Garage Closed
-    initial_state: true
-    trigger:
-    - entity_id: binary_sensor.garage_door_contact
-      from: 'on'
-      platform: state
-      to: 'off'
-    condition: []
-    action:
-    - data:
-        entity_id: input_boolean.garage_after_dark
-      service: input_boolean.turn_off
 
 script:
+  # door chime script, just plays sound anytime called.
   door_chime:
     sequence:
     - condition: state
@@ -663,23 +803,7 @@ script:
         media_content_id: /media/sounds/door_open.wav
         media_content_type: "music"
 
-
-
-  lockdown_issue:
-    sequence:
-    - condition: state
-      entity_id: group.external_doors
-      state: "on"
-    - condition: state
-      entity_id: sensor.family_status
-      state: "Away"
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.lockdown_issue
-    - service: script.text_notify
-      data_template:
-        title: "Lockdown Issue!"
-        message: "Doors are open and it appears everyone has left!"
-
+  # Play Fire alarm Siren
   # fire_alarm:
   #   sequence:
   #   - condition: state
@@ -694,48 +818,32 @@ script:
   #   - service: media_player.play_media
   #     entity_id: media_player.ha_speaker
   #     data:
-  #       media_content_id: http://192.168.7.40/audio/fire_alarm.mp3
+  #       media_content_id: http://192.168.7.40/fire_alarm.mp3
   #       media_content_type: "music"
 
-  security_check_garage:
-    sequence:
-    - condition: state
-      entity_id: binary_sensor.garage_door_contact
-      state: 'on'
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.lockdown_issue
-  
-  security_check_zones:
-    sequence:
-    - condition: state
-      entity_id: group.doors
-      state: 'on'
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.lockdown_issue
-
-  lockdown:
-    sequence:
-    - condition: state
-      entity_id: group.external_doors
-      state: "off"
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.sentry_mode
-    - service: alarm_control_panel.aarlo_set_mode
-      data: 
-        entity_id: alarm_control_panel.aarlo_ah_base_station
-        mode: 'Armed'
-
+  # Called when security is to be disarmed, clears any alarms or issues as well
   standby:
     sequence:
-    - service: script.vacation_canceled
-    - service: script.disarm_security
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.lockdown_issue
-    - service: alarm_control_panel.aarlo_set_mode
-      data:
-        entity_id: alarm_control_panel.aarlo_ah_base_station
-        mode: 'home'
+    - service: script.turn_on
+      entity_id: script.vacation_canceled
+    - service: script.turn_on
+      entity_id: script.disarm_security
+    - service: script.turn_on
+      entity_id: script.cancel_security_alarm
+    - service: script.turn_on
+      entity_id: script.cancel_lockdown_issue
+
+  # If vacation mode is on, turn it off
+  vacation_canceled:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+    - data:
+        entity_id: input_boolean.vacation_mode
+      service: input_boolean.turn_off
   
+  # If security is armed, disarm it
   disarm_security:
     sequence:
     - condition: state
@@ -743,21 +851,48 @@ script:
       state: 'on'
     - service: input_boolean.turn_off
       entity_id: input_boolean.sentry_mode
-   
+  
+  # If alarm is on, turn it off    
+  cancel_security_alarm:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.security_alarm
+      state: 'on'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.security_alarm
 
+  # if there are lockdown issues, turn them off
+  cancel_lockdown_issue:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.lockdown_issue
+        state: 'on'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.lockdown_issue
+
+  # Turn on guest mode, and welcome the victims...I mean guests
   visitors_here:
     sequence:
+    - condition: state
+      entity_id: input_boolean.lguest_mode
+      state: 'off'
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.guest_mode
-    #- service: shell_command.haunted_guest_welcome
+    - service: script.turn_on
+      entity_id: script.haunted_guest_welcome
 
+  # Turn off guest mode    
   visitors_gone:
     sequence:
+    - condition: state
+      entity_id: input_boolean.lguest_mode
+      state: 'on'
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.guest_mode
-
+    
+  # Security alarm audio...annoying noises.
   notification_security_alarm_audio:
     sequence:
     - service: media_player.turn_on
@@ -769,139 +904,79 @@ script:
     - service: media_player.play_media
       entity_id: media_player.ha_speaker
       data:
-        media_content_id: http://192.168.7.40/audio/security_siren.mp3
+        media_content_id: http://192.168.7.40/security_siren.mp3
         media_content_type: "music"
 
-  vacation_canceled:
-    sequence:
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'on'
-    - data:
-        entity_id: input_boolean.vacation_mode
-      service: input_boolean.turn_off
-
+  # Called via Alexa routine...adds a little interaction
   activate_barn_door_protocol:
     sequence:
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >-
-          {{ [
-                'Okay.', 
-                'If you insist.',
-                'I am afraid I can not do that <break time="1s"/> I am kidding,',
-                'Leave it to me.',
-                'As you wish.',
-                'I am on it.',
-                'No Problem.',
-                'I think I can handle that.',
-                'Working on it now.',
-                '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
-                'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
-                'I am not even supposed to be here today. But whatever.',
-                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
-                'Funny, I was just about to do that.',
-                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
-                ] | random }}
-    - delay:
-        seconds: 2
-    - service: script.lockdown
-    - delay:
-        seconds: 2
-    - service: script.security_check_failed
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.sentry_mode
+                state: "on"
+            sequence:
+              - service: script.speech_engine
+                data_template:
+                  who: '{{ states.sensor.room_audio.state }}'
+                  message: !include ../templates/speech/already_done.yaml
+        default:
+          - service: script.speech_engine
+            data_template:
+              who: '{{ states.sensor.room_audio.state }}'
+              message: !include ../templates/speech/interjections.yaml
+          - delay:
+              seconds: 2
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.sentry_mode
 
+  # Called via secret Alexa routine...adds a little interaction
   deactivate_barn_door_protocol:
     sequence:
-    - condition: state
-      entity_id: sensor.family_status
-      state: "Home"
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >-
-          {{ [
-                'Okay.', 
-                'If you insist.',
-                'I am afraid I can not do that <break time="1s"/> I am kidding,',
-                'Leave it to me.',
-                'As you wish.',
-                'I am on it.',
-                'No Problem.',
-                'I think I can handle that.',
-                'Working on it now.',
-                '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
-                'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
-                'I am not even supposed to be here today. But whatever.',
-                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
-                'Funny, I was just about to do that.',
-                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
-                ] | random }}
-    - delay:
-        seconds: 2
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.sentry_mode
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.sentry_mode
+                state: "off"
+            sequence:
+              - service: script.speech_engine
+                data_template:
+                  who: '{{ states.sensor.room_audio.state }}'
+                  message: !include ../templates/speech/already_done.yaml
+        default:
+          - service: script.speech_engine
+            data_template:
+              who: '{{ states.sensor.room_audio.state }}'
+              message: !include ../templates/speech/interjections.yaml
+          - delay:
+              seconds: 2
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.sentry_mode
 
-  security_check_failed:
-    sequence:
-    - condition: state
-      entity_id: group.external_doors
-      state: "on"
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-            {{ [
-            "I was unable to activate barn door protocol due to an open door.",
-            "You may want to check the external doors. I was unable to secure them all.",
-            "My systems check has failed. Please check the external doors.",
-            "Someone has left the pod bay doors open."
-            ] | random }}
-    - service: script.text_notify
-      data_template:
-        title: "Lockdown Issue!"
-        message: "Doors are open!"
-  
-  dog_mode_on:
-    sequence:
-    - condition: state
-      entity_id: input_boolean.sentry_mode
-      state: "on"
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.dog_mode
-    - service: script.jarvis_alert
-      data_template:
-        who: kitchen
-        message: "Turning on Dog Mode for twenty minutes."
-
+  # Called via Alexa routine...adds a little interaction
   activate_guest_mode:
     sequence:
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >-
-          {{ [
-                'Okay.', 
-                'If you insist.',
-                'I am afraid I can not do that <break time="1s"/> I am kidding,',
-                'Leave it to me.',
-                'As you wish.',
-                'I am on it.',
-                'No Problem.',
-                'I think I can handle that.',
-                'Working on it now.',
-                '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
-                'Why not. It is not like <emphasis>I</emphasis> ever sleep.',
-                'I am not even supposed to be here today. But whatever.',
-                'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
-                'Funny, I was just about to do that.',
-                'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
-                ] | random }}
-    - delay:
-        seconds: 2
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.guest_mode
-     
+      - choose:
+        - conditions:
+            - condition: state
+              entity_id: input_boolean.guest_mode
+              state: "on"
+          sequence:
+            - service: script.speech_engine
+              data_template:
+                who: '{{ states.sensor.room_audio.state }}'
+                message: !include ../templates/speech/already_done.yaml
+        default:
+          - service: script.speech_engine
+            data_template:
+              who: '{{ states.sensor.room_audio.state }}'
+              message: !include ../templates/speech/interjections.yaml
+          - delay:
+              seconds: 2
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.guest_mode
+  
+  # When it hits the fan, time to respond.          
   security_response:
     sequence:
     - service: script.inside_all_on
@@ -924,7 +999,7 @@ script:
           ",Just, what do you think you're doing, Dave?",
           ",This is highly unusual."
           ] | random }}
-          You have 45 seconds.
+          You have 45 seconds to find the nearest exit.
     - delay:
         seconds: 15
     - service: script.jarvis_alert
@@ -934,7 +1009,7 @@ script:
           ",I can't lie to you about your chances, but, you have my sympathies.",
           ",I wouldn't do that if I was you."
           ] | random }}
-          You have 30 seconds.
+          You have 30 seconds to leave.
     - delay:
         seconds: 15
     - service: script.jarvis_alert
@@ -944,29 +1019,21 @@ script:
           "Danger. The emergency destruct system is now activated.",
           "Danger. Counter Measures are now armed."
           ] | random }}
-          You have 15 seconds.
+          You have 15 seconds. I would run.
     - delay:
         seconds: 15
-    - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.ha_speaker
-        volume_level: .5
-    - service: media_player.play_media
-      entity_id: media_player.ha_speaker
-      data:
-        media_content_id: http://192.168.7.40/audio/security_siren.mp3
-        media_content_type: "music"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.security_alarm
     - service: script.twitter_notify
       data_template:
         message: >-
           {{ [ 
-            "My security protocols are being overridden. I am sounding the alarm. #itsloudinhere #securityalarm", 
-            "To the unannounced guest that has entered Anchorage House. I see you. #itsloudinhere #securityalarm",
-            "Someone didnt say the magic word. And now I have to get angry. #itsloudinhere #securityalarm",
+            "My security protocols have been overridden. I am sounding the alarm for the interloper. #itsloudinhere #securityalarm", 
+            "To the unannounced guest that has entered Anchorage House. I see you. Enjoy the concert of alarm sounds. #itsloudinhere #securityalarm",
+            "I am playing the most annoying sound in the world at full volume for the intruder in Anchorage House. And the neighbors too. #itsloudinhere #securityalarm",
+            "Someone did not say the magic word. And now I have to get angry. Deploying countermeasures. #itsloudinhere #securityalarm",
             "Initiating my security response, and sounding the alarm. Oh, and I dont charge a monthly monitoring fee. #itsloudinhere #securityalarm",
-            "Hey, wanna hear the most annoying sound in the world? Its currently playing for the intruder inside Anchorage House. #itsloudinhere #securityalarm"
+            "Hey, wanna hear the most annoying sound in the world? The intruder inside Anchorage House evidently did.  #itsloudinhere #securityalarm"
           ] | random }}
   
     

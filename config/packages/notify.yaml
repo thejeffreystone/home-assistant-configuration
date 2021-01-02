@@ -50,6 +50,50 @@ tts:
     voice: Brian
     cache: True
 
+input_boolean:
+  text_notify_jeff:
+    name: Send Texts to Jeff
+    icon: mdi:telegram
+  text_notify_kat:
+    name: Send Texts to Kat
+    icon: mdi:telegram
+  text_notify_skylar:
+    name: Send Texts Skylar
+    icon: mdi:telegram
+  text_notify_parents:
+    name: Send Texts to Parents 
+    icon: mdi:telegram
+  text_notifications:
+    name: Text Notifications
+    icon: mdi:telegram
+  presence_text_notifications:
+    name: Presence Texts
+    icon: mdi:telegram
+  notifications_audio:
+    name: Audio Notifications
+    icon: mdi:speaker-wireless
+  presence_audio_notifications:
+    name: Presence Audio
+    icon: mdi:speaker-wireless
+  audible_notifications:
+    name: Audible Notifications
+    icon: mdi:speaker-wireless
+  presence_notifications_jeff:
+    name: Send Jeff Presence Texts
+    icon: mdi:telegram
+  presence_notifications_kat:
+    name: Send Kat Presence Texts
+    icon: mdi:telegram
+  lockdown_notification:
+    name: Lockdown Notifications
+    icon: mdi:speaker-wireless
+  garage_notifications:
+    name: Garage Notifications
+    icon: mdi:speaker-wireless
+  trash_notification:
+    name: Trash Notification
+    icon: mdi:telegram
+
 notify:
   - platform: ios
   - name: all_ios
@@ -182,31 +226,56 @@ script:
       - condition: state
         entity_id: input_boolean.text_notifications
         state: 'on'
-      - service: >
-            {% if who == 'jeff' %}
-              notify.jeff_ios
-            {% elif who == 'kat' %}
-              notify.kat_ios
-            {% elif who == 'skylar' %}
-              notify.skylar_ios
-            {% elif who == 'parents' %}
-              notify.ios_parents
-            {% else %}
-              notify.all_ios
-            {% endif %}
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          #data:
-          #   attachment:
-          #     url: '{{ url }}'
-          #     content-type: '{{ content_type }}'
-          #     hide-thumbnail: false
-          #  push:
-          #     sound: '{{ ios_sound }}'
-          #    badge: 0
-          #     category: '{{ ios_category }}'
-          #   entity_id: '{{ camera_entity }}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "jeff"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_jeff
+            state: 'on'
+          sequence:
+          - service: notify.jeff_ios
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "kat"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_kat
+            state: 'on'
+          sequence:
+          - service: notify.kat_ios
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "skylar"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_skylar
+            state: 'on'
+          sequence:
+          - service: notify.skylar_ios
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "parents"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_parents
+            state: 'on'
+          sequence:
+          - service: notify.parents_ios
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        default: 
+        - service: notify.all_ios
+          data:
+            title: '{{ title }}'
+            message: '{{ message }}'
 
   text_alert:
     sequence:

@@ -5,8 +5,67 @@
 #   @description    :   All the Lightning specific configs. 
 ###############################################################################
 
+input_number:
+  master_bedroom_wakeup:
+    name: Master Bedroom Wakeup Lighting
+    initial: 8.5
+    min: 8.5
+    max: 255
+    step: 8.5
+
+
+
 
 automation:
+# MAster Bedroom lights turn on if dark and no other lights already on.
+  - id: e1cb39dc-0423-11eb-adc1-0242ac120002
+    alias: Master Bedroom Lights Needed
+    initial_state: true
+    trigger:
+    - entity_id: binary_sensor.master_bedroom_motion
+      from: 'off'
+      platform: state
+      to: 'on'
+    condition:
+    - below: 13
+      condition: numeric_state
+      entity_id: sensor.master_bedroom_illuminance
+    - condition: time
+      after: '07:30:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: group.master_bedroom
+      state: 'off'
+    action:
+    - service: script.master_bedroom_lights_w_level  
+      data:
+        level: 255
+
+# Increase the light level in master bedroom from 15% to 100% over 15 minutes. 
+  - id: 1feafed1-0de9-44a4-a2f0-e693bc637ea1
+    alias: Master bedroom Wake Up
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 06:15:00
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    action:
+    - service: script.turn_on
+      entity_id: script.master_bedroom_morning_wakeup_lighting
+    - delay: 00:33:00
+    - service: script.turn_off
+      entity_id: script.master_bedroom_morning_wakeup_lighting
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.master_bedroom_wakeup
+        value: 8.5
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_on
+
+     
 
   # Kitchen lights needed when dark and there is motion
   - id: e1cb3d56-0423-11eb-adc1-0242ac120002
@@ -292,6 +351,44 @@ script:
     - service: scene.turn_on
       entity_id: scene.theater_bright
 
+#################################################
 
-
-  
+  master_bedroom_lights_w_level:
+    sequence:
+      - service: light.turn_on
+        entity_id: light.jeff_lamp_level_light_color_on_off
+        data:
+          brightness: >
+              {{ level | int }}
+          color_temp: 369
+      - service: light.turn_on
+        entity_id: light.tower_spotlight_level_on_off
+        data:
+          brightness: >
+              {{ level | int }}
+          color_temp: 369
+      - service: light.turn_on
+        entity_id: light.kat_lamp
+        data:
+          brightness: >
+              {{ level | int }}
+         
+      
+  master_bedroom_morning_wakeup_lighting:
+    sequence:
+      - repeat:
+          while:
+            - condition: template
+              value_template: '{{ states("input_number.master_bedroom_wakeup") | int < 256 }}'
+          sequence:
+            - service: script.master_bedroom_lights_w_level
+              data:
+                  level: '{{ states("input_number.master_bedroom_wakeup") }}'
+            - service: input_number.increment
+              entity_id: input_number.master_bedroom_wakeup
+            - delay: 00:01:00
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.master_bedroom_wakeup
+          value: 8.5
+      
