@@ -158,7 +158,7 @@ automation:
             data_template:
               who: "parents"
               title: "Security Disarmed"
-              message: "Security System as been disarmed."
+              message: "Security System has been disarmed."
           - service: alarm_control_panel.aarlo_set_mode
             data:
               entity_id: alarm_control_panel.aarlo_ah_base_station
