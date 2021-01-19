@@ -25,6 +25,9 @@ aarlo:
   last_format: '%m-%d %H:%M'
   refresh_devices_every: 2
   verbose_debug: True
+  tfa_host: 'imap.gmail.com'
+  tfa_username: !secret GV_USER
+  tfa_password: !secret GV_PASS
 
 # Testing internet speedtest  
 speedtestdotnet:

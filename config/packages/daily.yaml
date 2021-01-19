@@ -11,8 +11,8 @@ automation:
     alias: Coffee Time
     initial_state: true
     trigger:
-        platform: template
-        value_template: "{{ states('sensor.time') == (state_attr('input_datetime.coffee_time', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+        platform: time
+        at: input_datetime.coffee_time
     action:
     - service: scene.turn_on
       entity_id: scene.diminshed_livingroom_lighting
@@ -29,8 +29,8 @@ automation:
     alias: Good Morning
     initial_state: true
     trigger:
-        platform: template
-        value_template: "{{ states('sensor.time') == (state_attr('input_datetime.good_morning', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+        platform: time
+        at: input_datetime.good_morning
     action:
     - service: scene.turn_on
       entity_id: scene.normal_livingroom_lighting
@@ -58,8 +58,8 @@ automation:
     alias: Skylar Bedtime
     initial_state: true
     trigger:
-        platform: template
-        value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+        platform: time
+        at: input_datetime.skylar_nightly_report
     condition:
     - condition: state
       entity_id: input_boolean.vacation_mode
@@ -383,4 +383,5 @@ script:
     - condition: state
       entity_id: group.garage_doors
       state: 'on'
-    - service: script.driveway_on
+    - service: script.turn_on
+      entity_id: script.driveway_on

@@ -10,7 +10,7 @@
 ###############################################################################
 # AWS Polly Options:
 # pause:
-#   <break time="3s"/>
+#   <break time="3s"/> 
 # emphasis: 
 #   <emphasis level="strong">really like</emphasis>
 #   level attribute values:
