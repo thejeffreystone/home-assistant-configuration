@@ -6,9 +6,6 @@ welcome_greeting:
   name: Welcome Greeting
   icon: mdi:speaker-wireless
 
-
-
-
 kat_heading_home:
   name: Kat Heading Home
   icon: mdi:car
