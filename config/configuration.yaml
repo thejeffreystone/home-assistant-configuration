@@ -283,8 +283,8 @@ alert: !include_dir_merge_named alerts/
 automation: !include automations.yaml
 script: !include scripts.yaml
 sensor: !include_dir_merge_list sensors
-binary_sensor: !include_dir_merge_list binary_sensors
-light: !include lights.yaml
+# binary_sensor: !include_dir_merge_list binary_sensors
+# light: !include lights.yaml
 switch: !include switches.yaml
 scene: !include scenes.yaml
 input_select: !include input_select.yaml

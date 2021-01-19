@@ -1,46 +1,46 @@
 
 
-# Outside
-- platform: mqtt
-  name: "Side Door Light"
-  command_topic: "zwave2mqtt/side_door_bulb/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/side_door_bulb/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/side_door_bulb/38/1/0"
-  on_command_type: "brightness"
-  payload_off: '0'
+# # Outside
+# - platform: mqtt
+#   name: "Side Door Light"
+#   command_topic: "zwave2mqtt/side_door_bulb/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/side_door_bulb/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/side_door_bulb/38/1/0"
+#   on_command_type: "brightness"
+#   payload_off: '0'
 
-# Kitchen
+# # Kitchen
 
-- platform: mqtt
-  name: "Kitchen Cabinets"
-  command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/kitchen_cabinets/38/1/0"
-  on_command_type: "brightness"
-  payload_off: '0'
-  retain: true
+# - platform: mqtt
+#   name: "Kitchen Cabinets"
+#   command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/kitchen_cabinets/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/kitchen_cabinets/38/1/0"
+#   on_command_type: "brightness"
+#   payload_off: '0'
+#   retain: true
 
-- platform: mqtt
-  name: "Kat Lamp"
-  command_topic: "zwave2mqtt/jeff_bedside_lamp/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/jeff_bedside_lamp/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/jeff_bedside_lamp/38/1/0"
-  on_command_type: "brightness"
-  payload_off: '0'
-  retain: true
+# - platform: mqtt
+#   name: "Kat Lamp"
+#   command_topic: "zwave2mqtt/jeff_bedside_lamp/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/jeff_bedside_lamp/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/jeff_bedside_lamp/38/1/0"
+#   on_command_type: "brightness"
+#   payload_off: '0'
+#   retain: true
 
 
-# Theater
+# # Theater
 
-- platform: mqtt
-  name: Theater Light
-  command_topic: "zwave2mqtt/theater/38/1/0/set"    
-  brightness_command_topic: "zwave2mqtt/theater/38/1/0/set"
-  brightness_scale: 99
-  brightness_state_topic: "zwave2mqtt/theater/38/1/0"
-  on_command_type: "brightness"
-  payload_off: '0'
-  retain: true
+# - platform: mqtt
+#   name: Theater Light
+#   command_topic: "zwave2mqtt/theater/38/1/0/set"    
+#   brightness_command_topic: "zwave2mqtt/theater/38/1/0/set"
+#   brightness_scale: 99
+#   brightness_state_topic: "zwave2mqtt/theater/38/1/0"
+#   on_command_type: "brightness"
+# #   payload_off: '0'
+#   retain: true
