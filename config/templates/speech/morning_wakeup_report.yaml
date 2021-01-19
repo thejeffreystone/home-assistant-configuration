@@ -35,7 +35,7 @@
     {{states.sensor.today_is.state }}.
     </p>
     <p>
-      It is currently {{states.weather.home_2.state}} and {{states.sensor.back_porch_temperature.state|round}} degrees in Grayson. 
+      It is currently {{states.weather.home.state}} and {{states.sensor.acurite_6045m_3078_t.state|round}} degrees in Grayson. 
     </p>
     <p>
       {% if is_state('sensor.clothing_forecast', 'Freezing') %}
