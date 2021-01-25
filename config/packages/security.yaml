@@ -264,7 +264,7 @@ automation:
     mode: single
     trigger:
     - platform: state
-      entity_id: binary_sensor.kitchen_motion
+      entity_id: binary_sensor.back_door_motion
       to: 'on'
     - platform: state
       entity_id: input_boolean.dog_mode
@@ -291,6 +291,12 @@ automation:
         data_template:
           who: kitchen
           message: "Turning on Dog Mode for twenty minutes."
+    - service: scene.turn_on
+      entity_id: scene.diminished_kitchen_lighting
+    - delay:
+        minutes: 20
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.dog_mode
   
   # After 20, minutes deactivate dog mode
   - id: dog_mode_deactivated
@@ -299,16 +305,14 @@ automation:
     trigger:
     - platform: state
       entity_id: input_boolean.dog_mode
-      to: 'on'
+      to: 'off'
     action:
-    - delay:
-        minutes: 20
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.dog_mode
     - service: script.text_notify
       data:
         who: "jeff"
         message: "Dog Mode has been disabled"
+    - service: scene.turn_on
+      entity_id: scene.kitchen_lightning_off
   #############################################  
 
   #############################################
