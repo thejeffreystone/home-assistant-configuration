@@ -13,7 +13,7 @@ timer:
 sensor:
   - platform: mqtt
     name: Bridge state
-    state_topic: "homeassistant/bridge/state"
+    state_topic: "zigbee2mqtt/bridge/state"
     icon: mdi:router-wireless
 
 automation:
@@ -26,7 +26,7 @@ automation:
     action:
     - service: mqtt.publish
       data:
-        topic: homeassistant/bridge/config/permit_join
+        topic: zigbee2mqtt/bridge/config/permit_join
         payload: 'true'
     - service: timer.start
       data:
@@ -40,7 +40,7 @@ automation:
     action:
     - data:
         payload: 'false'
-        topic: homeassistant/bridge/config/permit_join
+        topic: zigbee2mqtt/bridge/config/permit_join
       service: mqtt.publish
     - data:
         entity_id: timer.zigbee_permit_join
@@ -55,7 +55,7 @@ automation:
     action:
     - service: mqtt.publish
       data:
-        topic: homeassistant/bridge/config/permit_join
+        topic: zigbee2mqtt/bridge/config/permit_join
         payload: 'false'
     - service: input_boolean.turn_off
       data:

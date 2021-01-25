@@ -32,7 +32,7 @@ audio_devices:
 Outside Lights:
   - switch.driveway_light
   - switch.front_porch_light
-  - light.cree_side_door_lightlevel_on_off
+  - light.side_door_light_level
   
 External Doors:
   - binary_sensor.side_door
@@ -49,20 +49,20 @@ Internal Doors:
   - binary_sensor.attic_door
 
 rgb lr:
-  - light.front_door_lamp_level_light_color_on_off
+  - light.front_door_lamp
   - light.living_room_lamp
-  - light.living_room_tower_lamp_level_light_color_on_off
+  - light.living_room_tower_lamp
 
 livingroom tower:
-  - light.living_room_tower_lamp_level_light_color_on_off
+  - light.living_room_tower_lamp
 
 livingroom lamps:
   - light.living_room_lamp
-  - light.front_door_lamp_level_light_color_on_off
+  - light.front_door_lamp
 
 incense:
-  - switch.forest_incense_on_off
-  - switch.innr1_on_off
+  - switch.forest_incense
+  - switch.artemis
   - switch.incense
 
 all fans:
@@ -70,16 +70,16 @@ all fans:
   - switch.livingroom_fan
 
 Skylars Bedroom:
-  - light.skylars_lamp_level_light_color_on_off # skylars lamp
-  - switch.rainbow_light_on_off # rainbow light
+  - light.skylars_dresser_lamp
+  - switch.rainbow_lamp # rainbow light
   - light.wled_loftbed
 
 Master Bedroom:
-  - light.jeff_lamp_level_light_color_on_off
-  - light.tower_spotlight_level_on_off
+  - light.jeff_lamp
+  - light.jeff_dresser_lamp
   - light.kat_lamp
-  - light.kitchen_sink_level_light_color_on_off
-  - light.desk_accent_level_light_color_on_off
+  - light.master_bedroom_tower_lamp
+  - light.desk_accent
   - switch.tplink_a2
 
 kitchen:
@@ -87,9 +87,9 @@ kitchen:
   - switch.ha_speaker
 
 livingroom:
-  - light.front_door_lamp_level_light_color_on_off
+  - light.front_door_lamp
   - light.living_room_lamp
-  - light.living_room_tower_lamp_level_light_color_on_off
+  - light.living_room_tower_lamp
   - switch.fireplace_lights
   - switch.rail_lights
 

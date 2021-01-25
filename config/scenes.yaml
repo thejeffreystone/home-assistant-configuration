@@ -1,3 +1,102 @@
+- name: studio normal
+  entities:
+    light.jeff_lamp:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 255
+        - 213
+        - 133
+    light.jeff_dresser_lamp:
+      state: 'on'
+      brightness: 255
+    light.kat_lamp:
+      state: 'on'
+      brightness: 255
+    light.master_bedroom_tower_lamp:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7
+        - 130
+        - 255
+    light.desk_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
+    switch.tplink_a2:
+      state: 'on'
+
+- name: studio blue
+  entities:
+    light.jeff_lamp:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
+    light.jeff_dresser_lamp:
+      state: 'on'
+      brightness: 255
+    light.kat_lamp:
+      state: 'on'
+      brightness: 255
+    light.master_bedroom_tower_lamp:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
+    light.desk_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
+    switch.tplink_a2:
+      state: 'on'
+
+- name: studio yellow
+  entities:
+    light.jeff_lamp:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 255
+        - 213
+        - 133
+    light.jeff_dresser_lamp:
+      state: 'on'
+      brightness: 255
+    light.kat_lamp:
+      state: 'on'
+      brightness: 255
+    light.master_bedroom_tower_lamp:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 255
+        - 213
+        - 133
+    light.desk_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 255
+        - 213
+        - 133
+    switch.tplink_a2:
+      state: 'on'
+
+    
+    
+
 - name: all lights on
   entities:
     light.kitchen_cabinets:
@@ -46,7 +145,7 @@
   id: 8ae2129ba4484194ae25880851a10e70
 - name: dimished livingroom lighting
   entities:
-    light.livingroom_tower:
+    light.living_room_tower_lamp_level_light_color_on_off:
       state: 'on'
       brightness: 40
       color_temp: 369
@@ -227,47 +326,47 @@
 
 - name: master bedroom on
   entities:
-    light.jeff_lamp_level_light_color_on_off:
+    light.jeff_lamp:
       state: 'on'
       brightness: 255
       color_temp: 369
     light.kat_lamp:
       state: 'on'
       brightness: 255
-    light.tower_spotlight_level_on_off:
+    light.jeff_dresser_lamp:
       state: 'on'
       brightness: 255
-    light.kitchen_sink_level_light_color_on_off:
+    light.master_bedroom_tower_lamp:
       state: 'on'
       brightness: 255
       color_temp: 369
-    light.desk_accent_level_light_color_on_off:
+    light.desk_accent:
       state: 'off'
   id: d250bb4c5c1644b0a7064a9f36ffec32
 
 - name: master bedroom off
   entities:
-    light.jeff_lamp_level_light_color_on_off:
+    light.jeff_lamp:
       state: 'off'
     light.kat_lamp:
       state: 'off'
-    light.tower_spotlight_level_on_off:
+    light.jeff_dresser_lamp:
       state: 'off'
-    light.kitchen_sink_level_light_color_on_off:
+    light.master_bedroom_tower_lamp:
       state: 'off'
-    light.desk_accent_level_light_color_on_off:
+    light.desk_accent:
       state: 'off'
   id: 06e4b59c35f14054ab7e741445b7fd21
 
 - name: master bedroom dim
   entities:
-    light.desk_accent_level_light_color_on_off:
+    light.desk_accent:
       state: 'off'
     light.kat_lamp:
       state: 'off'
-    light.jeff_lamp_level_light_color_on_off:
+    light.jeff_lamp:
       state: 'off'
-    light.kitchen_sink_level_light_color_on_off:
+    light.master_bedroom_tower_lamp:
       state: 'on'
       rgb_color:
         - 255
@@ -275,7 +374,7 @@
         - 255
       color_temp: 369
       brightness: 102
-    light.tower_spotlight_level_on_off:
+    light.heff_dresser_lamp:
       state: 'off'
   id: 85953e56acc94c8b8614347de8aab96a
 
@@ -289,7 +388,7 @@
 
 - name: skylar room prebed
   entities:
-    light.skylars_lamp_level_light_color_on_off:
+    light.skylar_dresser_lamp:
       state: 'on'
       color_temp: 369
       brightness: 255
@@ -300,7 +399,7 @@
       - 63
       - 255
       - 0
-    switch.rainbow_light_on_off:
+    switch.rainbow_lamp:
       state: 'on'
   id: cc8606f7345f48d59b3c32e900122d75
 
@@ -315,11 +414,11 @@
       - 63
       - 255
       - 0
-    switch.rainbow_light_on_off:
+    switch.rainbow_lamp:
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
-    light.skylars_lamp_level_light_color_on_off:
+    light.skylar_dresser_lamp:
       state: 'off'
     input_boolean.skylar_awake:
       state: 'off'
@@ -327,7 +426,7 @@
 
 - name: skylar room morning
   entities:
-    slight.skylars_lamp_level_light_color_on_off:
+    light.skylar_dresser_lamp:
       state: 'on'
       color_temp: 369
       brightness: 38
@@ -335,9 +434,9 @@
 
 - name: skylar room day
   entities:
-    slight.skylars_lamp_level_light_color_on_off:
+    light.skylar_dresser_lamp:
       state: 'off'
-    switch.rainbow_light_on_off:
+    switch.rainbow_lamp:
       state: 'off'
     light.wled_loftbed:
       state: 'off'
@@ -345,61 +444,43 @@
 
 - name: studio on
   entities:
-    light.jeff_lamp_level_light_color_on_off:
+    light.jeff_lamp:
       state: 'on'
       brightness: 5
-    light.tower_spotlight_level_on_off:
+    light.jeff_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
       state: 'on'
       brightness: 255
-    light.kitchen_sink_level_light_color_on_off:
+    light.master_bedroom_tower_lamp:
       state: 'on'
       brightness: 255
       rgb_color:
         - 7
         - 130
         - 255
-    light.desk_accent_level_light_color_on_off:
+    light.desk_accent:
       state: 'on'
       brightness: 255
       rgb_color:
         - 7
         - 130
         - 255
-  id: 1538d090abe0494d9fa6c225adc83593
+    switch.tplink_a2:
+      state: 'on'
+  
 
 - name: studio off
   entities:
-    light.tower_spotlight_level_on_off:
+    light.jeff_dresser_lamp:
       state: 'off'
-    light.desk_accent_level_light_color_on_off:
+    light.desk_accent:
       state: 'off'
     switch.tplink_a2:
       state: 'off'
   id: 82791dafcf674b9cbbad6565b3b49b86
 
-- name: work time
-  entities:
-    light.jeff_lamp_level_light_color_on_off:
-      state: 'on'
-      brightness: 255
-      color_temp: 369
-    light.kat_lamp:
-      state: 'off'
-    light.tower_spotlight_level_on_off:
-      state: 'on'
-      brightness: 255
-    light.kitchen_sink_level_light_color_on_off:
-      state: 'on'
-      brightness: 255
-      color_temp: 369
-    light.desk_accent_level_light_color_on_off:
-      state: 'on'
-      brightness: 255
-      color_temp: 369
-  id: e1cb3a90-0423-11eb-adc1-0242ac120002
 
 - name: film time
   id: film_time
@@ -619,21 +700,4 @@
       icon: mdi:led-strip-variant
       supported_features: 55
       state: 'off'
-- id: '1607288511176'
-  name: side door off
-  entities:
-    light.side_door_light:
-      friendly_name: Side Door Light Off
-      assumed_state: true
-      supported_features: 1
-      state: 'off'
-      brightness: 0
-- id: '160728851117618'
-  name: side door on
-  entities:
-    light.side_door_light:
-      friendly_name: Side Door Light On
-      assumed_state: true
-      supported_features: 1
-      state: 'on'
-      brightness: 255
+

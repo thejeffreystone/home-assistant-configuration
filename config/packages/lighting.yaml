@@ -22,14 +22,14 @@ automation:
     alias: Master Bedroom Lights Needed
     initial_state: true
     trigger:
-    - entity_id: binary_sensor.master_bedroom_motion
+    - entity_id: binary_sensor.master_bedroom_motion_occupancy
       from: 'off'
       platform: state
       to: 'on'
     condition:
     - below: 13
       condition: numeric_state
-      entity_id: sensor.master_bedroom_illuminance
+      entity_id: sensor.master_bedroom_motion_illuminance_lux
     - condition: time
       after: '07:30:00'
       before: '22:00:00'
@@ -72,18 +72,18 @@ automation:
     alias: Kitchen Lights Needed
     initial_state: true
     trigger:
-    - entity_id: binary_sensor.kitchen_motion_2
+    - entity_id: binary_sensor.kitchen_motion_occupancy
       from: 'off'
       platform: state
       to: 'on'
-    - entity_id: binary_sensor.kitchen_motion
+    - entity_id: binary_sensor.back_door_motion
       from: 'off'
       platform: state
       to: 'on'
     condition:
     - below: 70
       condition: numeric_state
-      entity_id: sensor.kitchen_illuminance
+      entity_id: sensor.kitchen_motion_illuminance_lux
     action:
     - choose:
       - conditions:
@@ -106,14 +106,14 @@ automation:
     alias: Living Room Lights Needed
     initial_state: true
     trigger:
-    - entity_id: binary_sensor.lumi_lumi_sensor_motion_aq2_ias_zone
+    - entity_id: binary_sensor.living_room_motion_occupancy
       from: 'off'
       platform: state
       to: 'on'
     condition:
     - below: 50
       condition: numeric_state
-      entity_id: sensor.lumi_lumi_sensor_motion_aq2_illuminance
+      entity_id: sensor.living_room_motion_illuminance_lux
     - condition: time
       after: '05:30:00'
       before: '22:30:00'
@@ -128,12 +128,12 @@ automation:
     alias: Inside Lights Not Needed
     initial_state: true
     trigger:
-    - entity_id: sensor.lumi_lumi_sensor_motion_aq2_illuminance
+    - entity_id: sensor.living_room_motion_illuminance_lux
       above: 99
       platform: numeric_state
     condition:
       - condition: state
-        entity_id: light.living_room_tower_lamp_level_light_color_on_off
+        entity_id: light.living_room_tower_lamp
         state: "on"
     action:
     - service: scene.turn_on  
@@ -154,7 +154,7 @@ script:
   inside_all_off:
     sequence:
     - data:
-        entity_id: light.tower_lamp_4
+        entity_id: light.living_room_tower_lamp
       service: light.turn_off
     - data:
         entity_id: light.living_room_lamp
@@ -199,7 +199,7 @@ script:
         entity_id: switch.driveway_light
       service: switch.turn_on
     - data:
-        entity_id: light.cree_side_door_lightlevel_on_off
+        entity_id: light.side_door_light_level
       service: light.turn_on
   
   driveway_off:
@@ -215,7 +215,7 @@ script:
     - service: switch.turn_off
       entity_id: switch.driveway_light
     - service: light.turn_off
-      entity_id: light.cree_side_door_lightlevel_on_off
+      entity_id: light.side_door_light_level
 
   # Turn on Living Room Lights if sun is down or cloud coverage is above 70%
   livingroom_lamps_on:
@@ -356,7 +356,7 @@ script:
   master_bedroom_lights_w_level:
     sequence:
       - service: light.turn_on
-        entity_id: light.jeff_lamp_level_light_color_on_off, light.tower_spotlight_level_on_off, light.kat_lamp
+        entity_id: light.jeff_lamp, light.master_bedroom_tower_lamp, light.kat_lamp
         data:
           brightness: >
               {{ level | int }}
