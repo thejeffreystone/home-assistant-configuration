@@ -50,39 +50,52 @@ input_datetime:
     has_date: false
     has_time: true
     initial: '16:00:00'
+  morning_meeting:
+    name: Morning Meeting
+    has_date: false
+    has_time: true
+    initial: '08:12:00'
+  math:
+    name: Math
+    has_date: false
+    has_time: true
+    initial: '08:28:00'
+  reading:
+    name: Reading
+    has_date: false
+    has_time: true
+    initial: '09:48:00'
+  phonics:
+    name: Phonics
+    has_date: false
+    has_time: true
+    initial: '10:48:00'
+  lunch:
+    name: Lunch
+    has_date: false
+    has_time: true
+    initial: '11:10:00'
+  specials:
+    name: Specials
+    has_date: false
+    has_time: true
+    initial: '12:08:00'
+  writing:
+    name: Writing
+    has_date: false
+    has_time: true
+    initial: '12:53:00'
+  science:
+    name: Science
+    has_date: false
+    has_time: true
+    initial: '13:33:00'
+  shared_reading:
+    name: Shared Reading
+    has_date: false
+    has_time: true
+    initial: '14:18:00'
 
-input_number:
-  skylar_ps_time:
-    name: Skylar PS Time
-    initial: 120
-    min: 0
-    max: 360
-    step: 15
-    icon: mdi:clock
-  skylar_yt_time:
-    name: Skylar YT Time
-    initial: 60
-    min: 0
-    max: 360
-    step: 15
-    icon: mdi:youtube
-  skylar_tv_time:
-    name: Skylar TV Time
-    initial: 120
-    min: 0
-    max: 360
-    step: 15
-    icon: mdi:television-box
-
-input_select:
-  skylar_activity:
-    name: Skylar Activity
-    options:
-      - Restricted
-      - Limited
-      - Full
-    initial: Full
-    icon: mdi:human
 
 sensor:
   - platform: template
@@ -221,8 +234,8 @@ automation:
       entity_id: input_boolean.school_is_digital
       state: 'on'
     action:
-    - service: scene.turn_on
-      entity_id: scene.skylar_desk_on
+    - service: switch.turn_on
+      entity_id: switch.skylars_desk
     - service: script.turn_on
       entity_id: script.digital_learning_notification
 
@@ -242,6 +255,142 @@ automation:
       entity_id: scene.skylar_desk_off
     - service: input_boolean.turn_on
       entity_id: input_boolean.audible_notifications
+
+  - id: e1cb391e-0423-11eb-adc1-0242ac120002
+    alias: Morning Meeting Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.morning_meeting
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Morning Meeting'
+
+  - id: e1cb386a-0423-11eb-adc1-0242ac120002
+    alias: Reading Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.reading
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Reading'
+
+  - id: e1cb37a2-0423-11eb-adc1-0242ac120002
+    alias: Math Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.math
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Math'
+        
+  - id: e1cb3590-0423-11eb-adc1-0242ac120002
+    alias: Phonics Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.phonics
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Phonics'
+
+  - id: e1cb34d2-0423-11eb-adc1-0242ac120002
+    alias: Lunch Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.lunch
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Lunch'
+
+  - id: e1cb341e-0423-11eb-adc1-0242ac120002
+    alias: Specials Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.specials
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Specials'
+
+  - id: e1cb3360-0423-11eb-adc1-0242ac120002
+    alias: Writing Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.writing
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Writing'
+
+  - id: e1cb32a2-0423-11eb-adc1-0242ac120002
+    alias: Science Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.science
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Science'
+
+  - id: e1cb31e4-0423-11eb-adc1-0242ac120002
+    alias: Shared Reading Warning
+    initial_state: true
+    trigger:
+        platform: time
+        at: input_datetime.shared_reading
+    condition:
+    - condition: state
+      entity_id: input_boolean.school_is_digital
+      state: 'on'
+    action:
+    - service: script.class_alarm
+      data:
+        class: 'Shared Reading'
+    
 
 script:
 
@@ -273,11 +422,20 @@ script:
     - service: script.speech_engine
       data_template:
         who: '{{ states.sensor.room_audio.state }}'
-        message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk. I will be disabling audible notifications during school hours."
-    - delay:
-        minutes: 5
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.audible_notifications
+        message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk."
+
+  class_alarm:
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: main
+        message: >
+          {{ class }} starts in two minutes.
+    - service: script.text_notify
+      data:
+        who: 'parents'
+        message: >
+          {{ class }} starts in two minutes.
 
 rest_command:
   new_version_github_issue:
