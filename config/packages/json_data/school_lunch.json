@@ -1,0 +1,25 @@
+{
+    "MENU": {
+      "static": {
+        "3/2": "Quesadillas",
+        "3/3": "Pizza",
+        "3/4": "Taco Burger",
+        "3/11": "Burger",
+        "3/12": "Pizza",
+        "3/18": "Pizza",
+        "3/19": "Mac and Cheese",
+        "3/23": "Quesadilla",
+        "3/24": "Pizza",
+        "3/25": "Taco Burger",
+        "4/1": "Burger",
+        "4/2": "Pizza",
+        "4/13": "Quesadilla",
+        "4/14": "Pizza",
+        "4/15": "Taco Burger",
+        "4/22": "Burger",
+        "4/23": "Pizza",
+        "4/29": "Pizza",
+        "4/30": "Mac and Cheese"
+      }
+    }
+  }

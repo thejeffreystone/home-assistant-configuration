@@ -106,6 +106,14 @@ sensor:
       school_end_days2go:
         value_template: '{{ (((states.input_datetime.school_last_day.attributes.timestamp)-as_timestamp(now())) | int /60/1440) | round(0) }}'
         unit_of_measurement: 'Days'
+  - platform: rest
+    resource: https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/packages/json_data/school_lunch.json
+    name: School Lunch
+    scan_interval: 14400
+    value_template: >
+      {% set today = now().month  ~ '/' ~ now().day  %}
+      {% set lunch =  value_json.MENU.static[ today ] %}
+      {{ lunch }}
 
 automation:
   - id: refresh_special_event_sensors
