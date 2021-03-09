@@ -22,7 +22,7 @@ automation:
     alias: Master Bedroom Lights Needed
     initial_state: true
     trigger:
-    - entity_id: binary_sensor.master_bedroom_motion_occupancy
+    - entity_id: binary_sensor.master_bedroom_motion
       from: 'off'
       platform: state
       to: 'on'

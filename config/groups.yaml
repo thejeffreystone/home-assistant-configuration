@@ -61,7 +61,7 @@ livingroom lamps:
   - light.front_door_lamp
 
 incense:
-  - switch.forest_incense
+  - switch.forest_incense_incense
   - switch.artemis
   - switch.incense
 
@@ -73,10 +73,11 @@ Skylars Bedroom:
   - light.skylars_dresser_lamp
   - switch.rainbow_lamp # rainbow light
   - light.wled_loftbed
+  - switch.skylars_desk
 
 Master Bedroom:
   - light.jeff_lamp
-  - light.jeff_dresser_lamp
+  - light.master_bedroom_dresser_lamp
   - light.kat_lamp
   - light.master_bedroom_tower_lamp
   - light.desk_accent
@@ -84,7 +85,7 @@ Master Bedroom:
 
 kitchen:
   - light.kitchen_cabinets
-  - switch.ha_speaker
+  - switch.kitchen_light_strip
 
 livingroom:
   - light.front_door_lamp
@@ -94,7 +95,7 @@ livingroom:
   - switch.rail_lights
 
 theater lights:
-  - light.theater_light
+  - light.theater_lights
 
 Chores:
   - input_boolean.clean_litterbox

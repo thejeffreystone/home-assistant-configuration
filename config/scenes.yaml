@@ -7,7 +7,7 @@
         - 255
         - 213
         - 133
-    light.jeff_dresser_lamp:
+    light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
@@ -27,7 +27,16 @@
         - 7 
         - 130
         - 255
+    light.studio_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
     switch.tplink_a2:
+      state: 'on'
+    switch.master_bedroom_bookcase:
       state: 'on'
 
 - name: studio blue
@@ -39,7 +48,7 @@
         - 7 
         - 130
         - 255
-    light.jeff_dresser_lamp:
+    light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
@@ -59,7 +68,16 @@
         - 7 
         - 130
         - 255
+    light.studio_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
     switch.tplink_a2:
+      state: 'on'
+    switch.master_bedroom_bookcase:
       state: 'on'
 
 - name: studio yellow
@@ -71,7 +89,7 @@
         - 255
         - 213
         - 133
-    light.jeff_dresser_lamp:
+    light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
@@ -91,9 +109,17 @@
         - 255
         - 213
         - 133
+    light.studio_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 255
+        - 213
+        - 133
     switch.tplink_a2:
       state: 'on'
-
+    switch.master_bedroom_bookcase:
+      state: 'on'
     
     
 
@@ -115,22 +141,8 @@
       - 255
     switch.fireplace_lights:
       state: 'on'
-    light.living_room_tower_lamp_level_light_color_on_off:
-      state: 'on'
-      brightness: 100
-    light.living_room_lamp:
-      state: 'on'
-      brightness: 100
-    light.front_door_lamp_level_light_color_on_off:
-      state: 'on'
     switch.rail_lights:
       state: 'on'
-    light.0xb0ce18140003b334_light:
-      state: 'on'
-      brightness: 100
-    light.0xb0ce1814035bb3f0_light:
-      state: 'on'
-      brightness: 100
   id: 18855f121a1d411b832f8eb320a342d6
 - name: normal livingroom lighting
   entities:
@@ -286,10 +298,10 @@
     light.living_room_lamp:
       state: 'on'
       brightness: 20
-    light.front_door_lamp_level_light_color_on_off:
+    light.front_door_lamp:
       state: 'on'
       brightness: 20
-    light.living_room_tower_lamp_level_light_color_on_off:
+    light.living_room_tower_lamp:
       state: 'on'
       brightness: 20
   id: cf27a902be0f49c6bd1727c0d617065c
@@ -305,7 +317,7 @@
   id: b76a807484234e2382443165742f2db6
 - name: tower lamp red
   entities:
-    light.living_room_tower_lamp_level_light_color_on_off:
+    light.living_room_tower_lamp:
       state: 'on'
       brightness_pct: 100
       rgb_color:
@@ -315,7 +327,7 @@
   id: 8778e240c51743d3add7c59150e40d0e
 - name: front lamp green
   entities:
-    light.front_door_lamp_level_light_color_on_off:
+    light.front_door_lamp:
       state: 'on'
       brightness_pct: 100
       rgb_color:
@@ -333,7 +345,7 @@
     light.kat_lamp:
       state: 'on'
       brightness: 255
-    light.jeff_dresser_lamp:
+    light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.master_bedroom_tower_lamp:
@@ -350,11 +362,13 @@
       state: 'off'
     light.kat_lamp:
       state: 'off'
-    light.jeff_dresser_lamp:
+    light.master_bedroom_dresser_lamp:
       state: 'off'
     light.master_bedroom_tower_lamp:
       state: 'off'
     light.desk_accent:
+      state: 'off'
+    switch.master_bedroom_bookcase:
       state: 'off'
   id: 06e4b59c35f14054ab7e741445b7fd21
 
@@ -374,7 +388,7 @@
         - 255
       color_temp: 369
       brightness: 102
-    light.heff_dresser_lamp:
+    light.master_bedroom_dresser_lamp:
       state: 'off'
   id: 85953e56acc94c8b8614347de8aab96a
 
@@ -401,6 +415,8 @@
       - 0
     switch.rainbow_lamp:
       state: 'on'
+    switch.skylars_desk:
+      state: 'off'
   id: cc8606f7345f48d59b3c32e900122d75
 
 - name: skylar room sleep
@@ -421,6 +437,8 @@
     light.skylar_dresser_lamp:
       state: 'off'
     input_boolean.skylar_awake:
+      state: 'off'
+    switch.skylars_desk:
       state: 'off'
   id: f4e8d2f594c446ee9f0e41cf46dc1c72
 
@@ -469,6 +487,8 @@
         - 255
     switch.tplink_a2:
       state: 'on'
+    switch.master_bedroom_bookcase:
+      state: 'on'
   
 
 - name: studio off
@@ -478,6 +498,8 @@
     light.desk_accent:
       state: 'off'
     switch.tplink_a2:
+      state: 'off'
+    switch.master_bedroom_bookcase:
       state: 'off'
   id: 82791dafcf674b9cbbad6565b3b49b86
 
@@ -492,6 +514,10 @@
   id: film_time_over
   entities:
     switch.tplink_a2:
+      state: 'off'
+    light.studio_accent:
+      state: 'off'
+    switch.master_bedroom_bookcase:
       state: 'off'
 
 - name: lr_cool_white
@@ -700,4 +726,3 @@
       icon: mdi:led-strip-variant
       supported_features: 55
       state: 'off'
-
