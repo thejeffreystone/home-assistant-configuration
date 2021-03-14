@@ -55,12 +55,13 @@
     <p>
       Skyler, 
       {{ [ 'It is time to get in the bath. ',
-          'It is almost bedtime. That means you should be heading for the bathtub. Time to get clean.',
+          'It is almost bedtime. That means it is time to start preparing for bed. if you are taking a bath tonight, you need to head that way.',
           'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
           'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics. But in the mean time, <emphasis>you</emphasis> should start a bath.',
-          'I hate to say it but, it is time to get cleaned up.',
-          'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. Bath time now, <emphasis>sir</emphasis>.',
-          'The count down clock has started. Time to get cleaned up, and get your pajamas on.'
+          'I hate to say it but, the day is coming to an end. Time to finish up your tasks, pick up any toys you have out, and get ready for bed.',
+          'We have reached that time in every day when we must switch gears and start preparing for bed. If you would like to have story time you better get a move on.'
+          'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. It is time to get ready for bed.',
+          'The count down clock until bedtime has started. Time to get cleaned up, get your pajamas on, and pick the story you will read tonight.'
         ] | random }} 
       {% if is_state('sensor.school_tomorrow', 'on') %} 
         {{ [ 'Because you have school tomorrow. ',
@@ -77,9 +78,10 @@
         {% else %}
           Oh, and it appears you do not have school tomorrow
         {% endif %} 
-          {{ [ 'so you can sleep in late tomorrow. ',
-              ' so there is not a reason to get up early tomorrow. ',
-              'so we can sleep in tomorrow. '
+          {{ [ 'so you can sleep in late. ',
+               'so let us sleep a little later. ',
+              ' so there is not a reason to get up early. ',
+              'so we can sleep in. '
             ] | random }} 
       {% endif %} 
       {% if states.sensor.school_start_days2go.state | int < 10 and states.sensor.school_start_days2go.state | int > 1 -%}
@@ -108,9 +110,10 @@
       {% elif states.sensor.school_end_days2go.state | int == 0 -%}
         Tomorrow is the first day of summer. Are you ready? 
       {%- endif %}
-        {{ [ 'I have configured Skylers room for sleep prep. ',
-          'The lighting in Skylers room has been adjusted in preparation for bed.',
-          'I have executed the Pre bed routine for Skylers room.'
+        {{ [ 'I have prepared your room as you like it. ',
+          'I have adjusted the lighting in your room.',
+          'I have turned on your bedroom lights, and adjusted the ligting under your bed.',
+          'I have executed the Pre bed routine for your room.'
         ] | random }}
     </p>
   {%- endmacro -%}

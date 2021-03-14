@@ -25,14 +25,7 @@
 
     {% endif %}
 
-    {{ [
-        'Today is ',
-        'If you have not been keeping track today is ',
-        'Do you know what day of the week it is? Today is',
-        'I hate to be the bearer of bad news, but today is ',
-        'Oh look, once again it is '
-    ]|random }}
-    {{states.sensor.today_is.state }}.
+    Today is {{states.sensor.today_is.state }}.
     </p>
     <p>
       It is currently {{states.weather.home.state}} and {{states.sensor.acurite_6045m_3078_t.state|round}} degrees in Grayson. 
@@ -46,12 +39,12 @@
         It is going to be chilly today. so I suggest wearing at least long pants.
       {% elif is_state('sensor.clothing_forecast', 'Nice') %}
         It is going to be           
-        {{ [ 'nice outside',
-          'pretty nice outside ',
-          'a good day to be outside ',
-          'rather enjoyable outside ',
+        {{ [ 'nice outside. ',
+          'pretty nice outside. ',
+          'a good day to be outside. ',
+          'rather enjoyable outside. ',
         ] | random }} 
-        today. So I suggest wearing shorts.
+        So I suggest wearing shorts.
       {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
         It is going to be 
         {{ [ 'bit warm ',
@@ -76,37 +69,23 @@
     </p>
     <p>
       {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-        {{ [ 'Skylar has school today.',
-          'Skylar needs to head to school in about forty minutes. ',
-          'Skylar should go to school today. '
+        {{ [ 'Today is a school day.',
+          'Skylar has school today. '
         ] | random }}
         {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
-          And today is a digital learning day so the commute will be short.
+          But it is a digital learning day so the commute will be short.
         {% endif %} 
         {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
-          But It is early release!
+          And It is early release!
         {% endif %}
       {% endif %}
     </p>
     <p>
       {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-        Today for Lunch at school  
-        {% if states.calendar.skylar_school.attributes.description == 'lunch-nuggets' %}
-          they are having Chicken Nuggets.          
-        {% elif states.calendar.skylar_school.attributes.description == 'lunch-gwinnettburger' %}
-          they are having Gwinnetts Best Burger.
-            {{ [ 'Which seems like an overstatement if you ask me.',
-              'But is it really?',
-              'If you like this, I know where to find Texas Best Barbeque.'
-            ] | random }}
-        {% elif states.calendar.skylar_school.attributes.description == 'lunch-pizza' %}
-          it is Pizza.
-        {% elif states.calendar.skylar_school.attributes.description == 'lunch-minipups' %}
-          it is Mini Corn Pups.
-        {% elif states.calendar.skylar_school.attributes.description == 'lunch-hotdogs' %}
-          it is Mini Corn Pups.
+        {% if states.sensor.school_lunch.state == 'Nothing' %}
+          Skylar will want to take his lunch today. 
         {% else %}
-        it might be a good day to take something.
+          Today's school lunch is {{ states.sensor.school_lunch.state }}, so he might be interested in buying his lunch.
         {% endif %}
       {% endif %}
     </p>
