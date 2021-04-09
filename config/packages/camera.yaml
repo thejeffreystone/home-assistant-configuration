@@ -13,15 +13,31 @@ camera:
     ffmpeg_arguments: '-pred 1 -q:v 2'
   - platform: ffmpeg
     input: !secret livingroom_cam # wyze cam v2
-    name: livingroom
+    name: livingroom camera
   - platform: ffmpeg
     input: !secret kitchen_cam # wyze cam v2
-    name: kitchen
+    name: kitchen camera
   - platform: ffmpeg
     input: !secret theater_cam # wyze cam v2
-    name: theater
+    name: theater camera
   - platform: ffmpeg
     input: !secret laundry_cam # wyze cam v2
-    name: laundry
+    name: laundry camera
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg  
+
+image_processing:
+  - platform: doods
+    url: http://192.168.7.187:8080
+    detector: default
+    scan_interval: 10000
+    source:
+      - entity_id: camera.driveway
+    file_out:
+      - "/media/images/{{ camera_entity.split('.')[1] }}_latest.jpg"
+    labels:
+      - name: person
+        confidence: 50
+
+  
+          

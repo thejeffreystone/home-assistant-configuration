@@ -1,3 +1,31 @@
+- id: doods_testing
+  alias: Doods Testing
+  trigger:
+  - entity_id: binary_sensor.driveway_motion
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - service: image_processing.scan
+    entity_id: image_processing.doods_driveway
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: image_processing.doods_driveway
+        above: '0'
+      sequence:
+      - service: script.text_alert_image
+        data:
+          who: jeff
+          title: Person Detected!
+          message: '{{ states("image_processing.doods_driveway") | int}} people detected
+            near vehicles
+
+            '
+          url: /media/images/driveway_latest.jpg
+          content_type: JPEG
+    default: []
+  mode: single
 - id: family_has_arrived
   alias: Family Has arrived
   trigger:
@@ -52,8 +80,6 @@
     from: Home
     platform: state
     to: Away
-  - platform: webhook
-    webhook_id: away_webhook
   - entity_id: group.family
     from: home
     platform: state
@@ -141,13 +167,16 @@
   - condition: state
     entity_id: sun.sun
     state: below_horizon
+  - condition: state
+    entity_id: switch.driveway_light
+    state: 'off'
   action:
   - service: switch.turn_on
     entity_id: switch.driveway_light
   - delay:
-      minutes: 3
-  - service: switch.turn_off
-    entity_id: switch.driveway_light
+      minutes: 1
+  - service: script.turn_on
+    entity_id: script.driveway_off
 - id: show_time_over
   alias: Show Time over
   initial_state: true
@@ -160,36 +189,6 @@
   action:
   - service: scene.turn_on
     entity_id: scene.theater_dark
-- id: theater_fan_on
-  alias: Theater Fan On
-  initial_state: true
-  trigger:
-  - above: 74
-    platform: numeric_state
-    entity_id: sensor.theater_temperature
-  condition:
-  - condition: state
-    entity_id: media_player.theater_tv
-    state: 'on'
-  action:
-  - data:
-      entity_id: switch.theater_fan
-    service: switch.turn_on
-- id: theater_fan_off
-  alias: Theater Fan Off
-  initial_state: true
-  trigger:
-  - below: 72
-    platform: numeric_state
-    entity_id: sensor.theater_temperature
-  condition:
-  - condition: state
-    entity_id: media_player.theater_tv
-    state: 'off'
-  action:
-  - data:
-      entity_id: switch.theater_fan
-    service: switch.turn_on
 - id: theater_light_pressed_up
   alias: Theater Light Pressed Up
   initial_state: true
@@ -208,16 +207,14 @@
   action:
   - service: scene.turn_on
     entity_id: scene.theater_dark
-
-
 - id: '1607350354349'
   alias: WFH Video Call Lights On
   description: ''
   trigger:
   - platform: state
     entity_id:
-      - binary_sensor.latlmacr0f9jg5m_c922_pro_stream_webcam_camera
-      - binary_sensor.latlmacr0f9jg5m_c922_pro_stream_webcam_2
+    - binary_sensor.latlmacr0f9jg5m_c922_pro_stream_webcam_camera
+    - binary_sensor.latlmacr0f9jg5m_c922_pro_stream_webcam_2
     from: 'off'
     to: 'on'
   condition: []
@@ -243,8 +240,7 @@
     data: {}
     entity_id: switch.tplink_a2
   mode: single
-
-- id: 'test_tag_event'
+- id: test_tag_event
   alias: Tag desk is scanned
   description: ''
   trigger:
@@ -257,5 +253,49 @@
   action:
   - service: notify.jeff_ios
     data:
-      message: "Jeff someone scanned desk tag"
+      message: Jeff someone scanned desk tag
+  mode: single
+- id: '1613442280682'
+  alias: Master Bath Humidity Too High
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.master_bath_humidity
+    above: '62'
+    for: 00:03:00
+  condition:
+  - condition: state
+    entity_id: switch.master_bath_fan
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.master_bath_fan
+  mode: single
+- id: '1613442381930'
+  alias: Master Bath Humidity Normal
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.master_bath_humidity
+    below: '62'
+  condition:
+  - condition: state
+    entity_id: switch.master_bath_fan
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.master_bath_fan
+  mode: single
+- id: '1614313318267'
+  alias: testing wh
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: test-webooking
+  condition: []
+  action:
+  - event: test_complete
+    event_data: {}
   mode: single
