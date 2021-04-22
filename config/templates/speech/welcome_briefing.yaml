@@ -1,0 +1,120 @@
+>
+  {# Event Report #}
+  {%- macro getReport() -%}
+    <p>
+    {% set person = expand('group.arriving')|map(attribute='name')|join(' and ') %}
+    {% set peoplecount = expand('group.arriving') | count %}
+    {% if peoplecount == 0 %}
+      <s>Welcome Home</s>
+    {% else %}
+      {% if peoplecount == 1 %}
+        {% set is_are = ' is ' %}
+        {% set has_have = ' has ' %}
+      {% else %}
+        {% set is_are = ' are ' %}
+        {% set has_have = ' have ' %}
+      {% endif %}
+      {%- macro greeting_sentence(person, is_are, has_have) -%}
+      {{ [
+        "Welcome back home " ~ person,
+        "Hey" ~ person + "! High Five! Glad you are finally home.",
+        "Welcome home " ~ person
+        ] | random }}"Welcome back home " ~ person,
+      {%- endmacro -%}
+      {{greeting_sentence(person, is_are, has_have)}}
+    {% endif %}
+    {{ [
+      'It was pretty quiet while you were gone.', 
+      'Glad to see you made it back.',
+      'Hopefully noting too crazy happened out there.',
+      'I would love to hear about your adventures. <break time="1s"/> On second thought I do not care.'
+      ] | random }}
+
+    </p>
+
+    <p>
+    {%- if is_state('climate.home','off') %}
+      <s>The internal climate control system is off. The temperature inside is {{ states.climate.home.attributes.current_temperature }} degrees</s>
+    {%- elif is_state('climate.home','heat_cool') %}
+      <s>The internal climate control system will try to keep the temperature between {{ states.climate.home.attributes.target_temp_low }} and {{ states.climate.home.attributes.target_temp_high }}</s>
+    {% else %}
+      <s>The internal climate control system is set to {{ states.climate.home.state }} with a current temperature of {{ states.climate.home.attributes.current_temperature }} which is 
+      
+        {%- if states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int |round > 0 %}
+          {{ states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int }} degrees above 
+        {%- elif states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int |round < 0 %}
+          {{ (states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int) | abs }} degrees below
+        {% else %}
+          right at 
+        {% endif %}
+        the set point of {{ states.climate.home.attributes.temperature }}
+      degrees</s>
+    {%- endif -%}
+    <s>And The internal humidity is currently {{ states.climate.home.attributes.current_humidity }} percent</s>
+    </p>
+
+    <p>
+    {%- if is_state('sensor.washer_status','complete') %}
+      The washing machine completed its cycle 
+      {% set seconds = now().timestamp() - as_timestamp(states.sensor.washer_status.last_changed) %}
+      {% set hours = seconds / 60 %}
+      {% if (seconds / ( 60 * 60 )) | int == 1 %}
+        over an hour ago.
+      {% elif (seconds / ( 60 * 60 )) | int > 1 and (seconds / ( 60 * 60 )) | int < 6 %}
+        over {{ (seconds //  ( 60 * 60 )) | int }} hours ago.
+        {{ [
+        'Much longer and you are going to need to wash them again.', 
+        'Someone needs to rotate the laundry.',
+        'Do not forget about the closthes in the washing machine.',
+        'Surely you did not mean to forget about the clothes. Mistakes happen. But you can still fix it.',
+        'Do you like your clothes smeling like mildew? Becasue that is what is happening right now.'
+        ] | random }}
+      {% elif (seconds / ( 60 * 60 )) | int > 6 %}
+        over {{ (seconds //  ( 60 * 60 )) | int }} hours ago.
+        {{ [
+        'That is a crazy amount of time.', 
+        'Did you decide you want those clothes to suffer?',
+        'You might as well just rewash those clothes.',
+        'I can smell the mildew virtually.',
+        'Surely you did not mean to forget about the clothes.'
+        ] | random }}
+      {% else %}
+        {{ (seconds // 60) | int }} minutes ago.
+        {{ [
+        'Do not forget to rotate the clothes.', 
+        'Someone forgot to move the clothes to the dryer. I am not going to name names, but there is a camera in there. Do I need to publically shame someone?',
+        'You might want to move them to the dryer.'
+        ] | random }}
+      {% endif %}
+    {% endif %}
+    </p>
+
+    <p>
+    {%- if is_state('sensor.front_door_motion_away_count','0') %}
+      While you were gone there was no motion detected at the front door.
+    {% else %}
+      While you were out I detected motion at the front door {{ states.sensor.front_door_motion_away_count.state | int }} times.
+    {% endif %}
+    </p>
+
+
+
+    
+
+
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

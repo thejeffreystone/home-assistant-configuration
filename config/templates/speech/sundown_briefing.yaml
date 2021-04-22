@@ -2,53 +2,67 @@
   {# Nightky Report #}
   {%- macro getReport() -%}
     <p>
-      {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
-        Good morning.
-      {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-        Good afternoon.
-      {% else %}
-        Good evening.
-      {% endif %}
-      </p>
-      <p>
-      {% if now().strftime('%H')|int < 12 %}
-        {% if now().strftime('%M')|int == 0 %}
-          It is {{ now().strftime('%H')|int }} AM.
-        {% else %}
-          It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
-        {% endif %}
-
-      {% elif now().strftime('%H')|int > 12 %}
-        {% if now().strftime('%M')|int == 0 %}
-          It is {{ now().strftime('%H')|int }} PM.
-        {% else %}
-          It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
-        {% endif %}
-      
-      {% else %}
-
-      {% endif %}
+      Good evening.
     </p>
+
+    <p>
+      It is {{ now().strftime("%I:%M %p") }}
+    </p>
+
+    <p>
+      {% if is_state('sun.sun', 'below_horizon') %}
+        You have
+        {% set seconds = as_timestamp(states.sun.sun.attributes.next_rising)-now().timestamp() %}
+        {% set hours = seconds / 60 %}
+        {% if seconds / ( 60 * 60 ) > 1 %}
+          {{ (seconds //  ( 60 * 60 )) | int }} hours
+        {% else %}
+          {{ (seconds // 60) | int }} minutes
+        {% endif %}
+        {{ [
+          'until the sun rises.',
+          'until the sun is up.',
+          'before the sun officially rises. '
+        ]|random }}
+      {% else %}
+        You have
+        {% set seconds = as_timestamp(states.sun.sun.attributes.next_setting)-now().timestamp() %}
+        {% set hours = seconds / 60 %}
+        {% if seconds / ( 60 * 60 ) > 1 %}
+          {{ (seconds //  ( 60 * 60 )) | int }} hours
+        {% else %}
+          {{ (seconds // 60) | int }} minutes
+        {% endif %}
+        {{ [
+          'until the sun sets for the day.',
+          'until the sun slips below the horizon.',
+          'before the sun officially sets. ',
+          'before The sun has been ushered off the stage.'
+        ]|random }}
+      {% endif %}
+      
+    </p>
+
     <p>
       {{ [
-          'The sun is officially down. Exterior Cameras are now motion activated.',
-          'The sun has been ushered off the stage. I have armed the perimiter cameras.',
-          'You are running out of daylight. Time to wrap up any outside chores.',
-          'Switching Anchorage House to night mode! ',
-          'The outside world has switched to dark mode.',
-          'It is a little past Sunset. Time to turn on the outside lights. I am on it.',
-          'I will switch on the outside lights. It is getting dark outside.',
-          'Time to turn on the front lights. I will take care of it.',
-          'If you have not looked outside lately, the light of the day is almost gone.'
+          'Exterior Cameras are now motion activated, and the front porch light is on.',
+          'I have turned on the front porch light and armed the perimiter cameras.',
+          'You are running out of daylight. Time to wrap up any outside chores. The ouside lights have been turned on.',
+          'Switching Anchorage House to night mode! Front porch lights are on and the ouside cameras are recording when motion has been detected.',
+          'Anchorage House has been configured for night.',
+          'Switching on Anchorage Houses exterior lighting, and armed the cameras.',
+          'It is getting dark outside, so I am turning on the outside lights.',
+          'The sun is setting so it is ime to turn on the front lights.',
+          'If you have not looked outside lately, the light of the day is almost gone. I am turning on the outside lights.'
       ]|random }}
       </p>
       
         {% if is_state('binary_sensor.garage_door', 'on') %} 
         <p>
           {{ [ 'The garage door is open. ',
-            'The pod bay doors are open. ',
             'Someone forgot to close the garage.'
           ] | random }}
+          Someone should close it. 
           </p>
         {% elif is_state('binary_sensor.side_door', 'on') %}
         <p> 
@@ -56,48 +70,31 @@
             'The side door is open. ',
             'Someone forgot to close the side door.'
           ] | random }}
+          Someone might want to check it.
           </p>
           {% else %}
 
           {% endif %}
-      
-    <p>
-      {% if states.sensor.nws_alerts.state | int > 0 %}
-        There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
-        The National Weather Service Has issued,
-        {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-        a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
-        {% else %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
-        {% endif %}
-      {% endif %}
-      </p>
-      <p>
-      {{ [
-          'Tonight we can expect,',
-          'Expect weather tonight to be,'
-      ]|random }}
-      {{ states.sensor.nws_overnight_forecast.state }} 
-      </p>
-      
+  
         {% if is_state('input_boolean.freeze_warning','on') %}
         <p>
-        {{ [ 'The temperature is expected to be near or below freezing. <emphasis>Someone</emphasis> might want to bring the lemon tree in. ',
-            'It appears that it will be cold tonight. Like, the turn water solid <emphasis>kind</emphasis> of cold. Think of the poor plants.',
-            'I suggest bringing in the plants other wise, the temperature might kill them. And that will be on <emphasis>you</emphasis>.',
-            'I would say winter is coming. But, based on the weather forecast <emphasis>it</emphasis> appears to be here.',
+        {{ [ 'The temperature is expected to be near or below freezing. Someone might want to bring the lemon tree in. ',
+            'It appears that it will be cold tonight. Like, the turn water solid kind of cold. Think of the poor plants.',
+            'I suggest bringing in the plants other wise, the temperature might kill them. And that will be on you.',
+            'I would say winter is coming. But, based on the weather forecast it appears to be here.',
             'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
           ] | random }}
           </p>
         {% endif %}
+
+        {% if is_state('sensor.today_is', 'Monday') %}
+            {% if now().strftime('%H')|int > 17 %}
+            {{ [ 'Do not forget tomorrow is Trash Day. ',
+              'I advise you move the trash cans to the curb for the weekly pickup. ',
+              ' The trash and recycle should go out'
+            ] | random }}
+            {% endif %}
+          {% endif %}
       
         {% if is_state('sensor.today_is', 'Tuesday') %}
           
@@ -109,62 +106,8 @@
           ] | random }}
           </p>
           {% endif %}
-      {% endif %}
-      <p>
-      {% if states.sensor.halloween_countdown.state | int == 1 %}
-      Tomorrow is Halloween. I hope you have picked out a costume.
-      {{ [ 'I will be going as a dumb home. ',
-      'I have prepped the scary music. Just in case.',
-      'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
-      ] | random }}
-      {% elif states.sensor.halloween_countdown.state | int < 30 %}
-      There are only {{states.sensor.halloween_countdown.state}} days 
-      {{ [ 'until Halloween.',
-      'until Halloween. It might not be enough time. ',
-      'and counting until the best holiday ever.',
-      'until you need a costume.'
-      ] | random }} 
-
-      {% else %}  
-      {% endif %}
-
-      {% if states.sensor.christmas_countdown.state | int == 1 %}
-      Tomorrow is Christmas. <break time="1s"/> It is practically here! <break time="1s"/> Santa is coming tonight! Do not forget the cookies!
-      {% elif states.sensor.christmas_countdown.state | int < 31 %}
-      There are only {{states.sensor.christmas_countdown.state}} days until christmas.
-      {{ [ 'All I want for Christmas, is a hippopotamus.',
-      'Hey Skylar, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
-      'Do not forget to put something under the tree for <emphasis>your</emphasis> favorite smarthome.',
-      'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
-      'I do not want to be a smarthome. I want to be a dentist.',
-      'Do not eat all the cookies. '
-      ] | random }} 
-      {% else %}
-      {% endif %}
-      </p>
-      <p>
-      {% if states.sensor.trip_disney.state | int == 120 %}
-      There are only one hundred and twenty days until the next Disney Trip. 
-      {% endif %}
-      {% if states.sensor.trip_disney.state | int == 60 %}
-      There are only on sixty days until the next Disney Trip. 
-      {% endif %}
-      {% if states.sensor.trip_disney.state | int < 32 %}
-      {% if states.sensor.trip_disney.state | int > 1 %}
-        There are {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
-      {% else %}
-        There is {{ states.sensor.trip_disney.state }} day until the next Disney Trip!
-      {% endif %}
-      {% endif %}
-      {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
-      Tomorrow is Jeff and Katherine's Wedding Anniversary. 
-      {% endif %}
-    </p>
-      <p>
-        {% if states.sensor.trip_disney.state | int == 1 %}
-          Oh, and there is just one more sleep until the next Disney Trip!  
         {% endif %}
-    </p>
+      
   {%- endmacro -%}
 
 

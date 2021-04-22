@@ -1,112 +1,183 @@
 >
   {# Morning Wakeup Report #}
   {%- macro getReport() -%}
-    <p>
     
+    <p>
       Good morning.
-    
     </p>
+
     <p>
-    {% if now().strftime('%H')|int < 12 %}
-      {% if now().strftime('%M')|int == 0 %}
-        It is {{ now().strftime('%H')|int }} AM.
+      <s>It is {{ now().strftime("%I:%M %p") }}</s>
+    </p>
+
+    <p>
+      The Weather in Grayson is {{states.sensor.acurite_6045m_3078_t.state|round}} degrees 
+      {% if is_state('weather.home', 'rainy') %}
+        {{ [
+        'with rain.', 
+        'with showers.'
+        ] | random }}
+      {% elif is_state('weather.home', 'cloudy') %}
+        {{ [
+        'with clouds.', 
+        'with cloudy skies.'
+        ] | random }}
+      {% elif is_state('weather.home', 'partlycloudy') %}
+        {{ [
+        'with some clouds.', 
+        'with partly cloudy skies.',
+        'with scatterd clouds'
+        ] | random }}
+      {% elif is_state('weather.home', 'sunny') %}
+        {% if is_state('sun.sun', 'above_horizon') %}
+          {{ [
+          'and sunny.', 
+          'with sun.'
+          ] | random }}
+        {% else %}
+          {{ [
+          'and clear.', 
+          'with clear skies.'
+          ] | random }}
+        {% endif %}
       {% else %}
-        It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
+        and {{ states.weather.home.state }}
       {% endif %}
 
-    {% elif now().strftime('%H')|int > 12 %}
-      {% if now().strftime('%M')|int == 0 %}
-        It is {{ now().strftime('%H')|int }} PM.
-      {% else %}
-        It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
+
+      {% if states.sensor.nws_alerts.state | int > 0 %}
+        There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
+        The National Weather Service Has issued,
+        {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
+          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
+        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
+        a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
+        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
+          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
+        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
+          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
+        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
+          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
+        {% else %}
+          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
+        {% endif %}
       {% endif %}
-    
-    {% else %}
 
-    {% endif %}
+      Based on the forecasted high temperature, 
+      {% if is_state('binary_sensor.morning','on') %}
+        {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+          It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
+        {% elif is_state('sensor.clothing_forecast','Cold') %}
+          It is going to be cold today. so I suggest wearing long pants and a light jacket.
+        {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+          It is going to be chilly today. so I suggest wearing at least long pants.
+        {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+          It is going to be           
+          {{ [ 'nice outside. ',
+            'pretty nice outside. ',
+            'a good day to be outside. ',
+            'rather enjoyable outside. ',
+          ] | random }} 
+          So I suggest wearing shorts.
+        {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+          It is going to be 
+          {{ [ 'bit warm ',
+            ' rather warm outside ',
+            ' almost too hot outside ',
+            ' a little warm ',
+          ] | random }} 
+          today. So I suggest wearing shorts. 
+        {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+          It is going to be 
+          {{ [ 'hot',
+            'hotter than the sun ',
+            'hotter than hot. but in a lot of bad ways ',
+            'hotter than the sun outside ',
+            'super hot ',
+            'hotter than the inside of a volcano '
+          ] | random }} 
+          today. So I suggest wearing shorts.
+        {% else %}
+          It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+        {% endif %} 
+      {% endif %}
 
-    Today is {{states.sensor.today_is.state }}.
     </p>
-    <p>
-      It is currently {{states.weather.home.state}} and {{states.sensor.acurite_6045m_3078_t.state|round}} degrees in Grayson. 
-    </p>
-    <p>
-      {% if is_state('sensor.clothing_forecast', 'Freezing') %}
-        It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
-      {% elif is_state('sensor.clothing_forecast','Cold') %}
-        It is going to be cold today. so I suggest wearing long pants and a light jacket.
-      {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
-        It is going to be chilly today. so I suggest wearing at least long pants.
-      {% elif is_state('sensor.clothing_forecast', 'Nice') %}
-        It is going to be           
-        {{ [ 'nice outside. ',
-          'pretty nice outside. ',
-          'a good day to be outside. ',
-          'rather enjoyable outside. ',
-        ] | random }} 
-        So I suggest wearing shorts.
-      {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
-        It is going to be 
-        {{ [ 'bit warm ',
-          ' rather warm outside ',
-          ' almost too hot outside ',
-          ' a little warm ',
-        ] | random }} 
-        today. So I suggest wearing shorts. 
-      {% elif is_state('sensor.clothing_forecast', 'Hot') %}
-        It is going to be 
-        {{ [ 'hot',
-          'hotter than the sun ',
-          'hotter than hot. but in a lot of bad ways ',
-          'hotter than the sun outside ',
-          'super hot ',
-          'hotter than the inside of a volcano '
-        ] | random }} 
-        today. So I suggest wearing shorts.
-      {% else %}
-        It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
-      {% endif %} 
-    </p>
+
     <p>
       {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
         {{ [ 'Today is a school day.',
-          'Skylar has school today. '
+          'It is a school day. '
         ] | random }}
+        <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }} </s>
         {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
           But it is a digital learning day so the commute will be short.
         {% endif %} 
         {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
-          And It is early release!
+          And It is early release which means pick up is at tweleve fifteen. 
         {% endif %}
       {% endif %}
-    </p>
-    <p>
       {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
         {% if states.sensor.school_lunch.state == 'Nothing' %}
-          Skylar will want to take his lunch today. 
+          Today's lunch is not interesting, so plan on taking one. 
         {% else %}
-          Today's school lunch is {{ states.sensor.school_lunch.state }}, so he might be interested in buying his lunch.
+          Todays school lunch is {{ states.sensor.school_lunch.state }} .
         {% endif %}
       {% endif %}
+      {% if is_state('calendar.school_holiday', 'on') %}
+        And look at that. There is no school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
+      {% endif %}
+
+      {% if is_state('calendar.skylar_events', 'on') %}
+        Skylar has {{ states.calendar.skylar_events.attributes.message }} today as well!
+      {% endif %}
     </p>
+
     <p>
       {% if is_state('input_boolean.skylar_awake', 'on') %}
         Skylar was up and moving at {{ states.input_datetime.skylar_awake_at.state }}.
         {% if is_state('media_player.theater_tv', 'on') %}
-          and he appears to be in the Theater
+          and he appears to be in the Theater.
+          {% if is_state('input_boolean.skylar_dressed_reminder', 'on') %}
+            {{ [
+                'I did attempt to remind him to get dressed.',
+                'I reminded him to get dress.'
+            ]|random }}
+          {% endif %}
+        {% elif is_state('media_player.croft_tv', 'playing') %}
+          and he appears to be in the Croft watching {{ states.media_player.croft_tv.attributes.app_name }}
+          {% if is_state('input_boolean.skylar_dressed_reminder', 'on') %}
+            {{ [
+                'I did attempt to remind him to get dressed.',
+                'I reminded him to get dress.'
+            ]|random }}
+          {% endif %}
+        {% elif is_state('input_boolean.skylar_school', 'on') %}
+          and he appears to be at School.  
+        {% else %}
+          but I currently cannot find him on any of my sensors. 
         {% endif %}
       {% else %}
         It doesn't appear that Skylar is out of bed yet. 
       {% endif %}
     </p>
+
     <p>
       {%- if states.sensor.home_to_zoo.state|round > 50 %}
-        Traffic to the Zoo appears heavy than normnal.
+        Traffic to the Zoo appears heavy than normal.
       {% else %}
         Traffic to the Zoo is normal.
       {% endif %}
-      Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo.
+      Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo taking {{ states.sensor.home_to_zoo.attributes.route }}.
+
+      {%- if states.sensor.home_to_summit.state|round > 50 %}
+        Traffic to Summit appears heavy than normal.
+      {% else %}
+        Traffic to Summit is normal.
+      {% endif %}
+      Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}.
     </p>
+
   {%- endmacro -%}
 
 

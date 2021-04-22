@@ -1,66 +1,15 @@
 >
   {# Skylar Nightly Report #}
   {%- macro getReport() -%}
-
     <p>
-      {% if states.sensor.halloween_countdown.state | int == 1 %}
-      Tomorrow is Halloween. I hope you have picked out a costume.
-      {{ [ 'I will be going as a dumb home. ',
-      'I have prepped the scary music. Just in case.',
-      'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
-      ] | random }}
-      {% elif states.sensor.halloween_countdown.state | int < 30 %}
-      There are only {{states.sensor.halloween_countdown.state}} days 
-      {{ [ 'until Halloween.',
-      'until Halloween. It might not be enough time. ',
-      'and counting until the best holiday ever.',
-      'until you need a costume.'
-      ] | random }} 
-
-      {% else %}  
-      {% endif %}
-
-      {% if states.sensor.christmas_countdown.state | int == 1 %}
-      Tomorrow is Christmas. <break time="1s"/> It is practically here! <break time="1s"/> Santa is coming tonight! Do not forget the cookies!
-      {% elif states.sensor.christmas_countdown.state | int < 31 %}
-      There are only {{states.sensor.christmas_countdown.state}} days until christmas.
-      {{ [ 'All I want for Christmas, is a hippopotamus.',
-      'Hey Skylar, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
-      'Do not forget to put something under the tree for <emphasis>your</emphasis> favorite smarthome.',
-      'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
-      'I do not want to be a smarthome. I want to be a dentist.',
-      'Do not eat all the cookies. '
-      ] | random }} 
-      {% else %}
-      {% endif %}
-      </p>
-      <p>
-      {% if states.sensor.trip_disney.state | int == 120 %}
-      There are only one hundred and twenty days until the next Disney Trip. 
-      {% endif %}
-      {% if states.sensor.trip_disney.state | int == 60 %}
-      There are only on sixty days until the next Disney Trip. 
-      {% endif %}
-      {% if states.sensor.trip_disney.state | int < 32 %}
-      {% if states.sensor.trip_disney.state | int > 1 %}
-        There are {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
-      {% else %}
-        There is {{ states.sensor.trip_disney.state }} day until the next Disney Trip!
-      {% endif %}
-      {% endif %}
-      {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
-      Tomorrow is Jeff and Katherine's Wedding Anniversary. 
-      {% endif %}
-    </p>
-    <p>
-      Skyler, 
+      Good Evening, Skyler, 
       {{ [ 'It is time to get in the bath. ',
           'It is almost bedtime. That means it is time to start preparing for bed. if you are taking a bath tonight, you need to head that way.',
-          'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, <emphasis>yourself</emphasis>',
-          'My sensors are detecting a <emphasis>strange</emphasis> smell. I am running diagnostics. But in the mean time, <emphasis>you</emphasis> should start a bath.',
+          'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, yourself',
+          'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a bath.',
           'I hate to say it but, the day is coming to an end. Time to finish up your tasks, pick up any toys you have out, and get ready for bed.',
           'We have reached that time in every day when we must switch gears and start preparing for bed. If you would like to have story time you better get a move on.'
-          'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me <emphasis>either</emphasis>. So we should keep it that way. It is time to get ready for bed.',
+          'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me either. So we should keep it that way. It is time to get ready for bed.',
           'The count down clock until bedtime has started. Time to get cleaned up, get your pajamas on, and pick the story you will read tonight.'
         ] | random }} 
       {% if is_state('sensor.school_tomorrow', 'on') %} 

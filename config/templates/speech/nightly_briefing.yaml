@@ -7,7 +7,7 @@
       Tomorrow is Halloween. I hope you have picked out a costume.
       {{ [ 'I will be going as a dumb home. ',
       'I have prepped the scary music. Just in case.',
-      'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
+      'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I dare you to ask me to open them. '
       ] | random }}
       {% elif states.sensor.halloween_countdown.state | int < 30 %}
       There are only {{states.sensor.halloween_countdown.state}} days 
@@ -25,8 +25,8 @@
       {% elif states.sensor.christmas_countdown.state | int < 31 %}
       There are only {{states.sensor.christmas_countdown.state}} days until christmas.
       {{ [ 'All I want for Christmas, is a hippopotamus.',
-      'Hey Skylar, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
-      'Do not forget to put something under the tree for <emphasis>your</emphasis> favorite smarthome.',
+      'Hey Skylar, I know what you are getting for Christmas. But I am not telling.',
+      'Do not forget to put something under the tree for your favorite smarthome.',
       'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
       'I do not want to be a smarthome. I want to be a dentist.',
       'Do not eat all the cookies. '

@@ -2,7 +2,10 @@
   {# Skylar Morning Report #}
   {%- macro getReport() -%}
     <p>
-      Skylar, 
+      Good morning, Skylar.
+
+      <s>It is {{ now().strftime("%I:%M %p") }}</s> 
+
       {% if is_state('sensor.birthday_skylar', '0') %}
         Even birthday boys have to get dressed. So get to it. 
       {% else %} 
@@ -10,11 +13,11 @@
           'It is time to put some real clothes on. ',
           'it is now time to change your underwear.',
           'You need to get dressed for the day.',
-          'If you have not gotten dressed it is that time.',
-          'We have reached that time during the day in which you should get dressed.'
+          'If you have not gotten dressed it is that time.'
         ] | random }} 
       {% endif %}
     </p>
+
     <p>
       {% if is_state('sensor.clothing_forecast', 'Freezing') %}
         It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
@@ -52,6 +55,7 @@
         It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
       {% endif %} 
     </p>
+
     <p>
       {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
         Because you have school today!
@@ -73,6 +77,9 @@
         {% if states.calendar.skylar_school.attributes.description == 'start_fall_break' %}
           Oh, One More Thing. Tomorrow is the first day of Fall Break.
         {% endif %}
+        {% if states.sensor.school_end_days2go.state | int == 0 -%}
+            Oh, One More Thing. Tomorrow is the first day of Summer Break! Emjoy the Last day of school this year!
+          {%- endif %}
       {% else %} 
         {% if is_state('calendar.school_holiday', 'on') %}
         And look at that. You do not have school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
@@ -88,6 +95,7 @@
 
       {% endif %}
       </p>
+      
       <p>
         {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
           {% if states.sensor.school_lunch.state == 'Nothing' %}
@@ -109,6 +117,9 @@
           ] | random }} 
         {% endif %}
       </p>
+      {% if is_state('calendar.skylar_events', 'on') %}
+        You have {{ states.calendar.skylar_events.attributes.message }} today as well!
+      {% endif %}
   {%- endmacro -%}
 
 
