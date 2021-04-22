@@ -24,5 +24,13 @@
         "4/29": "Pizza",
         "4/30": "Mac and Cheese"
       }
+    },
+    "EVENTS": {
+      "static": {
+        "3/2": "Early Release",
+        "3/3": "Early Release",
+        "10/21": "Early Release",
+        "10/22": "Early Release"
+      }
     }
   }
