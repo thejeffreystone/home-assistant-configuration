@@ -108,7 +108,63 @@ script:
         media_content_id: >
           {{ media }}
 
+automation:
+  - id: e1cb2fdc-0423-11eb-adc1-0242ac120002
+    alias: Set Room Presence
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.master_bedroom_motion_occupancy
+          - binary_sensor.kitchen_motion_occupancy
+          - binary_sensor.living_room_motion_occupancy
+          - binary_sensor.skylar_bedroom_motion_occupancy
+          - binary_sensor.croft_occupancy
+          - binary_sensor.back_door_motion
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: 
+          - media_player.kitchen_echo
+          - media_player.living_room_echo
+          - media_player.skylar_s_bedroom
+        attribute: last_called
+        to: True
+    action:
+      - service: mqtt.publish
+        data:
+          topic: house/presence/current_room
+          payload: >
+            {% set room = trigger.to_state.attributes.friendly_name %}
+            {% if room == 'Kitchen Echo' %}
+              kitchen
+            {% elif room == 'Living Room Echo' %}
+              main
+            {% elif room == 'Skylar\'s Bedroom' %}
+              skylar_bedroom
+            {%- elif is_state('media_player.theater_tv', 'on') %}
+              theater
+            {% elif room == 'Kitchen Motion occupancy' or room == 'Back Door Motion'%}
+              kitchen
+            {% elif room == 'Master Bedroom Motion occupancy' %}
+              master_bedroom
+            {% elif room == 'Living Room Motion occupancy' or room == 'Living Room Echo' %}
+              main
+            {% elif room == 'Croft Occupancy' %}
+              croft
+            {% elif room == 'Skylar Bedroom Motion occupancy' or room == 'Skylar\'s Bedroom' %}
+              skylar_bedroom
+            {% else %}
+              main
+            {% endif %}
+          retain: true
+      
+
+
 sensor:
+  - platform: mqtt
+    name: "Room Presence"
+    state_topic: "house/presence/current_room"
   - platform: template
     sensors:
       room_audio:
@@ -124,7 +180,7 @@ sensor:
                   {% if is_state('input_boolean.audible_notifications', 'on') %}
                     {% if sensor.name == 'Kitchen Motion Occupancy' %}
                       kitchen
-                    {% elif sensor.name == 'Master Bedroom Occupancy' %}
+                    {% elif sensor.name == 'Master Bedroom Motion Occupancy' %}
                       master_bedroom
                     {% else %}
                       main
@@ -143,10 +199,12 @@ sensor:
       alexa_audio:
         friendly_name: "Alexa Audio"
         value_template: >-
-            {%- if is_state('sensor.last_alexa', 'media_player.living_room') %}
+            {%- if is_state('sensor.last_alexa', 'media_player.living_room_echo') %}
               main
-            {% elif is_state('sensor.last_alexa', 'media_player.kitchen') %}
+            {% elif is_state('sensor.last_alexa', 'media_player.kitchen_echo') %}
               kitchen
+            {% elif is_state('sensor.last_alexa', 'media_player.skylar_s_bedroom') %}
+              skylar_bedroom
             {% else %}
               main
             {%- endif %}
