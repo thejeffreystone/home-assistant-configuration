@@ -1,6 +1,6 @@
 homeassistant:
   external_url: !secret ahsl_base_url
-  internal_url: !secret ahsl_base_url
+  internal_url: http://192.168.7.187:8123
   customize: !include customize.yaml
   auth_providers:
     - type: homeassistant
@@ -11,6 +11,7 @@ homeassistant:
     sounds: /media/sounds
     disney: /media/disney
     books: /media/books
+    images: /media/images
 
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
@@ -18,8 +19,8 @@ default_config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  ssl_certificate: !secret ahsl_ssl_cert
-  ssl_key: !secret ahsl_ssl_key
+  # ssl_certificate: !secret ahsl_ssl_cert
+  # ssl_key: !secret ahsl_ssl_key
   use_x_forwarded_for: true
   trusted_proxies:
     - 192.168.7.0/24
@@ -53,74 +54,19 @@ person:
 frontend:
   themes: !include_dir_merge_named themes
 
-# Text to speech
-# tts:
-#   - platform: google_translate
-
 cloud:
-
-# moved to the integration package. 
-# wemo:
-#   discovery: true
-#   static:
-#   - 192.168.7.99
-
-#weather:
-  # REMOVING darksky integration since API is EOL in 18 months. Migrated to NWS
-  # - platform: darksky
-  #   api_key: !secret darksky_api
-  # - platform: nws
-  #   api_key: !secret nws_api_key
-  #   station: klzu
 
 conversation:
 
 device_tracker:
-  # - platform: icloud
-  #   username: !secret ICLOUD_USER
-  #   password: !secret ICLOUD_PASS
-  #   track_new_devices: yes
-  # - platform: owntracks
-  # 
   - platform: eero_tracker
     consider_home: 300
     interval_seconds: 60
     track_new_devices: yes
     #only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
-
-# moved to integrations package
-# google:
-#   client_id: !secret google_client_id
-#   client_secret: !secret google_client_secret
-
-# arlo:
-#   username: !secret arlo_user
-#   password: !secret arlo_pass
-
-# moved to security package
-# alarm_control_panel:
-  # - platform: arlo
-  #   home_mode_name: home
-  #   away_mode_name: armed
-  # - platform: aarlo
-  #   home_mode_name: home
-  #   away_mode_name: Armed
-
-# moved to the integrations package
-# # Using the HACS Arlo Integration 
-# aarlo:
-#   host: https://my.arlo.com
-#   username: !secret arlo_user
-#   password: !secret arlo_pass
-#   db_motion_time: 30
-#   db_ding_time: 10
-#   recent_time: 10
-#   last_format: '%m-%d %H:%M'
-#   refresh_devices_every: 2
-#   verbose_debug: True
-  
-# speedtestdotnet:
-
+  - platform: icloud3
+    username: !secret ICLOUD_USER
+    password: !secret ICLOUD_PASS
 
 discovery:
 
@@ -130,68 +76,7 @@ updater:
 
 sun:
 
-# moved all the recorder, log, and history configs to the database package
-# recorder:
-#   db_url: mysql://homeassistant:password@core-mariadb/homeassistant?charset=utf8
-#   purge_keep_days: 2
-#   exclude:
-#     domains:
-#       - automation
-#       - weblink
-#       - updater
-#     entities:
-#       - sun.sun # Don't record sun data
-#       - sensor.last_boot # Comes from 'systemmonitor' sensor platform
-#       - sensor.date
-
-
-# logbook:
-#   include:
-#     domains:
-#       - media_player
-#       - automation
-#       - script
-
-# # Lets try to make the logs less chatty and more fine tuned.       
-# logger:
-#   default: critical
-#   logs:
-#     homeassistant.core: warning
-#     homeassistant.components.recorder: error # to spot db issues
-#     homeassistant.config_entries: error
-#     homeassistant.setup: error
-
-
-# history:
-#   include:
-#     domains:
-#       - sensor
-#       - switch
-#       - media_player
-#       - light
-############################################################################
-
-# moved to the camera package
-# camera:
-#   - platform: mjpeg
-#     name: Garage Door Cam 
-#     mjpeg_url: !secret garage_cam
-#   - platform: aarlo
-#     ffmpeg_arguments: '-pred 1 -q:v 2'
-    
-# ffmpeg:
-#   ffmpeg_bin: /usr/bin/ffmpeg   
-
-# moved to the integrations package
-# life360:
-#   accounts:
-#     - username: !secret life360_username
-#       password: !secret life360_password
-
 python_script:
-
-# ecobee:
-#   api_key: !secret ecobee_api
 
 map:
 
@@ -199,88 +84,8 @@ geo_location:
   - platform: usgs_earthquakes_feed
     feed_type: 'past_hour_all_earthquakes'
 
-# gdacs:
-#   categories:
-#     - Earthquake
-#     - Tropical Cyclone
-#   radius: 500
-#   latitude: !secret MY_LATITUDE
-#   longitude: !secret MY_LONGITUDE
-
-
-# tplink:
-#   discovery: false
-#   switch:
-#     - host: 192.168.7.105
-#     - host: 192.168.7.107
-#     - host: 192.168.7.116
-#     - host: 192.168.7.120
-#     - host: 192.168.7.136
-#     - host: 192.168.7.137
-
-# wyzeapi:
-#   username: !secret wyze_user
-#   password: !secret wyze_password
-
-# ifttt:
-#   key: !secret IFTTT_API_KEY 
-
-
-
 group: !include groups.yaml
 
-# moved to the presence package
-# proximity:
-#   home_jeff:
-#     devices:
-#       - device_tracker.life360_jeffrey_stone
-#     zone: home
-#     tolerance: 5
-#     unit_of_measurement: mi
-#   home_kat:
-#     devices:
-#       - device_tracker.life360_kat_stone
-#     zone: home
-#     tolerance: 5
-#     unit_of_measurement: mi
-#   home:
-#     devices:
-#       - device_tracker.life360_jeffrey_stone
-#       - device_tracker.life360_kat_stone
-#     zone: home
-#     tolerance: 5
-#     unit_of_measurement: mi
-
-# moved to the integrations
-# Using the HACS Daily Snapshot Clean Up Plugin 
-# clean_up_snapshots_service:
-#   host: !secret snapshot_url
-#   token: !secret snapshot_token
-#   number_of_snapshots_to_keep: 3
- 
-# homekit:
-#   filter:
-#     include_domains:
-#       - light
-#     include_entities:
-#       - switch.croft_fan
-#       - switch.driveway_light_2
-#       - switch.incense
-#       - switch.livingroom_fan
-#       - switch.rail_lights
-#       - switch.croft_light
-#       - switch.ha_speaker
-#       - switch.artemis
-#       - switch.fireplace_lights_2
-#       - switch.desk
-#       - switch.forest
-#       - switch.front_porch_light
-#       - input_boolean.house_party_protocol
-#       - switch.christmas_tree
-#       - switch.rainbow_light
-#       - switch.garage_fan
-
-      
 
 ### Includes ###
 alert: !include_dir_merge_named alerts/
