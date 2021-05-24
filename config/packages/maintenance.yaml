@@ -5,7 +5,7 @@
 #   @description    :   Maint Automation that occurs every day
 ###############################################################################
 automation:
-  - id: mqtt_shelly_announce
+  - id: e1cb2c44-0423-11eb-adc1-0242ac120002
     alias: Shelly Sync at HA Start
     trigger:
     - platform: homeassistant
@@ -76,5 +76,3 @@ automation:
         entity_id: sensor.today_is 
       - service: homeassistant.update_entity
         entity_id: sensor.holiday
-
-  
