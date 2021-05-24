@@ -7,7 +7,7 @@
 
 recorder:
   #db_url: !secret database
-  purge_keep_days: 2
+  purge_keep_days: 1
   exclude:
     domains:
       - automation
@@ -17,6 +17,7 @@ recorder:
       - sun.sun # Don't record sun data
       - sensor.last_boot # Comes from 'systemmonitor' sensor platform
       - sensor.date
+      - sensor.icloud3_event_log
 
 logbook:
   include:
@@ -24,12 +25,15 @@ logbook:
       - media_player
       - automation
       - script
+      - scene
+      - light
+      - switch
 
 # Lets try to make the logs less chatty and more fine tuned.       
 logger:
-  default: warning
+  default: error
   logs:
-    homeassistant.core: info
+    homeassistant.core: warning
     homeassistant.loader: error
     homeassistant.components.recorder: error # to spot db issues
     homeassistant.config_entries: error
@@ -43,7 +47,9 @@ logger:
     homeassistant.components.nws: error
     homeassistant.components.wemo: error
     homeassistant.helpers.event: critical
-
+    bellows: error
+    zigpy: error
+    homeassistant.components.zha.core: error
 
 history:
   include:
@@ -52,3 +58,5 @@ history:
       - switch
       - media_player
       - light
+      - scene
+      - automation
