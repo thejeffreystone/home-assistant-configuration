@@ -4,7 +4,9 @@
     {{- [
         "Checkout one of my favorite Home Assistant Youtubers @ccostan at https://www.youtube.com/channel/UC301G8JJFzY0BZ_0lshpKpQ ",
         "Looking for some great Home Assistant content? @BeardedTinker has you covered. Subscribe at https://www.youtube.com/c/BeardedTinker ",
-        "Want some cool Home Assistant project ideas? @EverySmartHome has something for you at https://www.youtube.com/c/EverythingSmartHome"
+        "Want some cool Home Assistant project ideas? @EverySmartHome has something for you at https://www.youtube.com/c/EverythingSmartHome",
+        "What to keep up with whats going on in the Smart Home space, follow @TheSHCollective and The Smart Home Collective podcast at https://feeds.buzzsprout.com/1649824.rss ",
+        "Follow @SmartHomeMaker2 and check out his videos at https://www.youtube.com/channel/UCa-_T4_g4T_11YMlxn80LaQ for some awesome Smart Home tutorials.  "
         ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

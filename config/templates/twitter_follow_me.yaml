@@ -5,7 +5,7 @@
       "Be sure to Star My #homeassistant Github Repo -> https://github.com/thejeffreystone/home-assistant-configuration so you can stay up to date with changes to my config. ",
       "Follow my #homeassistant Github repo and you could be one of the {{ states.sensor.home_assistant_configuration.attributes.stargazers}} people currently following everything that happens in realtime. ",
       "Be sure to subscribe to my Youtube channel https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg for videos on #homeassistant and building a smart home. ",
-      "Be sure you follow my other accounts on Twitter @thejeffreystone @slackerlabs for #homeassistant content ",
+      "Be sure you follow my all my accounts on Twitter @thejeffreystone and @slackerlabs for #homeassistant content ",
       "If you haven not already, checkout my blog at https://slacker-labs.com for articles om Home Automation and Smart Home tech and #homeassistant ",
       "Be sure to follow along at https://slacker-labs.com so you can keep up today with the latest #homeassistant how-tows, reviews, and join the conversation. ",
       "Do you want your house to be a #smarthome? It is easy. Install #homeassistant, and add some config files like https://github.com/thejeffreystone/home-assistant-configuration "

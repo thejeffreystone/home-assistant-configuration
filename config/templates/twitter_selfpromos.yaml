@@ -13,7 +13,25 @@
        "Do you forget to disarm your security system in the middle of the night? #homeassistant can solve that. https://slacker-labs.com/2020/04/14/where-we-are-going-we-need-dog-mode/ ",
        "I built a security system using #homeassistant and you can too. Start the two part series at https://slacker-labs.com/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/ ",
        "My #homeassistant security system is so good at recognizing threats it disarms itself. Learn how at https://slacker-labs.com/2020/04/10/how-i-secured-my-home-using-home-assistant-part-one/",
-       "Want to know how I migrated from Hassbian to #homeassistant? Now you can at https://slacker-labs.com/2020/04/05/migrating-from-hassbian-to-hassio/"
+       "Want to know how I migrated from Hassbian to #homeassistant? Now you can at https://slacker-labs.com/2020/04/05/migrating-from-hassbian-to-hassio/",
+       "Use #homeassistant to build a haunted house -> https://youtu.be/3dsUEsu3Evo ",
+       "Randomize #homeassistant automations to keep people guessing what will happen next. Like in a Haunted House -> https://youtu.be/3dsUEsu3Evo",
+       "Did you you know you can use scripts to build smarter #homeassistant automations? I walk you through it -> https://slacker-labs.com/2020/10/23/build-smarter-automations-in-home-assistant/ ",
+       "ICYMI: Build smarter #homeassistant automations using scripts -> https://youtu.be/RIGQy8ZmEf4 ",
+       "If you are running #homeassistant on a Raspbery Pi3 the Raspberry Pi4  is a big improvement. Learn how to migrate everything over and not loose anything at https://slacker-labs.com/2020/08/26/migrating-home-assistant-from-raspberry-pi3-to-a-raspberry-pi4/ ",
+       "Did you see the article about how I can turn into Disney's Haunted Mansion on command using #homeassistant? Visit https://slacker-labs.com/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney ",
+       "ICYMI: How I set up presence detection in #homeassistant -> https://youtu.be/1J776MtLuH4 ",
+       "Presence Detection is critical to a smart home. Follow along how I used four #homeassistant integrations to nail it -> https://slacker-labs.com/2020/11/12/how-i-set-up-presence-detection-in-home-assistant/ ",
+       "#homeassistant automation modes give you a lot more control. Learn how to use them to improve your automation flow -> https://slacker-labs.com/2020/11/21/how-to-use-modes-in-home-assistant-automations/ ",
+       "ICYMI: Use the #homeassistant automation modes to automate the boring stuff -> https://youtu.be/_ni6iFuhozQ ",
+       "ICYMI: You can Build a Security System with Home Assistant #homeassistant https://youtu.be/2gpoE5i5RGQ ",
+       "Want to see how I use #homeassistant as a security system? You can and you can learn how o build one yourself.  https://youtu.be/2gpoE5i5RGQ ",
+       "Home Assistant Blue might be the perfect platform to run #homeassistant. Still not sure if it is for you? This might help -> https://youtu.be/7GE4sCQWtKE ",
+       "I stopped by Smart Home Makers to do a live show wehere we talked #homeassistant, and automating the boring stuff. Watch it at https://youtu.be/K9dmWFOhCx0?t=142 ",
+       "ICYMI: Using Helpers in Home Assistant can make your automations smarter. Or atleast make it easier to build automations. https://youtu.be/JpC13mLuiQg ",
+       "I use Helpers in #homeassistant to build smarter automations. And now you can too.  https://youtu.be/JpC13mLuiQg ",
+       "Do you know when to use a #homeassistant automation, script, or scene? I have a video for that. #smarthome https://youtu.be/kWp-XQRcmmM ",
+       "If you wanted to know how to install presence detection in #homeassistant Ive got a guide for you. Head over to https://slacker-labs.com/2020/11/25/installing-presence-detection-in-home-assistant/ "
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

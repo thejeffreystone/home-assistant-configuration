@@ -2,22 +2,19 @@
   {# Twitter Self Promos #}
   {%- macro getRandomPromo() -%}
     {{- [
-      "Use #homeassistant to build a haunted house -> https://youtu.be/3dsUEsu3Evo ",
-      "Randomize #homeassistant automations to keep people guessing what will happen next. Like in a Haunted House -> https://youtu.be/3dsUEsu3Evo",
-      "Did you you know you can use scripts to build smarter #homeassistan automations? I walk you through it -> https://slacker-labs.com/2020/10/23/build-smarter-automations-in-home-assistant/ ",
-      "ICYMI: Build smarter #homeassistant automations using scripts -> https://youtu.be/RIGQy8ZmEf4 ",
-      "If you are running #homeassistant on a Raspbery Pi3 the Raspberry Pi4  is a big improvement. Learn how to migrate everything over and not loose anything at https://slacker-labs.com/2020/08/26/migrating-home-assistant-from-raspberry-pi3-to-a-raspberry-pi4/ ",
-      "Did you see the article about how I can turn into Disney's Haunted Mansion on command using #homeassistant? Visit https://slacker-labs.com/2020/04/04/how-i-turned-my-anchorage-house-into-disneys-haunted-mansion-using-home-assistant/ #homemadedisney ",
-      "ICYMI: How I set up presence detection in #homeassistant -> https://youtu.be/1J776MtLuH4 ",
-      "Presence Detection is critical to a smart home. Follow along how I used four #homeassistant integrations to nail it -> https://slacker-labs.com/2020/11/12/how-i-set-up-presence-detection-in-home-assistant/ ",
-      "#homeassistant automation modes give you a lot more control. Learn how to use them to improve your automation flow -> https://slacker-labs.com/2020/11/21/how-to-use-modes-in-home-assistant-automations/ ",
-      "ICYMI: Use the #homeassistant automation modes to automate the boring stuff -> https://youtu.be/_ni6iFuhozQ ",
-      "If you wanted to know how to install presence detection in #homeassistant Ive got a guide for you. Head over to https://slacker-labs.com/2020/11/25/installing-presence-detection-in-home-assistant/ "
+      "I joined @TheSHCollective on the Episode 3 of The Smart Home Collective podcast to talk #homeassistant and @markwatttech wrote a catchy rap song on the fly. Take a listen https://feeds.buzzsprout.com/1649824.rss ",
+      "Home Assistant Blue is an awesome platform for running #homeassistant. So if you are looking to migrate from a Raspberry Pi to the new Blue here is made a short film guide you -> https://youtu.be/a7lCRuPsH-Q ",
+      "Did you know you with #homeassistant you could Build One Script to Rule Them All using parameters? I did just that and I show you how -> https://youtu.be/spTBUh9dG6M ",
+      "Installing MQTT in #homeassistant is pretty easy and only takes a few minutes. In fact, I have a Lab Notes video that covers just how to do it. https://youtu.be/SQkHMOrnXaE ",
+      "If you are wanting to setup zigbee devices in #homeassistant and you are not sure which integration to use, check out - > https://youtu.be/54dBklrZEJk ",
+      "ICYMI: @Reolink was nice enough to send over a 510a for me to try out. I do a review, set it up in #homeassistant, and compare it to my Arlo Pro 2 camera -> https://youtu.be/y-kcLgW3ItM ",
+      "The Home Assistant Community Store is a pretty useful integration in #homeassistant and setup is easy. You can do it in less than 6 mins. Follow along at https://youtu.be/Jh4QRL_kDuk ",
+      "If you want to set up the Alexa Media Player integration in #homeassistant to get TTS and control of your echos check out -> https://youtu.be/Jh4QRL_kDuk ",
+      "Getting Amazon Polly integrated with #homeassistant is a bit involved, but I cover the steps along with comparing it to other TTS options in a video -> https://youtu.be/Ys9xP6XP800 ",
+      "Not sure what TTS integration to use with #homeassistant ? I cover getting started with the 4 big choices and do an audio test over on YouTube -> https://youtu.be/Ys9xP6XP800 "
       ] | random -}}
   {%- endmacro -%}
-  {%- macro getTags() -%}
-    #homeautomation
-  {%- endmacro -%}
+
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
     {%- macro cleanup(data) -%}
@@ -28,7 +25,6 @@
   {# a macro to call all macros :)  #}
     {%- macro mother_of_all_macros() -%}
       {{ getRandomPromo() }}
-      {{ getTags() }}
     {%- endmacro -%}
     
     {# Call the macro  #}
