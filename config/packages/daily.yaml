@@ -127,18 +127,21 @@ automation:
     - service: switch.turn_off
       entity_id: switch.artemis
     - service: switch.turn_off
-      entity_id: switch.forest
+      entity_id: switch.forest_incense
     - service: switch.turn_off
       entity_id: switch.livingroom_fan
-    - service: switch.turn_off
-      data:
-        entity_id: switch.ha_speaker
     - service: scene.turn_on
       entity_id: scene.kitchen_lighting_off
     - service: script.good_night_loft
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
     - service: script.reset_annc_switches
+    - service: script.turn_on
+      entity_id: script.school_year_over
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.school_today
+    - service: input_boolean.turn_off
+      entity_id: input_boolen.school_is_digital
     - service: script.twitter_notify_image
       data_template:
         tweet: >-
@@ -354,9 +357,9 @@ automation:
         data_template:
           time: > 
             {% if states.sensor.school_tomorrow.state == 'on' %}
-              19:45
+              19:15
             {% else %}
-              20:15
+              19:45
             {% endif %}
 
   - id: bd8e4e20-f138-49ec-a9f6-d23ab1450b98
@@ -375,6 +378,24 @@ automation:
               07:00
             {% else %}
               07:30
+            {% endif %}
+
+  - id: e1cb2db6-0423-11eb-adc1-0242ac120002
+    alias: set school pickup time 
+    trigger:
+      - platform: state
+        entity_id: calendar.skylar_school
+        from: 'off'
+        to: 'on'
+    action:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.school_day_end_reminder
+        data:
+          time: > 
+            {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
+              11:45
+            {% else %}
+              14:15
             {% endif %}
 
 script:
