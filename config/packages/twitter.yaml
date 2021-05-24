@@ -103,6 +103,8 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_recent_content
+        data:
+          who: 'slackerlabs'
 
   - id: tweet_follow_me
     alias: Tweet Follow Me
@@ -113,6 +115,8 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_follow_me
+        data:
+          who: 'slackerlabs'
 
   - id: tweet_some_promos2
     alias: Tweet Some Promos2
@@ -123,6 +127,8 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_selfpromos
+        data:
+          who: 'slackerlabs'
 
   # - id: tweet_some_promos3
   #   alias: Tweet Some Promos3
@@ -148,6 +154,8 @@ automation:
     action:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_great_content
+        data:
+          who: 'slackerlabs'
 
   - id: bot_info
     alias: Bot Info
@@ -254,11 +262,10 @@ automation:
           true
         {%- endif -%}
     action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_notify
         data_template:
           message: >-
-            "Happy Rex Manning Day! https://www.youtube.com/watch?v=30fw5My1QJM #damntheman #savetheempire"
+            Happy Rex Manning Day! https://www.youtube.com/watch?v=30fw5My1QJM #damntheman #savetheempire
 
   - id: rex_manning_day_tweet_2
     alias: Rex Manning Day Tweet Two
@@ -277,11 +284,10 @@ automation:
           true
         {%- endif -%}
     action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_notify
         data_template:
           message: >-
-            "We mustn't dwell. No, not today. We can't. Not on Rex Manning day! https://www.youtube.com/watch?v=szvt8iWJ0oo #damntheman #savetheempire"
+            We mustn't dwell. No, not today. We can't. Not on Rex Manning day! https://www.youtube.com/watch?v=szvt8iWJ0oo #damntheman #savetheempire
 
   - id: Halloween Countdown Tweet
     alias: Halloween Countdown Tweet
@@ -420,6 +426,33 @@ automation:
         data_template:
           tweet: From everyone at Anchorage House, Merry Christmas!
           image: /config/www/tweet_images/merry-christmas.jpg
+
+  - id: Skylar Day Tweet
+    alias: Skylar Day Tweet
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:13:00'
+    condition:
+    - condition: state
+      entity_id:  calendar.birthdays
+      state: "on"
+    - condition: template
+      value_template: >
+        {%- set event=states. calendar.birthdays.attributes.message %}
+        {%- if event == "Skylar's Birthday" %}
+          true
+        {%- endif -%}
+    action:
+      # - service: script.speech_engine
+      #   data:
+      #     who: main
+      #     message: >
+      #       May I have your attention. At this very monent {{ states.sensor.birthday_skylar.attributes.years }} years ago, Skylar was born and the world has been better ever since.
+      - service: script.twitter_notify
+        data_template:
+          message: Today is a very special day here at Anchorage House! It is Skylar's birthday! So have some cake and play some minecraft. Live Feed from the Kitchen -> https://www.youtube.com/watch?v=JOBYJrVQm3A
+
 
   - id: Freeze Warning Tweet
     alias: Freeze Warning Tweet
