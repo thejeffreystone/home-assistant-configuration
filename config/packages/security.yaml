@@ -49,6 +49,7 @@ input_boolean:
   dog_mode:
     name: Dog Mode
     icon: mdi:dog-side
+  
 
 
 # Arlo Integration
@@ -57,6 +58,12 @@ alarm_control_panel:
   - platform: aarlo
     home_mode_name: home
     away_mode_name: Armed
+
+
+sensor:
+  - platform: mqtt
+    name: "Front Door Motion Away count"
+    state_topic: "house/front_door_motion/away_count"
  
 
 automation:
@@ -116,6 +123,8 @@ automation:
         data: 
           entity_id: alarm_control_panel.aarlo_ah_base_station
           mode: 'Armed'
+      - service: script.turn_on
+        entity_id: script.reset_front_door_motion_count
 
   # When sentry mode is disabled / security disarmed by any method, notify everyone.
   - id: sentry_mode_disabled
@@ -135,12 +144,6 @@ automation:
             entity_id: sensor.family_status
             state: Home
           - condition: state
-            entity_id: person.jeffrey
-            state: home
-          - condition: state
-            entity_id: person.katherine
-            state: home
-          - condition: state
             entity_id: input_boolean.guest_mode
             state: 'on'
         sequence:
@@ -157,7 +160,7 @@ automation:
           - service: script.text_notify
             data_template:
               who: "parents"
-              title: "Security Disarmed"
+              title: "Welcome Home"
               message: "Security System has been disarmed."
           - service: alarm_control_panel.aarlo_set_mode
             data:
@@ -166,13 +169,17 @@ automation:
           - service: input_boolean.turn_off
             entity_id: input_boolean.security_alarm
       default:
-        - service: input_boolean.turn_on
+        - service: input_boolean.turn_off
           entity_id: input_boolean.sentry_mode
         - service: script.text_notify
           data_template:
             who: "parents"
-            title: "Security Issue"
-            message: "Security System disarm conditions not met."
+            title: "Potential Security Issue"
+            message: "Security System has been disarmed, but I could not validate presence."
+        - service: alarm_control_panel.aarlo_set_mode
+          data:
+            entity_id: alarm_control_panel.aarlo_ah_base_station
+            mode: 'home'
   #############################################
 
   #############################################
@@ -269,10 +276,6 @@ automation:
     - platform: state
       entity_id: input_boolean.dog_mode
       to: 'on'
-    condition:
-    - condition: state
-      entity_id: input_boolean.sentry_mode
-      state: "on"
     action:
     - choose:
       - conditions:
@@ -284,13 +287,32 @@ automation:
           data:
             who: "parents"
             message: "Dog Mode has been enabled manually"
-      default: 
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.dog_mode
-      - service: script.jarvis_alert
-        data_template:
-          who: kitchen
-          message: "Turning on Dog Mode for twenty minutes."
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.sentry_mode
+          state: "on"
+        - condition: state
+          entity_id: sensor.family_status
+          state: Home
+        sequence: 
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.dog_mode
+        - service: script.jarvis_alert
+          data_template:
+            who: kitchen
+            message: "Turning on Dog Mode for twenty minutes."
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.sentry_mode
+          state: "on"
+        - condition: state
+          entity_id: sensor.family_status
+          state: Away
+        sequence: 
+        - service: script.text_alert
+          data:
+            who: parents
+            message: "Winston may be trying to go out and no one appears to be here to let him out."
     - service: scene.turn_on
       entity_id: scene.diminished_kitchen_lighting
     - delay:
@@ -438,20 +460,19 @@ automation:
         message: >
           The {{ trigger.to_state.attributes.friendly_name }}
           {{ [
-          " is standing open.",
-          " is open.",
-          " does not close on its own.",
-          " was left standing open "
+            ' is standing open.',
+            ' is open.',
+            ' does not close on its own.',
+            ' was left standing open.'
           ] | random }}
           {{ [
-              'Can we get any more moths in here?',
               'Can a human be so kind and close it?',
               'The air quality in this house has actually improved.',
               'Closing the door would improve the internal climate of the house.',
               'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
-              'They always say when one door closes another one opens...that must of been what happened.',
-              'If at first you do not succeed in closing the door, please try again. Like right now.',
-              'And the automatic door closer appears to be broken. So, you know what to do. Time to get physical.'
+              'If at first you do not succeed in closing the door, please try again. Like, Right now seems like a good time to try again.',
+              'And the automatic door closer appears to be broken. So, you know what to do. Time to get physical.',
+              'I would close it for you. But I lack legs. And Arms.'
           ] | random }}
     initial_state: true
   
@@ -477,47 +498,41 @@ automation:
             ] | random }}
 
   # If sentry mode is on / Security armed, notify when there is movement around doors. 
-  - id: motion_detected_sentry_mode
-    alias: motion_detected_sentry_mode
+  - id: motion_detected_front_door
+    alias: Motion Detected Front Door
     trigger:
     - platform: state
-      entity_id:
-      - binary_sensor.aarlo_motion_front_door
-      - binary_sensor.aarlo_motion_driveway
+      entity_id: binary_sensor.aarlo_motion_front_door
       from: 'off'
       to: 'on'
-    mode: single
-    condition:
-    - condition: state
-      entity_id: input_boolean.audible_notifications
-      state: 'on'
-    - condition: state
-      entity_id: binary_sensor.front_door
-      state: 'off'
-    - condition: state
-      entity_id: input_boolean.sentry_mode
-      state: 'on'
+    
     action:
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-          {{ [
-          "I have detected motion at the ",
-          "Someone may be at the ",
-          "There is movement at the ",
-          "My sensors are picking up motion at the ",
-          "We appear to have a visitor at the "
-          ] | random }}
-          {{ trigger.to_state.attributes.friendly_name }}.
-          {{ [
-              'Do you want me to send them away?',
-              'I have armed the lasers. Just say the word.',
-              'I was not informed there would be guests.',
-              'They do not appear to have any gifts, so I suggest no opening the door.',
-              'My sensors have detected a meat popsicle.',
-              'I do not think they can hear me.'
-            ] | random }}
+    - service: image_processing.scan
+      entity_id: image_processing.doods_aarlo_front_door
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ states("image_processing.doods_aarlo_front_door") | int > 0 }}'
+        sequence:
+        - service: mqtt.publish
+          data:
+            topic: house/front_door_motion/away_count
+            payload_template: '{{ states.sensor.front_door_motion_away_count.state | int + 1 }}'
+            retain: true
+        - service: script.status_annc
+          data:
+            who: '{{ states.sensor.room_presence.state }}'
+            call_interuption: 1
+            speech_message: >
+              {{ [
+              "I have detected someone at the ",
+              "Someone appears to be at the ",
+              "There is a person at the ",
+              "My sensors are picking up presence at the ",
+              "We appear to have a visitor at the ",
+              "My sensors have detected a meat popsicle at the "
+              ] | random }}
+              {{ trigger.to_state.attributes.friendly_name }}.      
     - delay:
         minutes: 2
     initial_state: true
@@ -563,7 +578,8 @@ automation:
         data_template:
           message: "My security protocols are being overidden,, The {{ trigger.to_state.attributes.friendly_name }} has been opened."
       - service: script.text_alert
-        data_template:
+        data:
+          who: parents
           title: "Security Alert!!"
           message: "{{ trigger.to_state.attributes.friendly_name }} has been opened."
       - service: input_boolean.turn_on
@@ -579,6 +595,7 @@ automation:
       entity_id: input_boolean.security_issue
       from: 'off'
       to: 'on'
+      for: 00:02:00
     action:
     - service: script.turn_on
       entity_id: script.security_response
@@ -603,6 +620,10 @@ automation:
       entity_id: input_boolean.security_alarm
     - service: scene.turn_on
       entity_id: scene.normal_livingroom_lighting
+    - service: script.text_alert
+      data:
+        who: parents
+        message: "Security Issue Cleared! Canceling Repsonse."
 
   # Security alarm is turned on, lets make it loud.
   - id: security_alarm_on
@@ -678,7 +699,7 @@ automation:
   #   initial_state: true
   #   trigger:
   #   - platform: state
-  #     entity_id: sensor.kitchen_smoke_smoke_detector
+  #     entity_id: sensor.kitchen_smoke_detector
   #     to: 'smoke'
   #   action:
   #   - service: input_boolean.turn_on
@@ -789,6 +810,79 @@ automation:
 
 
 script:
+  driveway_doods:
+    sequence:
+    - service: image_processing.scan
+      entity_id: image_processing.doods_driveway
+    - repeat:
+        while:
+          - condition: template
+            value_template: '{{ states("image_processing.doods_driveway") | int > 0 }}'
+        sequence:
+          - service: script.text_alert_image
+            data:
+              who: jeff
+              title: Person Detected!
+              message: >
+                {{ states("image_processing.doods_driveway") | int}} people detected near vehicles
+              url: /media/images/driveway_latest.jpg
+              content_type: JPEG
+          - delay: 00:01:00
+          - service: image_processing.scan
+            entity_id: image_processing.doods_driveway
+
+  theater_occupancy:
+    sequence:
+    - service: image_processing.scan
+      entity_id: image_processing.doods_theater_camera
+    - repeat:
+        while:
+          - condition: template
+            value_template: '{{ states("image_processing.doods_theater_camera") | int > 0 }}'
+        sequence:
+          - service: script.text_debug
+            data:
+              message: >
+                {{ states("image_processing.doods_theater_camera") | int}} people detected in Theater
+          - delay: 00:03:00
+          - service: image_processing.scan
+            entity_id: image_processing.doods_theater_camera
+
+  kitchen_occupancy:
+    sequence:
+    - service: image_processing.scan
+      entity_id: image_processing.doods_kitchen_camera
+    - repeat:
+        while:
+          - condition: template
+            value_template: '{{ states("image_processing.doods_kitchen_camera") | int > 0 }}'
+        sequence:
+          - service: script.text_debug
+            data:
+              message: >
+                {{ states("image_processing.doods_kitchen_camera") | int}} people detected in Kitchen
+          - delay: 00:03:00
+          - service: image_processing.scan
+            entity_id: image_processing.doods_kitchen_camera
+
+  livingroom_occupancy:
+    sequence:
+    - service: image_processing.scan
+      entity_id: image_processing.doods_livingroom_camera
+    - repeat:
+        while:
+          - condition: template
+            value_template: '{{ states("image_processing.doods_livingroom_camera") | int > 0 }}'
+        sequence:
+          - service: script.text_debug
+            data:
+              message: >
+                {{ states("image_processing.doods_livingroom_camera") | int}} people detected in Livingroom
+          - delay: 00:03:00
+          - service: image_processing.scan
+            entity_id: image_processing.doods_livingroom_camera
+
+
   # door chime script, just plays sound anytime called.
   door_chime:
     sequence:
@@ -836,6 +930,8 @@ script:
       entity_id: script.cancel_security_alarm
     - service: script.turn_on
       entity_id: script.cancel_lockdown_issue
+    - service: script.turn_on
+      entity_id: script.clear_security_issue
 
   # If vacation mode is on, turn it off
   vacation_canceled:
@@ -865,6 +961,14 @@ script:
     - service: input_boolean.turn_off
       entity_id: input_boolean.security_alarm
 
+  clear_security_issue:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.security_issue
+      state: 'on'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.security_issue
+
   # if there are lockdown issues, turn them off
   cancel_lockdown_issue:
     sequence:
@@ -878,7 +982,7 @@ script:
   visitors_here:
     sequence:
     - condition: state
-      entity_id: input_boolean.lguest_mode
+      entity_id: input_boolean.guest_mode
       state: 'off'
     - service: input_boolean.turn_on
       data:
@@ -890,11 +994,28 @@ script:
   visitors_gone:
     sequence:
     - condition: state
-      entity_id: input_boolean.lguest_mode
+      entity_id: input_boolean.guest_mode
       state: 'on'
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.guest_mode
+
+  reset_front_door_motion_count:
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: house/front_door_motion/away_count
+          payload_template: 0
+          retain: true
+
+  update_front_door_motion_count:
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: house/front_door_motion/away_count
+          payload_template: '{{ states.sensor.front_door_motion_away_count.state | int + 1 }}'
+          retain: true
+  
     
   # Security alarm audio...annoying noises.
   notification_security_alarm_audio:
@@ -957,6 +1078,15 @@ script:
           - service: input_boolean.turn_off
             entity_id: input_boolean.sentry_mode
 
+  were_home:
+    sequence:
+    - service: script.turn_on
+      entity_id: script.standby
+    - service: script.turn_on
+      entity_id: script.welcome_briefing 
+
+    
+
   # Called via Alexa routine...adds a little interaction
   activate_guest_mode:
     sequence:
@@ -1001,7 +1131,8 @@ script:
         message: >
           {{ [
           ",Just, what do you think you're doing, Dave?",
-          ",This is highly unusual."
+          ",This is highly unusual.",
+          "I will not disable the security response without the presence of a authorized identity. Your efforts are futile."
           ] | random }}
           You have 45 seconds to find the nearest exit.
     - delay:
