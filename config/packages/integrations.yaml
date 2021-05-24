@@ -94,11 +94,11 @@ homekit:
       - switch.livingroom_fan
       - switch.rail_lights
       - switch.croft_light
-      - switch.ha_speaker
+      - switch.kitchen_light_strip
       - switch.artemis
       - switch.fireplace_lights_2
       - switch.desk
-      - switch.forest
+      - switch.forest_incense
       - switch.front_porch_light
       - input_boolean.house_party_protocol
       - switch.christmas_tree

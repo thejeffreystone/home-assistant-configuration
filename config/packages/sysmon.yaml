@@ -15,12 +15,9 @@ sensor:
       arg: eth0
     - type: network_out
       arg: eth0
-    - type: last_boot
     - type: load_15m
     - type: processor_use
     - type: last_boot
-  - platform: cpuspeed
-    name: CPU
   - platform: time_date
     display_options:
     - 'time'
@@ -29,28 +26,7 @@ sensor:
     - 'time_date'
     - 'time_utc'
     - 'beat'
-  # - platform: cert_expiry
-  #   host: !secret ahsl_base_url
-  #   name: SSL Cert Expiration
-  # - platform: command_line
-  #   name: "HA Uptime"
-  #   command: echo "$(($(date +%s) - $(date -d "$(head -n1 /home/homeassistant/.homeassistant/home-assistant.log | cut -d' ' -f-2)" +%s)))"
-  #   scan_interval: 720
-  #   value_template: >-
-  #     {% set uptime = value | int %}
-  #     {% set seconds = uptime % 60 %}
-  #     {% set minutes = ((uptime % 3600) / 60) | int %}
-  #     {% set hours = ((uptime % 86400) / 3600) | int %}
-  #     {% set days = (uptime / 86400) | int %}
-  #     {%- if days > 0 -%}
-  #       {%- if days == 1 -%}
-  #         1 day
-  #       {%- else -%}
-  #         {{ days }} days
-  #       {%- endif -%}
-  #       {{ ', ' }}
-  #     {%- endif -%}
-  #     {{ '%02d' % hours }}:{{ '%02d' % minutes }}
+  
   - platform: template
     sensors:
       current_version_ha:
@@ -68,12 +44,6 @@ sensor:
   - platform: version
     name: Released Hassio Ver
     source: hassio 
-  # - platform: command_line
-  #   name: ha_v2db
-  #   command: "ls -sh /home/homeassistant/.homeassistant/home-assistant_v2.db | cut -f1 -d ' '"
-  # - platform: command_line
-  #   name: ha_log
-  #   command: "ls -sh /home/homeassistant/.homeassistant/home-assistant.log | cut -f1 -d ' '"
 
   # unit of measurement deprecated in 2020.12.0
   - platform: uptime
