@@ -107,6 +107,22 @@ camera:
 
 automation:
 
+  - id: update_usps_camera_path
+    alias: "Update USPS Mail Camera"
+    trigger:
+      - platform: state
+        entity_id: sensor.mail_usps_mail
+    action:
+      - service: local_file.update_file_path
+        data_template:
+          entity_id: camera.mail_usps
+          file_path: >
+            {% if state_attr('sensor.mail_usps_mail','image') == None  %}
+            /config/custom_components/mail_and_packages/mail_none.gif
+            {% else %}
+            /config/www/mail_and_packages/{{ state_attr('sensor.mail_usps_mail','image') }}
+            {% endif %}
+
 # Notify USPS mails via TTS, and iOS notification with attachment
 ###############################################################################
   - id: notify_usps_mail
@@ -121,10 +137,11 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.speech_engine
+      - service: script.status_annc
         data:
           who: '{{ states.sensor.room_audio.state }}'
-          message: >-
+          call_interuption: 1
+          speech_message: >-
             {%- if states.sensor.usps_mail.state | int == 1 -%} 
               {{ [ 
                 "USPS is delivering", 
@@ -178,10 +195,11 @@ automation:
       - condition: template
         value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
-      - service: script.speech_engine
+      - service: script.status_annc
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
-          message: >
+          call_interuption: 1
+          speech_message: >
             {%- if states.sensor.usps_packages.state | int == 1 -%}
               USPS is delivering {{ states.sensor.usps_packages.state }} package today.
             {%- else -%}
@@ -211,10 +229,11 @@ automation:
           who: "jeff"
           title: "Delivering Today"
           message: "{{ states('sensor.mail_deliveries_message')}}"
-      - service: script.speech_engine
+      - service: script.status_annc
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
-          message: >-
+          call_interuption: 1
+          speech_message: >-
             {%- if states.sensor.mail_usps_mail.state | int == 1 -%} 
               {{ [ 
                 "USPS is delivering", 
@@ -255,9 +274,9 @@ automation:
           who: "jeff"
           title: "Package Delivered"
           message: "Fedex/UPS just made a delivery"
-      - service: script.speech_engine
+      - service: script.status_annc
         data_template:
           who: '{{ states.sensor.room_audio.state }}'
-          message: >-
+          speech_message: >-
               A package was just left on the porch.
           call_interuption: 1

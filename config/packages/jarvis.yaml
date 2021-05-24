@@ -6,8 +6,8 @@
 ###############################################################################
 
 input_boolean:
-  house_party_protocol:
-    name: House Party Protocol
+  house_party_protocol_switch:
+    name: House Party Switch
 
 automation:
   - id: house_party_protocol_on
@@ -15,28 +15,47 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: input_boolean.house_party_protocol
+      entity_id: input_boolean.house_party_protocol_switch
       to: 'on'
     action:
     - service: homeassistant.turn_on
       entity_id: group.incense
-    - service: script.speech_engine
+    - delay: 00:00:05
+    - service: script.status_annc
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: Incense has been turned on.
+        who: '{{ states.sensor.room_presence.state }}'
+        call_house_party_protocol_enabled: 1
   
   - id: house_party_protocol_off
     alias: Turn Off House Party Protocol
     initial_state: true
     trigger:
     - platform: state
-      entity_id: input_boolean.house_party_protocol
+      entity_id: input_boolean.house_party_protocol_switch
       to: 'off'
     action:
     - service: homeassistant.turn_off
       entity_id: group.incense
-    - service: script.speech_engine
+    - delay: 00:00:05
+    - service: script.status_annc
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: Incense has been turned off.
+        who: '{{ states.sensor.room_presence.state }}'
+        call_house_party_protocol_disabled: 1
             
+script:
+
+  alexa_interjection:
+    sequence:
+      - service: script.status_annc
+        data:
+          who: '{{ states.sensor.alexa_audio.state}}'
+          call_interuption: 1
+
+  google_interjection:
+    sequence:
+      - service: script.status_annc
+        data:
+          who: '{{ states.sensor.room_audio.state }}'
+          call_interuption: 1
+
+
