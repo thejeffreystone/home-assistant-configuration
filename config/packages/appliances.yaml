@@ -14,6 +14,12 @@ sensor:
   - platform: mqtt
     name: "Washer Status"
     state_topic: "house/washer/status"
+  - platform: mqtt
+    name: "Washer Last Complete"
+    state_topic: "house/washer/time_complete"
+  - platform: mqtt
+    name: "Washer Last Emptied"
+    state_topic: "house/washer/time_emptied"
 
 automation:
 
@@ -21,7 +27,7 @@ automation:
     alias: Washer Running
     trigger:
     - above: 5
-      entity_id: sensor.washer_power_2
+      entity_id: sensor.washer_energy_w
       platform: numeric_state
     condition:
       condition: or
@@ -47,7 +53,7 @@ automation:
     alias: Washer Complete
     trigger:
     - below: 3
-      entity_id: sensor.washer_power_2
+      entity_id: sensor.washer_energy_w
       platform: numeric_state
     condition:
     - condition: state
@@ -69,6 +75,16 @@ automation:
     - service: script.washer_idle
     - service: script.turn_off
       entity_id: script.washer_finished_notification_audible
+    - service: mqtt.publish
+      data:
+        topic: house/washer/time_emptied
+        payload: '{{ now().timestamp() }}'
+        retain: true
+    # - service: mqtt.publish
+    #   data:
+    #     topic: house/washer/time_ran
+    #     payload: '{{ now().timestamp() - as_timestamp(states.sensor.washer_last_complete) }}'
+    #     retain: true
 
   - id: washer_notification
     initial_state: true
@@ -149,20 +165,11 @@ script:
     - condition: state
       entity_id: sensor.washer_status
       state: complete
-    - service: script.speech_engine
+    - service: script.status_annc
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-          <p>
-            {{ [
-            'Just a reminder. Washing machine needs to be emptied.',
-            'I am sure you have more inportant things to do, but do not forget to empty the washer.',
-            'Looks like the washing machine has completed it is cycle. You know what to do,,I hope.',
-            'Do not forget to move the clothes to the dryer.',
-            'Someone forgot to move the clothes to the dryer. I am not going to name any names. But there is a camera in there. ',
-            'Do you like when your clothes smell like mildew? Because that is what is happening,,Right now. '
-            ] | random }}
-          </p>
+        who: '{{ states.sensor.room_presence.state }}'
+        call_interuption: 1
+        call_washer_needs_emptying: 1
     
 
   washer_idle:
@@ -186,6 +193,12 @@ script:
         topic: house/washer/status
         payload: complete
         retain: true
+    - service: mqtt.publish
+      data:
+        topic: house/washer/time_complete
+        payload: '{{ now().timestamp() }}'
+        retain: true
+
   dishwasher_idle:
     sequence:
     - service: mqtt.publish
