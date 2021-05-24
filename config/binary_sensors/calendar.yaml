@@ -14,3 +14,15 @@
   name: Quiet time
   after: '21:00'
   before: '06:00'
+- platform: tod
+  name: Morning
+  after: '06:00'
+  before: '08:30'
+- platform: tod
+  name: Midday
+  after: '08:30'
+  before: '17:00'
+- platform: tod
+  name: Evening
+  after: '17:00'
+  before: '21:00'
