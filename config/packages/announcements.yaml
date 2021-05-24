@@ -78,23 +78,14 @@ automation:
       platform: template
       value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
     action:
-    - service: script.skylar_nightly_briefing
-  
-  # - id: 15056866-5ac7-4b33-a371-ab9e449548d1
-  #   initial_state: true
-  #   alias: Nightly Report
-  #   trigger:
-  #     platform: template
-  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-  #   action:
-  #   - service: script.nightly_briefing_report
+    - service: script.turn_on
+      entity_id: script.skylar_nightly_briefing
+    
 
   - id: 1d8f396a-f6ec-460d-97e3-d11900418f95
     alias: Good Morning Report
     initial_state: true
     trigger:
-      # platform: template
-      # value_template: "{{ states('sensor.time') == (state_attr('input_datetime.morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
       - platform: state
         entity_id: binary_sensor.kitchen_occupancy
         to: 'on'
@@ -127,68 +118,78 @@ automation:
     alias: Master Bedroom Report
     initial_state: true
     trigger:
-      #platform: template
-      #value_template: "{{ states('sensor.time') == (state_attr('input_datetime.daily_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
       platform: time
       at: input_datetime.daily_report
-    condition:
-    - condition: time
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-      - sat
     action:
     - service: script.morning_wakeup_report
         
   - id: 09bf89e7-180c-40fb-9543-5bd862e21049
     alias: skylar morning alarm announcement
     trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_morning_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    condition:
-      condition: template
-      value_template: '{{ states.calendar.skylar_school.attributes.offset_reached == True }}'
+      platform: time
+      at: input_datetime.skylar_morning_report
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_morning
-    - service: script.skylar_morning_briefing
+    - service: script.turn_on 
+      entity_id: script.skylar_morning_briefing
     
   - id: bbbafc52-eab1-44cd-ac24-4f9b7f4210b6
     alias: set skylar morning report time
     trigger:
     - platform: time
-      at: '05:50:00'
+      at: '06:05:00'
     action:
     - service: input_datetime.set_datetime
       entity_id: input_datetime.skylar_morning_report
       data_template:
         time: >
-          {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-            06:15
+          {% if states('input_boolean.school_today', 'on') %}
+            06:25
           {% else %}
             07:15
           {% endif %}
 
-  # - id: set_morning_report_time
-  #   alias: set morning report time 
-  #   trigger:
-  #   - platform: time
-  #     at: '05:50:30'
-  #   action:
-  #   - service: input_datetime.set_datetime
-  #     entity_id: input_datetime.morning_report
-  #     data_template:
-  #       time: >
-  #         {% if states.calendar.skylar_school.attributes.offset_reached == True %}
-  #           07:10
-  #         {% else %}
-  #           08:00
-  #         {% endif %}
- 
-          
+  - id: e1cb2f28-0423-11eb-adc1-0242ac120002
+    alias: Skylar Event Starting soon
+    trigger:
+    - platform: state
+      entity_id: calendar.skylar_events
+      attribute: offset_reached
+      to: True
+    action:
+      - service: script.status_annc
+        data:
+          who: '{{ states.sensor.room_presence.state }}'
+          call_interuption: 1
+          call_skylar_events: 1
+      - service: script.text_notify
+        data_template:
+          who: "all_ios"
+          message: Skylar has {{ states.calendar.skylar_events.attributes.message }} in 45 minutes.
+
+  - id: e1cb2e6a-0423-11eb-adc1-0242ac120002
+    alias: School Pickup Reminder  
+    trigger:
+    - platform: time
+      at: input_datetime.school_day_start_reminder
+    - platform: time
+      at: input_datetime.school_day_end_reminder
+    condition:
+    - condition: state
+      entity_id: calendar.skylar_school
+      attribute: offset_reached
+      state: True
+    action:
+      - service: script.status_annc
+        data:
+          who: '{{ states.sensor.room_presence.state }}'
+          call_interuption: 1
+          call_school_pickup_reminder: 1
+      - service: script.text_notify
+        data_template:
+          who: "all_ios"
+          message: It's almost time to head for school.
 
 script:
   reset_annc_switches:
@@ -198,64 +199,76 @@ script:
       
   security_briefing:
     sequence:
-    - service: script.speech_engine
+    - service: script.status_annc
       data_template:
-        who: '{{ states.sensor.alexa_audio.state }}'
-        message: !include ../templates/speech/security_report.yaml
+        who: '{{ states.sensor.room_presence.state }}'
+        message: !include ../templates/speech/security_briefing.yaml
 
-  event_briefing:
+  welcome_briefing:
     sequence:
+    - condition: state
+      entity_id: input_boolean.welcome_home
+      state: 'on'
+    - delay: 00:04:00
     - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.alexa_audio.state }}'
-        message: !include ../templates/speech/event_briefing.yaml
+      data:
+        who: main
+        message: !include ../templates/speech/welcome_briefing.yaml
+    - delay: 00:02:00
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.welcome_home
 
   skylar_morning_briefing:
     sequence:
     - service: script.speech_engine
       data: 
-          who: >
-            {%- if is_state('media_player.theater_tv', 'on') %}
-              theater
-            {%- elif is_state('binary_sensor.skylar_room_occupancy', 'on') %}
-              skylar_bedroom
-            {% else %}
-              main
-            {%- endif %}
+          who: skylar_bedroom
           message: !include ../templates/speech/skylar_morning_briefing.yaml
+    - service: script.text_notify
+      data:
+        who: "jeff"
+        message: "I just gave Skylars morning briefing."
 
   skylar_nightly_briefing:
     sequence:
     - service: script.speech_engine
-      data_template:
-        who: main
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
         message: !include ../templates/speech/skylar_nightly_briefing.yaml
-
-  nightly_briefing_report:
-    sequence:
-    - service: script.speech_engine
+    - service: script.text_notify
       data_template:
-        who: main
-        message: !include ../templates/speech/nightly_briefing.yaml
+        who: "all_ios"
+        message: "Time for Skylar to get ready for bed."
 
   sundown_briefing:
     sequence:
     - service: script.speech_engine
-      data_template:
-        who: kitchen
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
         message: !include ../templates/speech/sundown_briefing.yaml
+    - service: script.text_notify
+      data_template:
+        who: "all_ios"
+        message: "Sun is almost down. Time to call it a day."
 
   morning_briefing:
     sequence:
     - service: script.speech_engine
-      data_template:
+      data:
         who: kitchen
-        message: !include ../templates/speech/morning_briefing.yaml
+        message: !include ../templates/speech/daily_briefing.yaml
+
+  daily_briefing:
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
+        message: !include ../templates/speech/daily_briefing.yaml
 
   morning_wakeup_report:
     sequence:
     - service: script.speech_engine
-      data_template:
+      data:
         who: master_bedroom
         message: !include ../templates/speech/morning_wakeup_report.yaml
             

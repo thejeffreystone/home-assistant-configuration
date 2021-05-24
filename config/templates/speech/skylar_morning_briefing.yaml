@@ -57,31 +57,22 @@
     </p>
 
     <p>
-      {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-        Because you have school today!
-        {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
-          But today is a digital learning day.
-        {% endif %}
-        {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
-          And guess what? It is early release!
-        {% endif %}
-        {% if states.calendar.skylar_school.attributes.description == 'start_thanksgiving_break' %}
-          Oh, One More Thing. Tomorrow is the first day of Thanksgiving Break.
-        {% endif %}
-        {% if states.calendar.skylar_school.attributes.description == 'start_winter_break' %}
-          Oh, One More Thing. Tomorrow is the first day of Winter Break.
-        {% endif %}
-        {% if states.calendar.skylar_school.attributes.description == 'start_spring_break' %}
-          Oh, One More Thing. Tomorrow is the first day of Spring Break.
-        {% endif %}
-        {% if states.calendar.skylar_school.attributes.description == 'start_fall_break' %}
-          Oh, One More Thing. Tomorrow is the first day of Fall Break.
+      {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') > as_timestamp(now()) %}
+        {{ [ 'Today is a school day.',
+          'It is a school day. '
+        ] | random }}
+        <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+        {% if 'Digital Learning' in states('sensor.school_event') %}
+          But it is a digital learning day so the commute will be short.
+        {% endif %} 
+        {% if 'Early Release' in states('sensor.school_event') %}
+          And It is early release!
         {% endif %}
         {% if states.sensor.school_end_days2go.state | int == 0 -%}
-            Oh, One More Thing. Tomorrow is the first day of Summer Break! Emjoy the Last day of school this year!
-          {%- endif %}
-      {% else %} 
-        {% if is_state('calendar.school_holiday', 'on') %}
+          But today is the last day of School! 
+        {%- endif %}
+      {% endif %}
+      {% if 'School Holiday' in states('sensor.school_event') and  is_state('input_boolean.school_today', 'off') %}
         And look at that. You do not have school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
         {{ [ 'Guess today would be a good day to clean your room.',
           'You could always do some chores.',
@@ -91,32 +82,24 @@
           'Today would be a good day to spend some time with mom and dad.'
         ] | random }} 
         
-        {% endif %}
-
       {% endif %}
+
+      {% if states.sensor.school_end_days2go.state | int == -1 -%}
+        Today is the first day of Summer Break! 
+      {%- endif %}
+      
       </p>
       
       <p>
-        {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
+        {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') > as_timestamp(now()) %}
           {% if states.sensor.school_lunch.state == 'Nothing' %}
-            You are going to want to take your own lunch today. 
+            I am not sure what is on the school menu today, so You may want to take your own lunch today. 
           {% else %}
             Today's school lunch is {{ states.sensor.school_lunch.state }}
           {% endif %}
         {% endif %}
       </p>
-      <p>
-        {% if is_state('calendar.school_holiday', 'on') %}
-          And look at that. You do not have school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
-          {{ [ 'Guess today would be a good day to clean your room.',
-            'You could always do some chores.',
-            'Lets try to keep the TV off today. okay?',
-            'Want to play a nice game of chess? Sorry. I meant. want to play Thermal Nuclear War.',
-            'I hope you enjoy your day off. You deserve it.',
-            'Today would be a good day to spend some time with mom and dad.'
-          ] | random }} 
-        {% endif %}
-      </p>
+  
       {% if is_state('calendar.skylar_events', 'on') %}
         You have {{ states.calendar.skylar_events.attributes.message }} today as well!
       {% endif %}

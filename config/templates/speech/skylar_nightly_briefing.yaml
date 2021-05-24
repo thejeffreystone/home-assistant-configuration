@@ -8,7 +8,7 @@
           'I cannot communicate with the bathtub. Or I would have started the water for you already. So you will have to start the bath, yourself',
           'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a bath.',
           'I hate to say it but, the day is coming to an end. Time to finish up your tasks, pick up any toys you have out, and get ready for bed.',
-          'We have reached that time in every day when we must switch gears and start preparing for bed. If you would like to have story time you better get a move on.'
+          'We have reached that time in every day when we must switch gears and start preparing for bed. If you would like to have story time you better get a move on.',
           'Did you ever hear the one about the kid who never took a bath? <break time="2s"/>Yeah, me either. So we should keep it that way. It is time to get ready for bed.',
           'The count down clock until bedtime has started. Time to get cleaned up, get your pajamas on, and pick the story you will read tonight.'
         ] | random }} 
@@ -46,7 +46,7 @@
       {% elif states.sensor.school_start_days2go.state | int == 1 -%}
         Tomorrow is the first day of school. Are you ready? 
       {%- endif %}
-      {% if states.sensor.school_end_days2go.state | int < 10 and states.sensor.school_end_days2go.state | int > 0 -%}
+      {% if states.sensor.school_end_days2go.state | int < 15 and states.sensor.school_end_days2go.state | int > 0 -%}
       {{ [ 'School is almost over for the year.',
           'You have made it to the end of the school year.',
           'You are almost done with school.'
@@ -61,7 +61,7 @@
       {%- endif %}
         {{ [ 'I have prepared your room as you like it. ',
           'I have adjusted the lighting in your room.',
-          'I have turned on your bedroom lights, and adjusted the ligting under your bed.',
+          'I have turned on your bedroom lights, and adjusted the lighting under your bed.',
           'I have executed the Pre bed routine for your room.'
         ] | random }}
     </p>

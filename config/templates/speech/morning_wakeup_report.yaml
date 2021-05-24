@@ -45,22 +45,8 @@
       {% endif %}
 
 
-      {% if states.sensor.nws_alerts.state | int > 0 %}
-        There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
-        The National Weather Service Has issued,
-        {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-        a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
-        {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
-        {% else %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
-        {% endif %}
+      {% if states.sensor.gwinnett_active_alerts.state | int > 0 %}
+        There are currently {{states.sensor.gwinnett_active_alerts.state }} active weather alerts for our area.
       {% endif %}
 
       Based on the forecasted high temperature, 
@@ -105,32 +91,41 @@
     </p>
 
     <p>
-      {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-        {{ [ 'Today is a school day.',
-          'It is a school day. '
-        ] | random }}
-        <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }} </s>
-        {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
-          But it is a digital learning day so the commute will be short.
-        {% endif %} 
-        {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
-          And It is early release which means pick up is at tweleve fifteen. 
-        {% endif %}
+      
+    {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
+      {{ [ 'Today is a school day.',
+        'It is a school day. '
+      ] | random }}
+      <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+      {% if 'Digital Learning' in states('sensor.school_event') %}
+        But it is a digital learning day so the commute will be short.
+      {% endif %} 
+      {% if 'Early Release' in states('sensor.school_event') %}
+        And It is early release!
       {% endif %}
-      {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-        {% if states.sensor.school_lunch.state == 'Nothing' %}
-          Today's lunch is not interesting, so plan on taking one. 
-        {% else %}
-          Todays school lunch is {{ states.sensor.school_lunch.state }} .
-        {% endif %}
+      {% if states.sensor.school_end_days2go.state | int == 0 -%}
+        But today is the last day of School! 
+      {%- endif %}
+    {% endif %}
+    {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
+      {% if is_state('sensor.school_lunch', 'Nothing') %}
+        I am not sure what the school menu is for today, so plan on Skylar taking his lunch 
+      {% else %}
+        Today's school lunch is {{ states.sensor.school_lunch.state }}, so he might be interested in buying his lunch.
       {% endif %}
-      {% if is_state('calendar.school_holiday', 'on') %}
-        And look at that. There is no school today. Because it is {{ states.calendar.school_holiday.attributes.message }}.
-      {% endif %}
+    {% endif %}
 
-      {% if is_state('calendar.skylar_events', 'on') %}
-        Skylar has {{ states.calendar.skylar_events.attributes.message }} today as well!
-      {% endif %}
+    {% if states.sensor.school_end_days2go.state | int == -1 -%}
+      Today is the first day of Summer Break! 
+    {%- endif %}
+
+    {% if 'School Holiday' in states('sensor.school_event') and  is_state('input_boolean.school_today', 'off') %}
+      There is no school today.
+    {% endif %} 
+
+    {% if is_state('calendar.skylar_events', 'on') %}
+      Skylar has {{ states.calendar.skylar_events.attributes.message }} today as well!
+    {% endif %}
     </p>
 
     <p>

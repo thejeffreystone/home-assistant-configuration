@@ -57,24 +57,9 @@
           and {{ states.weather.home.state }}
         {% endif %}
 
-
-        {% if states.sensor.nws_alerts.state | int > 0 %}
-          There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
-          The National Weather Service Has issued,
-          {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
-          {% else %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
-          {% endif %}
-        {% endif %}
+      {% if states.sensor.gwinnett_active_alerts.state | int > 0 %}
+        There are currently {{states.sensor.gwinnett_active_alerts.state }} active weather alerts for our area.
+      {% endif %}
 
         {% if is_state('binary_sensor.evening','on') %}
           The overnight forecast says we can expect {{ states.sensor.nws_overnight_forecast.state }}    
@@ -177,6 +162,8 @@
           {% endif %}
         {% endif %}
 
+        
+
         {% if is_state('binary_sensor.evening','on') %}
         
           {% if states.sensor.halloween_countdown.state | int == 1 %}
@@ -209,26 +196,12 @@
           {% else %}
           {% endif %}
           
-          {% if states.sensor.trip_disney.state | int == 120 %}
-            There are only one hundred and twenty days until the next Disney Trip. 
-          {% endif %}
-          {% if states.sensor.trip_disney.state | int == 60 %}
-            There are only on sixty days until the next Disney Trip. 
-          {% endif %}
-          {% if states.sensor.trip_disney.state | int < 32 %}
-            {% if states.sensor.trip_disney.state | int > 1 %}
-              There are {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
-            {% else %}
-              There is {{ states.sensor.trip_disney.state }} day until the next Disney Trip!
-            {% endif %}
-          {% endif %}
+         
+
           {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
             Tomorrow is Jeff and Katherine's Wedding Anniversary. 
           {% endif %}
-        
-          {% if states.sensor.trip_disney.state | int == 1 %}
-            Oh, and there is just one more sleep until the next Disney Trip!  
-          {% endif %}
+      
         {% else %}
           {% if is_state('sensor.halloween_countdown','0') %}
             Happy Halloween!
@@ -258,8 +231,8 @@
           {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
             {% if 'Chocolate' in event %}
               {{ [
-              'Oh. You had me at Chocolate. ',
-              'And I like chocolate. This sounds fun.'
+              'Oh. You had me at Chocolate. I like Chocolate.',
+              'And I like chocolate. This sounds fun. More Chocolate please!'
             ]|random }}
             {%- endif -%}
 
@@ -336,26 +309,27 @@
           {%- endif -%}
 
 
-          {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
+          {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
             {{ [ 'Today is a school day.',
               'It is a school day. '
             ] | random }}
             <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
-            {% if states.calendar.skylar_school.attributes.description == 'digital-learning' %}
+            {% if 'Digital Learning' in states('sensor.school_event') %}
               But it is a digital learning day so the commute will be short.
             {% endif %} 
-            {% if states.calendar.skylar_school.attributes.description == 'early-release' %}
+            {% if 'Early Release' in states('sensor.school_event') %}
               And It is early release!
             {% endif %}
           {% endif %}
-          {% if states.calendar.skylar_school.attributes.offset_reached == True and is_state('calendar.school_holiday', 'off') %}
-            {% if states.sensor.school_lunch.state == 'Nothing' %}
-              Skylar will want to take his lunch today. 
+          {% if is_state('input_boolean.school_today', 'on') %}
+            {% if is_state('sensor.school_lunch', 'Nothing') %}
+              I am not sure what the school menu is for today, so plan on Skylar taking his lunch 
             {% else %}
               Today's school lunch is {{ states.sensor.school_lunch.state }}, so he might be interested in buying his lunch.
             {% endif %}
           {% endif %}
-          {% if states.sensor.school_end_days2go.state |int <= 35 and states.sensor.school_end_days2go.state |int > 0  %}
+
+          {% if states.sensor.school_end_days2go.state | int <= 35 and states.sensor.school_end_days2go.state | int > 0  %}
               {{ [ 'Oh, and look at that.',
               'For those trying to keep count. ',
               'In case you were wondering.',
@@ -366,10 +340,20 @@
           {% if states.sensor.school_end_days2go.state | int == -1 -%}
             Today is the first day of Summer Break! 
           {%- endif %}
+
           {% if is_state('calendar.skylar_events', 'on') %}
             Skylar has {{ states.calendar.skylar_events.attributes.message }} today as well!
           {% endif %}
-        {%- endif -%}
+
+        {% endif %}
+
+        {% if states.sensor.vacation_days2go.state | int < 32 %}
+          {% if states.sensor.vacation_days2go.state | int > 1 %}
+            There are {{ states.sensor.vacation_days2go.state }} days until {{ states.calendar.vacation.attributes.message }}!
+          {% else %}
+            Oh, and there is {{ states.sensor.vacation_days2go.state }} one more sleep until {{ states.calendar.vacation.attributes.message }}!
+          {% endif %}
+        {% endif %}
 
       </p>
       
@@ -437,7 +421,7 @@
           {%- if is_state('media_player.croft_tv','playing') or is_state('binary_sensor.croft_occupancy','on') %}
             There appears to be activity in the Croft.
             {%- if is_state('media_player.croft_tv','playing') %}
-            The croft TV is current playing 
+            The croft TV is currently playing 
               {%- if states.media_player.croft_tv.attributes.app_name == 'YouTube' %}
                 You Tube.
               {% else %}
