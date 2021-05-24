@@ -18,102 +18,106 @@ input_boolean:
   school_is_digital:
     name: Digital Learning
     icon: mdi:laptop
+  school_today:
+    name: School Today
+    icon: mdi:bus-school
+  school_early_release:
+    name: School Early Release
+    icon: mdi:bus-school
 
 input_datetime:
   school_first_day:
     name: First Day of School
     has_date: true
     has_time: false
-    initial: '2020-08-12'
   school_last_day:
     name: Last Day of School
     has_date: true
     has_time: false
-    initial: '2021-05-26'
   school_day_start:
     name: School Day Start
     has_date: false
     has_time: true
-    initial: '07:45:00'
   school_day_end:
     name: School Day End
     has_date: false
     has_time: true
-    initial: '14:45:00'
+  fall_break_start:
+    name: Fall Break
+    has_date: true
+    has_time: false
+  thanksgiving_break_start:
+    name: Thanksgiving Break
+    has_date: true
+    has_time: false
+  christmas_break_start:
+    name: Christmas Break
+    has_date: true
+    has_time: false
+  winter_break_start:
+    name: Winter Break
+    has_date: true
+    has_time: false
+  spring_break_start:
+    name: Spring Break
+    has_date: true
+    has_time: false
+  school_day_start_reminder:
+    name: School Day Start Reminder
+    has_date: false
+    has_time: true
+  school_day_end_reminder:
+    name: School Day End Reminder
+    has_date: false
+    has_time: true  
   blackout_time_start:
     name: Blackout Time Start
     has_date: false
     has_time: true
-    initial: '12:00:00'
   blackout_time_end:
     name: Blackout Time End
     has_date: false
     has_time: true
-    initial: '16:00:00'
-  morning_meeting:
-    name: Morning Meeting
-    has_date: false
-    has_time: true
-    initial: '08:12:00'
-  math:
-    name: Math
-    has_date: false
-    has_time: true
-    initial: '08:28:00'
-  reading:
-    name: Reading
-    has_date: false
-    has_time: true
-    initial: '09:48:00'
-  phonics:
-    name: Phonics
-    has_date: false
-    has_time: true
-    initial: '10:48:00'
-  lunch:
-    name: Lunch
-    has_date: false
-    has_time: true
-    initial: '11:10:00'
-  specials:
-    name: Specials
-    has_date: false
-    has_time: true
-    initial: '12:08:00'
-  writing:
-    name: Writing
-    has_date: false
-    has_time: true
-    initial: '12:53:00'
-  science:
-    name: Science
-    has_date: false
-    has_time: true
-    initial: '13:33:00'
-  shared_reading:
-    name: Shared Reading
-    has_date: false
-    has_time: true
-    initial: '14:18:00'
+  
 
 
 sensor:
   - platform: template
     sensors:
       school_start_days2go:
-        value_template: '{{ (((states.input_datetime.school_first_day.attributes.timestamp)-as_timestamp(now())) | int /60/1440) | round(0) }}'
+        value_template: "{{ ((state_attr('input_datetime.school_first_day', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
         unit_of_measurement: 'Days'
       school_end_days2go:
-        value_template: '{{ (((states.input_datetime.school_last_day.attributes.timestamp)-as_timestamp(now())) | int /60/1440) | round(0) }}'
+        value_template: "{{ ((state_attr('input_datetime.school_last_day', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
+        unit_of_measurement: 'Days'
+      vacation_days2go:
+        value_template: "{{ ((as_timestamp(strptime(state_attr('calendar.vacation', 'start_time'), '%Y-%m-%d'))-as_timestamp(now())) | int /60/1440) | round(0) }}"
         unit_of_measurement: 'Days'
   - platform: rest
-    resource: https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/packages/json_data/school_lunch.json
+    resource: https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/packages/json_data/school.json
     name: School Lunch
     scan_interval: 14400
     value_template: >
       {% set today = now().month  ~ '/' ~ now().day  %}
       {% set lunch =  value_json.MENU.static[ today ] %}
-      {{ lunch }}
+      {%- if lunch %}
+        {{ lunch  }}
+      {% else %}
+        Nothing
+      {%- endif %}
+
+  - platform: rest
+    resource: https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/packages/json_data/school.json
+    name: School Event
+    scan_interval: 14400
+    value_template: >
+      {% set today = now().month  ~ '/' ~ now().day  %}
+      {% set event =  value_json.EVENTS.static[ today ] %}
+      {%- if event %}
+        {{ event  }}
+      {% else %}
+        Nothing
+      {%- endif %}
 
 automation:
   - id: refresh_special_event_sensors
@@ -145,11 +149,47 @@ automation:
         name: Our wedding
         type: anniversary
         date: !secret wed_anniversary
-    - service: python_script.special_events
-      data:
-        name: Disney
-        type: trip
-        date: !secret disney_trip
+
+  - id: e1cb2d02-0423-11eb-adc1-0242ac120002
+    alias: School today
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '06:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {%- if as_timestamp(strptime(state_attr('calendar.skylar_school', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+          true
+        {%- endif -%}
+    action:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: >
+            {{ 'Early Release' in states('sensor.school_event') }}
+        sequence:
+        - service: input_boolean.turn_on
+          entity_id: input_boolen.school_early_release
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.school_day_end
+          data:
+            time: "12:15:00"
+      default:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.school_day_end
+        data:
+          time: "14:45:00" 
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.school_today  
+    - service: script.turn_on
+      entity_id: script.school_in_session
+    - service: script.turn_on
+      entity_id: script.digital_learning_day
+    
+    
 
   - id: rex_manning_audio
     alias: Rex Manning Day Audio
@@ -193,214 +233,78 @@ automation:
       data_template:
         version: "{{ states.binary_sensor.updater.attributes.newest_version }}"
   
-  - id: blackout_time_start
-    initial_state: true
-    alias: Blackout time Start
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.blackout_time_start', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    condition:
-      condition: template
-      value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
-    action:
-    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: "Blackout time has started."
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.blackout_time
+  # - id: blackout_time_start
+  #   initial_state: true
+  #   alias: Blackout time Start
+  #   trigger:
+  #     platform: template
+  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.blackout_time_start', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+  #   condition:
+  #     condition: template
+  #     value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
+  #   action:
+  #   - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
+  #   - service: script.status_annc
+  #     data_template:
+  #       who: '{{ states.sensor.room_presence.state }}'
+  #       call_interuption: 1
+  #       speech_message: "Blackout time has started."
+  #   - service: input_boolean.turn_on
+  #     entity_id: input_boolean.blackout_time
 
-  - id: blackout_time_end
-    initial_state: true
-    alias: Blackout time End
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.blackout_time_end', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    condition:
-      condition: state
-      entity_id: input_boolean.blackout_time
-      state: 'on'
-    action:
-    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: "Blackout time has ended"
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.blackout_time
+  # - id: blackout_time_end
+  #   initial_state: true
+  #   alias: Blackout time End
+  #   trigger:
+  #     platform: template
+  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.blackout_time_end', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+  #   condition:
+  #     condition: state
+  #     entity_id: input_boolean.blackout_time
+  #     state: 'on'
+  #   action:
+  #   - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
+  #   - service: script.status_annc
+  #     data_template:
+  #       who: '{{ states.sensor.room_presence.state }}'
+  #       call_interuption: 1
+  #       speech_message: "Blackout time has ended"
+  #   - service: input_boolean.turn_off
+  #     entity_id: input_boolean.blackout_time
 
-  - id: digital_learning_start
-    alias: Digital Learning Start
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: calendar.skylar_school
-      to: 'on'
-    condition:
-      condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: switch.turn_on
-      entity_id: switch.skylars_desk
-    - service: script.turn_on
-      entity_id: script.digital_learning_notification
+  
 
-  - id: digital_learning_end
-    alias: Digital Learning End
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: calendar.skylar_school
-      to: 'off'
-    condition:
-      condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: scene.turn_on
-      entity_id: scene.skylar_desk_off
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.audible_notifications
+ 
 
-  - id: e1cb391e-0423-11eb-adc1-0242ac120002
-    alias: Morning Meeting Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.morning_meeting
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Morning Meeting'
-
-  - id: e1cb386a-0423-11eb-adc1-0242ac120002
-    alias: Reading Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.reading
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Reading'
-
-  - id: e1cb37a2-0423-11eb-adc1-0242ac120002
-    alias: Math Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.math
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Math'
-        
-  - id: e1cb3590-0423-11eb-adc1-0242ac120002
-    alias: Phonics Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.phonics
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Phonics'
-
-  - id: e1cb34d2-0423-11eb-adc1-0242ac120002
-    alias: Lunch Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.lunch
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Lunch'
-
-  - id: e1cb341e-0423-11eb-adc1-0242ac120002
-    alias: Specials Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.specials
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Specials'
-
-  - id: e1cb3360-0423-11eb-adc1-0242ac120002
-    alias: Writing Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.writing
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Writing'
-
-  - id: e1cb32a2-0423-11eb-adc1-0242ac120002
-    alias: Science Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.science
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Science'
-
-  - id: e1cb31e4-0423-11eb-adc1-0242ac120002
-    alias: Shared Reading Warning
-    initial_state: true
-    trigger:
-        platform: time
-        at: input_datetime.shared_reading
-    condition:
-    - condition: state
-      entity_id: input_boolean.school_is_digital
-      state: 'on'
-    action:
-    - service: script.class_alarm
-      data:
-        class: 'Shared Reading'
-    
 
 script:
+
+  digital_learning_day:
+    sequence:
+    - condition: template
+      value_template: >
+        {{ 'Digital Learning' in states('sensor.school_event') }}
+    - service: input_boolean.turn_on
+      entity_id: input_boolen.school_is_digital
+    
+  school_in_session:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.school_in_session
+      state: 'off'
+    - service: input_boolean.turn_on
+      entity_id: input_boolen.school_in_session
+
+  school_year_over:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.school_in_session
+      state: 'on'
+    - condition: template
+      value_template: >
+        {{ states('input_datetime.school_last_day') == now().strftime("%Y-%m-%d") }}
+    - service: input_boolean.turn_off
+      entity_id: input_boolen.school_in_session
 
   rex_manning_audio:
     sequence:
@@ -427,17 +331,19 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: script.speech_engine
+    - service: script.status_annc
       data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk."
+        who: '{{ states.sensor.room_presence.state }}'
+        call_interuption: 1
+        speech_message: "Skylar, digital learning will begin in about thirty minutes. I have turned on the lighting around your desk."
 
   class_alarm:
     sequence:
-    - service: script.speech_engine
-      data:
-        who: main
-        message: >
+    - service: script.status_annc
+      data_template:
+        who: '{{ states.sensor.room_presence.state }}'
+        call_interuption: 1
+        speech_message: >
           {{ class }} starts in two minutes.
     - service: script.text_notify
       data:
