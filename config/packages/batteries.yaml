@@ -78,26 +78,26 @@ sensor:
     value_template: "{{ value }}"
     json_attributes_topic: "zwave2mqtt/garage_motion/128/1/0"
 
-automation:
+# automation:
   
-  - alias: 'Battery Alert'
-    initial_state: true
-    trigger:
-      - platform: time
-        at: '10:00:00'
-      - platform: time
-        at: '18:00:00'
-    condition:
-      condition: template
-      value_template: "{% if states('sensor.low_battery') %}true{% endif %}"
-    action:
-      - service: persistent_notification.create
-        data_template:
-          title: Low Battery
-          message: "{{ states('sensor.low_battery') }}"
-          notification_id: low-battery-alert
-      - service: script.text_notify
-        data_template:
-          title: "HA Issue"
-          message: "Low battery levels: {{ states('sensor.low_battery') }}"
-          who: 'jeff'
+#   - alias: 'Battery Alert'
+#     initial_state: true
+#     trigger:
+#       - platform: time
+#         at: '10:00:00'
+#       - platform: time
+#         at: '18:00:00'
+#     condition:
+#       condition: template
+#       value_template: "{% if states('sensor.low_battery') %}true{% endif %}"
+#     action:
+#       - service: persistent_notification.create
+#         data_template:
+#           title: Low Battery
+#           message: "{{ states('sensor.low_battery') }}"
+#           notification_id: low-battery-alert
+#       - service: script.text_notify
+#         data_template:
+#           title: "HA Issue"
+#           message: "Low battery levels: {{ states('sensor.low_battery') }}"
+#           who: 'jeff'
