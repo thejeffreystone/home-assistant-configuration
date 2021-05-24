@@ -1,7 +1,7 @@
 
 
 #################################################################################
-### Grops ###
+### Groups ###
 
 Family:
   - person.jeffrey
@@ -10,6 +10,7 @@ Family:
 arriving:
   name: Arriving
   entities: []
+
 
 House Conditions:
   - climate.first_floor
@@ -20,7 +21,7 @@ House Conditions:
 
 occupancy:
   - binary_sensor.kitchen_motion_occupancy
-  - binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
+  - binary_sensor.skylar_bedroom_motion_occupancy
   - binary_sensor.master_bedroom_motion_occupancy
   - binary_sensor.croft_occupancy
 
