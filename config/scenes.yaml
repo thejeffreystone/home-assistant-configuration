@@ -34,8 +34,6 @@
         - 7 
         - 130
         - 255
-    switch.tplink_a2:
-      state: 'on'
     switch.master_bedroom_bookcase:
       state: 'on'
 
@@ -75,8 +73,6 @@
         - 7 
         - 130
         - 255
-    switch.tplink_a2:
-      state: 'on'
     switch.master_bedroom_bookcase:
       state: 'on'
 
@@ -116,8 +112,6 @@
         - 255
         - 213
         - 133
-    switch.tplink_a2:
-      state: 'on'
     switch.master_bedroom_bookcase:
       state: 'on'
     
@@ -217,14 +211,14 @@
     switch.fireplace_lights:
       state: 'off'
   id: d05c18cf0ddb4002ad0b28cc0c7f98f2
-- name: diminished kitchen lighting
-  entities:
-    light.kitchen_cabinets:
-      state: 'on'
-      brightness: 10
-    switch.kitchen_light_strip:
-      state: 'off'
-  id: c0d8602152fb480d9731f8671f388b1b
+# - name: diminished kitchen lights
+#   entities:
+#     light.kitchen_cabinets:
+#       state: 'on'
+#       brightness: 10
+#     switch.kitchen_light_strip:
+#       state: 'off'
+#   id: c0d8602152fb480d9731f8671f388b1b
 - name: normal kitchen lighting
   entities:
     light.kitchen_cabinets:
@@ -390,6 +384,8 @@
       brightness: 102
     light.master_bedroom_dresser_lamp:
       state: 'off'
+    switch.master_bedroom_bookcase:
+      state: 'off'
   id: 85953e56acc94c8b8614347de8aab96a
 
 - name: santa protocol
@@ -438,6 +434,8 @@
       state: 'off'
     input_boolean.skylar_awake:
       state: 'off'
+    input_boolean.skylar_dressed_reminder:
+      state: 'off'
     switch.skylars_desk:
       state: 'off'
   id: f4e8d2f594c446ee9f0e41cf46dc1c72
@@ -460,55 +458,29 @@
       state: 'off'
   id: b25b0c6dcec049929b2bde5d08f3ce53
 
-- name: studio on
-  entities:
-    light.jeff_lamp:
-      state: 'on'
-      brightness: 5
-    light.jeff_dresser_lamp:
-      state: 'on'
-      brightness: 255
-    light.kat_lamp:
-      state: 'on'
-      brightness: 255
-    light.master_bedroom_tower_lamp:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7
-        - 130
-        - 255
-    light.desk_accent:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7
-        - 130
-        - 255
-    switch.tplink_a2:
-      state: 'on'
-    switch.master_bedroom_bookcase:
-      state: 'on'
-  
-
-- name: studio off
-  entities:
-    light.jeff_dresser_lamp:
-      state: 'off'
-    light.desk_accent:
-      state: 'off'
-    switch.tplink_a2:
-      state: 'off'
-    switch.master_bedroom_bookcase:
-      state: 'off'
-  id: 82791dafcf674b9cbbad6565b3b49b86
-
 
 - name: film time
   id: film_time
   entities:
     switch.tplink_a2:
       state: 'on'
+    light.hair_light:
+      state: 'on'
+      brightness: 76.5
+    switch.dazzned50:
+      state: 'on'
+    switch.shelly1_500291ed2c47:
+      state: 'off'
+
+- name: teams call
+  id: teams_call
+  entities:
+    switch.tplink_a2:
+      state: 'off'
+    light.jeff_desk_lamp:
+      state: 'on'
+      brightness: 12.75
+    
 
 - name: film time over
   id: film_time_over
@@ -519,6 +491,13 @@
       state: 'off'
     switch.master_bedroom_bookcase:
       state: 'off'
+    switch.dazzned50:
+      state: 'off'
+    light.hair_light:
+      state: 'off'
+    light.desk_accent:
+      state: 'off'
+    
 
 - name: lr_cool_white
   entities:

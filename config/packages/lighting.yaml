@@ -22,12 +22,12 @@ automation:
     alias: Master Bedroom Lights Needed
     initial_state: true
     trigger:
-    - entity_id: binary_sensor.master_bedroom_motion
+    - entity_id: binary_sensor.master_bedroom_motion_occupancy
       from: 'off'
       platform: state
       to: 'on'
     condition:
-    - below: 13
+    - below: 20
       condition: numeric_state
       entity_id: sensor.master_bedroom_motion_illuminance_lux
     - condition: time
@@ -68,38 +68,31 @@ automation:
      
 
   # Kitchen lights needed when dark and there is motion
-  - id: e1cb3d56-0423-11eb-adc1-0242ac120002
-    alias: Kitchen Lights Needed
-    initial_state: true
-    trigger:
-    - entity_id: binary_sensor.kitchen_motion_occupancy
-      from: 'off'
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.back_door_motion
-      from: 'off'
-      platform: state
-      to: 'on'
-    condition:
-    - below: 70
-      condition: numeric_state
-      entity_id: sensor.kitchen_motion_illuminance_lux
-    action:
-    - choose:
-      - conditions:
-        - condition: time
-          after: 05:30:00
-          before: '22:30:00'
-        sequence:
-        - scene: scene.normal_kitchen_lighting
-      - conditions:
-        - condition: time
-          after: '22:30:00'
-          before: 05:30:00
-        sequence:
-        - scene: scene.diminished_kitchen_lighting
-        - delay: 00:18:00
-        - scene: scene.kitchen_lighting_off
+  # - id: e1cb3d56-0433-12eb-adc1-0242ac120002
+  #   alias: Kitchen Lights Needed
+  #   mode: restart
+  #   initial_state: true
+  #   trigger:
+  #   - entity_id: binary_sensor.kitchen_motion_occupancy
+  #     from: 'off'
+  #     platform: state
+  #     to: 'on'
+  #   - entity_id: binary_sensor.back_door_motion
+  #     from: 'off'
+  #     platform: state
+  #     to: 'on'
+  #   action:
+  #   - choose:
+  #     - conditions:
+  #       - condition: state
+  #         entity_id: binary_sensor.quiet_time
+  #         state: 'on'
+  #       sequence:
+  #       - scene: scene.diminished_kitchen_lighting
+  #       - delay: 00:18:00
+  #       - scene: scene.kitchen_lighting_off
+  #     default:
+  #       - scene: scene.normal_kitchen_lighting
 
   # Living lights needed when dark and there is motion
   - id: e1c9379a-0423-11eb-adc1-0242ac120002
@@ -277,37 +270,6 @@ script:
     - service: switch.turn_off
       entity_id: switch.croft_light
 
-
-
-##################################################
-
-  kitchen_lights_on:
-    sequence:
-    - condition: state  
-      entity_id: sun.sun
-      state: 'below_horizon'
-    - condition: time
-      after: '05:30:00'
-      before: '22:30:00'
-    - service: scene.turn_on
-      entity_id: scene.normal_kitchen_lighting
-
-  kitchen_lights_night:
-    sequence:
-    - condition: and
-      conditions:
-        - condition: state  
-          entity_id: sun.sun
-          state: 'below_horizon'
-        - condition: time
-          after: '22:30:00'
-          before: '05:30:00'
-    - service: scene.turn_on
-      entity_id: scene.diminished_kitchen_lighting
-    - delay:
-        minutes: 18
-    - service: light.turn_off
-      entity_id: light.kitchen_cabinets
 
 #################################################
   
