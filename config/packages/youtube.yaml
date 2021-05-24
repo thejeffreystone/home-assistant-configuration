@@ -11,23 +11,24 @@
   sensor:
     - platform: youtube
       channel_id: UCipZJ6748kd8TbelSxcvcVg
+
   
-    - platform: socialblade
-      name: slackerlabs_info
-      channel_id: UCipZJ6748kd8TbelSxcvcVg
+  automation:
+    - alias: YouTube Notification - SlackerLabs
+      id: 5e751352-067e-4706-978a-2479b6f5fd96
+      trigger:
+        - platform: state
+          entity_id: sensor.slackerlabs
   
-  # automation:
-  #   - alias: YouTube Notification - SlackerLabs
-  #     id: 5e751352-067e-4706-978a-2479b6f5fd96
-  #     trigger:
-  #       - platform: state
-  #         entity_id: sensor.slackerlabs
+      condition:
+        - condition: template
+          value_template: "{{ trigger.from_state.state != trigger.to_state.state }}"
   
-  #     condition:
-  #       - condition: template
-  #         value_template: "{{ trigger.from_state.state != trigger.to_state.state }}"
-  
-  #     action:
+      action:
+      - service: script.text_notify
+        data_template:
+          who: "jeff"
+          message: New Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} 
   #       - repeat:
   #           count: 1
   #           sequence:
