@@ -1,7 +1,7 @@
 - platform: waze_travel_time
   name: "Jeff ETT Home"
   #api_key: !secret google_api
-  origin: device_tracker.jeffreys_iphone_11
+  origin: device_tracker.jeffrey_s_iphone_11_app
   destination: zone.home
   region: 'US'
 - platform: waze_travel_time
@@ -20,6 +20,6 @@
   name: "Home To Zoo"
 #  api_key: !secret google_api#
   origin: zone.home
-  destination: zone.zoo_atlanta
+  destination: zone.zooatlanta
   region: 'US'
   incl_filter: US-78 W
