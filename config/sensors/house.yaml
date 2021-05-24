@@ -65,11 +65,11 @@
     days: 7
 - platform: statistics
   name: Outside Temp Stats
-  entity_id: sensor.back_porch_temperature
+  entity_id: sensor.acurite_6045m_3078_t
   sampling_size: 500
 - platform: statistics
   name: Garage Temp Stats
-  entity_id: sensor.garage_temperature
+  entity_id: sensor.acurite_tower_10968_t
   sampling_size: 500
 - platform: min_max
   name: Inside Temp Stats
@@ -194,12 +194,23 @@
       friendly_name: 'Number of Entities'
       value_template: >-
         {{ states | rejectattr('state', 'eq', 'unavailable') | list | count}}
+    na_entities:
+      friendly_name: 'NA Entities'
+      value_template: >-
+        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list }}
+    na_entities_count:
+      friendly_name: 'Number of NA Entities'
+      value_template: >-
+        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count }}
     hvac_action:
       friendly_name: 'HVAC Action'
       value_template: "{{states.climate.home.attributes.hvac_action}}"
     today_is:
       friendly_name: 'Today is'
-      value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}" 
+      value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}"
+    month_is:
+      friendly_name: 'Month is'
+      value_template: "{{ ['January','February','March','April','May','June','August','September','October','November','December'][now().month-1] }}" 
     holiday:
       friendly_name: 'Holiday'
       value_template: >-
