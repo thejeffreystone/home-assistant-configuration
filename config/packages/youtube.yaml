@@ -8,9 +8,9 @@
 # https://github.com/CCOSTAN/Home-AssistantConfig/issues/720
 #-------------------------------------------
 
-  sensor:
-    - platform: youtube
-      channel_id: UCipZJ6748kd8TbelSxcvcVg
+#   sensor:
+    # - platform: youtube
+    #   channel_id: UCipZJ6748kd8TbelSxcvcVg
 
   
   automation:
@@ -29,26 +29,27 @@
         data_template:
           who: "jeff"
           message: New Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} 
-  #       - repeat:
-  #           count: 1
-  #           sequence:
-  #             - delay: '00:03:00'
-  #             - service: script.twitter_notify
-  #               data:
-  #                 tweet: >
-  #                   {{ [
-  #                   "New Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} "
-  #                   ] | random }}
-  #                 who: 'thejeffreystone'
+      - repeat:
+          count: 1
+          sequence:
+            - delay: '00:03:00'
 
-  #             - delay: '00:10:00'
-  
-  #             - service: script.twitter_notify
-  #               data:
-  #                 tweet: >
-  #                   {{ [
-  #                   "New Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} "
-  #                   ] | random }}
-  #                 who: 'AnchorageHouse2'
-  
-  #             - delay: '12:30:00'
+            - service: script.twitter_notify
+              data:
+                tweet: >
+                  {{ [
+                  "Brand New Home Assistant Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} "
+                  ] | random }}
+                who: 'thejeffreystone'
+
+            - delay: '00:10:00'
+
+            - service: script.twitter_notify
+              data:
+                tweet: >
+                  {{ [
+                  "New #homeassistant Video went Live! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} "
+                  ] | random }}
+                who: 'slackerlabs'
+
+            - delay: '12:30:00'
