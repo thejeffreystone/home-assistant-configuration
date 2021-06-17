@@ -131,6 +131,32 @@ automation:
         attribute: last_called
         to: True
     action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.room_presence
+          value: >
+            {% set room = trigger.to_state.attributes.friendly_name %}
+            {% if room == 'Kitchen Echo' %}
+              kitchen
+            {% elif room == 'Living Room Echo' %}
+              main
+            {% elif room == 'Skylar\'s Bedroom' %}
+              skylar_bedroom
+            {%- elif is_state('media_player.theater_tv', 'on') %}
+              theater
+            {% elif room == 'Kitchen Motion occupancy' or room == 'Back Door Motion'%}
+              kitchen
+            {% elif room == 'Master Bedroom Motion occupancy' %}
+              master_bedroom
+            {% elif room == 'Living Room Motion occupancy' or room == 'Living Room Echo' %}
+              main
+            {% elif room == 'Croft Occupancy' %}
+              croft
+            {% elif room == 'Skylar Bedroom Motion occupancy' or room == 'Skylar\'s Bedroom' %}
+              skylar_bedroom
+            {% else %}
+              main
+            {% endif %}
       - service: mqtt.publish
         data:
           topic: house/presence/current_room

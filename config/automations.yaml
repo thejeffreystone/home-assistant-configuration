@@ -261,12 +261,18 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.master_bath_humidity
-    above: '62'
+    above: '68'
     for: 00:03:00
   condition:
   - condition: state
     entity_id: switch.master_bath_fan
     state: 'off'
+  - condition: state
+    entity_id: binary_sensor.quiet_time
+    state: 'off'
+  - condition: state
+    entity_id: group.family
+    state: 'home'
   action:
   - service: switch.turn_on
     data: {}
@@ -278,7 +284,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.master_bath_humidity
-    below: '62'
+    below: '69'
   condition:
   - condition: state
     entity_id: switch.master_bath_fan
@@ -299,3 +305,127 @@
   - event: test_complete
     event_data: {}
   mode: single
+- id: '1622313738769'
+  alias: Room Presence Detection
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.master_bedroom_motion_occupancy
+    - binary_sensor.kitchen_motion_occupancy
+    - binary_sensor.living_room_motion_occupancy
+    - binary_sensor.skylar_bedroom_motion_occupancy
+    - binary_sensor.croft_occupancy
+    - binary_sensor.back_door_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id:
+    - media_player.kitchen_echo
+    - media_player.living_room_echo
+    - media_player.skylar_s_bedroom
+    attribute: last_called
+    to: 'true'
+  - platform: state
+    entity_id: media_player.theater_tv
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.theater_tv
+        state: 'on'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.room_presence
+          value: theater
+    - conditions:
+      - condition: template
+        value_template: '{{ "Kitchen" in trigger.to_state.attributes.friendly_name
+          or  "Back Door" in trigger.to_state.attributes.friendly_name }}'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.room_presence
+          value: kitchen
+    - conditions:
+      - condition: template
+        value_template: '{{ "Living" in trigger.to_state.attributes.friendly_name }}'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.room_presence
+          value: main
+    - conditions:
+      - condition: template
+        value_template: '{{ "Master" in trigger.to_state.attributes.friendly_name }}'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.room_presence
+          value: master_bedroom
+    - conditions:
+      - condition: template
+        value_template: '{{ "Croft" in trigger.to_state.attributes.friendly_name }}'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.room_presence
+          value: croft
+    - conditions:
+      - condition: template
+        value_template: '{{ "Skylar" in trigger.to_state.attributes.friendly_name }}'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.room_presence
+          value: skylar_bedroom
+    default: []
+  mode: restart
+- id: '1622731659354'
+  alias: Tornado Alarm
+  description: Sound the Tornado Alarm!
+  trigger:
+  - platform: state
+    entity_id: input_boolean.tornado_alarm
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.tornado_alarm
+        state: 'on'
+      sequence:
+      - delay:
+          seconds: 15
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.ha_speaker
+          volume_level: 0.99
+      - service: media_player.play_media
+        target:
+          entity_id: media_player.ha_speaker
+        data:
+          media_content_id: /media/sounds/tornado_alarm.mp3
+          media_content_type: music
+      - delay:
+          seconds: 110
+      - service: media_player.play_media
+        target:
+          entity_id: media_player.ha_speaker
+        data:
+          media_content_id: /media/sounds/tornado_alarm.mp3
+          media_content_type: music
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.tornado_alarm
+        state: 'off'
+      sequence:
+      - service: media_player.media_stop
+        target:
+          entity_id: media_player.ha_speaker
+    default: []
+  mode: restart

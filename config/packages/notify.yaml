@@ -149,51 +149,6 @@ notify:
     access_token_secret: !secret twitter3_access_secret
   - platform: alexa_media
     name: alexa_media
-
-
-# automation:
-
-#   - id: audio_isssue
-#     alias: Audio Issue
-#     initial_state: true
-#     trigger:
-#     - platform: state
-#       entity_id: media_player.ha_speaker
-#       to: 'unavailable'
-#     condition:
-#     - condition: state
-#       entity_id: binary_sensor.day
-#       state: 'on'
-#     action:
-#       - service: input_boolean.turn_off
-#         entity_id: input_boolean.audible_notifications
-#       - service: script.text_notify
-#         data_template:
-#           who: "jeff"
-#           title: "Audio Issue"
-#           message: "HA Audible Notifications turning off due to Chromecast Issue"
-
-#   - id: audio_isssue_cleared
-#     alias: Audio Issue Cleared
-#     initial_state: true
-#     trigger:
-#     - platform: state
-#       entity_id: media_player.ha_speaker
-#       from: 'unavailable'
-#       to: 'off'
-#     condition:
-#     - condition: state
-#       entity_id: binary_sensor.day
-#       state: 'on'
-#     action:
-#       - service: script.text_notify
-#         data_template:
-#           who: "jeff"
-#           title: "Audio Issue Cleared"
-#           message: "Main hromecast is back on"
-#       - service: script.turn_on_ha_speaker
-
-
   
 script:
 
@@ -381,7 +336,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
@@ -403,7 +358,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
@@ -626,11 +581,11 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'theater' %}
+          {% elif who == 'studio' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
@@ -648,11 +603,11 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'theater' %}
+          {% elif who == 'studio' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
@@ -680,11 +635,11 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'theater' %}
+          {% elif who == 'studio' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
@@ -711,11 +666,11 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'theater' %}
+          {% elif who == 'studio' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
@@ -733,11 +688,11 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'theater' %}
+          {% elif who == 'studio' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
@@ -761,11 +716,11 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
-          {% elif who == 'theater' %}
+          {% elif who == 'studio' %}
             media_player.theater
           {% elif who == 'all_google' %}
             media_player.house
