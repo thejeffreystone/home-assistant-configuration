@@ -45,8 +45,8 @@
       {% endif %}
 
 
-      {% if states.sensor.gwinnett_active_alerts.state | int > 0 %}
-        There are currently {{states.sensor.gwinnett_active_alerts.state }} active weather alerts for our area.
+      {% if states.sensor.weatheralerts_active_alerts.state | int > 0 %}
+        There are currently {{states.sensor.weatheralerts_active_alerts.state }} active weather alerts for our area.
       {% endif %}
 
       Based on the forecasted high temperature, 
