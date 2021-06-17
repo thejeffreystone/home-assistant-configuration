@@ -27,7 +27,7 @@ automation:
     alias: Washer Running
     trigger:
     - above: 5
-      entity_id: sensor.washer_energy_w
+      entity_id: sensor.washer_power_consumed_w
       platform: numeric_state
     condition:
       condition: or
@@ -41,19 +41,19 @@ automation:
     action:
     - service: script.washer_running
     # Since the washer has run lets consume a detergent tablet
-    - service: shell_command.grocy_consume_item
-      data:
-        server_ip: !secret grocy_ip
-        grocy_key: !secret grocy_api_key
-        product_id: 6
-        amount: 1
+    # - service: shell_command.grocy_consume_item
+    #   data:
+    #     server_ip: !secret grocy_ip
+    #     grocy_key: !secret grocy_api_key
+    #     product_id: 6
+    #     amount: 1
     initial_state: true
 
   - id: washer_complete
     alias: Washer Complete
     trigger:
     - below: 3
-      entity_id: sensor.washer_energy_w
+      entity_id: sensor.washer_power_consumed_w
       platform: numeric_state
     condition:
     - condition: state

@@ -280,8 +280,7 @@ automation:
     - choose:
       - conditions:
         - condition: template
-          value_template: '{{ trigger.to_state.attributes.friendly_name == "Dog Mode"
-            }}'
+          value_template: '{{ trigger.to_state.attributes.friendly_name == "Dog Mode" }}'
         sequence:
         - service: script.text_notify
           data:

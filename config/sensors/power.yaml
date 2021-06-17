@@ -1,51 +1,6 @@
-- platform: mqtt
-  name: "Washer"
-  state_topic: "zwave2mqtt/washer/50/1/0"
-  device_class: "power"
-  unit_of_measurement: "kWh"
-
-- platform: mqtt
-  name: "Washer Power 1"
-  state_topic: "zwave2mqtt/washer/49/1/4"
-  device_class: "power"
-  unit_of_measurement: "W"
-
-- platform: mqtt
-  name: "Washer_Power 2"
-  state_topic: "zwave2mqtt/washer/50/1/2"
-  device_class: "power"
-  unit_of_measurement: "W"
-
-- platform: mqtt
-  name: "Washer Power"
-  state_topic: "zwave2mqtt/washer/50/1/9"
-  device_class: "power"
-  unit_of_measurement: "W"
-
-- platform: mqtt
-  name: "Washer Power kwh"
-  state_topic: "zwave2mqtt/washer/50/1/1"
-  device_class: "power"
-  unit_of_measurement: "kWh"
-
-# zooz
-
-- platform: mqtt
-  name: "theater light up"
-  state_topic: "zwave2mqtt/theater/91/1/1"
-
-- platform: mqtt
-  name: "theater light down"
-  state_topic: "zwave2mqtt/theater/91/1/2"
-
 
 - platform: template
   sensors:
-    # washer_power:
-    #   friendly_name: "Washer Power"
-    #   unit_of_measurement: ''
-    #   value_template: >-
-    #       {{ states.switch.washer.attributes.current_power_w | int }}
     low_battery:
       friendly_name: 'Low Battery'
       value_template: >
