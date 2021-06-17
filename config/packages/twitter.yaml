@@ -82,17 +82,17 @@ automation:
         data:
           who: 'thejeffreystone'
 
-  - id: tweet_recent_content_js
-    alias: Tweet Recent Content js
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '13:00:00'
-    action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_recent_content
-        data:
-          who: 'thejeffreystone'
+  # - id: tweet_recent_content_js
+  #   alias: Tweet Recent Content js
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '13:00:00'
+  #   action:
+  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+  #     - service: script.twitter_recent_content
+  #       data:
+  #         who: 'thejeffreystone'
 
   - id: tweet_recent_content
     alias: Tweet Recent Contents
@@ -142,20 +142,20 @@ automation:
 
   # The whole purpose of this automation is to tweet out some links to great Home Assistant content. This is not sponsored in any way.
   # I just wanted a way to give back to those I have borrowed from. Tweets ever Friday.
-  - id: tweet_some_great_content
-    alias: Tweet Some Great Content
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '13:00:00'
-    condition:
-    - condition: time
-      weekday: fri
-    action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_great_content
-        data:
-          who: 'slackerlabs'
+  # - id: tweet_some_great_content
+  #   alias: Tweet Some Great Content
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '13:00:00'
+  #   condition:
+  #   - condition: time
+  #     weekday: fri
+  #   action:
+  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+  #     - service: script.twitter_great_content
+  #       data:
+  #         who: 'slackerlabs'
 
   - id: bot_info
     alias: Bot Info

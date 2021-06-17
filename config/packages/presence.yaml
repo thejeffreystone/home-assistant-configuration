@@ -67,14 +67,14 @@ sensor:
               school
             {% elif is_state('calendar.skylar_events', 'on') %}
                   {{ states.calendar.skylar_events.attributes.message }}
-            {%- elif is_state('sensor.jeff_location', 'home') and is_state('sensor.kat_location', 'home') and is_state('input_boolean.skylar_school', 'off')%}
+            {%- elif is_state('person.jeffrey', 'home') and is_state('person.katherine', 'home') and is_state('input_boolean.skylar_school', 'off')%}
               home
-            {%- elif is_state('sensor.jeff_location', 'Summit') and is_state('input_boolean.skylar_school', 'off')%}
+            {%- elif is_state('person.jeffrey', 'Summit') and is_state('input_boolean.skylar_school', 'off')%}
               {{ states.sensor.kat_location.state }}
-            {%- elif is_state('sensor.kat_location', 'ZooAtlanta') and is_state('input_boolean.skylar_school', 'off')%}
-              {{ states.sensor.jeff_location.state }}
+            {%- elif is_state('person.katherine', 'ZooAtlanta') and is_state('input_boolean.skylar_school', 'off')%}
+              {{ states.person.jeffrey.state }}
             {% else %}
-              Unknown
+              {{ states.person.skylar.state }}
             {%- endif %}
   - platform: template
     sensors:

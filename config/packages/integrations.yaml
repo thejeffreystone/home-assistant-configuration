@@ -83,24 +83,25 @@ wemo:
   static:
   - 192.168.7.99
 
-homekit:
-  filter:
-    include_domains:
-      - light
-    include_entities:
-      - switch.croft_fan
-      - switch.driveway_light_2
-      - switch.incense
-      - switch.livingroom_fan
-      - switch.rail_lights
-      - switch.croft_light
-      - switch.kitchen_light_strip
-      - switch.artemis
-      - switch.fireplace_lights_2
-      - switch.desk
-      - switch.forest_incense
-      - switch.front_porch_light
-      - input_boolean.house_party_protocol
-      - switch.christmas_tree
-      - switch.rainbow_light
-      - switch.garage_fan
+# homekit:
+#   filter:
+#     include_domains:
+#       - light
+#     include_entities:
+#       - switch.croft_fan
+#       - switch.driveway_light_2
+#       - switch.incense
+#       - switch.livingroom_fan
+#       - switch.rail_lights
+#       - switch.croft_light
+#       - switch.kitchen_light_strip
+#       - switch.artemis
+#       - switch.fireplace_lights_2
+#       - switch.desk
+#       - switch.forest_incense
+#       - switch.front_porch_light
+#       - input_boolean.house_party_protocol
+#       - switch.christmas_tree
+#       - switch.rainbow_light
+#       - switch.garage_fan
+
