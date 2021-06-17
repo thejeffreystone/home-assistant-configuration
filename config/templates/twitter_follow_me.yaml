@@ -8,6 +8,8 @@
       "Be sure you follow my all my accounts on Twitter @thejeffreystone and @slackerlabs for #homeassistant content ",
       "If you haven not already, checkout my blog at https://slacker-labs.com for articles om Home Automation and Smart Home tech and #homeassistant ",
       "Be sure to follow along at https://slacker-labs.com so you can keep up today with the latest #homeassistant how-tows, reviews, and join the conversation. ",
+      "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration and currently has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stargazers. You could be one too.",
+      "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration .The last commit was {{ states.sensor.home_assistant_configuration.attributes.latest_commit_message}}.",
       "Do you want your house to be a #smarthome? It is easy. Install #homeassistant, and add some config files like https://github.com/thejeffreystone/home-assistant-configuration "
       ] | random -}}
   {%- endmacro -%}

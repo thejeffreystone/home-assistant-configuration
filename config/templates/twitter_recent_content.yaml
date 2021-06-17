@@ -2,11 +2,10 @@
   {# Twitter Self Promos #}
   {%- macro getRandomPromo() -%}
     {{- [
-      "I joined @TheSHCollective on the Episode 3 of The Smart Home Collective podcast to talk #homeassistant and @markwatttech wrote a catchy rap song on the fly. Take a listen https://feeds.buzzsprout.com/1649824.rss ",
-      "Home Assistant Blue is an awesome platform for running #homeassistant. So if you are looking to migrate from a Raspberry Pi to the new Blue here is made a short film guide you -> https://youtu.be/a7lCRuPsH-Q ",
-      "Did you know you with #homeassistant you could Build One Script to Rule Them All using parameters? I did just that and I show you how -> https://youtu.be/spTBUh9dG6M ",
-      "Installing MQTT in #homeassistant is pretty easy and only takes a few minutes. In fact, I have a Lab Notes video that covers just how to do it. https://youtu.be/SQkHMOrnXaE ",
-      "If you are wanting to setup zigbee devices in #homeassistant and you are not sure which integration to use, check out - > https://youtu.be/54dBklrZEJk ",
+      "From the Archives: Home Assistant Blue is an awesome platform for running #homeassistant. So if you are looking to migrate from a Raspberry Pi to the new Blue here is a short film guide you -> https://youtu.be/a7lCRuPsH-Q ",
+      "From the Archives: Did you know you with #homeassistant you could Build One Script to Rule Them All using parameters? I did just that and I show you how -> https://youtu.be/spTBUh9dG6M ",
+      "From the Archives: Installing MQTT in #homeassistant is pretty easy and only takes a few minutes. In fact, I have a Lab Notes video that covers just how to do it. https://youtu.be/SQkHMOrnXaE ",
+      "From the Archives: If you are wanting to setup zigbee devices in #homeassistant and you are not sure which integration to use, check out - > https://youtu.be/54dBklrZEJk ",
       "ICYMI: @Reolink was nice enough to send over a 510a for me to try out. I do a review, set it up in #homeassistant, and compare it to my Arlo Pro 2 camera -> https://youtu.be/y-kcLgW3ItM ",
       "The Home Assistant Community Store is a pretty useful integration in #homeassistant and setup is easy. You can do it in less than 6 mins. Follow along at https://youtu.be/Jh4QRL_kDuk ",
       "If you want to set up the Alexa Media Player integration in #homeassistant to get TTS and control of your echos check out -> https://youtu.be/Jh4QRL_kDuk ",
