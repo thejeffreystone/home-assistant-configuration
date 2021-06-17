@@ -15,13 +15,13 @@ homeassistant:
       friendly_name: Alerts
       icon: mdi:alert-outline
 
-weather:
-  # REMOVING darksky integration since API is EOL in 18 months. Migrated to NWS
-  # - platform: darksky
-  #   api_key: !secret darksky_api
-  # - platform: nws
-  #   api_key: !secret nws_api_key
-  #   station: klzu
+# weather:
+#   # REMOVING darksky integration since API is EOL in 18 months. Migrated to NWS
+#   # - platform: darksky
+#   #   api_key: !secret darksky_api
+#   - platform: nws
+#     api_key: !secret nws_api_key
+#     station: klzu
 
 group:
   alerts_card:
@@ -54,9 +54,13 @@ input_boolean:
 #The sensor can be created by adding the nws_alerts.py file to <config_directory>/custom_components/sensor/ and adding the following to your sensor definitions:
 
 sensor:
-  - platform: nws_alerts
-    zone_id: 'GAZ034,GAC135'
-
+  # - platform: nws_alerts
+  #   zone_id: 'GAZ034,GAC135'
+  - platform: weatheralerts
+    state: GA
+    zone: 34
+    county: 135
+ 
   # - platform: mqtt
   #   name: "Back Porch"
   #   state_topic: "house/acurite2mqtt/Acurite-6045M_3078"
@@ -92,103 +96,6 @@ sensor:
 
   - platform: template
     sensors:
-      flood_watch:
-        friendly_name: 'Flood Watch'
-        value_template: >-
-            {% if states.sensor.nws_alerts.state | int > 0  %}
-              {% if 'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-                'Flood Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-              %}
-                active
-              {% endif %}
-            {% else %}
-              inactive
-            {% endif %}
-          
-      flood_warning:
-        friendly_name: 'Flood Warning'
-        value_template: >-
-            {% if states.sensor.nws_alerts.state | int > 0  %}
-              {% if 'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-                'Flood Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-              %}
-                active
-              {% endif %}
-            {% else %}
-              inactive
-            {% endif %}
-      tstorm_warning:
-        friendly_name: 'Thunderstorm Warning'
-        value_template: >-
-          {% if states.sensor.nws_alerts.state | int > 0  %}
-            {% if 'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-              'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-              'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-              'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-              'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-              'Thunderstorm Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-            %}
-              active
-            {% endif %}
-          {% else %}
-            inactive   
-          {% endif %}
-      tstorm_watch:
-        friendly_name: 'Thunderstorm Watch'
-        value_template: >-
-          {% if states.sensor.nws_alerts.state | int > 0  %}
-            {% if 'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-              'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-              'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-              'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-              'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-              'Thunderstorm Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-            %}
-              active
-            {% endif %}
-          {% else %}
-            inactive
-          {% endif %}
-      tornado_watch:
-        friendly_name: 'Tornado Watch'
-        value_template: >-
-          {% if states.sensor.nws_alerts.state | int > 0  %}
-            {% if 'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-              'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-              'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-              'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-              'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-              'Tornado Watch' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-            %}
-              active
-            {% endif %}
-          {% else %}
-            inactive
-          {% endif %}
-      tornado_warning:
-        friendly_name: 'Tornado Warning'
-        value_template: >-
-          {% if states.sensor.nws_alerts.state | int > 0  %}
-            {% if 'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[0] or
-              'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[1] or
-              'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[2] or
-              'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[3] or
-              'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[4] or
-              'Tornado Warning' in states.sensor.nws_alerts.attributes.title.split(' - ')[5]
-            %}
-              active
-            {% endif %}
-          {% else %}
-            inactive
-          {% endif %}
       backporch_weather:
         friendly_name: Back Porch Weather
         value_template: "{{ states.sensor.acurite_6045m_3078_t.state | round}} °F / {{ states.sensor.acurite_6045m_3078_h.state }} %"
@@ -198,22 +105,28 @@ sensor:
       crawlspace_weather:
         friendly_name: Crawlspace Weather
         value_template: "{{ states.sensor.acurite_609txc_73_t.state | round}} °F / {{ states.sensor.acurite_609txc_73_h.state }} %"
+      guestbath_weather:
+        friendly_name: Guest Bath Weather
+        value_template: "{{ states.sensor.acurite_tower_guest_bath_t.state | round}} °F / {{ states.sensor.acurite_tower_guest_bath_h.state }} %"
+      masterbath_weather:
+        friendly_name: Master Bath Weather
+        value_template: "{{ states.sensor.acurite_tower_master_bath_t.state | round}} °F / {{ states.sensor.acurite_tower_master_bath_h.state }} %"
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
         value_template: >-
-            {%- if states('sensor.nws_daytime_temperature')|float > 63 %}
-              {%- if states('sensor.nws_daytime_temperature')|float < 80 %}
+            {%- if states('sensor.nws_daytime_temperature')|int > 63 %}
+              {%- if states('sensor.nws_daytime_temperature')|int < 80 %}
                 Nice
-              {% elif states('sensor.nws_daytime_temperature')|float > 95 %}
+              {% elif states('sensor.nws_daytime_temperature')|int > 95 %}
                 Hot
               {% else %}
                 Toasty
               {%- endif %}
-            {% elif states('sensor.nws_daytime_temperature')|float < 64 %}
-              {%- if states('sensor.nws_daytime_temperature')|float < 32 %}
+            {% elif states('sensor.nws_daytime_temperature')|int < 64 %}
+              {%- if states('sensor.nws_daytime_temperature')|int < 32 %}
                 Freezing
-              {% elif states('sensor.nws_daytime_temperature')|float > 50 %}
+              {% elif states('sensor.nws_daytime_temperature')|int > 50 %}
                 Chilly
               {% else %}
                 Cold
@@ -318,236 +231,6 @@ sensor:
         value_template: "{{ states.sensor.back_porch_strike_count.state }}"
 
 automation:
-  - alias: 'NWS Weather Alert Pop Up Control'
-    trigger:
-      platform: state
-      entity_id: sensor.nws_alerts
-    condition:
-      - condition: template
-        value_template: '{{states.sensor.nws_alerts.state | int > 0}}'
-      - condition: template
-        value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
-    action:
-      service: script.nws_popup_on_wx_alert
-      data_template:
-        title: >
-          {% if states.sensor.nws_alerts.attributes.title.split(' - ')[5] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[5] }}"
-          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[4] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[4] }}"
-          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[3] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[3] }}"
-          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[2] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[2] }}"
-          {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[1] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[1] }}"
-          {% else %}
-            "{{ states.sensor.nws_alerts.attributes.title.split(' - ')[0] }}"
-          {% endif %}
-        message: >
-          {% if states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[5] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[5] }}"
-          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[4] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[4] }}"
-          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[3] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[3] }}"
-          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[2] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[2] }}"
-          {% elif states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[1] is defined %}
-            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[1] }}"
-          {% else %}
-            "{{ states.sensor.nws_alerts.attributes.display_desc.split('\n\n-\n\n')[0] }}"
-          {% endif %}
-  
-  - alias: 'NWS Weather Sensor Refresh'
-    trigger:
-      platform: state
-      entity_id: sensor.nws_alerts
-    action:
-      - service: script.refresh_weather_alert_sensors
-
-  - alias: NWS Notification Weather Alert
-    trigger:
-      platform: state
-      entity_id: sensor.nws_alerts
-    condition:
-      - condition: template
-        value_template: '{{states.sensor.nws_alerts.state | int > 0}}'
-      - condition: template
-        value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
-      - condition: state
-        entity_id: input_boolean.weather_alert_texts
-        state: 'on'
-    action:
-      - service: script.text_notify
-        data_template:
-          title: "Weather Alert for Anchorage House"
-          message: >
-            {% if states.sensor.nws_alerts.attributes.title.split(' - ')[5] is defined %}
-              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[5] }}"
-            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[4] is defined %}
-              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[4] }}"
-            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[3] is defined %}
-              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[3] }}"
-            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[2] is defined %}
-              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[2] }}"
-            {% elif states.sensor.nws_alerts.attributes.title.split(' - ')[1] is defined %}
-              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[1] }}"
-            {% else %}
-              "NWS: {{ states.sensor.nws_alerts.attributes.title.split(' - ')[0] }}"
-            {% endif %}
-
-  - alias: NWS Announce Weather Alert
-    trigger:
-      - platform: state
-        entity_id: sensor.nws_alerts
-    condition:
-      condition: and
-      conditions:
-        - condition: template
-          value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
-        - condition: template
-          value_template: '{{ trigger.to_state.state|float > trigger.from_state.state|float }}'
-        - condition: template
-          value_template: "{{ (('Severe' in states.sensor.nws_alerts.attributes.title) or ('Thunderstorm' in states.sensor.nws_alerts.attributes.title)) and 'Warning' in states.sensor.nws_alerts.attributes.title }}"
-    action:
-      - service: script.speech_engine
-        data_template:
-          who: '{{ states.sensor.room_audio.state }}'
-          message: >
-            {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-             The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}
-            {% else %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}
-            {% endif %}
-      - service: script.twitter_notify_image
-        data_template:
-          tweet: '{{ [ "Anchorage House is battening down the hatches. Servere Weather is imminent. #homeassistant #weather ", 
-          "The weather outside is getting intense, so I just made a weather announcement. #homeassistant #weather ", 
-          "Anchorage House monitors the NWS for severe weather using #homeAssistant just for these occasions. Thanks for the heads up @NWSAtlanta #homeassistant #weather " ] | random }}'
-          image: >-
-            {{ [ "/config/www/tweet_images/lightning.jpg",
-                 "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
-      - delay: '00:00:15'
-      - service: script.speech_engine
-        data_template:
-          who: main
-          message: >
-            {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}
-            {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}
-            {% else %}
-              The National Weather Service Has issued a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}
-            {% endif %}
-
-  - alias: NWS Announce Weather Alert for Tornado
-    trigger:
-      - platform: state
-        entity_id: sensor.nws_alerts
-    condition:
-      condition: and
-      conditions:
-        - condition: template
-          value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
-        - condition: template
-          value_template: "{{ 'Tornado Warning' in states.sensor.nws_alerts.attributes.title}}"
-    action:
-      - service: script.jarvis_alert
-        data_template:
-          message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
-      - service: script.twitter_notify_image
-        data_template:
-          tweet: '{{ [ "NWS is sounding the Tornado alarm, so I am too. Anchorage House is taking cover. #homeassistant #weather ", 
-          "Anchorage House is heading to the closet because the NWS just issued a tornado warning for our area. #homeassistant #weather ", 
-          "I just activated the internal Tornado Alarm. Thanks for the heads up @NWSAtlanta #homeassistant #weather " ] | random }}'
-          image: >-
-            "/config/www/tweet_images/tornado.jpg"
-      - delay: '00:00:15'
-      - service: script.jarvis_alert
-        data_template:
-          message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
-      - delay: '00:00:15'
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.tornado_alarm
-      - service: script.text_alert
-        data_template:
-          title: "Tornado Warning!"
-          message: "The National Weather Service Has issued a Tornado Warning for our area."
-      - service: notify.alexa_media_skylar_s_bedroom
-        data:
-          message: A Tornado Warning has been issued for our area. Head to the closet. 
-          data:
-            type: tts
-
-  - alias: Lightning Detected
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.acurite_6045m_3078_strcnt.state | int > states.sensor.lightning_total_count.state | int }}'
-    condition:
-      - condition: state
-        entity_id: input_boolean.lightning_warning
-        state: 'off'
-    action:
-      - service: script.text_notify
-        data_template:
-          who: "jeff"
-          title: "Lightning Detected!"
-          message: "Lightning has been detected within 20 miles of Anchorage House"
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.lightning_warning
-      - service: script.lightning_warning_audible
-
-
-  - alias: Lightning Warning Off
-    mode: restart
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.acurite_6045m_3078_strcnt.state | int == states.sensor.lightning_total_count.state | int }}'
-        for:
-          minutes: 20
-    condition:
-      - condition: state
-        entity_id: input_boolean.lightning_warning
-        state: 'on'
-    action:
-      - service: script.text_notify
-        data_template:
-          who: "jeff"
-          title: "Lightning Threat Over."
-          message: "No more Lightning Strikes detected."
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.lightning_warning
-      - service: script.lightning_clear_audible
-
-  - alias: NWS Freeze Warning
-    trigger:
-      - platform: state
-        entity_id: sensor.nws_alerts
-    condition:
-      condition: and
-      conditions:
-        - condition: template
-          value_template: "{{states.sensor.nws_alerts.state | int > 0}}"
-        - condition: template
-          value_template: "{{ 'Freeze Warning' in states.sensor.nws_alerts.attributes.title}}"
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.freeze_warning
 
   - alias: Forecast Low Near Freezing
     trigger:
@@ -581,29 +264,7 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.freeze_warning
       
-  - alias: Activate Tornado alarm 
-    trigger:
-    - platform: state
-      entity_id: input_boolean.tornado_alarm 
-      from: 'off'
-      to: 'on'
-    action:
-    - service: script.turn_on
-      entity_id: script.tornado_alarm
-
-  - alias: Deactivate Tornado alarm 
-    trigger:
-    - platform: state
-      entity_id: input_boolean.tornado_alarm 
-      from: 'on'
-      to: 'off'
-    action:
-    - service: script.turn_off
-      entity_id: script.tornado_alarm
-    - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
-  
-
+ 
 script:
 
   store_lightning_count:
@@ -614,93 +275,6 @@ script:
           payload_template: "{{ states.sensor.acurite_6045m_3078_strcnt.state | int }}"
           retain: true
 
-
-  nws_popup_on_wx_alert:
-    alias: NWS Weather Alert Pop Up
-    sequence:
-        ## Dismiss any current alert so the UI isn't filled
-        ## up with these if there are more then one.
-        ## Only show the latest alert
-      - service: persistent_notification.dismiss
-        data:
-          notification_id: "nwswxalert"
-        ## Create a new persistant notification in the UI for a new alert
-      - service: >
-          {% if states.sensor.nws_alerts.state != '0' %}
-            persistent_notification.create
-          {% endif %}
-        data_template:
-          notification_id: "nwswxalert"
-          message: "{{ message }}"
-          title: '{{ title }}'
-  
-  tornado_alarm:
-    sequence:
-      - delay:
-          seconds: 15
-      - service: media_player.play_media
-        entity_id: media_player.ha_speaker
-        data:
-          media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
-          media_content_type: "music"
-      - delay:
-          seconds: 110
-      - service: media_player.play_media
-        entity_id: media_player.ha_speaker
-        data:
-          media_content_id: http://192.168.7.40/audio/tornado_alarm.mp3
-          media_content_type: "music"
-  
-  lightning_warning_audible:
-    sequence: 
-      - condition: state
-        entity_id:  binary_sensor.day
-        state: 'on'
-      - service: script.twitter_notify_image
-        data_template:
-          tweet: '{{ [ "Did you see that flash? I did. Letting everyone know there is lightning nearby.", 
-          "When Lightning is near I notify the residents of Anchorage House to keep them safe.", 
-          "If the residents of Anchorage House didnt hear the thunder I just gave them a heads up.",
-          "Everyone inside! If you are near Anchorage House that is. Lightning is near." ] | random }}'
-          image: >-
-            {{ [ "/config/www/tweet_images/lightning.jpg",
-                 "/config/www/tweet_images/lightning-bolt.jpg"] | random }}
-      - service: script.speech_engine
-        data_template:
-          who: '{{ states.sensor.room_audio.state }}'
-          message: >-
-            <p>
-              {{ [
-                  'I have detected lightning withing 20 miles of Anchorage House.',
-                  'Did you see that flash? I did. Lightning is near.',
-                  'If you didnt hear the thunder you will soon. '
-                ]|random }}
-              If anyone is outside they shoudld seek shelter inside. 
-              {% if is_state('binary_sensor.garage_door', 'on') %} 
-                {{ [ 'The garage door needs to be closed. ',
-                  'Can someone close the garage?. ',
-                  'If you do not want the contents of the garage to get wet, you might want to close it.'
-                ] | random }}
-              {% endif %}
-            </p>
-  
-  lightning_clear_audible:
-    sequence: 
-      - condition: state
-        entity_id:  binary_sensor.day
-        state: 'on'
-      - service: script.speech_engine
-        data_template:
-          who: '{{ states.sensor.room_audio.state }}'
-          message: >-
-            <p>
-              {{ [
-                'Lightning threat appears to be over.',
-                'No more lightning appears to be occuring.',
-                'Lightning is gone.'
-            ]|random }}
-              It is safe to resume normal activities. 
-            </p>
 
   refresh_weather_alert_sensors:
     sequence: 
