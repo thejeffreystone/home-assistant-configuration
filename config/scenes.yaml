@@ -2,11 +2,8 @@
   entities:
     light.jeff_lamp:
       state: 'on'
-      brightness: 255
-      rgb_color:
-        - 255
-        - 213
-        - 133
+      brightness: 12.5
+      color_temp: 380
     light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
@@ -27,14 +24,11 @@
         - 7 
         - 130
         - 255
-    light.studio_accent:
+    switch.studio_accent_light:
       state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
-    switch.master_bedroom_bookcase:
+    switch.dazzned50:
+      state: 'on'
+    switch.tplink_a2:
       state: 'on'
 
 - name: studio blue
@@ -66,25 +60,15 @@
         - 7 
         - 130
         - 255
-    light.studio_accent:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
-    switch.master_bedroom_bookcase:
+    switch.studio_accent_light:
       state: 'on'
 
 - name: studio yellow
   entities:
     light.jeff_lamp:
       state: 'on'
-      brightness: 255
-      rgb_color:
-        - 255
-        - 213
-        - 133
+      brightness: 67.5
+      color_temp: 299
     light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
@@ -94,27 +78,20 @@
     light.master_bedroom_tower_lamp:
       state: 'on'
       brightness: 255
-      rgb_color:
-        - 255
-        - 213
-        - 133
+      color_temp: 299
     light.desk_accent:
       state: 'on'
       brightness: 255
       rgb_color:
+        - 7 
+        - 130
         - 255
-        - 213
-        - 133
-    light.studio_accent:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 255
-        - 213
-        - 133
-    switch.master_bedroom_bookcase:
-      state: 'on'
-    
+    switch.studio_accent_light:
+      state: 'off'
+    switch.dazzned50:
+      state: 'off'
+    switch.tplink_a2:
+      state: 'off'
     
 
 - name: all lights on
