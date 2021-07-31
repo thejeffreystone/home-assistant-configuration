@@ -347,7 +347,7 @@
 
         {% endif %}
 
-        {% if states.sensor.vacation_days2go.state | int < 32 %}
+        {% if states.sensor.vacation_days2go.state | int < 32 and states.sensor.vacation_days2go.state | int < 0 and states.sensor.vacation_days2go.state != 'unknown' %}
           {% if states.sensor.vacation_days2go.state | int > 1 %}
             There are {{ states.sensor.vacation_days2go.state }} days until {{ states.calendar.vacation.attributes.message }}!
           {% else %}
@@ -437,7 +437,7 @@
             {%- endif -%}
           {%- endif -%}
 
-          There are currently {{ (states.light | selectattr('state', 'eq', 'on') | list | count) | int + (states.switch | selectattr('state', 'eq', 'on') | list | count) | int }} lights
+           There are currently {{ (states.light | selectattr('state', 'eq', 'on') | list | count) | int + (states.switch | selectattr('state', 'eq', 'on') | list | count) | int }} lights
           and switches on. 
             
          </p>
@@ -484,11 +484,6 @@
             </p>
           {% endif %}
         
-
-      {{ [
-            'If you need anything else, just let me know.',
-            'Let me know if you need anything else.'
-        ]|random }}
 
   {%- endmacro -%}
 

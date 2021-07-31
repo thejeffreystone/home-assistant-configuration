@@ -35,7 +35,7 @@
       {% endif %} 
       {% if states.sensor.school_start_days2go.state | int < 10 and states.sensor.school_start_days2go.state | int > 1 -%}
         {{ [ 'I hate to say it, but ',
-            'Unforunately,',
+            'Unfortunately,',
             'All good things must come to an end.'
           ] | random }}
         There are only {{ states.sensor.school_start_days2go.state }} days  
