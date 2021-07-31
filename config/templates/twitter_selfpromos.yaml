@@ -32,7 +32,12 @@
        "I use Helpers in #homeassistant to build smarter automations. And now you can too.  https://youtu.be/JpC13mLuiQg ",
        "From the Archives: Do you know when to use a #homeassistant automation, script, or scene? I have a video for that. #smarthome https://youtu.be/kWp-XQRcmmM ",
        "ICYMI: I joined @TheSHCollective on the Episode 3 of The Smart Home Collective podcast to talk #homeassistant and @markwatttech wrote a catchy rap song on the fly. Take a listen https://feeds.buzzsprout.com/1649824.rss ",
-       "From the Archives: If you wanted to know how to install presence detection in #homeassistant Ive got a guide for you. Head over to https://slacker-labs.com/2020/11/25/installing-presence-detection-in-home-assistant/ "
+       "From the Archives: If you wanted to know how to install presence detection in #homeassistant Ive got a guide for you. Head over to https://slacker-labs.com/2020/11/25/installing-presence-detection-in-home-assistant/ ",
+       "From the Archives: Home Assistant Blue is an awesome platform for running #homeassistant. So if you are looking to migrate from a Raspberry Pi to the new Blue here is a short film guide you -> https://youtu.be/a7lCRuPsH-Q ",
+       "From the Archives: Did you know you with #homeassistant you could Build One Script to Rule Them All using parameters? I did just that and I show you how -> https://youtu.be/spTBUh9dG6M ",
+       "From the Archives: Installing MQTT in #homeassistant is pretty easy and only takes a few minutes. In fact, I have a Lab Notes video that covers just how to do it. https://youtu.be/SQkHMOrnXaE ",
+       "From the Archives: If you are wanting to setup zigbee devices in #homeassistant and you are not sure which integration to use, check out - > https://youtu.be/54dBklrZEJk ",
+       "ICYMI: @Reolink was nice enough to send over a 510a for me to try out. I do a review, set it up in #homeassistant, and compare it to my Arlo Pro 2 camera -> https://youtu.be/y-kcLgW3ItM "
        ] | random -}}
   {%- endmacro -%}
   {%- macro getTags() -%}

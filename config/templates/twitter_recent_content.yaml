@@ -2,15 +2,20 @@
   {# Twitter Self Promos #}
   {%- macro getRandomPromo() -%}
     {{- [
-      "From the Archives: Home Assistant Blue is an awesome platform for running #homeassistant. So if you are looking to migrate from a Raspberry Pi to the new Blue here is a short film guide you -> https://youtu.be/a7lCRuPsH-Q ",
-      "From the Archives: Did you know you with #homeassistant you could Build One Script to Rule Them All using parameters? I did just that and I show you how -> https://youtu.be/spTBUh9dG6M ",
-      "From the Archives: Installing MQTT in #homeassistant is pretty easy and only takes a few minutes. In fact, I have a Lab Notes video that covers just how to do it. https://youtu.be/SQkHMOrnXaE ",
-      "From the Archives: If you are wanting to setup zigbee devices in #homeassistant and you are not sure which integration to use, check out - > https://youtu.be/54dBklrZEJk ",
-      "ICYMI: @Reolink was nice enough to send over a 510a for me to try out. I do a review, set it up in #homeassistant, and compare it to my Arlo Pro 2 camera -> https://youtu.be/y-kcLgW3ItM ",
-      "The Home Assistant Community Store is a pretty useful integration in #homeassistant and setup is easy. You can do it in less than 6 mins. Follow along at https://youtu.be/Jh4QRL_kDuk ",
-      "If you want to set up the Alexa Media Player integration in #homeassistant to get TTS and control of your echos check out -> https://youtu.be/Jh4QRL_kDuk ",
-      "Getting Amazon Polly integrated with #homeassistant is a bit involved, but I cover the steps along with comparing it to other TTS options in a video -> https://youtu.be/Ys9xP6XP800 ",
-      "Not sure what TTS integration to use with #homeassistant ? I cover getting started with the 4 big choices and do an audio test over on YouTube -> https://youtu.be/Ys9xP6XP800 "
+      
+      "ICYMI: The Home Assistant Community Store is a pretty useful integration in #homeassistant and setup is easy. You can do it in less than 6 mins. Follow along at https://youtu.be/Jh4QRL_kDuk ",
+      "ICYMI: If you want to set up the Alexa Media Player integration in #homeassistant to get TTS and control of your echos check out -> https://youtu.be/Jh4QRL_kDuk ",
+      "ICYMI: Getting Amazon Polly integrated with #homeassistant is a bit involved, but I cover the steps along with comparing it to other TTS options in a video -> https://youtu.be/Ys9xP6XP800 ",
+      "ICYMI: Not sure what TTS integration to use with #homeassistant ? I cover getting started with the 4 big choices and do an audio test over on YouTube -> https://youtu.be/Ys9xP6XP800 ",
+      "ICYMI: If you are considering #homeassistant here are 5 reasons Home Assistant might not be for you. Or maybe it is? https://youtu.be/g48pwCIAQEk ",
+      "ICYMI: Sometimes you need to edit your #homeassistant YAML so here is a quick guide on a couple of ways to access your Home Assistant config. https://youtu.be/TtWY65cG20k ",
+      "ICYMI: If you need a security alarm, door chime, or custom greeting in #homeassistant then check out this video -> https://youtu.be/27Y1JyIYK6E ",
+      "ICYMI: Add National Weather Service Alerts to #homeassistant so you can stay up to date on severe weather. https://youtu.be/Tm4s4f0B6zw ",
+      "ICYMI: Setup a Basic Room Presence sensor in #homeassistant using smart home tech you aleady have. https://youtu.be/Vjd6nJF0SLE ",
+      "ICYMI: Here are some tips on how to future proof a smart home. #iot #smarthome #homeautomation https://youtu.be/UFGZt_WAjBs ",
+      "ICYMI: Add an Acurite Rain Gauge to #homeassistant using a Home Assistant add-on. https://youtu.be/q5FL6ctUqN8 ",
+      "ICYMI: Did you know you can monitor the #crypto market using #homeassistant ? It is easy with the Coinbase integration. https://youtu.be/3EbrIGwzGdM ",
+      "ICYMI: Why Im swapping out my Amazon Echos for Google Homes https://youtu.be/k1x24FGYutw "
       ] | random -}}
   {%- endmacro -%}
 
