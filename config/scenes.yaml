@@ -24,7 +24,7 @@
         - 7 
         - 130
         - 255
-    switch.studio_accent_light:
+    switch.master_bedroom_bookcase:
       state: 'on'
     switch.dazzned50:
       state: 'on'
@@ -60,7 +60,7 @@
         - 7 
         - 130
         - 255
-    switch.studio_accent_light:
+    switch.master_bedroom_bookcase:
       state: 'on'
 
 - name: studio yellow
@@ -86,7 +86,7 @@
         - 7 
         - 130
         - 255
-    switch.studio_accent_light:
+    switch.master_bedroom_bookcase:
       state: 'off'
     switch.dazzned50:
       state: 'off'
@@ -375,10 +375,6 @@
 
 - name: skylar room prebed
   entities:
-    light.skylar_dresser_lamp:
-      state: 'on'
-      color_temp: 369
-      brightness: 255
     light.wled_loftbed:
       state: 'on'
       brightness: 255
@@ -388,8 +384,9 @@
       - 0
     switch.rainbow_lamp:
       state: 'on'
-    switch.skylars_desk:
-      state: 'off'
+    light.skylars_dresser_lamp:
+      state: 'on'
+      brightness: 150
   id: cc8606f7345f48d59b3c32e900122d75
 
 - name: skylar room sleep
@@ -407,27 +404,27 @@
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
-    light.skylar_dresser_lamp:
-      state: 'off'
+    switch.skylar_led_cube:
+      state: 'on'
     input_boolean.skylar_awake:
       state: 'off'
     input_boolean.skylar_dressed_reminder:
       state: 'off'
-    switch.skylars_desk:
+    light.skylars_dresser_lamp:
       state: 'off'
   id: f4e8d2f594c446ee9f0e41cf46dc1c72
 
 - name: skylar room morning
   entities:
-    light.skylar_dresser_lamp:
-      state: 'on'
-      color_temp: 369
-      brightness: 38
+    switch.skylar_led_cube:
+      state: 'off'
+    switch.rainbow_lamp:
+      state: 'off'
   id: dca10298716d46ad86cb894bfac295a5
 
 - name: skylar room day
   entities:
-    light.skylar_dresser_lamp:
+    switch.skylar_led_cube:
       state: 'off'
     switch.rainbow_lamp:
       state: 'off'
