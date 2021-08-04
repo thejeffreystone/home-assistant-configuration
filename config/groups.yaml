@@ -12,13 +12,6 @@ arriving:
   entities: []
 
 
-House Conditions:
-  - climate.first_floor
-  - sensor.accurite_back_porch_temperature
-  - sensor.accurite_back_porch_humidity
-  - sensor.accurite_garage_temperature
-  - sensor.accurite_garage_humidity
-
 occupancy:
   - binary_sensor.living_room_motion_occupancy
   - binary_sensor.kitchen_motion_occupancy
@@ -95,6 +88,14 @@ livingroom:
   - light.living_room_tower_lamp
   - switch.fireplace_lights
   - switch.rail_lights
+
+vacation lights:
+  - light.front_door_lamp
+  - light.living_room_lamp
+  - light.living_room_tower_lamp
+  - switch.fireplace_lights
+  - switch.croft_light
+  - light.skylars_dresser_lamp
 
 theater lights:
   - light.theater_lights

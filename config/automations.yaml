@@ -272,7 +272,7 @@
     state: 'off'
   - condition: state
     entity_id: group.family
-    state: 'home'
+    state: home
   action:
   - service: switch.turn_on
     data: {}
@@ -353,7 +353,8 @@
           value: kitchen
     - conditions:
       - condition: template
-        value_template: '{{ "Living" in trigger.to_state.attributes.friendly_name }}'
+        value_template: '{{ "Living" in trigger.to_state.attributes.friendly_name
+          }}'
       sequence:
       - service: input_text.set_value
         data:
@@ -361,7 +362,8 @@
           value: main
     - conditions:
       - condition: template
-        value_template: '{{ "Master" in trigger.to_state.attributes.friendly_name }}'
+        value_template: '{{ "Master" in trigger.to_state.attributes.friendly_name
+          }}'
       sequence:
       - service: input_text.set_value
         data:
@@ -377,7 +379,8 @@
           value: croft
     - conditions:
       - condition: template
-        value_template: '{{ "Skylar" in trigger.to_state.attributes.friendly_name }}'
+        value_template: '{{ "Skylar" in trigger.to_state.attributes.friendly_name
+          }}'
       sequence:
       - service: input_text.set_value
         data:
@@ -429,3 +432,124 @@
           entity_id: media_player.ha_speaker
     default: []
   mode: restart
+- id: '1626618008890'
+  alias: Garden Needs Watering
+  description: ''
+  trigger:
+  - platform: time
+    at: '18:00:00'
+  condition:
+  - condition: template
+    value_template: '{{ (states(''sensor.daily_rainfall'') | int | round(2) +  states(''sensor.previous_rainfall'')
+      | int) >= ''.5'' | float}}'
+  action:
+  - service: script.text_notify
+    data:
+      who: all_ios
+      message: The Garden has only received {{ (states('sensor.daily_rainfall') |
+        int | round(2) +  states('sensor.previous_rainfall') | int) }} inches of rain
+        in the last 48 hours.
+  mode: single
+- id: '1627078744808'
+  alias: buy more xlm
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.xlm_exchange_rate
+    below: '.20'
+  condition: []
+  action:
+  - service: notify.mobile_app_jeffrey_ha_app
+    data:
+      message: XLM is now at ${{ states('sensor.xlm_exchange_rate') }}!!
+  mode: single
+- id: '1627080083081'
+  alias: XLM to the Moon
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.xlm_price_stats
+    attribute: change
+    above: '20'
+  condition: []
+  action:
+  - service: notify.mobile_app_jeffrey_ha_app
+    data:
+      message: XLM to the Moon!
+  mode: single
+- id: '1627174942201'
+  alias: run vacation lights
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    id: sundown
+  - platform: sun
+    event: sunrise
+    id: sunup
+  - platform: state
+    entity_id: input_boolean.vacation_mode
+    id: cancel
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sundown
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'on'
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.randomize_vacation_lights
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: sunup
+        - condition: trigger
+          id: cancel
+      sequence:
+      - service: script.turn_off
+        target:
+          entity_id: script.randomize_vacation_lights
+    default: []
+  mode: single
+- id: '1627694115326'
+  alias: Skylar Bedtime Announcement
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.skylar_school_bedtime
+    id: school_night
+  - platform: time
+    at: input_datetime.skylar_bedtime_holiday
+    id: no_school
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.school_tomorrow
+        state: 'on'
+      - condition: trigger
+        id: school_night
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.skylar_nightly_briefing
+    - conditions:
+      - condition: state
+        entity_id: sensor.school_tomorrow
+        state: 'off'
+      - condition: trigger
+        id: no_school
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.skylar_nightly_briefing
+    default: []
+  mode: single

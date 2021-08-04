@@ -1,0 +1,130 @@
+video_lighting_on:
+  alias: Video Lighting On
+  sequence:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.desk_accent_level_light_color_on_off
+  - service: light.turn_on
+    data: {}
+    entity_id: light.kitchen_sink_level_light_color_on_off
+  - service: light.turn_on
+    data: {}
+    entity_id: light.tower_spotlight_level_on_off
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.tplink_a2
+  - service: light.turn_on
+    data: {}
+    entity_id: light.kat_lamp
+  - service: light.turn_on
+    data: {}
+    entity_id: light.jeff_lamp_level_light_color_on_off
+  mode: single
+example_master_bedroom_lights_w_level:
+  sequence:
+  - service: light.turn_on
+    entity_id: light.jeff_lamp_level_light_color_on_off, light.tower_spotlight_level_on_off,
+      light.kat_lamp
+    data:
+      brightness: '{{ level | int }}'
+      color_temp: 369
+  mode: single
+  alias: Example Master Bedroom Lights with Level
+tts_notification:
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_text.room_presence
+        state: kitchen
+      sequence:
+      - service: media_player.turn_on
+        entity_id: media_player.kitchen_display
+      - service: media_player.volume_set
+        target:
+          entity_id: media_player.kitchen_display
+        data:
+          volume_level: 0.8
+      - service: tts.amazon_polly_say
+        data:
+          entity_id: media_player.kitchen_display
+          message: <speak> Welcome Home! </speak>
+    - conditions:
+      - condition: state
+        entity_id: input_text.room_presence
+        state: skylar_bedroom
+      sequence:
+      - service: notify.alexa_media_skylar_s_bedroom
+        data:
+          message: Welcome home!
+          data:
+            type: tts
+    - conditions:
+      - condition: state
+        entity_id: input_text.room_presence
+        state: main
+      sequence:
+      - service: media_player.turn_on
+        entity_id: media_player.ha_speaker
+      - service: media_player.volume_set
+        target:
+          entity_id: media_player.ha_speaker
+        data:
+          volume_level: 0.8
+      - service: tts.amazon_polly_say
+        data:
+          entity_id: media_player.ha_speaker
+          message: <speak> Welcome Home! </speak>
+    default: []
+  mode: single
+  alias: TTS Notification - Welcome Home
+randomize_vacation_lights:
+  alias: randomize vacation lights
+  sequence:
+  - repeat:
+      until:
+      - condition: sun
+        after: sunrise
+      sequence:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.current_random_light
+        data:
+          value: '{{ state_attr(''group.vacation_lights'',''entity_id'') | random
+            }}'
+      - service: homeassistant.turn_on
+        data:
+          entity_id: '{{ states(''input_text.current_random_light'') }}'
+      - delay:
+          minutes: '{{ range(5,59) | random | int }}'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: '{{ states(''input_text.current_random_light'') }}'
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.current_random_light
+          value: None
+  mode: single
+randomize_vacation_lights_demo:
+  alias: demo - randomize vacation lights
+  sequence:
+  - repeat:
+      count: '8'
+      sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.current_random_light
+          value: '{{ state_attr(''group.livingroom'',''entity_id'') | random }}'
+      - service: homeassistant.turn_on
+        data:
+          entity_id: '{{ states(''input_text.current_random_light'') }}'
+      - delay:
+          seconds: '{{ range(2,5) | random | int }}'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: '{{ states(''input_text.current_random_light'') }}'
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.current_random_light
+          value: None
+  mode: single
