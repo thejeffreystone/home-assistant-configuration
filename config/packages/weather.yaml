@@ -45,6 +45,19 @@ input_boolean:
   tstorm_alarm:
     name: T-Storm Alarm
     icon: mdi:speaker-wireless
+  raining:
+    name: Raining
+
+utility_meter:
+  daily_rainfall_in:
+    source: sensor.acurite_rain899_2743_rt
+    cycle: daily
+  weekly_rainfall_in:
+    source: sensor.acurite_rain899_2743_rt
+    cycle: weekly
+  recent_lighting_strikes:
+    source: sensor.acurite_6045m_3078_strcnt
+    cycle: quarter-hourly
 
 ### You first need to find either your NWS Zone ID or County ID. I’m not sure which is better but I used my Zone ID here.
 ### You can find your Zone ID by going to https://alerts.weather.gov/ 7, scroll down to your state and click on the “zone list” then look for the entry for your county.
@@ -60,7 +73,8 @@ sensor:
     state: GA
     zone: 34
     county: 135
- 
+  
+
   # - platform: mqtt
   #   name: "Back Porch"
   #   state_topic: "house/acurite2mqtt/Acurite-6045M_3078"
@@ -88,6 +102,18 @@ sensor:
   - platform: mqtt
     name: "Lightning total count"
     state_topic: "house/lightning/total_count"
+  
+  - platform: mqtt
+    name: "Yesterday Rain Total"
+    state_topic: "house/rain/yesterday_total"
+
+  - platform: mqtt
+    name: "Rain Guage Total"
+    state_topic: "house/rain/cumlative_total"
+    
+  - platform: mqtt
+    name: "Previous Rain Guage Total"
+    state_topic: "house/rain/previous_cumlative_total"
 
   - platform: statistics
     name: Inside Humidity Stats
@@ -111,6 +137,12 @@ sensor:
       masterbath_weather:
         friendly_name: Master Bath Weather
         value_template: "{{ states.sensor.acurite_tower_master_bath_t.state | round}} °F / {{ states.sensor.acurite_tower_master_bath_h.state }} %"
+      rain_guage_in:
+        friendly_name: Rain Guage (Inches)
+        value_template: "{{ (states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) }}"
+      todays_rainfall:
+        friendly_name: Daily Rain (Inches)
+        value_template: "{{ (((states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) ) - ((states('sensor.previous_rain_guage_total') | float ))) | round(2) }}"
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
@@ -229,8 +261,24 @@ sensor:
       lighting_stike_count:
         friendly_name: "Lightning Strike Count"
         value_template: "{{ states.sensor.back_porch_strike_count.state }}"
+      previous_rainfall:
+        friendly_name: "Previous Rainfall"
+        value_template: "{{ states.sensor.daily_rainfall_in.attributes.last_period }}"
+        
 
 automation:
+
+
+  - alias: 'record previous day rainfall'
+    trigger:
+      - platform: time
+        at: '23:58:00'
+    action:
+      service: mqtt.publish
+      data_template:
+        topic: 'house/rain/yesterday_total'
+        retain: true
+        payload: "{{ states('sensor.todays_rainfall') }}"
 
   - alias: Forecast Low Near Freezing
     trigger:
@@ -266,6 +314,19 @@ automation:
       
  
 script:
+
+  store_rain_total:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/rain/cumlative_total'
+          retain: true
+          payload: "{{ ((states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) )}}"
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/rain/previous_cumlative_total'
+          retain: true
+          payload: "{{ ((states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) )}}"
 
   store_lightning_count:
     sequence:
