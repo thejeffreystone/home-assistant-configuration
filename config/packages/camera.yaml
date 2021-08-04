@@ -5,6 +5,37 @@
 #   @description    :   All the Camera related stuff 
 ###############################################################################
 
+# Using the HACS Arlo Integration 
+aarlo:
+  host: https://my.arlo.com
+  username: !secret arlo_user
+  password: !secret arlo_pass
+  db_motion_time: 30
+  db_ding_time: 10
+  recent_time: 10
+  last_format: '%m-%d %H:%M'
+  refresh_devices_every: 2
+  verbose_debug: True
+  tfa_host: 'imap.gmail.com'
+  tfa_username: !secret GV_USER
+  tfa_password: !secret GV_PASS
+
+# Arlo Integration
+alarm_control_panel:
+  # Uses the custom arlo integration found in HACS
+  - platform: aarlo
+    home_mode_name: home
+    away_mode_name: Armed
+
+sensor:
+  - platform: aarlo
+    monitored_conditions:
+    - last_capture
+    - total_cameras
+    - battery_level
+    - captured_today
+    - signal_strength
+
 camera:
   - platform: mjpeg
     name: Garage Door Cam 
