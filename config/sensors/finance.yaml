@@ -26,3 +26,10 @@
 - platform: mqtt
   name: "Barnes and Nobel"
   state_topic: "stock/BKS/price"
+#sensor:
+- platform: statistics
+  name: xlm_price_stats
+  entity_id: sensor.xlm_exchange_rate
+  sampling_size: 2
+
+
