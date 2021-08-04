@@ -93,9 +93,13 @@
     <p>
       
     {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
-      {{ [ 'Today is a school day.',
-        'It is a school day. '
-      ] | random }}
+      {% if is_state('sensor.school_start_days2go', '0') %}
+          Today is the first day of school! 
+        {% else %}
+          {{ [ 'Today is a school day.',
+            'It is a school day. '
+          ] | random }}
+        {% endif %}
       <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
       {% if 'Digital Learning' in states('sensor.school_event') %}
         But it is a digital learning day so the commute will be short.
@@ -107,7 +111,7 @@
         But today is the last day of School! 
       {%- endif %}
     {% endif %}
-    {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
+    {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) and 'Digital Learning' not in states('sensor.school_event') %}
       {% if is_state('sensor.school_lunch', 'Nothing') %}
         I am not sure what the school menu is for today, so plan on Skylar taking his lunch 
       {% else %}
