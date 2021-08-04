@@ -21,6 +21,15 @@ sensor:
     name: "Washer Last Emptied"
     state_topic: "house/washer/time_emptied"
 
+utility_meter:
+  washer_daily_kwh:
+    source: sensor.washer_switch_electric_consumed_kwh
+    cycle: daily
+  washer_weekly_kwh:
+    source: sensor.washer_switch_electric_consumed_kwh
+    cycle: weekly
+  
+
 automation:
 
   - id: washer_running
@@ -40,13 +49,6 @@ automation:
         state: complete
     action:
     - service: script.washer_running
-    # Since the washer has run lets consume a detergent tablet
-    # - service: shell_command.grocy_consume_item
-    #   data:
-    #     server_ip: !secret grocy_ip
-    #     grocy_key: !secret grocy_api_key
-    #     product_id: 6
-    #     amount: 1
     initial_state: true
 
   - id: washer_complete
@@ -80,11 +82,6 @@ automation:
         topic: house/washer/time_emptied
         payload: '{{ now().timestamp() }}'
         retain: true
-    # - service: mqtt.publish
-    #   data:
-    #     topic: house/washer/time_ran
-    #     payload: '{{ now().timestamp() - as_timestamp(states.sensor.washer_last_complete) }}'
-    #     retain: true
 
   - id: washer_notification
     initial_state: true
@@ -111,7 +108,7 @@ automation:
     action:
     - service: script.dishwasher_idle
   
-  # When dishwasher connects to network assume it is running cycle. Auto consume detergent in Grocy
+  # When dishwasher connects to network assume it is running cycle. 
   - id: dishwasher_running
     initial_state: true
     alias: Dishwasher Running
@@ -121,12 +118,6 @@ automation:
       to: 'home'
     action:
     - service: script.dishwasher_running
-    - service: shell_command.grocy_consume_item
-      data:
-        server_ip: !secret grocy_ip
-        grocy_key: !secret grocy_api_key
-        product_id: 7
-        amount: 1
 
 script:
 

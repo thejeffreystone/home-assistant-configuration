@@ -78,6 +78,14 @@ input_datetime:
     name: Blackout Time End
     has_date: false
     has_time: true
+  pest_service:
+    name: Pest Service
+    has_date: true
+    has_time: true
+  gutter_service:
+    name: Pest Service
+    has_date: true
+    has_time: true
   
 
 

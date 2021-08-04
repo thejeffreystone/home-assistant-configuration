@@ -8,9 +8,9 @@
 # https://github.com/CCOSTAN/Home-AssistantConfig/issues/720
 #-------------------------------------------
 
-#   sensor:
-    # - platform: youtube
-    #   channel_id: UCipZJ6748kd8TbelSxcvcVg
+  sensor:
+    - platform: youtube
+      channel_id: UCipZJ6748kd8TbelSxcvcVg
 
   
   automation:
@@ -22,34 +22,46 @@
   
       condition:
         - condition: template
-          value_template: "{{ trigger.from_state.state != trigger.to_state.state }}"
+          value_template: "{{ trigger.from_state.attributes.url != trigger.to_state.attributes.url }}"
   
       action:
       - service: script.text_notify
         data_template:
           who: "jeff"
-          message: New Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} 
+          message: Your Video is now Live {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} 
       - repeat:
           count: 1
           sequence:
             - delay: '00:03:00'
 
-            - service: script.twitter_notify
+            - service: script.twitter_notify_image
               data:
                 tweet: >
                   {{ [
-                  "Brand New Home Assistant Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} "
+                  "Brand New SlackerLabs Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "New SlackerLabs Video went Live! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "Boom! New SlackerLabs Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "Its time for a New SlackerLabs Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "Today is SlackerLabs Video Release Day! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome "
                   ] | random }}
                 who: 'thejeffreystone'
+                image: > 
+                  {{ state_attr('sensor.slackerlabs', 'entity_picture') }}
 
             - delay: '00:10:00'
 
-            - service: script.twitter_notify
+            - service: script.twitter_notify_image
               data:
                 tweet: >
                   {{ [
-                  "New #homeassistant Video went Live! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} "
+                  "Brand New SlackerLabs Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "New SlackerLabs Video went Live! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "Boom! New SlackerLabs Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "Its time for a New SlackerLabs Video! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome ",
+                  "Today is SlackerLabs Video Release Day! {{ states('sensor.slackerlabs') }} - {{ state_attr('sensor.slackerlabs','url') }} #homeassistant #homeautomation #smarthome "
                   ] | random }}
                 who: 'slackerlabs'
+                image: >
+                  {{ state_attr('sensor.slackerlabs', 'entity_picture') }}
 
             - delay: '12:30:00'

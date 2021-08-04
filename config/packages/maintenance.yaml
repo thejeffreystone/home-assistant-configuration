@@ -57,6 +57,13 @@ automation:
       minutes: /30
     action:
       - service: script.store_lightning_count
+  - id: refresh_total_rain_amount
+    alias: Refresh Total Rain Amount
+    trigger: 
+    - platform: time
+      at: '23:59:00'
+    action:
+      - service: script.store_rain_total
         
   
 # startup auotmations to update some custom sensors due to new order of home assistant firing up    
@@ -76,3 +83,6 @@ automation:
         entity_id: sensor.today_is 
       - service: homeassistant.update_entity
         entity_id: sensor.holiday
+      - service: frontend.set_theme
+        data:
+          name: ios_dark_mode

@@ -48,15 +48,6 @@ sensor:
                 {{ states.person.jeffrey.state }}
               {%- endif %}
             {%- endif %}
-      jeff_driving:
-        friendly_name: "Jeff' Driving"
-        unit_of_measurement: ''
-        value_template: >-
-            {%- if states.device_tracker.life360_jeffrey_stone.attributes.moving == True or states.device_tracker.life360_jeffrey_stone.attributes.driving == True %}
-              on
-            {% else %}
-              off
-            {% endif %}
   - platform: template
     sensors:
       skylar_location:
@@ -98,17 +89,6 @@ sensor:
                 {{ states.person.katherine.state }}
               {%- endif %}
             {%- endif %}
-  - platform: template
-    sensors:
-      kat_driving:
-        friendly_name: "Kat Driving"
-        unit_of_measurement: ''
-        value_template: >-
-            {%- if states.device_tracker.life360_kat_stone.attributes.moving == True or states.device_tracker.life360_kat_stone.attributes.driving == True%}
-              'on'
-            {% else %}
-              'off'
-            {% endif %}
   - platform: mqtt
     name: "Family Status"
     state_topic: "house/family/status"
@@ -225,31 +205,6 @@ automation:
         call_interpruption: 1 
         call_kat_location: 1
         
-  
-  - id: '1550109528753'
-    alias: Jeff Is Heading Home
-    initial_state: true
-    trigger:
-    - platform: webhook
-      webhook_id: jeff_heading_home
-    condition: []
-    action:
-    - service: script.jeff_destination_home
-    - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_presence.state }}'
-        message: Jeff appears to be headed home. Based on current traffic conditions, he should be here in {{states.sensor.jeff_ett_home.attributes.duration | round}} minutes. 
-
-  - id: jeff_heading_to_work
-    alias: Jeff Is Heading To Work
-    initial_state: true
-    trigger:
-    - platform: webhook
-      webhook_id: jeff_heading_work
-    condition: []
-    action:
-    - service: script.jeff_destination_summit
 
   - id: skylar_at_school
     alias: Skylar is at School
@@ -268,7 +223,7 @@ automation:
       zone: zone.starling
     condition:
       - condition: time
-        before: "1:30:00"
+        before: "13:30:00"
         weekday:
           - mon
           - tue
@@ -323,93 +278,7 @@ automation:
         message: "Skylar has been picked up from school."
     initial_state: true
 
-  #########################################################
-  # - id: family_has_arrived
-  #   alias: Family Has arrived
-  #   trigger:
-  #   - platform: webhook
-  #     webhook_id: home_webhook
-  #   - entity_id: sensor.family_status
-  #     from: Away
-  #     platform: state
-  #     to: Home
-  #   - entity_id: group.family
-  #     from: not_home
-  #     platform: state
-  #     to: home
-  #   - entity_id: device_tracker.mal
-  #     from: not_home
-  #     platform: state
-  #     to: home
-  #   mode: single
-  #   condition:
-  #   - condition: state
-  #     entity_id: sensor.family_status
-  #     state: Away
-  #   action:
-  #   - service: script.family_is_home
-  #   initial_state: true
   
-  # - id: family_has_left
-  #   alias: Family Has Left
-  #   initial_state: true
-  #   trigger:
-  #   - entity_id: sensor.family_status
-  #     from: Home
-  #     platform: state
-  #     to: Away
-  #   - platform: webhook
-  #     webhook_id: away_webhook
-  #   - entity_id: group.family
-  #     from: home
-  #     platform: state
-  #     to: not_home
-  #   mode: single
-  #   condition:
-  #   - condition: state
-  #     entity_id: input_boolean.guest_mode
-  #     state: 'off'
-  #   action:
-  #   - service: script.family_is_away
-    
-#########################################################
-
-#   - id: jeff_is_home
-#     alias: Jeff is Home
-#     initial_state: true
-#     trigger:
-#     - entity_id: person.jeffrey
-#       event: enter
-#       platform: zone
-#       zone: zone.home
-#     mode: single
-#     action:
-#     - service: script.family_is_home
-#     - service: script.jeff_destination_na
-#     - service: script.driveway_on
-#     - entity_id: input_boolean.jeff_travel_monitor
-#       service: input_boolean.turn_off
-#     - delay:
-#         minutes: 2
-
-#   - id: kat_is_home
-#     alias: Kat is Home
-#     initial_state: true
-#     trigger:
-#     - entity_id: person.katherine
-#       event: enter
-#       platform: zone
-#       zone: zone.home
-#     mode: single
-#     action:
-#     - service: script.family_is_home
-#     - service: script.driveway_on
-#     - service: input_boolean.turn_off
-#       entity_id: input_boolean.kat_travel_monitor
-#     - delay:
-#         minutes: 2
-
-########################################################
   
   - id: jeff_arrives_summit
     alias: Jeff Arrives At Summit
@@ -586,56 +455,6 @@ script:
     - service: input_boolean.turn_on
       entity_id: input_boolean.welcome_home
 
-
-  jeff_destination_zoo:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: jeff/driving/destination
-        payload: Zoo
-        retain: true
-  jeff_destination_summit:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: jeff/driving/destination
-        payload: Summit
-        retain: true
-  jeff_destination_none:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: jeff/driving/destination
-        payload: none
-        retain: true
-  jeff_destination_na:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: jeff/driving/destination
-        payload: na
-        retain: true
-  jeff_destination_home:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: jeff/driving/destination
-        payload: Home
-        retain: true
-  jeff_destination_harbins:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: jeff/driving/destination
-        payload: Harbins
-        retain: true
-  kat_destination_na:
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: kat/driving/destination
-        payload: na
-        retain: true
   reset_skylar_sensors:
     sequence:
       - delay: 02:00:00

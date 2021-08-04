@@ -338,6 +338,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -360,6 +364,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -379,6 +387,8 @@ script:
           {% if who == 'kitchen' %}
             .80
           {% elif who == 'croft' %}
+            .50
+          {% elif who == 'skylar_bedroom' %}
             .50
           {% elif who == 'master_bedroom' %}
             .50
@@ -400,8 +410,12 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'croft' %}
+          {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -461,7 +475,7 @@ script:
             script.nabu_voice      
           {% elif voice == 'alexa' %}
             script.alexa_voice
-          {% elif who in ['skylar_bedroom','kitchen_echo','livingroom_echo']  %}
+          {% elif who in ['kitchen_echo','livingroom_echo', 'garage_echo']  %}
             script.alexa_voice
           {% elif voice == 'jarvis' %}
             {% if who == 'main' and is_state('media_player.ha_speaker','playing') %}
@@ -526,10 +540,10 @@ script:
     - service: media_player.turn_on
       data_template:
         entity_id: >
-          {% if who == 'skylar_bedroom' %}
-            notify.alexa_media_skylar_s_bedroom
-          {% elif who == 'kitchen_echo' %}
+          {% if who == 'kitchen_echo' %}
             notify.alexa_media_kitchen_echo
+          {% elif who == 'garage_echo' %}
+            notify.alexa_media_garage_echo
           {% elif who == 'livingroom_echo' %}
             notify.alexa_media_living_room_echo
           {% else %}
@@ -539,10 +553,10 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: >
-          {% if who == 'skylar_bedroom' %}
-            notify.alexa_media_skylar_s_bedroom
-          {% elif who == 'kitchen_echo' %}
+          {% if who == 'kitchen_echo' %}
             notify.alexa_media_kitchen_echo
+          {% elif who == 'garage_echo' %}
+            notify.alexa_media_garage_echo
           {% elif who == 'livingroom_echo' and is_state('media_player.ha_speaker','playing')  %}
             {% set old_volume = states.media_player.ha_speaker.attributes.volume_level %}
             media_player.ha_speaker
@@ -556,12 +570,12 @@ script:
               .4
             {% endif %}
     - service: >
-        {% if who == 'skylar_bedroom' %}
-          notify.alexa_media_skylar_s_bedroom
-        {% elif who == 'kitchen_echo' %}
+        {% if who == 'kitchen_echo' %}
           notify.alexa_media_kitchen_echo
         {% elif who == 'livingroom_echo' %}
           notify.alexa_media_living_room_echo
+        {% elif who == 'garage_echo' %}
+          notify.alexa_media_garage_echo
         {% else %}
           notify.alexa_media_living_room_echo
         {% endif %}
@@ -583,6 +597,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -605,6 +623,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -637,6 +659,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -668,6 +694,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -690,6 +720,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
@@ -718,6 +752,10 @@ script:
             media_player.kitchen_display
           {% elif who == 'theater' %}
             media_player.upstairs_speaker
+          {% elif who == 'croft' %}
+            media_player.croft_speaker
+          {% elif who == 'skylar_bedroom' %}
+            media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}

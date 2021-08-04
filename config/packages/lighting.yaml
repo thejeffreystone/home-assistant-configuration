@@ -13,7 +13,10 @@ input_number:
     max: 255
     step: 8.5
 
-
+device_sun_light_trigger:
+  light_group: group.kitchen
+  light_profile: concentrate
+  device_group: group.family
 
 
 automation:

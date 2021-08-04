@@ -70,30 +70,6 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_stats
 
-  - id: tweet_some_promos
-    alias: Tweet Some Promos
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '08:00:00'
-    action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_selfpromos
-        data:
-          who: 'thejeffreystone'
-
-  # - id: tweet_recent_content_js
-  #   alias: Tweet Recent Content js
-  #   initial_state: true
-  #   trigger:
-  #   - platform: time
-  #     at: '13:00:00'
-  #   action:
-  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-  #     - service: script.twitter_recent_content
-  #       data:
-  #         who: 'thejeffreystone'
-
   - id: tweet_recent_content
     alias: Tweet Recent Contents
     initial_state: true
@@ -106,17 +82,17 @@ automation:
         data:
           who: 'slackerlabs'
 
-  - id: tweet_follow_me
-    alias: Tweet Follow Me
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '08:00:00'
-    action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_follow_me
-        data:
-          who: 'slackerlabs'
+  # - id: tweet_follow_me
+  #   alias: Tweet Follow Me
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '08:00:00'
+  #   action:
+  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+  #     - service: script.twitter_follow_me
+  #       data:
+  #         who: 'slackerlabs'
 
   - id: tweet_some_promos2
     alias: Tweet Some Promos2
@@ -175,7 +151,7 @@ automation:
       - service: script.twitter_notify_image
         data_template:
           tweet: >-
-            You can #homeassistant content related to Anchorage House at -> Blog: https://slacker-labs.com | Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | Config: https://github.com/thejeffreystone/home-assistant-configuration
+            You can #homeautomation content related to Anchorage House at -> Blog: https://slacker-labs.com | #smarthome Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | #homeassistant Config: https://github.com/thejeffreystone/home-assistant-configuration
           image: >-
             {{ [ "/config/www/tweet_images/robot1.jpg",
                     "/config/www/tweet_images/robot2.jpg"] | random }}
@@ -190,7 +166,7 @@ automation:
     - condition: template
       value_template: >
         {% set day=states("sensor.date").split('-')[2] | int %}
-        {%- if day == 15 -%}
+        {%- if day == 20 -%}
           true
         {%- endif -%}
     action:
@@ -223,27 +199,6 @@ automation:
           tweet: >-
             You can find my #homeassistant content at -> Blog: https://slacker-labs.com | Videos: https://www.youtube.com/channel/UCipZJ6748kd8TbelSxcvcVg | Config: https://github.com/thejeffreystone/home-assistant-configuration
           image: "/config/www/tweet_images/sl_logo.png"
-
-  # - id: net_speed_report
-  #   initial_state: true
-  #   alias: Network Speed Report
-  #   trigger:
-  #   - platform: time
-  #     at: '11:15:00'
-  #   action:
-  #   - service: script.twitter_notify_image
-  #     data_template:
-  #       tweet: >-
-  #         {{ [ "According to my latest speed tests Anchorage House is getting
-  #         {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
-  #         Mbps up thanks to #ATTFiber. ", "How fast is your internet? I just checked
-  #         am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
-  #         Mbps up. Beat that. ", "My speed is monitored using @home_assistant and https://github.com/thejeffreystone/speedtest_to_mqtt
-  #         and is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
-  #         Mbps up." ] | random }}
-  #       image: >-
-  #         {{ [ "/config/www/tweet_images/speed.jpg",
-  #             "/config/www/tweet_images/fiber-optic.jpg"] | random }}
 
   - id: rex_manning_day_tweet_1
     alias: Rex Manning Day Tweet One

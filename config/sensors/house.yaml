@@ -1,7 +1,7 @@
 
 - platform: history_stats
   name: Jeff Driving Time
-  entity_id: sensor.jeff_driving
+  entity_id: binary_sensor.jeff_driving
   state: 'on'
   type: time
   end: '{{ now() }}'
@@ -9,7 +9,7 @@
     days: 7
 - platform: history_stats
   name: Kat Driving Time
-  entity_id: sensor.kat_driving
+  entity_id: binary_sensor.kat_driving
   state: 'on'
   type: time
   end: '{{ now() }}'
@@ -71,6 +71,23 @@
   name: Garage Temp Stats
   entity_id: sensor.acurite_tower_10968_t
   sampling_size: 500
+
+- platform: statistics
+  entity_id: sensor.craft_room_temperature
+  name: "Craft Room Temp Sats"
+- platform: statistics
+  entity_id: sensor.kitchen_temperature
+  name: "Kitchen Temp Sats"  
+- platform: statistics
+  entity_id: sensor.living_room_temperature
+  name: "Living Room Temp Sats"
+- platform: statistics
+  entity_id: sensor.master_bedroom_temperature
+  name: "MAster Bedroom Temp Sats"
+- platform: statistics
+  entity_id: sensor.skylar_room_temperature
+  name: "Skylar Room Temp Sats"
+
 - platform: min_max
   name: Inside Temp Stats
   entity_ids:
@@ -79,6 +96,7 @@
   - sensor.living_room_temperature
   - sensor.master_bedroom_temperature
   - sensor.skylar_room_temperature
+
 - platform: history_stats
   name: Outside Lights
   entity_id: group.outside_lights
@@ -129,7 +147,7 @@
   sampling_size: 500
 - platform: statistics
   name: Washer Power Stats
-  entity_id: sensor.washer_power_consumed_w
+  entity_id: sensor.washer_switch_electric_consumed_kwh
   sampling_size: 500
 - platform: history_stats
   name: Cooling Last Month
@@ -139,13 +157,15 @@
   end: '{{ now() }}'
   duration:
     days: 30
-- platform: aarlo
-  monitored_conditions:
-  - last_capture
-  - total_cameras
-  - battery_level
-  - captured_today
-  - signal_strength
+
+- platform: history_stats
+  name: Front Door Motion
+  entity_id: binary_sensor.aarlo_motion_front_door
+  state: 'on'
+  type: count 
+  end: '{{ now() }}'
+  duration:
+    days: 7
 
 # Amazon Polly Sensors to see last message and location of audible notification
 - platform: mqtt

@@ -269,19 +269,6 @@ automation:
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_day
-    
-   
-
-  - id: 86fd5de9-3136-4d86-aef9-268f097eae35
-    alias: HA Startup
-    initial_state: true
-    trigger:
-    - platform: homeassistant
-      event: start
-    action:
-      service: frontend.set_theme
-      data:
-        name: midnight-AH
 
   - id: 82b96b73-2407-49d7-8ea2-1f78a69e025b
     alias: Jeff eta home

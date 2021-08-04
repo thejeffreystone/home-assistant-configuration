@@ -71,15 +71,15 @@ automation:
       entity_id: input_boolean.audible_notifications
 
 
-  - id: cb0063e4-1dfe-4537-8b9e-4f64b2eba35d
-    initial_state: true
-    alias: Skylar Nightly Announcements
-    trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-    action:
-    - service: script.turn_on
-      entity_id: script.skylar_nightly_briefing
+  # - id: cb0063e4-1dfe-4537-8b9e-4f64b2eba35d
+  #   initial_state: true
+  #   alias: Skylar Nightly Announcements
+  #   trigger:
+  #     platform: template
+  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+  #   action:
+  #   - service: script.turn_on
+  #     entity_id: script.skylar_nightly_briefing
     
 
   - id: 1d8f396a-f6ec-460d-97e3-d11900418f95
@@ -120,6 +120,10 @@ automation:
     trigger:
       platform: time
       at: input_datetime.daily_report
+    condition:
+      condition: state 
+      entity_id: binary_sensor.workday_sensor
+      state: 'on'
     action:
     - service: script.morning_wakeup_report
         
@@ -141,7 +145,7 @@ automation:
       at: '06:05:00'
     action:
     - service: input_datetime.set_datetime
-      entity_id: input_datetime.skylar_morning_report
+      entity_id: input_datetime.skylar_morning_reportnotion
       data_template:
         time: >
           {% if states('input_boolean.school_today', 'on') %}

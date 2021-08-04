@@ -6,19 +6,28 @@
 ###############################################################################
 
 recorder:
-  #db_url: !secret database
-  purge_keep_days: 1
+  db_url: !secret database
+  purge_keep_days: 30
   exclude:
     domains:
       - automation
       - weblink
       - updater
+      - script
     entities:
       - sun.sun # Don't record sun data
       - sensor.last_boot # Comes from 'systemmonitor' sensor platform
       - sensor.date
       - sensor.icloud3_event_log
-
+      - sensor.time
+      - sensor.today_is
+      - sensor.time_utc
+      - sensor.time_date
+      - sensor.time_online
+      - sensor.moon
+      - sensor.month_is
+      - sensor.low_battery
+      
 logbook:
   include:
     domains:
@@ -28,6 +37,9 @@ logbook:
       - scene
       - light
       - switch
+      - device_tracker
+      - input_boolean
+      - person
 
 # Lets try to make the logs less chatty and more fine tuned.       
 logger:

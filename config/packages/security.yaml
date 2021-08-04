@@ -51,19 +51,8 @@ input_boolean:
     icon: mdi:dog-side
   
 
-
-# Arlo Integration
-alarm_control_panel:
-  # Uses the custom arlo integration found in HACS
-  - platform: aarlo
-    home_mode_name: home
-    away_mode_name: Armed
-
-
 sensor:
-  - platform: mqtt
-    name: "Front Door Motion Away count"
-    state_topic: "house/front_door_motion/away_count"
+  - platform: authenticated
  
 
 automation:

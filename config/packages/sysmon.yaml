@@ -59,3 +59,9 @@ sensor:
         friendly_name: Open Pull Requests
         value_template: >-
           {{ states.sensor.home_assistant_configuration.attributes.open_pull_requests }}
+
+
+utility_meter:
+  daily_frontdoor_motion:
+    source: sensor.front_door_motion
+    cycle: daily
