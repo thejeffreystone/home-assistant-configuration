@@ -22,22 +22,7 @@ http:
   # ssl_certificate: !secret ahsl_ssl_cert
   # ssl_key: !secret ahsl_ssl_key
   use_x_forwarded_for: true
-  trusted_proxies:
-    - 192.168.7.0/24
-    - 173.245.48.0/20
-    - 103.21.244.0/22
-    - 103.22.200.0/22
-    - 103.31.4.0/22
-    - 141.101.64.0/18
-    - 108.162.192.0/18
-    - 190.93.240.0/20
-    - 188.114.96.0/20
-    - 197.234.240.0/22
-    - 198.41.128.0/17
-    - 162.158.0.0/15
-    - 104.16.0.0/12
-    - 172.64.0.0/13
-    - 131.0.72.0/22
+  trusted_proxies: !secret proxy_ips
   ip_ban_enabled: true
   login_attempts_threshold: 5
 
@@ -62,14 +47,30 @@ device_tracker:
   - platform: eero_tracker
     consider_home: 300
     interval_seconds: 60
-    track_new_devices: yes
-    #only_macs: "d0:c5:f3:80:50:5e, f4:31:c3:84:1d:d1, 08:74:02:CC:C4:97, 5C:F5:DA:9B:5A:A2, 34:7C:25:CC:9D:0F, 64:52:99:93:F1:B3"
-  - platform: icloud3
-    username: !secret ICLOUD_USER
-    password: !secret ICLOUD_PASS
+    only_macs: "68:54:fd:29:20:87, 68:54:fd:d5:ae:3d, 50:dc:e7:5b:10:69, 2c:cc:44:bf:9b:b4, 28:18:78:74:79:10, 44:61:32:f8:c8:09, 64:cf:d9:3c:5d:0c, 50:02:91:ed:2c:47, ec:71:db:31:0e:6c, 4e:6d:02:24:ac:87"
+  # - platform: icloud3
+  #   username: !secret ICLOUD_USER
+  #   password: !secret ICLOUD_PASS
 
 discovery:
 
+template:
+  - binary_sensor:
+      - name: "Kat Driving"
+        state: > 
+          {{ state_attr('device_tracker.life360_kat_stone', 'speed') | int > 0 }}
+  - binary_sensor:
+    - name: "Jeff Driving"
+      state: > 
+        {{ state_attr('device_tracker.life360_jeff_stone', 'speed') | int > 0 }}
+  - trigger:
+      - platform: state
+        entity_id: sensor.recent_lighting_strikes
+    binary_sensor:
+      - name: lightning_detected
+        unique_id: lightning_detected_sensor
+        state: "{{ states('sensor.recent_lighting_strikes') | int > 0 }}"
+        device_class: safety
 
 updater:
   include_used_components: true
@@ -80,9 +81,6 @@ python_script:
 
 map:
 
-geo_location:
-  - platform: usgs_earthquakes_feed
-    feed_type: 'past_hour_all_earthquakes'
 
 group: !include groups.yaml
 
@@ -103,7 +101,4 @@ zone: !include zones.yaml
 
 
 shell_command:
-  grocy_consume_item: "curl -k -X POST https://{{server_ip}}:9192/api/stock/products/{{product_id}}/consume -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'GROCY-API-KEY: {{grocy_key}}' -H 'cache-control: no-cache' -d '{ \"amount\": {{amount}},  \"transaction_type\": \"consume\",  \"spoiled\": false }'"
-  grocy_chore_complete: "curl -k -X POST https://{{server_ip}}:9192/api/chores/{{chore_id}}/execute -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'GROCY-API-KEY: {{grocy_key}}' -H 'cache-control: no-cache' -d '{ \"tracked_time\": {{timestamp}},  \"done_by\": {{user}} }'"
-  grocy_add_item: "curl -k -X POST https://{{server_ip}}:9192/api/stock/products/{{product_id}}/add -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'GROCY-API-KEY: {{grocy_key}}' -H 'cache-control: no-cache' -d '{ \"amount\": {{amount}},  \"best_before_date\": {{best_before_date}},  \"transaction_type\": \"purchase\", \"price\": {{price}} }'"
   google_token: sed -i -e 's/2client.client"}2client.client"}/2client.client"}/g' /config/.google.token
