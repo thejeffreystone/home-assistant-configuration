@@ -59,9 +59,29 @@ sensor:
         friendly_name: Open Pull Requests
         value_template: >-
           {{ states.sensor.home_assistant_configuration.attributes.open_pull_requests }}
-
-
+          
+  # For tracking number of times motion is detected 
+  # at front door in last 7 days       
+  - platform: history_stats
+    name: Front Door Motion
+    entity_id: binary_sensor.aarlo_motion_front_door
+    state: 'on'
+    type: count 
+    end: '{{ now() }}'
+    duration:
+      days: 7
+          
 utility_meter:
+  # Use the 7 day history of motion at front door
+  # to get daily motion.
   daily_frontdoor_motion:
     source: sensor.front_door_motion
     cycle: daily
+    
+    
+    
+    
+    
+    
+    
+    
