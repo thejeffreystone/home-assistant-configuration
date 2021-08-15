@@ -86,46 +86,95 @@ automation:
   #  1. You can test the haunted house piece without kicking having to be on Halloween
   #  2. It gives you the ability to kill the show if things go horribly wrong...
   # 
-  - id: operation_haunted_house_on
-    alias: Operation Haunted House On
-    initial_state: true
-    # If this_is_halloween switch is turned on then we start the show. 
+  # - id: operation_haunted_house_on
+  #   alias: Operation Haunted House On
+  #   initial_state: true
+  #   # If this_is_halloween switch is turned on then we start the show. 
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_boolean.this_is_halloween
+  #     to: 'on'
+  #   action:
+  #   # First up we play This is Halloween from Nightmare Before Christmas. Change this to what ever audio you want, or comment this one out. 
+  #   - service: script.local_audio
+  #     data:
+  #       media: "/media/disney/This_is_Halloween.mp3"
+  #       volume: .5
+  #   # And turn on the haunted House script. 
+  #   - service: script.turn_on 
+  #     entity_id: script.haunted_house
+  
+  
+  # # Haunted House Kill Switch. If the this_is_halloween switch is turned off, the stop everything.
+  # - id: operation_haunted_house_off
+  #   alias: Operation Haunted House Off
+  #   initial_state: true
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_boolean.this_is_halloween
+  #     to: 'off'
+  #   action:
+  #   # This stops the media player. Besure to change it to match your music player
+  #   - service: media_player.media_stop
+  #     entity_id: media_player.ha_speaker
+  #   # this kills the local_audio script if its running.
+  #   - service: script.turn_off
+  #     entity_id: script.local_audio
+  #   # This kills the youtube audio script if it is running.
+  #   - service: script.turn_off
+  #     entity_id: script.youtube_audio
+  #   # And finally we turn off the haunted house script so no more sounds play. 
+  #   - service: script.turn_off
+  #     entity_id: script.haunted_house 
+
+  - id: operation haunted house
+    alias: Operation Haunted House
     trigger:
+    # If this_is_halloween switch is turned on then we start the show. 
     - platform: state
       entity_id: input_boolean.this_is_halloween
       to: 'on'
-    action:
-    # First up we play This i sHalloween from Nightmare Before Christmas. Change this to what ever audio you want, or comment this one out. 
-    - service: script.local_audio
-      data_template:
-        media: "/media/disney/This_is_Halloween.mp3"
-        volume: .5
-    # And turn on the haunted House script. 
-    - service: script.turn_on 
-      entity_id: script.haunted_house
-  
-  
-  # Haunted House Kill Switch. If the this_is_halloween siwtch is turned off, the stop everything.
-  - id: operation_haunted_house_off
-    alias: Operation Haunted House Off
-    initial_state: true
-    trigger:
+      from: 'off'
+      id: start
+    # If this_is_halloween switch is turned off then we stop the show. 
     - platform: state
       entity_id: input_boolean.this_is_halloween
+      id: stop
+      from: 'on'
       to: 'off'
     action:
-    # This stops the media player. Besure to change it to match your mecia player
-    - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
-    # this kills the local_audio script if its running.
-    - service: script.turn_off
-      entity_id: script.local_audio
-    # This kills the youtube audio script if it is running.
-    - service: script.turn_off
-      entity_id: script.youtube_audio
-    # And finally we turn off the haunted house script so no more sounds play. 
-    - service: script.turn_off
-      entity_id: script.haunted_house  
+    # Choose provides decision logic
+    - choose:
+      # Start the show
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        # First up we play This is Halloween from Nightmare Before Christmas. Change this to what ever audio you want, or comment this one out. 
+        - service: script.local_audio
+          data:
+            media: "/media/disney/This_is_Halloween.mp3"
+            volume: .5
+        # And turn on the haunted House script.
+        - service: script.turn_on
+          target:
+            entity_id: script.haunted_house
+      # Stop the show
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        # And finally we turn off the haunted house script so no more sounds play. 
+        - service: script.turn_off
+          target:
+            entity_id: script.haunted_house
+        # This stops the media player. Besure to change it to match your music player
+        - service: media_player.media_stop
+          target:
+            entity_id: media_player.ha_speaker
+      default: []
+    initial_state: true
+    mode: single
 
 
 script:

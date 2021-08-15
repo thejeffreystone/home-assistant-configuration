@@ -393,8 +393,8 @@ automation:
   #############################################
   # Normal Notifications
   # Door chime when doors are open to make sure we know when people are coming/going 
-  - id: door_chime
-    alias: Door Chine
+  - id: door_notifications
+    alias: Door Notifications
     trigger:
     - platform: state
       entity_id:
@@ -403,6 +403,17 @@ automation:
       - binary_sensor.attic_door
       - binary_sensor.back_door
       to: 'on'
+      id: chime
+    - platform: state
+      entity_id:
+      - binary_sensor.front_door
+      - binary_sensor.laundry_room_door
+      - binary_sensor.attic_door
+      - binary_sensor.back_door
+      from: 'off'
+      to: 'on'
+      for: '00:01:00'
+      id: door_still_open
     condition:
       condition: and
       conditions:
@@ -421,48 +432,87 @@ automation:
           entity_id: media_player.ha_speaker
           state: 'off'
     action:
-    - service: script.door_chime
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: chime
+        sequence:
+        - service: media_player.turn_on
+          entity_id: media_player.ha_speaker
+        - service: media_player.volume_set
+          data_template:
+            entity_id: media_player.ha_speaker
+            volume_level: .5
+        - service: media_player.play_media
+          entity_id: media_player.ha_speaker
+          data:
+            media_content_id: /media/sounds/door_open.wav
+            media_content_type: "music"
+      - conditions:
+        - condition: trigger
+          id: door_still_open
+        sequence:
+        - service: script.speech_engine
+          data:
+            who: '{{ states.sensor.room_audio.state }}'
+            message: >
+              The {{ trigger.to_state.attributes.friendly_name }}
+              {{ [
+                ' is standing open.',
+                ' is open.',
+                ' does not close on its own.',
+                ' was left standing open.'
+              ] | random }}
+              {{ [
+                  'Can a human be so kind and close it?',
+                  'The air quality in this house has actually improved.',
+                  'Closing the door would improve the internal climate of the house.',
+                  'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
+                  'If at first you do not succeed in closing the door, please try again. Like, Right now seems like a good time to try again.',
+                  'And the automatic door closer appears to be broken. So, you know what to do. Time to get physical.',
+                  'I would close it for you. But I lack legs. And Arms.'
+              ] | random }}
     initial_state: true
 
-  # If door is open too long play message and identify open door.
-  - id: door_opened_long
-    alias: Door Opened Too Long
-    trigger:
-    - platform: state
-      entity_id:
-      - binary_sensor.front_door
-      - binary_sensor.laundry_room_door
-      - binary_sensor.attic_door
-      - binary_sensor.back_door
-      from: 'off'
-      to: 'on'
-      for: '00:01:00'
-    condition:
-    - condition: state
-      entity_id: input_boolean.audible_notifications
-      state: 'on'
-    action:
-    - service: script.speech_engine
-      data_template:
-        who: '{{ states.sensor.room_audio.state }}'
-        message: >
-          The {{ trigger.to_state.attributes.friendly_name }}
-          {{ [
-            ' is standing open.',
-            ' is open.',
-            ' does not close on its own.',
-            ' was left standing open.'
-          ] | random }}
-          {{ [
-              'Can a human be so kind and close it?',
-              'The air quality in this house has actually improved.',
-              'Closing the door would improve the internal climate of the house.',
-              'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
-              'If at first you do not succeed in closing the door, please try again. Like, Right now seems like a good time to try again.',
-              'And the automatic door closer appears to be broken. So, you know what to do. Time to get physical.',
-              'I would close it for you. But I lack legs. And Arms.'
-          ] | random }}
-    initial_state: true
+  # # If door is open too long play message and identify open door.
+  # - id: door_opened_long
+  #   alias: Door Opened Too Long
+  #   trigger:
+  #   - platform: state
+  #     entity_id:
+  #     - binary_sensor.front_door
+  #     - binary_sensor.laundry_room_door
+  #     - binary_sensor.attic_door
+  #     - binary_sensor.back_door
+  #     from: 'off'
+  #     to: 'on'
+  #     for: '00:01:00'
+  #   condition:
+  #   - condition: state
+  #     entity_id: input_boolean.audible_notifications
+  #     state: 'on'
+  #   action:
+  #   - service: script.speech_engine
+  #     data_template:
+  #       who: '{{ states.sensor.room_audio.state }}'
+  #       message: >
+  #         The {{ trigger.to_state.attributes.friendly_name }}
+  #         {{ [
+  #           ' is standing open.',
+  #           ' is open.',
+  #           ' does not close on its own.',
+  #           ' was left standing open.'
+  #         ] | random }}
+  #         {{ [
+  #             'Can a human be so kind and close it?',
+  #             'The air quality in this house has actually improved.',
+  #             'Closing the door would improve the internal climate of the house.',
+  #             'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.',
+  #             'If at first you do not succeed in closing the door, please try again. Like, Right now seems like a good time to try again.',
+  #             'And the automatic door closer appears to be broken. So, you know what to do. Time to get physical.',
+  #             'I would close it for you. But I lack legs. And Arms.'
+  #         ] | random }}
+  #   initial_state: true
   
   # If guest mode is enabled, notify the house
   - id: guest_mode_feedback
@@ -872,22 +922,22 @@ script:
 
 
   # door chime script, just plays sound anytime called.
-  door_chime:
-    sequence:
-    - condition: state
-      entity_id: input_boolean.audible_notifications
-      state: 'on'
-    - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.ha_speaker
-        volume_level: .5
-    - service: media_player.play_media
-      entity_id: media_player.ha_speaker
-      data:
-        media_content_id: /media/sounds/door_open.wav
-        media_content_type: "music"
+  # door_chime:
+  #   sequence:
+  #   - condition: state
+  #     entity_id: input_boolean.audible_notifications
+  #     state: 'on'
+  #   - service: media_player.turn_on
+  #     entity_id: media_player.ha_speaker
+  #   - service: media_player.volume_set
+  #     data_template:
+  #       entity_id: media_player.ha_speaker
+  #       volume_level: .5
+  #   - service: media_player.play_media
+  #     entity_id: media_player.ha_speaker
+  #     data:
+  #       media_content_id: /media/sounds/door_open.wav
+  #       media_content_type: "music"
 
   # Play Fire alarm Siren
   # fire_alarm:
