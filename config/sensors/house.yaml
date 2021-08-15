@@ -158,15 +158,6 @@
   duration:
     days: 30
 
-- platform: history_stats
-  name: Front Door Motion
-  entity_id: binary_sensor.aarlo_motion_front_door
-  state: 'on'
-  type: count 
-  end: '{{ now() }}'
-  duration:
-    days: 7
-
 # Amazon Polly Sensors to see last message and location of audible notification
 - platform: mqtt
   name: "Jarvis Last Msg"
@@ -217,7 +208,7 @@
     na_entities:
       friendly_name: 'NA Entities'
       value_template: >-
-        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list }}
+        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | truncate(250, False) }}
     na_entities_count:
       friendly_name: 'Number of NA Entities'
       value_template: >-
