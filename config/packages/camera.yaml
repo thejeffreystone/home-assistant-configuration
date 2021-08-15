@@ -36,6 +36,13 @@ sensor:
     - captured_today
     - signal_strength
 
+binary_sensor:
+  - platform: aarlo
+    monitored_conditions:
+    - motion
+    - sound
+    - ding
+
 camera:
   - platform: mjpeg
     name: Garage Door Cam 
