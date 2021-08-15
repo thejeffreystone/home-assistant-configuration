@@ -449,12 +449,45 @@
 - name: teams call
   id: teams_call
   entities:
+    light.jeff_lamp:
+      state: 'on'
+      brightness: 67.5
+      color_temp: 299
+    light.master_bedroom_dresser_lamp:
+      state: 'on'
+      brightness: 255
+    light.kat_lamp:
+      state: 'on'
+      brightness: 255
+    light.master_bedroom_tower_lamp:
+      state: 'on'
+      brightness: 255
+      color_temp: 299
+    light.desk_accent:
+      state: 'on'
+      brightness: 255
+      rgb_color:
+        - 7 
+        - 130
+        - 255
+    switch.dazzned50:
+      state: 'off'
     switch.tplink_a2:
       state: 'off'
-    light.jeff_desk_lamp:
+    light.warning_light:
       state: 'on'
-      brightness: 12.75
+      brightness: 255
+      rgb_color:
+      - 255
+      - 0
+      - 67
     
+- name: teams call done
+  id: teams_call_done
+  entities:
+    light.warning_light:
+      state: 'off'
+      
 
 - name: film time over
   id: film_time_over
