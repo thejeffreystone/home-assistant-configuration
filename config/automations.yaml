@@ -5,6 +5,10 @@
     from: 'off'
     platform: state
     to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.sentry_mode
+    state: "on"
   action:
   - service: image_processing.scan
     entity_id: image_processing.doods_driveway
@@ -18,10 +22,7 @@
         data:
           who: jeff
           title: Person Detected!
-          message: '{{ states("image_processing.doods_driveway") | int}} people detected
-            near vehicles
-
-            '
+          message: '{{ states("image_processing.doods_driveway") | int}} people detected near vehicles/'
           url: /media/images/driveway_latest.jpg
           content_type: JPEG
     default: []
@@ -33,36 +34,36 @@
     from: Away
     platform: state
     to: Home
+    id: family
   - platform: zone
     entity_id: person.jeffrey
     zone: zone.home
     event: enter
+    id: jeffrey
   - entity_id: device_tracker.mal
     from: not_home
     platform: state
     to: home
+    id: mal
   - platform: zone
     entity_id: person.katherine
     zone: zone.home
     event: enter
+    id: kat
   condition: []
   action:
   - service: script.family_is_home
   - choose:
     - conditions:
-      - condition: template
-        value_template: '{{ trigger.to_state.attributes.friendly_name == "jeffrey"
-          }}'
+      - condition: trigger
+        id: jeffrey
       sequence:
-      - service: script.jeff_destination_na
-        data: {}
       - service: input_boolean.turn_off
         data: {}
         entity_id: input_boolean.jeff_travel_monitor
     - conditions:
-      - condition: template
-        value_template: '{{ trigger.to_state.attributes.friendly_name =="katherine"
-          }}'
+      - condition: trigger
+        id: kat
       sequence:
       - service: input_boolean.turn_off
         data: {}
@@ -439,16 +440,15 @@
   - platform: time
     at: '18:00:00'
   condition:
-  - condition: template
-    value_template: '{{ (states(''sensor.daily_rainfall'') | int | round(2) +  states(''sensor.previous_rainfall'')
-      | int) >= ''.5'' | float}}'
+  - condition: numeric_state
+    entity_id: sensor.previous_rainfall
+    below: '.6'
   action:
   - service: script.text_notify
     data:
       who: all_ios
-      message: The Garden has only received {{ (states('sensor.daily_rainfall') |
-        int | round(2) +  states('sensor.previous_rainfall') | int) }} inches of rain
-        in the last 48 hours.
+      message: The Garden has received {{ states('sensor.previous_rainfall') | int
+        | round(2) }} inches of rain in the last 48 hours.
   mode: single
 - id: '1627078744808'
   alias: buy more xlm
@@ -490,8 +490,8 @@
   - platform: state
     entity_id: input_boolean.vacation_mode
     id: cancel
-    from: 'off'
-    to: 'on'
+    from: 'on'
+    to: 'off'
   condition: []
   action:
   - choose:
@@ -502,9 +502,8 @@
         entity_id: input_boolean.vacation_mode
         state: 'on'
       sequence:
-      - service: script.turn_on
-        target:
-          entity_id: script.randomize_vacation_lights
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.randomize_vacation_lights
     - conditions:
       - condition: or
         conditions:
@@ -513,9 +512,8 @@
         - condition: trigger
           id: cancel
       sequence:
-      - service: script.turn_off
-        target:
-          entity_id: script.randomize_vacation_lights
+      - service: nput_boolean.turn_off
+        entity_id: input_boolean.randomize_vacation_lights
     default: []
   mode: single
 - id: '1627694115326'
@@ -551,5 +549,67 @@
       - service: script.turn_on
         target:
           entity_id: script.skylar_nightly_briefing
+    default: []
+  mode: single
+- id: hauntedhouse_on_demo
+  alias: HauntedHouse Automation
+  trigger:
+  - platform: state
+    entity_id: input_boolean.this_is_halloween
+    to: 'on'
+    from: 'off'
+    id: start
+  - platform: state
+    entity_id: input_boolean.this_is_halloween
+    id: stop
+    from: 'on'
+    to: 'off'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: start
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.haunted_house
+    - conditions:
+      - condition: trigger
+        id: stop
+      sequence:
+      - service: script.turn_off
+        target:
+          entity_id: script.haunted_house
+      - service: media_player.media_stop
+        target:
+          entity_id: media_player.ha_speaker
+    default: []
+  initial_state: true
+  mode: single
+- id: '1628522379902'
+  alias: Test Turn on Vacation Lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.randomize_vacation_lights
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.randomize_vacation_lights
+        state: 'on'
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.randomize_vacation_lights
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.randomize_vacation_lights
+        state: 'off'
+      sequence:
+      - service: script.turn_off
+        target:
+          entity_id: script.randomize_vacation_lights
     default: []
   mode: single
