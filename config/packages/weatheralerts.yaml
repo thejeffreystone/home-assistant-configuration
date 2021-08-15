@@ -1296,7 +1296,7 @@ automation:
   ## Automation to trigger a UI notification when there is an active weather alert.
   ## weatheralerts_alert_1 should always contain most recent alert.
   - alias: Weather Alert UI Notification - 1
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: state
         entity_id: sensor.weatheralerts_alert_1_last_changed
@@ -1531,8 +1531,9 @@ automation:
 
   - alias: Lightning Detected
     trigger:
-      - platform: template
-        value_template: '{{ states.sensor.acurite_6045m_3078_strcnt.state | int > states.sensor.lightning_total_count.state | int }}'
+      - platform: state
+        entity_id: binary_sensor.lightning_detected_2
+        to: 'Unsafe'
     condition:
       - condition: state
         entity_id: input_boolean.lightning_warning
@@ -1542,17 +1543,17 @@ automation:
         data_template:
           who: "jeff"
           title: "Lightning Detected!"
-          message: "Lightning has been detected within 20 miles of Anchorage House"
+          message: "Lightning has been detected within 20 miles of Anchorage House. Nearest storm is {{ states('sensor.acurite_6045m_3078_stdist') }} miles away."
       - service: input_boolean.turn_on
         entity_id: input_boolean.lightning_warning
       - service: script.lightning_warning_audible
 
 
   - alias: Lightning Warning Off
-    mode: restart
     trigger:
-      - platform: template
-        value_template: '{{ states.sensor.acurite_6045m_3078_strcnt.state | int == states.sensor.lightning_total_count.state | int }}'
+      - platform: state
+        entity_id: binary_sensor.lightning_detected_2
+        to: 'Safe'
         for:
           minutes: 20
     condition:
@@ -1651,11 +1652,11 @@ script:
         data:
           notification_id: "weatheralerts_alert"
         ## Create a new persistant notification in the UI for a new alert
-      - service_template: >
+      - service: >
           {% if states.sensor.weatheralerts.state != '0' %}
             persistent_notification.create
           {% endif %}
-        data_template:
+        data:
           notification_id: "weatheralerts_alert"
           message: "{{ message }}"
           title: "{{ title }}"
