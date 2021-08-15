@@ -646,8 +646,16 @@ script:
             {% if states.input_boolean.audible_notifications.state == 'on' %}
               {% if who == 'master_bedroom' %}
                 .6
-              {% else %}
+              {% elif who == 'theater' %}
+                {% if is_state('media_player.tv', 'on') %}
+                  .3
+                {% else %}
+                  .5
+                {% endif %}
+              {% elif who == 'main' %}
                 .8
+              {% else %}
+                .6
               {% endif %} 
             {% else %}
               .5
