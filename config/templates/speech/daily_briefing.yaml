@@ -24,7 +24,7 @@
       
       
       <p>
-        The Weather in Grayson is {{states.sensor.acurite_6045m_3078_t.state|round}} degrees 
+        The Weather in Grayson is {{states('sensor.acurite_6045m_3078_f')|round}} degrees 
         {% if is_state('weather.home', 'rainy') %}
           {{ [
           'with rain.', 

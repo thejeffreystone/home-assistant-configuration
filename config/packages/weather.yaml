@@ -55,7 +55,7 @@ utility_meter:
   weekly_rainfall_in:
     source: sensor.acurite_rain899_2743_rt
     cycle: weekly
-  recent_lighting_strikes:
+  recent_lightning_strikes:
     source: sensor.acurite_6045m_3078_strcnt
     cycle: quarter-hourly
 
@@ -99,22 +99,6 @@ sensor:
   #   json_attributes_topic: "house/acurite2mqtt/Acurite-Tower_10968"
   #   device_class: temperature
 
-  - platform: mqtt
-    name: "Lightning total count"
-    state_topic: "house/lightning/total_count"
-  
-  - platform: mqtt
-    name: "Yesterday Rain Total"
-    state_topic: "house/rain/yesterday_total"
-
-  - platform: mqtt
-    name: "Rain Guage Total"
-    state_topic: "house/rain/cumlative_total"
-    
-  - platform: mqtt
-    name: "Previous Rain Guage Total"
-    state_topic: "house/rain/previous_cumlative_total"
-
   - platform: statistics
     name: Inside Humidity Stats
     entity_id: sensor.current_inside_humidity
@@ -124,25 +108,19 @@ sensor:
     sensors:
       backporch_weather:
         friendly_name: Back Porch Weather
-        value_template: "{{ states.sensor.acurite_6045m_3078_t.state | round}} °F / {{ states.sensor.acurite_6045m_3078_h.state }} %"
+        value_template: "{{ states('sensor.acurite_6045m_3078_f') | round}} °F / {{ states('sensor.acurite_6045m_3078_h') }} %"
       garage_weather:
         friendly_name: Garage Weather
-        value_template: "{{ states.sensor.acurite_tower_10968_t.state | round}} °F / {{ states.sensor.acurite_tower_10968_h.state }} %"
+        value_template: "{{ states('sensor.acurite_tower_10968_f') | round}} °F / {{ states('sensor.acurite_tower_10968_h') }} %"
       crawlspace_weather:
         friendly_name: Crawlspace Weather
-        value_template: "{{ states.sensor.acurite_609txc_73_t.state | round}} °F / {{ states.sensor.acurite_609txc_73_h.state }} %"
+        value_template: "{{ states('sensor.acurite_609txc_73_f') | round}} °F / {{ states('sensor.acurite_609txc_73_h') }} %"
       guestbath_weather:
         friendly_name: Guest Bath Weather
-        value_template: "{{ states.sensor.acurite_tower_guest_bath_t.state | round}} °F / {{ states.sensor.acurite_tower_guest_bath_h.state }} %"
+        value_template: "{{ states('sensor.acurite_tower_10331_f') | round}} °F / {{ states('sensor.acurite_tower_10331_h') }} %"
       masterbath_weather:
         friendly_name: Master Bath Weather
-        value_template: "{{ states.sensor.acurite_tower_master_bath_t.state | round}} °F / {{ states.sensor.acurite_tower_master_bath_h.state }} %"
-      rain_guage_in:
-        friendly_name: Rain Guage (Inches)
-        value_template: "{{ (states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) }}"
-      todays_rainfall:
-        friendly_name: Daily Rain (Inches)
-        value_template: "{{ (((states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) ) - ((states('sensor.previous_rain_guage_total') | float ))) | round(2) }}"
+        value_template: "{{ states('sensor.acurite_tower_12580_f') | round}} °F / {{ states('sensor.acurite_tower_master_bath_h') }} %"
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
@@ -260,10 +238,10 @@ sensor:
         value_template: "{{ states.climate.home.attributes.current_humidity }}"
       lighting_stike_count:
         friendly_name: "Lightning Strike Count"
-        value_template: "{{ states.sensor.back_porch_strike_count.state }}"
+        value_template: "{{ states('sensor.acurite_6045m_3078_strcnt') }}"
       previous_rainfall:
-        friendly_name: "Previous Rainfall"
-        value_template: "{{ states.sensor.daily_rainfall_in.attributes.last_period }}"
+        friendly_name: "Past 48h Rainfall"
+        value_template: "{{ states('sensor.daily_rainfall_in') | int + state_attr('sensor.daily_rainfall_in', 'previous_period') | int }}"
         
 
 automation:
@@ -314,28 +292,6 @@ automation:
       
  
 script:
-
-  store_rain_total:
-    sequence:
-      - service: mqtt.publish
-        data_template:
-          topic: 'house/rain/cumlative_total'
-          retain: true
-          payload: "{{ ((states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) )}}"
-      - service: mqtt.publish
-        data_template:
-          topic: 'house/rain/previous_cumlative_total'
-          retain: true
-          payload: "{{ ((states('sensor.acurite_rain899_2743_rt') | float / 25.4) | round(2) )}}"
-
-  store_lightning_count:
-    sequence:
-      - service: mqtt.publish
-        data:
-          topic: house/lightning/total_count
-          payload_template: "{{ states.sensor.acurite_6045m_3078_strcnt.state | int }}"
-          retain: true
-
 
   refresh_weather_alert_sensors:
     sequence: 
