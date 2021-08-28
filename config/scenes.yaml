@@ -416,6 +416,13 @@
 
 - name: skylar room morning
   entities:
+    light.wled_loftbed:
+      state: 'on'
+      brightness_pct: 100
+      rgb_color:
+      - 63
+      - 255
+      - 0
     switch.skylar_led_cube:
       state: 'off'
     switch.rainbow_lamp:
