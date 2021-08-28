@@ -23,7 +23,7 @@ http:
   # ssl_key: !secret ahsl_ssl_key
   use_x_forwarded_for: true
   trusted_proxies: !secret proxy_ips
-  ip_ban_enabled: true
+  ip_ban_enabled: false
   login_attempts_threshold: 5
 
 ssdp:
@@ -69,7 +69,8 @@ template:
     binary_sensor:
       - name: lightning_detected
         unique_id: lightning_detected_sensor
-        state: "{{ states('sensor.recent_lighting_strikes') | int > 0 }}"
+        state: >
+          {{ states('sensor.recent_lightning_strikes') | int > 0 }}
         device_class: safety
 
 updater:
@@ -98,7 +99,6 @@ input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml
 input_datetime: !include input_datetime.yaml
 zone: !include zones.yaml
-
 
 shell_command:
   google_token: sed -i -e 's/2client.client"}2client.client"}/2client.client"}/g' /config/.google.token

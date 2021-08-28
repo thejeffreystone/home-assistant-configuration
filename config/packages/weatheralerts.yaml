@@ -104,6 +104,16 @@ sensor:
               {% endfor %}
             {% endif %}
             {{ warnings.count }}
+          flood_warning_count: >-
+            {% set warnings = namespace(count=0) %}
+            {% if (state_attr('sensor.weatheralerts', 'alerts')) %}
+              {% for alert in state_attr('sensor.weatheralerts', 'alerts') %}
+                {% if 'flood warning' in alert.event.lower() and (as_timestamp(alert['endsExpires']) - as_timestamp(now()) > 0) %}
+                  {% set warnings.count = warnings.count + 1 %} 
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+            {{ warnings.count }}
           watch_count: >-
             {% set watches = namespace(count=0) %}
             {% if (state_attr('sensor.weatheralerts', 'alerts')) %}
@@ -129,6 +139,16 @@ sensor:
             {% if (state_attr('sensor.weatheralerts', 'alerts')) %}
               {% for alert in state_attr('sensor.weatheralerts', 'alerts') %}
                 {% if 'thunderstorm watch' in alert.event.lower() and (as_timestamp(alert['endsExpires']) - as_timestamp(now()) > 0) %}
+                  {% set watches.count = watches.count + 1 %} 
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+            {{ watches.count }}
+          flood_watch_count: >-
+            {% set watches = namespace(count=0) %}
+            {% if (state_attr('sensor.weatheralerts', 'alerts')) %}
+              {% for alert in state_attr('sensor.weatheralerts', 'alerts') %}
+                {% if 'flood watch' in alert.event.lower() and (as_timestamp(alert['endsExpires']) - as_timestamp(now()) > 0) %}
                   {% set watches.count = watches.count + 1 %} 
                 {% endif %}
               {% endfor %}
@@ -1429,23 +1449,85 @@ automation:
           entity_id: input_text.weatheralerts_triggered_alert_ids
           value: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_2', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_3', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_4', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_5', 'alert_id') }}"
 
-  - alias: NWS Notification Weather Alert
+  # - alias: NWS Notification Weather Alert
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.weatheralerts_active_alerts
+  #       attribute: warning_count
+  #       above: 0
+  #     - platform: numeric_state
+  #       entity_id: sensor.weatheralerts_active_alerts
+  #       attribute: watch_count
+  #       above: 0
+  #   action:
+  #     - service: script.text_notify
+  #       data_template:
+  #         title: "Weather Alert for Anchorage House"
+  #         message: >
+  #           There are currently {{ state_attr('sensor.weatheralerts_active_alerts', 'warning_count') | int }} active warnings and {{ state_attr('sensor.weatheralerts_active_alerts', 'watch_count') | int }} watches for our area.
+  
+  - alias: NWS Tornado Watch Notification
+    id: e1cb2b7c-0423-11eb-adc1-0242ac120002
     trigger:
       - platform: numeric_state
         entity_id: sensor.weatheralerts_active_alerts
-        attribute: warning_count
+        attribute: tornado_watch_count
         above: 0
+        id: watch
       - platform: numeric_state
         entity_id: sensor.weatheralerts_active_alerts
-        attribute: watch_count
-        above: 0
+        attribute: tornado_watch_count
+        below: 1
+        id: cancel
     action:
-      - service: script.text_notify
-        data_template:
-          title: "Weather Alert for Anchorage House"
-          message: >
-            There are currently {{ state_attr('sensor.weatheralerts', 'warning_count') | int }} active warnings and {{ state_attr('sensor.weatheralerts', 'watch_count') | int }} watches for our area.
-  
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: watch
+        sequence:
+        - service: script.text_notify
+          data_template:
+            message: "Tornado Watch Issued for Anchorage House"
+      - conditions:
+        - condition: trigger
+          id: cancel
+        sequence:
+        - service: script.text_notify
+          data_template:
+            message: "Tornado Watch no longer in effect for Anchorage House"
+      default: []
+
+  - alias: NWS TStorm Watch Notification
+    id: e1cb2938-0423-11eb-adc1-0242ac120002
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.weatheralerts_active_alerts
+        attribute: tstorm_watch_count
+        above: 0
+        id: watch
+      - platform: numeric_state
+        entity_id: sensor.weatheralerts_active_alerts
+        attribute: tstorm_watch_count
+        below: 1
+        id: cancel
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: watch
+        sequence:
+        - service: script.text_notify
+          data_template:
+            message: "Severe Thunderstorm Watch Issued for Anchorage House"
+      - conditions:
+        - condition: trigger
+          id: cancel
+        sequence:
+        - service: script.text_notify
+          data_template:
+            message: "Severe Thunderstorm no longer in effect for Anchorage House"
+      default: []
+      
   
   # Announce Severe Weather
   - alias: NWS Announce Weather Alert
@@ -1464,6 +1546,9 @@ automation:
           - condition: template
             value_template: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') not in states('input_text.weatheralerts_triggered_audible_alert_ids') }}"
     action:
+      - service: script.text_notify
+        data_template:
+          message: "Severe Thunderstorm Warning Issued for Anchorage House"
       - service: script.status_annc
         data_template:
           who: '{{ states.sensor.room_presence.state }}'
@@ -1496,6 +1581,9 @@ automation:
         attribute: tornado_warning_count
         above: 0
     action:
+      - service: script.text_notify
+        data_template:
+          message: "Tornado Warning Issued for Anchorage House"
       - service: script.jarvis_alert
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
@@ -1532,7 +1620,7 @@ automation:
   - alias: Lightning Detected
     trigger:
       - platform: state
-        entity_id: binary_sensor.lightning_detected_2
+        entity_id: sensor.lightning_warning
         to: 'Unsafe'
     condition:
       - condition: state
@@ -1552,7 +1640,7 @@ automation:
   - alias: Lightning Warning Off
     trigger:
       - platform: state
-        entity_id: binary_sensor.lightning_detected_2
+        entity_id: sensor.lightning_warning
         to: 'Safe'
         for:
           minutes: 20
