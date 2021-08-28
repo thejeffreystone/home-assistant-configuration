@@ -5,6 +5,7 @@
 #   @description    :   All the Camera related stuff 
 ###############################################################################
 
+#######################################################################
 # Using the HACS Arlo Integration 
 aarlo:
   host: https://my.arlo.com
@@ -26,7 +27,7 @@ alarm_control_panel:
   - platform: aarlo
     home_mode_name: home
     away_mode_name: Armed
-
+  
 sensor:
   - platform: aarlo
     monitored_conditions:
@@ -42,6 +43,9 @@ binary_sensor:
     - motion
     - sound
     - ding
+
+
+#######################################################################
 
 camera:
   - platform: mjpeg
