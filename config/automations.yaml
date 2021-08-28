@@ -448,8 +448,7 @@
   - service: script.text_notify
     data:
       who: all_ios
-      message: The Garden has received {{ states('sensor.previous_rainfall') | int
-        | round(2) }} inches of rain in the last 48 hours.
+      message: The Garden has received {{ states('sensor.previous_rainfall') | round(2) }} inches of rain in the last 48 hours.
   mode: single
 - id: '1627078744808'
   alias: buy more xlm

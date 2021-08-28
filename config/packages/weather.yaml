@@ -244,7 +244,7 @@ sensor:
         value_template: "{{ state_attr('sensor.daily_rainfall_in', 'last_period') }}"
       previous_rainfall:
         friendly_name: "Past 48h Rainfall"
-        value_template: "{{ states('sensor.daily_rainfall_in') | int  + state_attr('sensor.daily_rainfall_in', 'last_period') | int  }}"
+        value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
       lightning_warning:
         friendly_name: "Lightning Warning"
         value_template: >-
