@@ -8,7 +8,7 @@
   condition:
   - condition: state
     entity_id: input_boolean.sentry_mode
-    state: "on"
+    state: 'on'
   action:
   - service: image_processing.scan
     entity_id: image_processing.doods_driveway
@@ -22,7 +22,8 @@
         data:
           who: jeff
           title: Person Detected!
-          message: '{{ states("image_processing.doods_driveway") | int}} people detected near vehicles/'
+          message: '{{ states("image_processing.doods_driveway") | int}} people detected
+            near vehicles/'
           url: /media/images/driveway_latest.jpg
           content_type: JPEG
     default: []
@@ -612,4 +613,109 @@
         target:
           entity_id: script.randomize_vacation_lights
     default: []
+  mode: single
+- id: '1629578209876'
+  alias: Remote System Heartbeat
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: remote_system_heartbeat
+    id: heartbeat
+  - platform: time_pattern
+    id: update
+    minutes: /30
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: heartbeat
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.remote_system_heartbeat
+        data:
+          datetime: '{{ now().strftime(''%Y-%m-%d %H:%M:%S'') }}'
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.remote_system_status
+        data:
+          option: alive
+    - conditions:
+      - condition: trigger
+        id: update
+      - condition: template
+        value_template: '{{ (as_timestamp(now()) - as_timestamp(states(''input_datetime.remote_system_heartbeat'')))
+          < 3600 }}'
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.remote_system_status
+        data:
+          option: alive
+    default:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.remote_system_status
+      data:
+        option: unknown
+    - service: notify.mobile_app_jeffrey_ha_app
+      data:
+        message: Remote System is Down!!
+  mode: single
+- id: '1629581648846'
+  alias: Remote System Alert
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.remote_system_status
+    from: alive
+    to: unknown
+    id: alert
+  - platform: state
+    entity_id: input_select.remote_system_status
+    id: alive
+    from: unknown
+    to: alive
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: alert
+      sequence:
+      - service: notify.mobile_app_jeffrey_ha_app
+        data:
+          message: Remote System is Down!!
+    - conditions:
+      - condition: trigger
+        id: alive
+      sequence:
+      - service: notify.mobile_app_jeffrey_ha_app
+        data:
+          message: Remote System is Alive again
+    default: []
+  mode: single
+- id: '1629837216637'
+  alias: Send Heartbeat
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /30
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: rest_command.remote_system_webhook
+  mode: single
+- id: just_a_test_webhook
+  alias: Testing Webhooks
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: send_a_message
+  action:
+  - service: notify.mobile_app_jeffrey_ha_app
+    data:
+      message: Webhook Got Touched!
   mode: single
