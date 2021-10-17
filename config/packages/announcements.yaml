@@ -195,6 +195,19 @@ automation:
           who: "all_ios"
           message: It's almost time to head for school.
 
+  - alias: Lightning Detected Demo
+    trigger:
+      - platform: state
+        entity_id: sensor.lightning_warning
+        to: 'Unsafe'
+    action:
+    - service: script.status_annc
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
+        call_greeting: 1
+        call_time_is: 1
+        call_lighting_warning: 1
+
 script:
   reset_annc_switches:
     sequence:
@@ -275,4 +288,19 @@ script:
       data:
         who: master_bedroom
         message: !include ../templates/speech/morning_wakeup_report.yaml
-            
+  
+  haiku_day:
+    sequence:
+    - service: script.speech_engine_simplified
+      data:
+        who: media_player.ha_speaker
+        message: >
+          I know a Haiku. This one is called,
+              {{ [
+              'Good Morning From the Cat. <break time="1s"/>In the morning light, You sleep despite my meow, I stand on your face.',
+              'Tee Rex Hug. <break time="1s"/> The Tee Rex likes you, But he cant give you a hug, His arms are too short.',
+              'It Fits. <break time="1s"/> It Fits perfectly, because every box is the, Right size for a cat.',
+              'Minecraft Creepers. <break time="1s"/> Creepers are so cruel, I hear a hiss from behind, Bam! There goes my stuff.'
+            ]|random }}
+
+ 

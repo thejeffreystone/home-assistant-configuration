@@ -497,6 +497,19 @@ script:
           message: >
             {{ message }}
 
+
+
+
+
+  # Use this Simplfied Script by calling in automaint or script like:
+  # service: script.speech_engine_simplified
+  # data:
+  #   who: media_player.ha_speaker
+  #   #who:  “{{ states(‘sensor.room_presence’) }}”
+  #   #who: notify.kitchen_echo
+  #   message: something to say
+  #
+  # 
   speech_engine_simplified:
     sequence:
       - condition: state
@@ -510,29 +523,33 @@ script:
         state: 'off'
       - service: tts.amazon_polly_say
         data_template:
-          entity_id: media_player.ha_speaker
+          entity_id: >-
+            {{ who }}
           message: >-
             <speak>
             <break time="1s"/>
             {{ message }}
             </speak>
           cache: true
-      # - service: notify.alexa_media_living_room_echo
-      #   data: 
-      #     message: >
-      #       {{ message }}
-      #     data:
-      #       type: tts
-      # - service: tts.cloud_say
-      #   data_template:
-      #     entity_id: media_player.ha_speaker
-      #     message: >-
-      #         {{ message }}
-      #     cache: true
-      #     language: en-GB
-      #     options: 
-      #       gender: male
+      - service: >-
+           {{ who }}
+        data: 
+          message: >
+            {{ message }}
+          data:
+            type: tts
+      - service: tts.cloud_say
+        data_template:
+          entity_id: >-
+           {{ who }}
+          message: >-
+              {{ message }}
+          cache: true
+          language: en-GB
+          options: 
+            gender: male
       
+
   
   # Called wheh notification needs to play on echos
   alexa_voice:
@@ -586,6 +603,10 @@ script:
             type: tts
     - delay: 00:00:20
     - service: script.raise_main_volume
+ 
+
+
+
  
   # Default audible notifications. Notifcations play on the google devices. 
   jarvis_voice:

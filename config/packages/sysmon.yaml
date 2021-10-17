@@ -74,6 +74,9 @@ sensor:
 utility_meter:
   # Use the 7 day history of motion at front door
   # to get daily motion.
+  hourly_frontdoor_motion:
+    source: sensor.front_door_motion
+    cycle: hourly
   daily_frontdoor_motion:
     source: sensor.front_door_motion
     cycle: daily

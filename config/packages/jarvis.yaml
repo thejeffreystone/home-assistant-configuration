@@ -43,6 +43,77 @@ automation:
         call_house_party_protocol_disabled: 1
             
 script:
+  
+  # To Use:
+  # service: script.amp_voice
+  # Data
+  #  who: media_player_ha_speaker
+  #   #who:  “{{ states(‘sensor.room_presence’) }}” 
+  #   message: something to say
+  #
+  amp_voice:
+    sequence:
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {{ who }} 
+    - service: script.dim_main_volume
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {{ who }}
+        volume_level: >
+            {% if is_state('input_boolean.audible_notifications.state','on') %}
+              .6
+            {% else %}
+              .4
+            {% endif %}
+    - service: >
+        {{ who }}
+      data: 
+          message: >
+            {{ message }}
+          data:
+            type: tts
+    - delay: 00:00:20
+    - service: script.raise_main_volume
+  
+
+
+  # To Use:
+  # service: script.polly_voice
+  # Data
+  #  who: media_player_ha_speaker
+  #   #who:  “{{ states(‘sensor.room_presence’) }}” 
+  #   message: something to say
+  #
+  polly_voice:
+    sequence:
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {{ who }}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {{ who }}
+        volume_level: >
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+              .7
+            {% else %}
+              .4
+            {% endif %}
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: >
+          {{ who }}
+        message: >-
+          <speak>
+          <break time="1s"/>
+          {{ message }}
+          </speak>
+        cache: true
+  
 
   alexa_interjection:
     sequence:
