@@ -8,3 +8,8 @@ garage_after_dark:
   skip_first: False
   notifiers:
   - all_ios
+  data:
+    push:
+      sound:
+        name: "alarm.caf"
+        critical: 1
