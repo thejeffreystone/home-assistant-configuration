@@ -213,6 +213,7 @@ script:
            "https://www.youtube.com/watch?v=oeLcHIpTlHU"
             ] | random -}}
 
+
   # Update this script with your local sounds.
   # Each time this script is called it will play a random sound
   haunted_sounds:
@@ -253,6 +254,42 @@ script:
             "/media/haunted_sounds/Haunted-TollingBell.mp3",
             "/media/haunted_sounds/Haunted-Vocals.mp3"
             ] | random -}}
+
+  haunted_sounds_git:
+    sequence:
+    # Ensure that haunted sounds are allowed. Comment out if not needed.
+    - condition: state
+      entity_id: input_boolean.haunted_sounds
+      state: 'on'
+    - service: script.youtube_audio # This script is in the audio.yaml in the packages folder. 
+      data:
+        speaker: >
+          {{ ['media_player.kitchen_display',
+              'media_player.upstairs_speaker',
+              'media_player.master_bedroom_speaker',
+              'media_player.croft_speaker',
+              'media_player.ha_speaker',
+              'media_player.skylars_bedroom_speaker',
+              'media_player.theater'
+              ] | random }} 
+        volume: .5
+         # I try to ensure each of the following links is 60 seconds or less. 
+        media: >
+          {{-[
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/EvilLaughCackle.mp3".
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/ChainsRattling.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/CreakingDoorSpooky.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Evil_Laugh_2.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Evillaugh.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-CatScream.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-DragonRoaring.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-Heart.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-ScaryScream.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-TollingBell.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Scary.mp3",
+            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/raven.mp3",
+          ] | random -}}
+ 
 
 ################################
   # local_audio is meant to be used to play audio in your media folder. (https://www.home-assistant.io/integrations/media_source/)
