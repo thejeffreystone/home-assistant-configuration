@@ -6,7 +6,10 @@
 ###############################################################################
 
 #######################################################################
-# Using the HACS Arlo Integration 
+# Using the HACS Arlo Integration
+# If you see the cloudflare error in the logs uncomment the user_agent line and try that
+#
+# Also, Don't forget to add the Camera section below.  
 aarlo:
   host: https://my.arlo.com
   username: !secret arlo_user
@@ -20,6 +23,7 @@ aarlo:
   tfa_host: 'imap.gmail.com'
   tfa_username: !secret GV_USER
   tfa_password: !secret GV_PASS
+  #user_agent: linux
 
 # Arlo Integration
 alarm_control_panel:
@@ -44,13 +48,19 @@ binary_sensor:
     - sound
     - ding
 
+input_boolean:
+  backyard_motion:
+    name: Backyard Motion
+    icon: mdi:motion-sensor
+
+# Dont forget the Camera - Commented out because its really defined below. 
+# camera:
+#   - platform: aarlo
+#     ffmpeg_arguments: '-pred 1 -q:v 2'
 
 #######################################################################
 
 camera:
-  - platform: mjpeg
-    name: Garage Door Cam 
-    mjpeg_url: !secret garage_cam # foscam
   - platform: aarlo
     ffmpeg_arguments: '-pred 1 -q:v 2'
   - platform: ffmpeg
@@ -65,6 +75,9 @@ camera:
   - platform: ffmpeg
     input: !secret laundry_cam # wyze cam v2
     name: laundry camera
+  - platform: ffmpeg
+    name: "Backyard Ezviz"
+    input: !secret ezviz_c8c 
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg  
 
@@ -74,7 +87,9 @@ image_processing:
     detector: default
     scan_interval: 10000
     source:
-      - entity_id: camera.driveway
+      - entity_id: camera.c8c_f88801557
+      - entity_id: camera.reolinkduo_profile000_mainstream
+      - entity_id: camera.reolinkduo_profile010_mainstream
     file_out:
       - "/media/images/{{ camera_entity.split('.')[1] }}_latest.jpg"
     labels:
@@ -82,4 +97,30 @@ image_processing:
         confidence: 50
 
   
-          
+script:
+  backyard_motion:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.backyard_motion
+      state: 'off' 
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.backyard_motion
+    - delay: '00:01:00'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.backyard_motion
+
+automation:
+  - id: someone_on_your_deck
+    alias: Someone On Your Deck
+    initial_state: true
+    trigger:
+    # When the current time matches input_datetime.halloween_show, light this candle
+    - platform: state
+      entity_id: input_boolean.backyard_motion
+      to: 'on'
+      from: 'off'
+    action:
+    - service: script.text_notify
+      data:
+        who: "jeff"
+        message: "Wanker in the living room...I mean on the Back Deck"        
