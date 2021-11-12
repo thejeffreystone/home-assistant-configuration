@@ -188,27 +188,43 @@
     switch.fireplace_lights:
       state: 'off'
   id: d05c18cf0ddb4002ad0b28cc0c7f98f2
-# - name: diminished kitchen lights
-#   entities:
-#     light.kitchen_cabinets:
-#       state: 'on'
-#       brightness: 10
-#     switch.kitchen_light_strip:
-#       state: 'off'
-#   id: c0d8602152fb480d9731f8671f388b1b
+- name: diminished kitchen lights
+  entities:
+    light.kitchen_cabinets:
+      state: 'on'
+      brightness: 25
+    switch.kitchen_light_strip:
+      state: 'off'
+  id: c0d8602152fb480d9731f8671f388b1b
 - name: normal kitchen lighting
   entities:
     light.kitchen_cabinets:
       state: 'on'
-      brightness: 250
+      brightness: 255
     switch.kitchen_light_strip:
       state: 'on'
+    light.kitchen_sink:
+      state: 'on'
+      color_temp: 369
+      brightness: 255
   id: bbabfe8623f64c5d9678b603018fece6
+- name: security kitchen lighting
+  entities:
+    light.kitchen_sink:
+      state: 'on'
+      rgb_color: 
+      - 127
+      - 0
+      - 255
+      brightness: 255
+  id: bbabfe86234002ad0b28cc0c7f98f223     
 - name: kitchen lighting off
   entities:
     light.kitchen_cabinets:
       state: 'off'
     switch.kitchen_light_strip:
+      state: 'off'
+    light.kitchen_sink:
       state: 'off'
   id: d2f97475841a4b50b0ba06f22f0374cf
 - name: lights out
@@ -228,6 +244,8 @@
     group.master_bedroom:
       state: 'off'
     switch.rail_lights:
+      state: 'off'
+    light.kitchen_sink:
       state: 'off'
   id: e9a130a78603423185af94e892c70cd9
 - name: haunted preshow
@@ -404,7 +422,9 @@
       state: 'on'
     switch.wled_loftbed_nightlight:
       state: 'on'
-    switch.skylar_led_cube:
+    light.diffuser_skylars_bedroom:
+      state: 'on'
+    humidifier.diffuser_skylars_bedroom:
       state: 'on'
     input_boolean.skylar_awake:
       state: 'off'
@@ -423,16 +443,14 @@
       - 63
       - 255
       - 0
-    switch.skylar_led_cube:
-      state: 'off'
     switch.rainbow_lamp:
+      state: 'off'
+    light.diffuser_skylars_bedroom:
       state: 'off'
   id: dca10298716d46ad86cb894bfac295a5
 
 - name: skylar room day
   entities:
-    switch.skylar_led_cube:
-      state: 'off'
     switch.rainbow_lamp:
       state: 'off'
     light.wled_loftbed:

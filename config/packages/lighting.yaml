@@ -71,31 +71,31 @@ automation:
      
 
   # Kitchen lights needed when dark and there is motion
-  # - id: e1cb3d56-0433-12eb-adc1-0242ac120002
-  #   alias: Kitchen Lights Needed
-  #   mode: restart
-  #   initial_state: true
-  #   trigger:
-  #   - entity_id: binary_sensor.kitchen_motion_occupancy
-  #     from: 'off'
-  #     platform: state
-  #     to: 'on'
-  #   - entity_id: binary_sensor.back_door_motion
-  #     from: 'off'
-  #     platform: state
-  #     to: 'on'
-  #   action:
-  #   - choose:
-  #     - conditions:
-  #       - condition: state
-  #         entity_id: binary_sensor.quiet_time
-  #         state: 'on'
-  #       sequence:
-  #       - scene: scene.diminished_kitchen_lighting
-  #       - delay: 00:18:00
-  #       - scene: scene.kitchen_lighting_off
-  #     default:
-  #       - scene: scene.normal_kitchen_lighting
+  - id: e1cb3d56-0433-12eb-adc1-0242ac120002
+    alias: Kitchen Lights Needed
+    mode: restart
+    initial_state: true
+    trigger:
+    - entity_id: binary_sensor.kitchen_motion_occupancy
+      from: 'off'
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.back_door_motion
+      from: 'off'
+      platform: state
+      to: 'on'
+    action:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: binary_sensor.quiet_time
+          state: 'on'
+        sequence:
+        - scene: scene.diminished_kitchen_lighting
+        - delay: 00:18:00
+        - scene: scene.kitchen_lighting_off
+      default:
+        - scene: scene.normal_kitchen_lighting
 
   # Living lights needed when dark and there is motion
   - id: e1c9379a-0423-11eb-adc1-0242ac120002

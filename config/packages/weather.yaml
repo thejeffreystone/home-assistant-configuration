@@ -73,31 +73,6 @@ sensor:
     state: GA
     zone: 34
     county: 135
-  
-
-  # - platform: mqtt
-  #   name: "Back Porch"
-  #   state_topic: "house/acurite2mqtt/Acurite-6045M_3078"
-  #   unit_of_measurement: '°F'
-  #   value_template: "{{ value_json.temperature_F }}"
-  #   json_attributes_topic: "house/acurite2mqtt/Acurite-6045M_3078"
-  #   device_class: temperature
-  
-  # - platform: mqtt
-  #   name: "Crawlspace"
-  #   state_topic: "house/acurite2mqtt/Acurite-609TXC_73"
-  #   unit_of_measurement: '°F'
-  #   value_template: "{{ value_json.temperature_F }}"
-  #   json_attributes_topic: "house/acurite2mqtt/Acurite-609TXC_73"
-  #   device_class: temperature
-  
-  # - platform: mqtt
-  #   name: "Garage"
-  #   state_topic: "house/acurite2mqtt/Acurite-Tower_10968"
-  #   unit_of_measurement: '°F'
-  #   value_template: "{{ value_json.temperature_F }}"
-  #   json_attributes_topic: "house/acurite2mqtt/Acurite-Tower_10968"
-  #   device_class: temperature
 
   - platform: statistics
     name: Inside Humidity Stats
