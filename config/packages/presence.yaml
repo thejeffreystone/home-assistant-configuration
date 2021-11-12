@@ -319,7 +319,7 @@ automation:
   
   - id: welcome_home
     alias: Welcome Home
-    mode: queued
+    mode: restart
     trigger:
       - platform: state
         entity_id:
@@ -330,17 +330,23 @@ automation:
           - person.skylar
         from: 'not_home'
         to: 'home'
-    condition: 
-      condition: state
-      entity_id: input_boolean.welcome_home 
-      state: 'off'
     action:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.welcome_home
+          state: "on"
+        sequence:
+        - service: script.turn_on 
+          entity_id: script.welcome_briefing
+      default: 
       - service: group.set
         data:
           object_id: "arriving"
           add_entities: >-
             {{ trigger.to_state.entity_id }}
-      - delay: 00:03:00    
+      - wait_template: "{{ is_state('binary_sensor.laundry_room_door', 'on') }}"
+        timeout: '00:3:00'   
       - service: script.status_annc
         data_template:
           who: '{{ states.sensor.room_presence.state }}'
@@ -358,14 +364,10 @@ automation:
             {%- macro greeting_sentence(person, is_are, has_have) -%}
             {{ [
               person ~ has_have + " arrived.",
-              person ~ is_are + " in the neighborhood.",
-              person ~ is_are + " arriving.",
               "My sensors are picking up the presence of additional humans. " ~ person ~ has_have + " been identified as home.",
-              "Welcome back home " ~ person,
               "Guess who is home?" ~ person ~ is_are,
               "I am sensing a disturbance in the force. "  ~ person +" must be home!",
               person ~ is_are + "now in the house.",
-              person ~ "! You are home!",
               person  ~ is_are + " now here.  Hash tag Welcome Home.",
               person  ~ is_are + " now here.  Hash tag Home.",
               "I know a secret! "  ~ person ~ is_are +" home!",
@@ -380,8 +382,7 @@ automation:
       - service: group.set
         data:
           object_id: "arriving"
-          entities: []
-          
+          entities: []     
           
   - id: guests_have_arrived
     alias: Guests have arrived

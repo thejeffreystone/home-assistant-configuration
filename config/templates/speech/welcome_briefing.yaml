@@ -2,7 +2,7 @@
   {# Event Report #}
   {%- macro getReport() -%}
     <p>
-    {% set person = expand('group.arriving')|map(attribute='name')|join(' and ') %}
+    {% set person = expand('group.people')| selectattr('state', 'eq', 'home') | map(attribute='name')|join(' and ') %}
     {% set peoplecount = expand('group.arriving') | count %}
     {% if peoplecount == 0 %}
       <s>Welcome Home</s>
