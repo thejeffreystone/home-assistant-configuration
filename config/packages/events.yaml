@@ -223,7 +223,7 @@ automation:
     - service: script.turn_off
       entity_id: script.rex_manning_audio
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
 
   - id: new_ha_notification
     alias: New HA Notification
@@ -251,7 +251,7 @@ automation:
   #     condition: template
   #     value_template: '{{ states.calendar.skylar_school.state == "Off" }}'
   #   action:
-  #   - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
+  #   - wait_template: "{{ not is_state('media_player.ha_blue', 'playing') }}"
   #   - service: script.status_annc
   #     data_template:
   #       who: '{{ states.sensor.room_presence.state }}'
@@ -271,7 +271,7 @@ automation:
   #     entity_id: input_boolean.blackout_time
   #     state: 'on'
   #   action:
-  #   - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
+  #   - wait_template: "{{ not is_state('media_player.ha_blue', 'playing') }}"
   #   - service: script.status_annc
   #     data_template:
   #       who: '{{ states.sensor.room_presence.state }}'
@@ -323,15 +323,15 @@ script:
       entity_id: sensor.family_status
       state: Home
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.ha_blue
         volume_level: .4
     - service: media_player.play_media
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
       data:
-        media_content_id: http://192.168.7.40/audio/Rex_Manning_-_Say_No_More_Mon_Amour.mp3
+        media_content_id: /media/music/Rex_Manning_-_Say_No_More_Mon_Amour.mp3
         media_content_type: "music"
 
   digital_learning_notification:
