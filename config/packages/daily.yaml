@@ -359,9 +359,9 @@ automation:
         entity_id: input_datetime.good_morning
         data_template:
           time: > 
-            {% if states.calendar.skylar_school.attributes.offset_reached == True %}
+            {% if is_state_attr('calendar.skylar_school', 'offset_reached',True) %}
               06:45
-            {% elif states.binary_sensor.workday_sensor.state == 'on' %}
+            {% elif is_state('binary_sensor.workday_sensor.state','on') %}
               07:00
             {% else %}
               07:30
