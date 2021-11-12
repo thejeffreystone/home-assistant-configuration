@@ -7,6 +7,11 @@ Family:
   - person.jeffrey
   - person.katherine
 
+People:
+  - person.jeffrey
+  - person.katherine
+  - person.skylar
+
 arriving:
   name: Arriving
   entities: []
@@ -23,6 +28,10 @@ audio_devices:
   - media_player.kitchen_display
   - media_player.upstairs_speaker
   - media_player.master_bedroom_speaker
+  - media_player.croft_speaker
+  - media_player.ha_blue
+  - media_player.skylars_bedroom_speaker
+  - media_player.theater
 
 Outside Lights:
   - switch.driveway_light
@@ -93,9 +102,11 @@ vacation lights:
   - light.front_door_lamp
   - light.living_room_lamp
   - light.living_room_tower_lamp
-  - switch.fireplace_lights
-  - switch.croft_light
   - light.skylars_dresser_lamp
+  - light.kitchen_sink
+  - light.master_bedroom_tower_lamp
+  - light.jeff_lamp
+  - switch.fireplace_lights
 
 theater lights:
   - light.theater_lights
