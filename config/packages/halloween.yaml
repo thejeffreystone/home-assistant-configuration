@@ -75,8 +75,8 @@ automation:
       at: input_datetime.halloween_show
     action:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.this_is_halloween
-    - delay: '01:00:00'
+      entity_id: input_boolean.this_is_halloween  
+    - delay: '02:00:00'
     - service: input_boolean.turn_off
       entity_id: input_boolean.this_is_halloween
 
@@ -105,6 +105,12 @@ automation:
         - condition: trigger
           id: start
         sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/haunted_sounds/This_is_Halloween.mp3"
+            volume: .5
+            speaker: 'media_player.ha_blue'
+        - delay: '00:04:00'
         - service: script.turn_on
           target:
             entity_id: script.haunted_house
@@ -191,7 +197,7 @@ script:
               'media_player.upstairs_speaker',
               'media_player.master_bedroom_speaker',
               'media_player.croft_speaker',
-              'media_player.ha_speaker',
+              'media_player.ha_blue',
               'media_player.skylars_bedroom_speaker',
               'media_player.theater'
               ] | random }} 
@@ -214,8 +220,8 @@ script:
             ] | random -}}
 
 
-  # Update this script with your local sounds.
-  # Each time this script is called it will play a random sound
+  #Update this script with your local sounds.
+  #Each time this script is called it will play a random sound
   haunted_sounds:
     sequence:
     # Ensure that haunted sounds are allowed. Comment out if not needed.
@@ -229,7 +235,7 @@ script:
               'media_player.upstairs_speaker',
               'media_player.master_bedroom_speaker',
               'media_player.croft_speaker',
-              'media_player.ha_speaker',
+              'media_player.ha_blue',
               'media_player.skylars_bedroom_speaker',
               'media_player.theater'
               ] | random }} 
@@ -255,40 +261,40 @@ script:
             "/media/haunted_sounds/Haunted-Vocals.mp3"
             ] | random -}}
 
-  haunted_sounds_git:
-    sequence:
-    # Ensure that haunted sounds are allowed. Comment out if not needed.
-    - condition: state
-      entity_id: input_boolean.haunted_sounds
-      state: 'on'
-    - service: script.youtube_audio # This script is in the audio.yaml in the packages folder. 
-      data:
-        speaker: >
-          {{ ['media_player.kitchen_display',
-              'media_player.upstairs_speaker',
-              'media_player.master_bedroom_speaker',
-              'media_player.croft_speaker',
-              'media_player.ha_speaker',
-              'media_player.skylars_bedroom_speaker',
-              'media_player.theater'
-              ] | random }} 
-        volume: .5
-         # I try to ensure each of the following links is 60 seconds or less. 
-        media: >
-          {{-[
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/EvilLaughCackle.mp3".
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/ChainsRattling.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/CreakingDoorSpooky.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Evil_Laugh_2.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Evillaugh.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-CatScream.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-DragonRoaring.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-Heart.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-ScaryScream.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-TollingBell.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Scary.mp3",
-            "https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/raven.mp3",
-          ] | random -}}
+  # haunted_sounds_git:
+  #   sequence:
+  #   # Ensure that haunted sounds are allowed. Comment out if not needed.
+  #   - condition: state
+  #     entity_id: input_boolean.haunted_sounds
+  #     state: 'on'
+  #   - service: script.youtube_audio # This script is in the audio.yaml in the packages folder. 
+  #     data:
+  #       speaker: >
+  #         {{ ['media_player.kitchen_display',
+  #             'media_player.upstairs_speaker',
+  #             'media_player.master_bedroom_speaker',
+  #             'media_player.croft_speaker',
+  #             'media_player.ha_blue',
+  #             'media_player.skylars_bedroom_speaker',
+  #             'media_player.theater'
+  #             ] | random }} 
+  #       volume: .5
+  #        # I try to ensure each of the following links is 60 seconds or less. 
+  #       media: >
+  #         {{ [
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/EvilLaughCackle.mp3'.
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/ChainsRattling.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/CreakingDoorSpooky.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Evil_Laugh_2.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Evillaugh.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-CatScream.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-DragonRoaring.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-Heart.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-ScaryScream.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Haunted-TollingBell.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/Scary.mp3',
+  #           'https://raw.githubusercontent.com/thejeffreystone/home-assistant-configuration/master/config/media/haunted_sounds/raven.mp3'
+  #         ] | random }}
  
 
 ################################
@@ -300,7 +306,7 @@ script:
   # 
   # - service: script.local_audio
   #   data:
-  #     speaker: media_player.ha_speaker
+  #     speaker: media_player.ha_blue
   #     volume: .5
   #     media: /media/local_audio.mp3
   #
@@ -347,40 +353,40 @@ script:
   # 
   # - service: script.youtube_audio
   #   data:
-  #     speaker: media_player.ha_speaker
+  #     speaker: media_player.ha_blue
   #     volume: .5
   #     media: https://www.youtube.com/watch?v=pVeX4C9B1Lk
   #
-  youtube_audio:
-    sequence:
-    # Ensure that audible notifications are allowed. Comment out if not needed.
-    - condition: state
-      entity_id: input_boolean.audible_notifications
-      state: 'on'
-    # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
-    - condition: state
-      entity_id: sensor.family_status
-      state: Home
-    # Update the media player with the one you want to use
-    - service: media_player.turn_on
-      data:
-        entity_id: >
-          {{ speaker }}
-    # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
-    - service: media_player.volume_set
-      data:
-        entity_id: >
-          {{ speaker }}
-        volume_level: >
-          {{ volume }}
-    # This tells it to play the media and is set when the script is called. 
-    - service: media_extractor.play_media
-      data:
-        entity_id: >
-          {{ speaker }}
-        media_content_type: video/youtube
-        media_content_id: >
-          {{ media }}
+  # youtube_audio:
+  #   sequence:
+  #   # Ensure that audible notifications are allowed. Comment out if not needed.
+  #   - condition: state
+  #     entity_id: input_boolean.audible_notifications
+  #     state: 'on'
+  #   # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
+  #   - condition: state
+  #     entity_id: sensor.family_status
+  #     state: Home
+  #   # Update the media player with the one you want to use
+  #   - service: media_player.turn_on
+  #     data:
+  #       entity_id: >
+  #         {{ speaker }}
+  #   # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
+  #   - service: media_player.volume_set
+  #     data:
+  #       entity_id: >
+  #         {{ speaker }}
+  #       volume_level: >
+  #         {{ volume }}
+  #   # This tells it to play the media and is set when the script is called. 
+  #   - service: media_extractor.play_media
+  #     data:
+  #       entity_id: >
+  #         {{ speaker }}
+  #       media_content_type: video/youtube
+  #       media_content_id: >
+  #         {{ media }}
   
 # sensor:
 #   # Halloween Countdown Sensor using Wolfram Alpha. See the note at the top for a link to how to set it up

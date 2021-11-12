@@ -14,8 +14,8 @@
 # For more info on Media Players visit https://www.home-assistant.io/integrations/media_player/
 # MODIFY this section as needed or comment it out completely if not needed.
 # media_player:
-#   - platform: yamaha
-#     host: 192.168.7.152
+  # - platform: yamaha
+  #   host: 192.168.7.152
 
 ################################
 # Media extractor is used for playing youtube audio. For more info ->https://www.home-assistant.io/integrations/media_extractor/
@@ -36,6 +36,7 @@ script:
   # 
   # - service: script.local_audio
   #   data:
+  #     speaker: main
   #     volume: .5
   #     media: /media/local_audio.mp3
   #
@@ -51,18 +52,22 @@ script:
       state: Home
     # Update the media player with the one you want to use
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      data:
+        entity_id: >
+          {{ speaker }}
     # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
     - service: media_player.volume_set
       data:
-        entity_id: media_player.ha_speaker
+        entity_id: >
+          {{ speaker }}
         volume_level: >
           {{ volume }}
     - delay: 00:00:05
     # This tells it to play the media and is set when the script is called. 
     - service: media_player.play_media
-      entity_id: media_player.ha_speaker
       data:
+        entity_id: >
+          {{ speaker }}
         media_content_type: "music"
         media_content_id: >
           {{ media }}
@@ -78,6 +83,7 @@ script:
   # 
   # - service: script.youtube_audio
   #   data:
+  #     speaker: main
   #     volume: .5
   #     media: https://www.youtube.com/watch?v=pVeX4C9B1Lk
   #
@@ -93,18 +99,23 @@ script:
       state: Home
     # Update the media player with the one you want to use
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      data:
+        entity_id: >
+          {{ speaker }}
     # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
     - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.ha_speaker
+      data:
+        entity_id: >
+          {{ speaker }}
         volume_level: >
           {{ volume }}
-    # This tells it to play the media and is set when the script is called. 
+    # This tells it to play the media and is set when the script is called.
+    #  media_content_type: video/Youtube
     - service: media_extractor.play_media
-      entity_id: media_player.ha_speaker
-      data_template:
-        media_content_type: video/youtube
+      data:
+        entity_id: >
+          {{ speaker }}
+        media_content_type: music
         media_content_id: >
           {{ media }}
 
@@ -184,7 +195,44 @@ automation:
               main
             {% endif %}
           retain: true
-      
+
+  - id: e1cb287a-0423-11eb-adc1-0242ac120002
+    alias: Notification Volume Dim
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.audible_notifications
+        to: 'off'
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id:
+          - media_player.kitchen_display
+          - media_player.kitchen_echo
+          - media_player.upstairs_speaker
+          - media_player.croft_speaker
+          volume_level: .3
+
+  - id: e1cb27bc-0423-11eb-adc1-0242ac120002
+    alias: Notification Volume Normal
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.audible_notifications
+        to: 'on'
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id:
+          - media_player.kitchen_display
+          - media_player.kitchen_echo
+          - media_player.upstairs_speaker
+          - media_player.croft_speaker
+          - media_player.ha_blue
+          - media_player.living_room_echo
+          - media_player.master_bedroom_speaker
+          - media_player.skylars_bedroom_speaker
+          volume_level: .5
 
 
 sensor:

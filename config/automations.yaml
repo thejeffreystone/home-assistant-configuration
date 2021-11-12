@@ -160,7 +160,6 @@
   initial_state: true
 - id: driveway_motion_lighting
   alias: Driveway Motion Lighting
-  initial_state: true
   trigger:
   - platform: state
     entity_id: binary_sensor.aarlo_motion_driveway
@@ -179,6 +178,8 @@
       minutes: 1
   - service: script.turn_on
     entity_id: script.driveway_off
+  initial_state: true
+  mode: single
 - id: show_time_over
   alias: Show Time over
   initial_state: true
@@ -408,11 +409,11 @@
           seconds: 15
       - service: media_player.volume_set
         data:
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
           volume_level: 0.99
       - service: media_player.play_media
         target:
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
         data:
           media_content_id: /media/sounds/tornado_alarm.mp3
           media_content_type: music
@@ -420,7 +421,7 @@
           seconds: 110
       - service: media_player.play_media
         target:
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
         data:
           media_content_id: /media/sounds/tornado_alarm.mp3
           media_content_type: music
@@ -431,7 +432,7 @@
       sequence:
       - service: media_player.media_stop
         target:
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
     default: []
   mode: restart
 - id: '1626618008890'
@@ -448,7 +449,8 @@
   - service: script.text_notify
     data:
       who: all_ios
-      message: The Garden has received {{ states('sensor.previous_rainfall') | round(2) }} inches of rain in the last 48 hours.
+      message: The Garden has received {{ states('sensor.previous_rainfall') | round(2)
+        }} inches of rain in the last 48 hours.
   mode: single
 - id: '1627078744808'
   alias: buy more xlm
@@ -582,7 +584,7 @@
           entity_id: script.haunted_house
       - service: media_player.media_stop
         target:
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
     default: []
   initial_state: true
   mode: single
@@ -658,9 +660,6 @@
         entity_id: input_select.remote_system_status
       data:
         option: unknown
-    - service: notify.mobile_app_jeffrey_ha_app
-      data:
-        message: Remote System is Down!!
   mode: single
 - id: '1629581648846'
   alias: Remote System Alert
@@ -716,5 +715,92 @@
   action:
   - service: notify.mobile_app_jeffrey_ha_app
     data:
-      message: Webhook Got Touched!
+      message: '{{ trigger.json.message }}'
+  - service: '{{ trigger.json.service }}'
+    data:
+      entity_id: '{{ trigger.json.entity }}'
+  mode: single
+- id: '1630181709370'
+  alias: ifttt webhook
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: ifttt_webhook
+  condition: []
+  action:
+  - service: notify.mobile_app_jeffrey_ha_app
+    data:
+      message: 'A New Note: {{ trigger.json.message }}'
+  mode: single
+- id: '1630186526302'
+  alias: Daily Agenda
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: daily_agenda
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: house/daily/events
+      payload: '{{ trigger.json.events | truncate(250, False) | replace("anchoragehouse677@gmail.com","")
+        }}'
+      retain: true
+  mode: single
+- id: honiture_q6
+  alias: Honiture Q6
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.q6s2
+    id: q6s2_on
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.q6s2
+    id: q6s2_off
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: q6s2_on
+      sequence:
+      - service: media_player.play_media
+        target:
+          device_id: edb192da8c7f80c32410147961257fae
+        data:
+          media_content_id: q six s two go to work
+          media_content_type: routine
+    - conditions:
+      - condition: trigger
+        id: q6s2_off
+      sequence:
+      - service: media_player.play_media
+        target:
+          device_id: edb192da8c7f80c32410147961257fae
+        data:
+          media_content_id: q six s two go home
+          media_content_type: routine
+    default: []
+  mode: single
+- id: '1636680118730'
+  alias: Turn of Skylar's Humidifer
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: humidifier.diffuser_skylars_bedroom
+    to: 'on'
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: humidifier.turn_off
+    target:
+      entity_id: humidifier.diffuser_skylars_bedroom
   mode: single

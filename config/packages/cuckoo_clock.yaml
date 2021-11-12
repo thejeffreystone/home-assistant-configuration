@@ -29,15 +29,15 @@ automation:
             state: 'on'
 
     action:
-      - wait_template: "{{ not is_state('media_player.ha_speaker', 'playing') }}"
+      - wait_template: "{{ not is_state('media_player.ha_blue', 'playing') }}"
       - service: media_player.volume_set
         data:
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
           volume_level: 0.22
       - service: media_player.play_media
         data:
           entity_id: >
-              media_player.ha_speaker
+              media_player.ha_blue
           media_content_id: >
             {% if now().strftime("%M")|int == 30 %}
             https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/sounds/cuckoo-clock-01.wav

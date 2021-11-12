@@ -35,7 +35,7 @@ automation:
     action:
     - service: script.kill_this_ride
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.haunted_mansion_lights
   
@@ -44,7 +44,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
       to: 'playing'
     condition:
     - condition: state 
@@ -66,13 +66,13 @@ script:
       state: Home
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.ha_blue
         volume_level: .6
     - service: media_player.play_media
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
       data:
         #media_content_id: http://192.168.7.40/audio/haunted_mansion_preshow_full.mp3
-        media_content_id: http://192.168.7.40/audio/DL_Haunted_Mansion.mp3
+        media_content_id: /media/disney/DL_Haunted_Mansion.mp3
         media_content_type: "music"
   
   haunted_mansion_lights:

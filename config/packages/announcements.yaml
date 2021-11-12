@@ -70,18 +70,6 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
 
-
-  # - id: cb0063e4-1dfe-4537-8b9e-4f64b2eba35d
-  #   initial_state: true
-  #   alias: Skylar Nightly Announcements
-  #   trigger:
-  #     platform: template
-  #     value_template: "{{ states('sensor.time') == (state_attr('input_datetime.skylar_nightly_report', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
-  #   action:
-  #   - service: script.turn_on
-  #     entity_id: script.skylar_nightly_briefing
-    
-
   - id: 1d8f396a-f6ec-460d-97e3-d11900418f95
     alias: Good Morning Report
     initial_state: true
@@ -195,18 +183,18 @@ automation:
           who: "all_ios"
           message: It's almost time to head for school.
 
-  - alias: Lightning Detected Demo
-    trigger:
-      - platform: state
-        entity_id: sensor.lightning_warning
-        to: 'Unsafe'
-    action:
-    - service: script.status_annc
-      data:
-        who: '{{ states.sensor.room_presence.state }}'
-        call_greeting: 1
-        call_time_is: 1
-        call_lighting_warning: 1
+  # - alias: Lightning Detected Demo
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.lightning_warning
+  #       to: 'Unsafe'
+  #   action:
+  #   - service: script.status_annc
+  #     data:
+  #       who: '{{ states.sensor.room_presence.state }}'
+  #       call_greeting: 1
+  #       call_time_is: 1
+  #       call_lighting_warning: 1
 
 script:
   reset_annc_switches:
@@ -293,7 +281,7 @@ script:
     sequence:
     - service: script.speech_engine_simplified
       data:
-        who: media_player.ha_speaker
+        who: media_player.ha_blue
         message: >
           I know a Haiku. This one is called,
               {{ [

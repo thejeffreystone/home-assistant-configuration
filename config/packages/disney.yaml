@@ -131,7 +131,8 @@ automation:
     action:
     - service: script.youtube_audio
       data_template:
-        media: "http://192.168.7.40/audio/MK_MainStreet_Loop.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/MK_MainStreet_Loop.mp3
         volume: .4
   - id: mk_loop_off
     alias: MK Loop Off
@@ -142,7 +143,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -157,7 +158,8 @@ automation:
     action:
     - service: script.youtube_audio
       data_template:
-        media: "http://192.168.7.40/frontierland_loop.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/frontierland_loop.mp3
         volume: .4
   - id: frontier_loop_off
     alias: Frontier Loop Off
@@ -168,7 +170,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -183,7 +185,8 @@ automation:
     action:
     - service: script.youtube_audio
       data_template:
-        media: "http://192.168.7.40/adventureland_loop.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/adventureland_loop.mp3
         volume: .4
   - id: adventure_loop_off
     alias: Adventure Loop Off
@@ -194,7 +197,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -209,7 +212,8 @@ automation:
     action:
     - service: script.youtube_audio
       data_template:
-        media: "http://192.168.7.40/epcot_entrance_loop.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/epcot_entrance_loop.mp3
         volume: .4
   - id: epcotentrance_loop_off
     alias: Epcot Entrance Loop Off
@@ -220,7 +224,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -236,6 +240,7 @@ automation:
     action:
     - service: script.youtube_audio
       data_template:
+        speaker: media_player.ha_blue
         media: "https://www.youtube.com/watch?v=19-ooWL5R8w"
         volume: .4
   - id: pixar_pier_loop_off
@@ -247,7 +252,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -262,7 +267,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/tiki_room_audio.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/tiki_room_audio.mp3
         volume: .5
   - id: tiki_room_off
     alias: Tiki Room Off
@@ -273,7 +279,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -288,7 +294,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/illuminations.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/illuminations.mp3
         volume: .5
   - id: illuminations_off
     alias: Illuminations Off
@@ -299,7 +306,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
   
@@ -315,7 +322,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/Happily_Ever_After_Audio.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/Happily_Ever_After_Audio.mp3
         volume: .5
   - id: happy_ever_after_show_off
     alias: Happy Ever After Show Off
@@ -326,7 +334,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -341,7 +349,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/holidaywishes.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/holidaywishes.mp3
         volume: .5
 
   - id: holiday_wishes_show_off
@@ -353,7 +362,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
     - service: script.turn_off
@@ -383,7 +392,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
       to: 'playing'
     condition:
     - condition: state 
@@ -406,8 +415,9 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/spaceship_earth_ride.mp3"
-        volume: .6
+        speaker: media_player.ha_blue
+        media: /media/disney/spaceship_earth_ride.mp3
+        volume: .4
   - id: spaceship_earth_off
     alias: Spaceship Earth Off
     initial_state: true
@@ -417,7 +427,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
   
@@ -432,7 +442,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/boo_to_you_audio.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/boo_to_you_audio.mp3
         volume: .5
   - id: boo_to_you_show_off
     alias: Boo To You Show Off
@@ -443,7 +454,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -458,7 +469,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/holidaywishes.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/holidaywishes.mp3
         volume: .5
 
   - id: holiday_wishes_off
@@ -470,7 +482,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
   
@@ -485,12 +497,13 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/ML_Welcome_Show.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/ML_Welcome_Show.mp3
         volume: .5
     - delay:
         minutes: 8
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
     - service: input_boolean.turn_off
@@ -504,7 +517,7 @@ automation:
   #     to: 'off'
   #   action:
   #   - service: media_player.media_stop
-  #     entity_id: media_player.ha_speaker
+  #     entity_id: media_player.ha_blue
   #   - service: script.turn_off
   #     entity_id: script.youtube_audio
 
@@ -519,6 +532,7 @@ automation:
     action:
     - service: script.youtube_audio
       data_template:
+        speaker: media_player.ha_blue
         media: "https://www.youtube.com/watch?v=Ki-dZlHtdBk"
         volume: .5
   - id: trolly_audio_show_off
@@ -530,7 +544,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -545,7 +559,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/Pandora_Area_Loop.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/Pandora_Area_Loop.mp3
         volume: .4
   - id: pandora_audio_off
     alias: Pandora Audio Off
@@ -556,7 +571,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -572,7 +587,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/WDW_Resort_TV.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/WDW_Resort_TV.mp3
         volume: .4
   - id: resort_room_audio_off
     alias: Resort Room Off
@@ -583,7 +599,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -599,7 +615,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/The_American_Adventure.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/The_American_Adventure.mp3
         volume: .7
   - id: american_adventure_off
     alias: American Adventure Off
@@ -610,7 +627,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -625,7 +642,8 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/thelegendofsleepyhallow-readalong.mp3"
+        speaker: media_player.ha_blue
+        media: /media/disney/thelegendofsleepyhallow-readalong.mp3
         volume: .4
   - id: sleepy_hollow_readalong_off
     alias: Sleepy Hollow Readalong Off
@@ -636,7 +654,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -651,8 +669,9 @@ automation:
     action:
     - service: script.local_audio
       data_template:
-        media: "http://192.168.7.40/move_it_shake_dance_audio.mp3"
-        volume: .6
+        speaker: media_player.ha_blue
+        media: /media/disney/move_it_shake_dance_audio.mp3
+        volume: .4
   - id: move_dance_off
     alias: Move It Shake It Off
     initial_state: true
@@ -662,7 +681,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -685,7 +704,7 @@ automation:
       to: 'off'
     action:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
 
@@ -760,7 +779,7 @@ script:
   kill_this_ride:
     sequence:
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.turn_off
       entity_id: script.youtube_audio
     - service: script.turn_off
@@ -777,11 +796,11 @@ script:
       entity_id: sensor.family_status
       state: Home
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: media_player.play_media
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
       data:
-        media_content_id: http://192.168.7.40/wishes_5_min.mp3
+        media_content_id: /media/disney/wishes_5_min.mp3
         media_content_type: "music"
     - delay: 00:03:00
     - service: scene.turn_on
@@ -858,10 +877,10 @@ script:
       entity_id: sensor.family_status
       state: Home
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: script.youtube_audio
       data_template:
-        media: "http://192.168.7.40/haunted_guest_welcome.mp3"
+        media: /media/disney/haunted_guest_welcome.mp3
         volume: .5
 
 # Random Disney Park Music
@@ -869,6 +888,7 @@ script:
     sequence:
     - service: script.youtube_audio
       data_template:
+        speaker: media_player.ha_blue
         volume: .4
         media: >
          {{- ["http://192.168.7.40/Liberty_square_audio.mp3",
@@ -893,6 +913,7 @@ script:
     sequence:
     - service: script.youtube_audio
       data_template:
+        speaker: media_player.ha_blue
         volume: .4
         media: >
          {{- [

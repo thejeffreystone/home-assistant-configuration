@@ -47,7 +47,7 @@ tts:
     aws_secret_access_key: !secret aws_secret
     region_name: 'us-east-1'
     text_type: ssml
-    voice: Brian
+    voice: Matthew
     cache: True
     engine: neural
 
@@ -349,10 +349,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
@@ -375,10 +375,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              media_player.ha_speaker
+              media_player.ha_blue
             {% else %}
               media_player.house
             {% endif %}
@@ -423,10 +423,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              media_player.ha_speaker
+              media_player.ha_blue
             {% else %}
               media_player.house
             {% endif %}
@@ -478,14 +478,14 @@ script:
           {% elif who in ['kitchen_echo','livingroom_echo', 'garage_echo']  %}
             script.alexa_voice
           {% elif voice == 'jarvis' %}
-            {% if who == 'main' and is_state('media_player.ha_speaker','playing') %}
+            {% if who == 'main' and is_state('media_player.ha_blue','playing') %}
               {% set who = 'livingroom_echo' %}
               script.alexa_voice
             {% else %}
               script.jarvis_voice
             {% endif %}
           {% else %}
-            {% if who == 'main' and is_state('media_player.ha_speaker','playing') %}
+            {% if who == 'main' and is_state('media_player.ha_blue','playing') %}
               {% set who = 'livingroom_echo' %}
               script.alexa_voice
             {% else %}
@@ -504,7 +504,7 @@ script:
   # Use this Simplfied Script by calling in automaint or script like:
   # service: script.speech_engine_simplified
   # data:
-  #   who: media_player.ha_speaker
+  #   who: media_player.ha_blue
   #   #who:  “{{ states(‘sensor.room_presence’) }}”
   #   #who: notify.kitchen_echo
   #   message: something to say
@@ -574,9 +574,9 @@ script:
             notify.alexa_media_kitchen_echo
           {% elif who == 'garage_echo' %}
             notify.alexa_media_garage_echo
-          {% elif who == 'livingroom_echo' and is_state('media_player.ha_speaker','playing')  %}
-            {% set old_volume = states.media_player.ha_speaker.attributes.volume_level %}
-            media_player.ha_speaker
+          {% elif who == 'livingroom_echo' and is_state('media_player.ha_blue','playing')  %}
+            {% set old_volume = states.media_player.ha_blue.attributes.volume_level %}
+            media_player.ha_blue
           {% else %}
             notify.alexa_media_living_room
           {% endif %}
@@ -629,10 +629,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
@@ -655,10 +655,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
@@ -666,7 +666,7 @@ script:
         volume_level: >
             {% if states.input_boolean.audible_notifications.state == 'on' %}
               {% if who == 'master_bedroom' %}
-                .6
+                .5
               {% elif who == 'theater' %}
                 {% if is_state('media_player.tv', 'on') %}
                   .3
@@ -674,12 +674,12 @@ script:
                   .5
                 {% endif %}
               {% elif who == 'main' %}
-                .8
+                .5
               {% else %}
-                .6
+                .5
               {% endif %} 
             {% else %}
-              .5
+              .3
             {% endif %}
     - service: tts.amazon_polly_say
       data_template:
@@ -699,10 +699,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
@@ -734,10 +734,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
@@ -760,19 +760,19 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
           {% endif %}
         volume_level: >
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              .6
+              .5
             {% else %}
-              .4
+              .3
             {% endif %}
     - service: tts.cloud_say
       data_template:
@@ -792,10 +792,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.house
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.ha_blue
             {% else %}
             media_player.house
             {% endif %}
@@ -811,26 +811,26 @@ script:
   dim_main_volume:
     sequence:
     - condition: state
-      entity_id: 'media_player.ha_speaker'
+      entity_id: 'media_player.ha_blue'
       state: 'playing'
     - service: input_number.set_value
       data_template:
         entity_id: input_number.old_volume
         value: >
-          {{ states.media_player.ha_speaker.attributes.volume_level }}
+          {{ states.media_player.ha_blue.attributes.volume_level }}
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.ha_blue
         volume_level: .2
   
   raise_main_volume:
     sequence:
     - condition: state
-      entity_id: 'media_player.ha_speaker'
+      entity_id: 'media_player.ha_blue'
       state: 'playing'
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.ha_blue
         volume_level: >
           {{ states.input_number.old_volume.state }}    
 
@@ -1212,7 +1212,7 @@ script:
                 'Can a human be so kind and close it?',
                 'The air quality in this house has actually improved.',
                 'Closing the door would improve the security of the house.',
-                'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.'
+                'Hey. The door was just opened and this is crazy. But now you know. So. Close it maybe.'
                 ] | random }}
             {%- endmacro -%}
 
