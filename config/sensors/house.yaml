@@ -1,4 +1,6 @@
-
+- platform: mqtt
+  name: "daily_agenda_raw"
+  state_topic: "house/daily/events"
 - platform: history_stats
   name: Jeff Driving Time
   entity_id: binary_sensor.jeff_driving
@@ -17,7 +19,7 @@
     days: 7
 - platform: history_stats
   name: Speech time
-  entity_id: media_player.ha_speaker
+  entity_id: media_player.ha_blue
   state: 'playing'
   type: time
   end: '{{ now() }}'
@@ -205,10 +207,10 @@
       friendly_name: 'Number of Entities'
       value_template: >-
         {{ states | rejectattr('state', 'eq', 'unavailable') | list | count}}
-    na_entities:
-      friendly_name: 'NA Entities'
-      value_template: >-
-        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | truncate(250, False) }}
+    # na_entities:
+    #   friendly_name: 'NA Entities'
+    #   value_template: >-
+    #     {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | truncate(250, False) }}
     na_entities_count:
       friendly_name: 'Number of NA Entities'
       value_template: >-
