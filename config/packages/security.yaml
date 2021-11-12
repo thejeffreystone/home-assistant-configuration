@@ -53,6 +53,9 @@ input_boolean:
 
 sensor:
   - platform: authenticated
+  - platform: mqtt
+    name: front_door_motion_away_count
+    state_topic: "house/front_door_motion/away_count"
  
 
 automation:
@@ -112,6 +115,12 @@ automation:
         data: 
           entity_id: alarm_control_panel.aarlo_ah_base_station
           mode: 'Armed'
+      - service: media_player.play_media
+        target:
+          device_id: edb192da8c7f80c32410147961257fae
+        data:
+          media_content_id: disarm easy viz
+          media_content_type: routine
       - service: script.turn_on
         entity_id: script.reset_front_door_motion_count
 
@@ -288,7 +297,7 @@ automation:
         - service: script.jarvis_alert
           data_template:
             who: kitchen
-            message: "Turning on Dog Mode for twenty minutes."
+            message: "Turning on Dog Mode."
       - conditions:
         - condition: state
           entity_id: input_boolean.sentry_mode
@@ -301,8 +310,7 @@ automation:
           data:
             who: parents
             message: "Winston may be trying to go out and no one appears to be here to let him out."
-    - service: scene.turn_on
-      entity_id: scene.diminished_kitchen_lighting
+    - service: script.dog_mode_lighting_on
     - delay:
         minutes: 20
     - service: input_boolean.turn_off
@@ -426,10 +434,10 @@ automation:
       - condition: or
         conditions:
         - condition: state
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
           state: 'idle'
         - condition: state
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
           state: 'off'
     action:
     - choose:
@@ -438,13 +446,13 @@ automation:
           id: chime
         sequence:
         - service: media_player.turn_on
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
         - service: media_player.volume_set
           data_template:
-            entity_id: media_player.ha_speaker
-            volume_level: .5
+            entity_id: media_player.ha_blue
+            volume_level: .4
         - service: media_player.play_media
-          entity_id: media_player.ha_speaker
+          entity_id: media_player.ha_blue
           data:
             media_content_id: /media/sounds/door_open.wav
             media_content_type: "music"
@@ -653,7 +661,7 @@ automation:
     - service: script.turn_off
       entity_id: script.security_response
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: input_boolean.turn_off
       entity_id: input_boolean.security_alarm
     - service: scene.turn_on
@@ -687,7 +695,7 @@ automation:
     - service: script.turn_off
       entity_id: script.notification_security_alarm_audio
     - service: media_player.media_stop
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
   
   # If water leak is deteced near fridge, let everyone know. 
   - id: water_leak_detected
@@ -869,6 +877,27 @@ script:
           - service: image_processing.scan
             entity_id: image_processing.doods_driveway
 
+  # backyard_doods:
+  #   sequence:
+  #   - service: image_processing.scan
+  #     entity_id: image_processing.doods_driveway
+  #   - repeat:
+  #       while:
+  #         - condition: template
+  #           value_template: '{{ states("image_processing.doods_driveway") | int > 0 }}'
+  #       sequence:
+  #         - service: script.text_alert_image
+  #           data:
+  #             who: jeff
+  #             title: Person Detected!
+  #             message: >
+  #               {{ states("image_processing.doods_driveway") | int}} people detected near vehicles
+  #             url: /media/images/driveway_latest.jpg
+  #             content_type: JPEG
+  #         - delay: 00:01:00
+  #         - service: image_processing.scan
+  #           entity_id: image_processing.doods_driveway
+
   theater_occupancy:
     sequence:
     - service: image_processing.scan
@@ -928,13 +957,13 @@ script:
   #     entity_id: input_boolean.audible_notifications
   #     state: 'on'
   #   - service: media_player.turn_on
-  #     entity_id: media_player.ha_speaker
+  #     entity_id: media_player.ha_blue
   #   - service: media_player.volume_set
   #     data_template:
-  #       entity_id: media_player.ha_speaker
+  #       entity_id: media_player.ha_blue
   #       volume_level: .5
   #   - service: media_player.play_media
-  #     entity_id: media_player.ha_speaker
+  #     entity_id: media_player.ha_blue
   #     data:
   #       media_content_id: /media/sounds/door_open.wav
   #       media_content_type: "music"
@@ -946,13 +975,13 @@ script:
   #     entity_id: input_boolean.fire_alarm
   #     state: "on"
   #   - service: media_player.turn_on
-  #     entity_id: media_player.ha_speaker
+  #     entity_id: media_player.ha_blue
   #   - service: media_player.volume_set
   #     data_template:
-  #       entity_id: media_player.ha_speaker
+  #       entity_id: media_player.ha_blue
   #       volume_level: .75
   #   - service: media_player.play_media
-  #     entity_id: media_player.ha_speaker
+  #     entity_id: media_player.ha_blue
   #     data:
   #       media_content_id: http://192.168.7.40/fire_alarm.mp3
   #       media_content_type: "music"
@@ -1059,13 +1088,13 @@ script:
   notification_security_alarm_audio:
     sequence:
     - service: media_player.turn_on
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.ha_blue
         volume_level: .75
     - service: media_player.play_media
-      entity_id: media_player.ha_speaker
+      entity_id: media_player.ha_blue
       data:
         media_content_id: http://192.168.7.40/security_siren.mp3
         media_content_type: "music"
