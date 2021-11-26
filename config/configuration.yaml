@@ -47,7 +47,7 @@ device_tracker:
   - platform: eero_tracker
     consider_home: 300
     interval_seconds: 60
-    only_macs: "68:54:fd:29:20:87, 68:54:fd:d5:ae:3d, 50:dc:e7:5b:10:69, 2c:cc:44:bf:9b:b4, 28:18:78:74:79:10, 44:61:32:f8:c8:09, 64:cf:d9:3c:5d:0c, 50:02:91:ed:2c:47, ec:71:db:31:0e:6c, 4e:6d:02:24:ac:87, 7c:1c:4e:2e:62:30"
+    only_macs: "68:54:fd:29:20:87, 68:54:fd:d5:ae:3d, 50:dc:e7:5b:10:69, 2c:cc:44:bf:9b:b4, 28:18:78:74:79:10, 44:61:32:f8:c8:09, 64:cf:d9:3c:5d:0c, 50:02:91:ed:2c:47, ec:71:db:31:0e:6c, 4e:6d:02:24:ac:87, 7c:1c:4e:2e:62:30, dc:03:98:3e:a9:6d"
   # - platform: icloud3
   #   username: !secret ICLOUD_USER
   #   password: !secret ICLOUD_PASS
