@@ -666,20 +666,20 @@ script:
         volume_level: >
             {% if states.input_boolean.audible_notifications.state == 'on' %}
               {% if who == 'master_bedroom' %}
-                .5
+                {{ states('input_number.tts_volume') | float }}
               {% elif who == 'theater' %}
                 {% if is_state('media_player.tv', 'on') %}
-                  .3
+                  {{ states('input_number.tts_low_volume') | float }}
                 {% else %}
-                  .5
+                  {{ states('input_number.tts_volume') | float }}
                 {% endif %}
               {% elif who == 'main' %}
-                .5
+                {{ states('input_number.tts_volume') | float }}
               {% else %}
-                .5
+                {{ states('input_number.tts_volume') | float }}
               {% endif %} 
             {% else %}
-              .3
+              {{ states('input_number.tts_low_volume') | float }}
             {% endif %}
     - service: tts.amazon_polly_say
       data_template:
@@ -978,7 +978,7 @@ script:
               {{ [
                   'Pardon me, ',
                   'Excuse me, ',
-                  'I do not mean to interupt, but,',
+                  'I do not mean to interrupt, but,',
                   'I hate to interrupt, but,',
                   'I beg your pardon, ',
                   'I do not mean to intrude, but, ',
@@ -1137,7 +1137,6 @@ script:
 
             {%- macro washer_needs_emptying() -%}
               <p>
-              {%- if is_state('sensor.washer_status','complete') %}
                 The washing machine completed its cycle 
                 {% set seconds = now().timestamp() - as_timestamp(states.sensor.washer_status.last_changed) %}
                 {% set hours = seconds / 60 %}
@@ -1174,7 +1173,6 @@ script:
                   'You might want to move them to the dryer.'
                   ] | random }}
                 {% endif %}
-              {% endif %}
               </p>
             {%- endmacro -%}
 
