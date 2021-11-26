@@ -48,7 +48,12 @@ automation:
         entity_id: sensor.washer_status
         state: complete
     action:
-    - service: script.washer_running
+    #- service: script.washer_running
+    - service: mqtt.publish
+      data:
+        topic: house/washer/status
+        payload: running
+        retain: true
     initial_state: true
 
   - id: washer_complete
@@ -62,8 +67,35 @@ automation:
       entity_id: sensor.washer_status
       state: running
     action:
-    - service: script.washer_complete
+    #- service: script.washer_complete
+    - service: mqtt.publish
+      data:
+        topic: house/washer/status
+        payload: complete
+        retain: true
+    - service: mqtt.publish
+      data:
+        topic: house/washer/time_complete
+        payload: '{{ now().timestamp() }}'
+        retain: true
     initial_state: true
+
+  - id: washer_notification
+    initial_state: true
+    alias: Washer Notification
+    trigger:
+    - platform: state
+      entity_id: sensor.washer_status
+      from: running
+      to: complete
+    action:
+    - service: script.status_annc
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
+        call_interuption: 1
+        speech_message: It appears the washing machine has completed its cycle.
+    - service: script.turn_on
+      entity_id: script.washer_finished_notification_audible
 
   - id: washer_emptied
     initial_state: true
@@ -74,7 +106,12 @@ automation:
       from: 'off'
       to: 'on'
     action:
-    - service: script.washer_idle
+    #- service: script.washer_idle
+    - service: mqtt.publish
+      data:
+        topic: house/washer/status
+        payload: idle
+        retain: true
     - service: script.turn_off
       entity_id: script.washer_finished_notification_audible
     - service: mqtt.publish
@@ -83,19 +120,24 @@ automation:
         payload: '{{ now().timestamp() }}'
         retain: true
 
-  - id: washer_notification
+  - id: e1cb26fe-0423-11eb-adc1-0242ac120002
     initial_state: true
-    alias: Washer Notification
+    alias: Dryer Notification
     trigger:
     - platform: state
-      entity_id: sensor.washer_status
-      from: running
-      to: complete
-    - platform: event
-      event_type: event_washer_complete_notification
+      entity_id: binary_sensor.dryer_dry_completed
+      from: 'off'
+      to: 'on'
     action:
-    - service: script.turn_on
-      entity_id: script.washer_finished_notification_audible
+    - service: script.status_annc
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
+        call_interuption: 1
+        speech_message: It appears the dryer has finished.
+    - delay:
+        minutes: 15    
+    # - service: script.turn_on
+    #   entity_id: script.dryer_finished_notification_audible
   
   
   - id: dishwasher_idle
@@ -119,6 +161,54 @@ automation:
     action:
     - service: script.dishwasher_running
 
+  - id: e1cb2640-0423-11eb-adc1-0242ac120002 
+    alias: 3D Printing Notifications
+    trigger:
+    - platform: state 
+      entity_id: binary_sensor.octoprint_printing
+      to: "on"
+      id: printing_started
+    - platform: state 
+      entity_id: binary_sensor.octoprint_printing
+      to: "off"
+      id: printing_ended
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: printing_started
+        - condition: state
+          entity_id: sensor.octoprint_current_state
+          state: 'Printing'
+        sequence:
+        - service: script.status_annc
+          data:
+            who: '{{ states.sensor.room_presence.state }}'
+            call_interuption: 1
+            speech_message: The three d printer is printing.  
+      - conditions:
+        - condition: trigger
+          id: printing_started
+        - condition: state
+          entity_id: sensor.octoprint_current_state
+          state: 'Sending file to SD'
+        sequence:
+        - service: script.status_annc
+          data:
+            who: '{{ states.sensor.room_presence.state }}'
+            call_interuption: 1
+            speech_message: Uploading file to three d file has started. 
+      - conditions:
+        - condition: trigger
+          id: printing_ended
+        sequence:
+        - service: script.status_annc
+          data:
+            who: '{{ states.sensor.room_presence.state }}'
+            call_interuption: 1
+            speech_message: The three d printer has completed its job.
+  
+
 script:
 
   appliances_on:
@@ -138,15 +228,27 @@ script:
 
   washer_finished_notification_audible:
     sequence:
-    - delay:
-        minutes: 15
-    - service: script.washer_audible
-    - delay:
-        minutes: 30
-    - event: event_washer_complete_notification
-      event_data:
-        name: Washer Complete Notification
-        message: Washer has completed it's cycle
+    - repeat:
+        while:
+          - condition: state
+            entity_id: sensor.washer_status
+            state: 'complete'
+        sequence:
+        - delay:
+            minutes: 45
+        - service: script.washer_audible
+
+  # dryer_finished_notification_audible:
+  #   sequence:
+  #   - repeat:
+  #       while:
+  #         - condition: state
+  #           entity_id: sensor.washer_status
+  #           state: 'complete'
+  #       sequence:
+  #       - service: script.dryer_audible
+  #       - delay:
+  #           minutes: 45
 
   washer_audible:
     sequence:
