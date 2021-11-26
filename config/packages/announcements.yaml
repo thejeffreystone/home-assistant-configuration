@@ -207,7 +207,7 @@ script:
     - service: script.status_annc
       data_template:
         who: '{{ states.sensor.room_presence.state }}'
-        message: !include ../templates/speech/security_briefing.yaml
+        speech_message: !include ../templates/speech/security_briefing.yaml
 
   welcome_briefing:
     sequence:
