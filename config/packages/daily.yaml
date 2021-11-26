@@ -171,6 +171,8 @@ automation:
     - service: scene.turn_on
       entity_id: scene.normal_livingroom_lighting
     - service: script.sunset_garage_open
+    - service: switch.turn_on 
+      entity_id: switch.outdoor_lights
     - service: script.sundown_briefing
     - service: script.twitter_notify_image
       data_template:
@@ -210,6 +212,8 @@ automation:
     action:
     - service: homeassistant.turn_off
       entity_id: group.outside_lights
+    - service: switch.turn_off
+      entity_id: switch.outdoor_lights
     - service: script.twitter_notify_image
       data_template:
         tweet: >-

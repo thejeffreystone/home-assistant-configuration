@@ -91,6 +91,186 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.holiday_wishes
 
+
+  - id: e1cb2582-0423-11eb-adc1-0242ac120002
+    alias: Mainstreet USA Christmas Loop
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.mainstreet_usa_christmas_loop
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.mainstreet_usa_christmas_loop
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/MainStreetUSAChristmas.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb24ba-0423-11eb-adc1-0242ac120002
+    alias: Disneyland Christmas Loop
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.disneyland_christmas_loop
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.disneyland_christmas_loop
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/DisneylandChristmas.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb2348-0423-11eb-adc1-0242ac120002
+    alias: Disney Park Christmas Loop
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.disney_park_christmas_loop
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.disney_park_christmas_loop
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/DisneyParkHoliday.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb228a-0423-11eb-adc1-0242ac120002
+    alias: Christmas Around Disneyland
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.christmas_around_disneyland
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.christmas_around_disneyland
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/ChristmasAroundDisneyland.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb21cc-0423-11eb-adc1-0242ac120002
+    alias: Disney Springs Christmas
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.disney_springs_xmas
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.disney_springs_xmas
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/Disney_Springs_Xmas_Loop.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
   
 sensor:
   - platform: rest
@@ -106,3 +286,54 @@ sensor:
     value_template: "{{ (value|replace(' days', '')) | int }}"
     unit_of_measurement: Days
     scan_interval: 43200    
+
+
+script:
+  fireworks1d_xmas:
+    sequence:
+    - service: wled.effect
+      target:
+        entity_id: light.wled_tree
+      data:
+        effect: "Fireworks 1D"
+        intensity: 51
+    - service: light.turn_on
+      data: 
+        entity_id: light.wled_tree
+        brightness: 127
+  blends_xmas:
+    sequence:
+    - service: wled.effect
+      target:
+        entity_id: light.wled_tree
+      data:
+        effect: "Blends"
+        intensity: 43
+    - service: light.turn_on
+      data: 
+        entity_id: light.wled_tree
+        brightness: 43
+  aurora_xmas:
+    sequence:
+    - service: wled.effect
+      target:
+        entity_id: light.wled_tree
+      data:
+        effect: "Aurora"
+        intensity: 128
+    - service: light.turn_on
+      data: 
+        entity_id: light.wled_tree
+        brightness: 255
+  twinklefox_xmas:
+    sequence:
+    - service: wled.effect
+      target:
+        entity_id: light.wled_tree
+      data:
+        effect: "Twinklefox"
+        intensity: 128
+    - service: light.turn_on
+      data: 
+        entity_id: light.wled_tree
+        brightness: 127

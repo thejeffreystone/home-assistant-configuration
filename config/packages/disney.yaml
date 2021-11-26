@@ -60,6 +60,26 @@ input_boolean:
     name: Pixar Pier Loop
   disney_random_area_loop:
     name: Disney Random Area Loop
+  disneyland_christmas_loop:
+    name: Disneyland Christmas Loop
+  mainstreet_usa_christmas_loop:
+    name: Mainstreet Christmas Loop
+  disney_park_christmas_loop:
+    name: Disney Park Christmas Loop
+  christmas_around_disneyland:
+    name: Christmas Around Disneyland
+  worldshowcase_loop:
+    name: World Showcase Loop
+  toystoryland_loop:
+    name: Toy Story Land
+  aroundwdw:
+    name: Around WDW
+  arounddisneyland:
+    name: Around Disneyland
+  aroundmk:
+    name: Around Magic Kingdom
+  hauntedmansionloop:
+    name: Haunted Mansion Loop
 
 group:
   Disney Audio:
@@ -93,6 +113,17 @@ group:
       - input_boolean.epcot_entrance_loop
       - input_boolean.pixar_pier_loop
       - input_boolean.disney_random_area_loop
+      - input_boolnea.disneyland_christmas_loop
+      - input_boolean.mainstreet_usa_christmas_loop
+      - input_boolean.disney_park_christmas_loop
+      - input_boolean.christmas_around_disneyland
+      - input_boolean.hauntedmansionloop
+      - input_boolean.aroundmk
+      - input_boolean.arounddisneyland
+      - input_boolean.aroundwdw
+      - input_boolean.toystoryland_loop
+      - input_boolean.worldshowcase_loop
+
 
 automation:
 
@@ -119,6 +150,222 @@ automation:
         notification_id: "audioissue"
         message: "Disney audio functions are disabled because the audible notifications are off."
         title: "Audio Not Available"
+
+  - id: e1cb210e-0423-11eb-adc1-0242ac120002
+    alias: Around WDW
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.aroundwdw
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.aroundwdw
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/aroundwdw.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb2050-0423-11eb-adc1-0242ac120002
+    alias: Around Magic Kingdom
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.aroundmk
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.aroundmk
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/aroundmk.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb1f7e-0423-11eb-adc1-0242ac120002
+    alias: Around Disneyland
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.arounddisneyland
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.arounddisneyland
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/arounddisneyland.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb1eb6-0423-11eb-adc1-0242ac120002
+    alias: Haunted Mansion Loop
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.hauntedmansionloop
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.hauntedmansionloop
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/haunted_mansion_loop.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb1d94-0423-11eb-adc1-0242ac120002
+    alias: World Showcase Loop
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.worldshowcase_loop
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.worldshowcase_loop
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/WorldShowcaseLoop.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
+
+  - id: e1cb1cc2-0423-11eb-adc1-0242ac120002
+    alias: Toystory Land Loop
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.toystoryland_loop
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.toystoryland_loop
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.local_audio
+          data:
+            media: "/media/disney/ToyStorylandLoop.mp3"
+            volume: .35
+            speaker: 'media_player.ha_blue'
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+      default: []
+    initial_state: true
+    mode: single
 
 # MK Mainstreet Audio
   - id: mk_loop_on
@@ -429,7 +676,7 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_blue
     - service: script.turn_off
-      entity_id: script.youtube_audio
+      entity_id: script.local_audio
   
 # Boo to You Parade  
   - id: boo_to_you_show_on
@@ -456,7 +703,7 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_blue
     - service: script.turn_off
-      entity_id: script.youtube_audio
+      entity_id: script.local_audio
 
 # Holiday Wishes  
   - id: holiday_wishes_on
@@ -484,7 +731,7 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_blue
     - service: script.turn_off
-      entity_id: script.youtube_audio
+      entity_id: script.local_audio
   
 # Magic Kingdom Welcome Show
   - id: welcome_show_on
@@ -499,7 +746,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/ML_Welcome_Show.mp3
-        volume: .5
+        volume: .4
     - delay:
         minutes: 8
     - service: media_player.media_stop
@@ -530,11 +777,11 @@ automation:
       entity_id: input_boolean.mk_trolly_audio
       to: 'on'
     action:
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
         speaker: media_player.ha_blue
-        media: "https://www.youtube.com/watch?v=Ki-dZlHtdBk"
-        volume: .5
+        media: /media/music/Voctave_Trolly_Song.mp3
+        volume: .4
   - id: trolly_audio_show_off
     alias: Trolly Audio Show Off
     initial_state: true
@@ -546,7 +793,7 @@ automation:
     - service: media_player.media_stop
       entity_id: media_player.ha_blue
     - service: script.turn_off
-      entity_id: script.youtube_audio
+      entity_id: script.local_audio
 
 # Pandora Ambient Audio
   - id: pandora_audio_on
