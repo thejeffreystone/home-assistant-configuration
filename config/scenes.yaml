@@ -404,7 +404,7 @@
       state: 'on'
     light.skylars_dresser_lamp:
       state: 'on'
-      brightness: 150
+      brightness: 255
   id: cc8606f7345f48d59b3c32e900122d75
 
 - name: skylar room sleep
@@ -432,6 +432,8 @@
       state: 'off'
     light.skylars_dresser_lamp:
       state: 'off'
+    switch.sleep_aid:
+      state: 'on'
   id: f4e8d2f594c446ee9f0e41cf46dc1c72
 
 - name: skylar room morning
@@ -447,6 +449,8 @@
       state: 'off'
     light.diffuser_skylars_bedroom:
       state: 'off'
+    light.bedside_lamp:
+      state: 'off'
   id: dca10298716d46ad86cb894bfac295a5
 
 - name: skylar room day
@@ -457,6 +461,11 @@
       state: 'off'
   id: b25b0c6dcec049929b2bde5d08f3ce53
 
+- name: skylars night light
+  entities:
+    light.bedside_lamp:
+      state: 'on'
+      brightness_pct: 20
 
 - name: film time
   id: film_time
@@ -600,140 +609,3 @@
     switch.av_system:
       state: 'off'
   id: e4408be905b94d13b918f727362c679b
-- id: '1606860122273'
-  name: test
-  entities:
-    switch.wled_loftbed_nightlight:
-      duration: 60
-      fade: true
-      target_brightness: 0
-      friendly_name: WLED-loftbed Nightlight
-      icon: mdi:weather-night
-      state: 'off'
-    switch.wled_loftbed_sync_send:
-      udp_port: 21324
-      friendly_name: WLED-loftbed Sync Send
-      icon: mdi:upload-network-outline
-      state: 'off'
-    switch.wled_loftbed_sync_receive:
-      udp_port: 21324
-      friendly_name: WLED-loftbed Sync Receive
-      icon: mdi:download-network-outline
-      state: 'on'
-    light.wled_loftbed:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - Android
-      - Blink
-      - Blink Rainbow
-      - Bouncing Balls
-      - Bpm
-      - Breathe
-      - Candle
-      - Candle Multi
-      - Chase
-      - Chase Flash
-      - Chase Flash Rnd
-      - Chase Rainbow
-      - Chase Random
-      - Circus
-      - Colorful
-      - Colorloop
-      - Colortwinkles
-      - Colorwaves
-      - Dissolve
-      - Dissolve Rnd
-      - Drip
-      - Dynamic
-      - Fade
-      - Fill Noise
-      - Fire 2012
-      - Fire Flicker
-      - Fireworks
-      - Fireworks 1D
-      - Fireworks Starburst
-      - Glitter
-      - Gradient
-      - Halloween
-      - Halloween Eyes
-      - Heartbeat
-      - ICU
-      - Juggle
-      - Lake
-      - Lighthouse
-      - Lightning
-      - Loading
-      - Merry Christmas
-      - Meteor
-      - Meteor Smooth
-      - Multi Comet
-      - Noise 1
-      - Noise 2
-      - Noise 3
-      - Noise 4
-      - Oscillate
-      - Pacifica
-      - Palette
-      - Percent
-      - Plasma
-      - Police
-      - Police All
-      - Popcorn
-      - Pride 2015
-      - Railway
-      - Rain
-      - Rainbow
-      - Rainbow Runner
-      - Random Colors
-      - Red & Blue
-      - Ripple
-      - Ripple Rainbow
-      - Running
-      - Running 2
-      - Saw
-      - Scan
-      - Scan Dual
-      - Scanner
-      - Scanner Dual
-      - Sinelon
-      - Sinelon Dual
-      - Sinelon Rainbow
-      - Solid
-      - Solid Pattern
-      - Solid Pattern Tri
-      - Sparkle
-      - Sparkle Dark
-      - Sparkle+
-      - Spots
-      - Spots Fade
-      - Stream
-      - Stream 2
-      - Strobe
-      - Strobe Mega
-      - Strobe Rainbow
-      - Sweep
-      - Sweep Random
-      - Theater
-      - Theater Rainbow
-      - Traffic Light
-      - Tri Chase
-      - Tri Fade
-      - Tri Wipe
-      - Twinkle
-      - Twinklecat
-      - Twinklefox
-      - Two Areas
-      - Two Dots
-      - Wipe
-      - Wipe Random
-      intensity: 128
-      palette: Default
-      playlist:
-      preset:
-      reverse: false
-      speed: 128
-      friendly_name: WLED-loftbed
-      icon: mdi:led-strip-variant
-      supported_features: 55
-      state: 'off'
