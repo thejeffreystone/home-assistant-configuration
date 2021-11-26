@@ -70,17 +70,17 @@ automation:
       - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
       - service: script.twitter_stats
 
-  - id: tweet_recent_content
-    alias: Tweet Recent Contents
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '08:00:00'
-    action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_recent_content
-        data:
-          who: 'slackerlabs'
+  # - id: tweet_recent_content
+  #   alias: Tweet Recent Contents
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '08:00:00'
+  #   action:
+  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+  #     - service: script.twitter_recent_content
+  #       data:
+  #         who: slackerlabs
 
   # - id: tweet_follow_me
   #   alias: Tweet Follow Me
@@ -94,17 +94,17 @@ automation:
   #       data:
   #         who: 'slackerlabs'
 
-  - id: tweet_some_promos2
-    alias: Tweet Some Promos2
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '13:00:00'
-    action:
-      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
-      - service: script.twitter_selfpromos
-        data:
-          who: 'slackerlabs'
+  # - id: tweet_some_promos2
+  #   alias: Tweet Some Promos2
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '13:00:00'
+  #   action:
+  #     - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+  #     - service: script.twitter_selfpromos
+  #       data:
+  #         who: slackerlabs
 
   # - id: tweet_some_promos3
   #   alias: Tweet Some Promos3
