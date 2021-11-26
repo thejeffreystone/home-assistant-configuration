@@ -69,4 +69,4 @@ automation:
         entity_id: sensor.holiday
       - service: frontend.set_theme
         data:
-          name: ios_dark_mode
+          name: Google Dark Theme
