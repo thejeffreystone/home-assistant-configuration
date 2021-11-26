@@ -528,7 +528,10 @@
   - platform: time
     at: input_datetime.skylar_bedtime_holiday
     id: no_school
-  condition: []
+  condition:
+  - condition: state 
+    entity_id: input_boolean.skylar_awake
+    state: 'on'
   action:
   - choose:
     - conditions:
@@ -803,4 +806,8 @@
   - service: humidifier.turn_off
     target:
       entity_id: humidifier.diffuser_skylars_bedroom
+  - service: switch.turn_off
+    entity_id: switch.skylars_microphone
+  - service: scene.turn_on
+    entity_id: scene.skylars_night_light
   mode: single
