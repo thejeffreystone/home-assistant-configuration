@@ -48,7 +48,6 @@ automation:
         entity_id: sensor.washer_status
         state: complete
     action:
-    #- service: script.washer_running
     - service: mqtt.publish
       data:
         topic: house/washer/status
@@ -67,7 +66,6 @@ automation:
       entity_id: sensor.washer_status
       state: running
     action:
-    #- service: script.washer_complete
     - service: mqtt.publish
       data:
         topic: house/washer/status
@@ -89,11 +87,15 @@ automation:
       from: running
       to: complete
     action:
-    - service: script.status_annc
-      data:
-        who: '{{ states.sensor.room_presence.state }}'
-        call_interuption: 1
-        speech_message: It appears the washing machine has completed its cycle.
+    # - service: script.status_annc
+    #   data:
+    #     who: '{{ states.sensor.room_presence.state }}'
+    #     call_interuption: 1
+    #     speech_message: It appears the washing machine has completed its cycle.
+    - service: script.speech_engine
+      data: 
+        who: '{{ states(''sensor.room_audio'') }}'
+        message: 'Just a quick heads up, It appears the washing machine has completed its cycle'
     - service: script.turn_on
       entity_id: script.washer_finished_notification_audible
 
@@ -106,7 +108,6 @@ automation:
       from: 'off'
       to: 'on'
     action:
-    #- service: script.washer_idle
     - service: mqtt.publish
       data:
         topic: house/washer/status
@@ -236,7 +237,8 @@ script:
         sequence:
         - delay:
             minutes: 45
-        - service: script.washer_audible
+        #- service: script.washer_audible
+        - service: script.simplified_washer_audible
 
   # dryer_finished_notification_audible:
   #   sequence:
@@ -253,16 +255,76 @@ script:
   washer_audible:
     sequence:
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     - condition: state
       entity_id: sensor.washer_status
       state: complete
     - service: script.status_annc
       data_template:
-        who: '{{ states.sensor.room_presence.state }}'
+        who: '{{ states(''sensor.room_audio'') }}'
         call_interuption: 1
         call_washer_needs_emptying: 1
+
+  simplified_washer_audible:
+    sequence:
+    - condition: state
+      entity_id: group.family
+      state: 'home'
+    - condition: state
+      entity_id: sensor.washer_status
+      state: complete
+    - service: script.speech_engine
+      data: 
+        who: '{{ states(''sensor.room_audio'') }}'
+        message: >
+          {{ [
+            'Pardon me, ',
+            'Excuse me, ',
+            'I do not mean to interrupt, but,',
+            'I hate to interrupt, but,',
+            'I beg your pardon, ',
+            'I do not mean to intrude, but, ',
+            'I am sorry to interrupt, but. ',
+            'Just a quick heads up, '
+            ] | random }}
+          <p>
+            The washing machine completed its cycle 
+            {% set seconds = now().timestamp() - as_timestamp(states.sensor.washer_status.last_changed) %}
+            {% if (seconds / ( 60 * 60 )) | int == 1 %}
+              over an hour ago.
+              {{ [
+              'Do not forget to rotate the clothes.', 
+              'Was someone going to rotate the laundry?',
+              'Once you rotate the laundry I will stop reminding you to do it. So if you want me to stop. Its up to you.'
+              ] | random }}
+            {% elif (seconds / ( 60 * 60 )) | int > 1 and (seconds / ( 60 * 60 )) | int < 6 %}
+              over {{ (seconds //  ( 60 * 60 )) | int }} hours ago.
+              {{ [
+              'Much longer and you are going to need to wash them again.', 
+              'Someone needs to rotate the laundry.',
+              'Do not forget about the clothes in the washing machine.',
+              'Surely you did not mean to forget about the clothes. Mistakes happen. But you can still fix it.',
+              'Do you like your clothes smelling like mildew? Becasue that is what is happening right now.'
+              ] | random }}
+            {% elif (seconds / ( 60 * 60 )) | int > 6 %}
+              over {{ (seconds //  ( 60 * 60 )) | int }} hours ago.
+              {{ [
+              'That is a crazy amount of time.', 
+              'Did you decide you want those clothes to suffer?',
+              'You might as well just rewash those clothes.',
+              'I can smell the mildew. Virtually that is.',
+              'Surely you did not mean to forget about the clothes.'
+              ] | random }}
+            {% else %}
+              {{ (seconds // 60) | int }} minutes ago.
+              {{ [
+              'Do not forget to rotate the clothes.', 
+              'Someone forgot to move the clothes to the dryer. I am not going to name names, but there is a camera in there. Do I need to publically shame someone?',
+              'You might want to move them to the dryer.'
+              ] | random }}
+            {% endif %}
+          </p>
     
 
   washer_idle:
