@@ -6,11 +6,24 @@
 Family:
   - person.jeffrey
   - person.katherine
+  - person.uncle_matt
+  - person.papa
 
 People:
   - person.jeffrey
   - person.katherine
-  - person.skylar
+  - sensor.skylar_location
+  - person.uncle_matt
+  - person.papa
+
+jeffrey:
+  - device_tracker.jeffrey_s_iphone_11_app
+  - device_tracker.jeffreys_iphone_11
+  - device_tracker.life360_jeffrey_stone
+
+kat:
+  - device_tracker.iphone_app
+  - device_tracker.life360_kat_stone
 
 arriving:
   name: Arriving
