@@ -68,28 +68,34 @@
 - platform: statistics
   name: Outside Temp Stats
   entity_id: sensor.acurite_6045m_3078_t
+  state_characteristic: mean
   sampling_size: 500
 - platform: statistics
   name: Garage Temp Stats
   entity_id: sensor.acurite_tower_10968_t
+  state_characteristic: mean
   sampling_size: 500
 
 - platform: statistics
   entity_id: sensor.craft_room_temperature
   name: "Craft Room Temp Sats"
+  state_characteristic: mean
 - platform: statistics
   entity_id: sensor.kitchen_temperature
-  name: "Kitchen Temp Sats"  
+  name: "Kitchen Temp Sats"
+  state_characteristic: mean  
 - platform: statistics
   entity_id: sensor.living_room_temperature
   name: "Living Room Temp Sats"
+  state_characteristic: mean
 - platform: statistics
   entity_id: sensor.master_bedroom_temperature
   name: "MAster Bedroom Temp Sats"
+  state_characteristic: mean
 - platform: statistics
   entity_id: sensor.skylar_room_temperature
   name: "Skylar Room Temp Sats"
-
+  state_characteristic: mean
 - platform: min_max
   name: Inside Temp Stats
   entity_ids:
@@ -134,22 +140,27 @@
 - platform: statistics
   name: Wind Speed Stats
   entity_id: sensor.nws_current_windspeed
+  state_characteristic: mean
   sampling_size: 500
 - platform: statistics
   name: Visibility Stats
   entity_id: sensor.nws_current_visibility
+  state_characteristic: mean
   sampling_size: 500
 - platform: statistics
   name: Temperature Stats
   entity_id: sensor.nws_current_temperature
+  state_characteristic: mean
   sampling_size: 500
 - platform: statistics
   name: Humidity Stats
   entity_id: sensor.nws_current_humidity
+  state_characteristic: mean
   sampling_size: 500
 - platform: statistics
   name: Washer Power Stats
   entity_id: sensor.washer_switch_electric_consumed_kwh
+  state_characteristic: mean
   sampling_size: 500
 - platform: history_stats
   name: Cooling Last Month

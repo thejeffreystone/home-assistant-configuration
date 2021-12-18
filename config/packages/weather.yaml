@@ -77,25 +77,11 @@ sensor:
   - platform: statistics
     name: Inside Humidity Stats
     entity_id: sensor.current_inside_humidity
+    state_characteristic: mean
     sampling_size: 500
 
   - platform: template
     sensors:
-      backporch_weather:
-        friendly_name: Back Porch Weather
-        value_template: "{{ states('sensor.acurite_6045m_3078_f') | round}} °F / {{ states('sensor.acurite_6045m_3078_h') }} %"
-      garage_weather:
-        friendly_name: Garage Weather
-        value_template: "{{ states('sensor.acurite_tower_10968_f') | round}} °F / {{ states('sensor.acurite_tower_10968_h') }} %"
-      crawlspace_weather:
-        friendly_name: Crawlspace Weather
-        value_template: "{{ states('sensor.acurite_609txc_73_f') | round}} °F / {{ states('sensor.acurite_609txc_73_h') }} %"
-      guestbath_weather:
-        friendly_name: Guest Bath Weather
-        value_template: "{{ states('sensor.acurite_tower_10331_f') | round}} °F / {{ states('sensor.acurite_tower_10331_h') }} %"
-      masterbath_weather:
-        friendly_name: Master Bath Weather
-        value_template: "{{ states('sensor.acurite_tower_12580_f') | round}} °F / {{ states('sensor.acurite_tower_master_bath_h') }} %"
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
