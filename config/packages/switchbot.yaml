@@ -1,0 +1,67 @@
+
+###############################################################################
+#   @author         :   Jeffrey Stone 
+#   @date           :   12/06/2021
+#   @package        :   Switchbot
+#   @description    :   All the Switchbot related stuff. Built from https://community.home-assistant.io/t/switch-bot-api-integration/270550
+###############################################################################
+rest_command:
+  switchbot_device_command:
+    url: 'https://api.switch-bot.com/v1.0/devices/{{ deviceId }}/commands'
+    method: post
+    content_type: 'application/json'
+    headers:
+      Authorization: !secret switchbot_api
+      # Authorization: "y80ir3bw9y24bnvwo8023hpnvnvw"
+    payload: '{"command": "{{ command }}","parameter": "{{ parameter }}"}'
+
+sensor:
+  - platform: rest
+    name: 'lrone Curtain Position'
+    resource: !secret switchbot_lrone_status_url
+    #resource: "https://api.switch-bot.com/v1.0/devices/YOURDEVICEID/status"
+    method: GET
+    scan_interval: 600
+    headers:
+      Authorization: !secret switchbot_api
+      Content-Type: 'application/json'
+    value_template: '{{ value_json.body.slidePosition }}'
+    json_attributes_path: "$.body"
+    json_attributes:
+      - deviceId
+      - deviceType
+      - hubDeviceId
+      - calibrate
+      - group
+      - moving
+      - slidePosition
+
+cover:
+  - platform: template
+    covers:
+      lr_curtains:
+        device_class: curtain
+        friendly_name: "Living Room Curtains"
+        position_template: "{{ states('sensor.lrone_curtain_position') }}"
+        open_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_lrone_deviceId
+            #deviceId: "E0FA71..."
+            command: "turnOn"
+        close_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_lrone_deviceId
+            command: "turnOff"
+        stop_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_lrone_deviceId
+            command: "turnOff"
+        set_cover_position:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_lrone_deviceId
+            command: "setPosition"
+            parameter: "0,ff,{{position}}"
