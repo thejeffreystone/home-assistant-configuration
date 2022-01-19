@@ -102,28 +102,57 @@ randomize_vacation_lights:
           entity_id: input_text.current_random_light
           value: None
   mode: single
+improved_randomize_vacation_lights:
+  alias: improved_randomize vacation lights
+  sequence:
+  - repeat:
+      until:
+      - condition: state
+        entity_id: sun.sun
+        state: 'above_horizon'
+      sequence:
+      - service: notify.mobile_app_jeffrey_ha_app
+        data:
+          message: Running Vacation Lights
+      - service: homeassistant.turn_on
+        data:
+          entity_id: '{{ expand(''group.vacation_lights'') | selectattr(''state'', ''eq'', ''off'') | map(attribute=''entity_id'') | list | random }}'
+      - delay:
+          minutes: '{{ range(1,3) | random | int }}'
+      - service: >
+          {% set service = ['homeassistant.turn_on', 'homeassisant.turn_off' ] | random %}
+          {{ service }}
+        data:
+          entity_id: >
+            {% if service == 'homeassistant.turn_on'  %}
+              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'off') | map(attribute='entity_id') | list | random }}
+            {% else %}
+              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'on') | map(attribute='entity_id') | list | random }}
+            {% endif %}
+      - delay:
+          minutes: '{{ range(1,3) | random | int }}'
+  mode: single
 randomize_vacation_lights_demo:
   alias: demo - randomize vacation lights
   sequence:
   - repeat:
       count: '8'
       sequence:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.current_random_light
-          value: "{{ state_attr('group.livingroom','entity_id') | random }}"
       - service: homeassistant.turn_on
         data:
-          entity_id: '{{ states(''input_text.current_random_light'') }}'
+          entity_id: '{{ expand(''group.vacation_lights'') | selectattr(''state'', ''eq'', ''off'') | map(attribute=''entity_id'') | list | random }}'
       - delay:
           seconds: '{{ range(2,5) | random | int }}'
-      - service: homeassistant.turn_off
+      - service: >
+          {% set service = ['homeassistant.turn_on', 'homeassisant.turn_off' ] | random %}
+          {{ service }}
         data:
-          entity_id: '{{ states(''input_text.current_random_light'') }}'
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.current_random_light
-          value: None
+          entity_id: >
+            {% if service == 'homeassistant.turn_on'  %}
+              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'off') | map(attribute='entity_id') | list | random }}
+            {% else %}
+              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'on') | map(attribute='entity_id') | list | random }}
+            {% endif %}
   mode: single
 activate_arches_lamp:
   alias: Activate Arches Lamp
@@ -156,3 +185,21 @@ dog_mode_lighting_on:
       entity_id: scene.diminished_kitchen_lighting
     - service: scene.turn_on
       entity_id: scene.security_kitchen_lighting
+open_lr_curtains_lamp:
+  alias: Open Living Room Curtains
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: open living room curtains
+      media_content_type: custom
+    entity_id: media_player.living_room_echo
+  mode: single
+close_lr_curtains_lamp:
+  alias: Close Living Room Curtains
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: close living room curtains
+      media_content_type: custom
+    entity_id: media_player.living_room_echo
+  mode: single
