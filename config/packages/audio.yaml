@@ -23,6 +23,18 @@
 # If you have this enabled in another package or in your configuration.yaml comment out the line below
 media_extractor:
 
+
+############################
+# input_datetime (https://www.home-assistant.io/integrations/input_datetime/)
+# 
+# This is simply so we can track last called alexa.     
+input_datetime:
+  last_time_alexa_called:
+    name: Last Time Alexa Called
+    has_date: true
+    has_time: true
+
+
 ################################
 # Scripts to handle audio
 script:
@@ -48,8 +60,8 @@ script:
       state: 'on'
     # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     # Update the media player with the one you want to use
     - service: media_player.turn_on
       data:
@@ -95,8 +107,8 @@ script:
       state: 'on'
     # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     # Update the media player with the one you want to use
     - service: media_player.turn_on
       data:
@@ -125,75 +137,16 @@ automation:
     mode: restart
     trigger:
       - platform: state
-        entity_id:
-          - binary_sensor.master_bedroom_motion_occupancy
-          - binary_sensor.kitchen_motion_occupancy
-          - binary_sensor.living_room_motion_occupancy
-          - binary_sensor.skylar_bedroom_motion_occupancy
-          - binary_sensor.croft_occupancy
-          - binary_sensor.back_door_motion
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: 
-          - media_player.kitchen_echo
-          - media_player.living_room_echo
-          - media_player.skylar_s_bedroom
-        attribute: last_called
-        to: True
+        entity_id: sensor.room_audio
     action:
       - service: input_text.set_value
         data_template:
           entity_id: input_text.room_presence
-          value: >
-            {% set room = trigger.to_state.attributes.friendly_name %}
-            {% if room == 'Kitchen Echo' %}
-              kitchen
-            {% elif room == 'Living Room Echo' %}
-              main
-            {% elif room == 'Skylar\'s Bedroom' %}
-              skylar_bedroom
-            {%- elif is_state('media_player.theater_tv', 'on') %}
-              theater
-            {% elif room == 'Kitchen Motion occupancy' or room == 'Back Door Motion'%}
-              kitchen
-            {% elif room == 'Master Bedroom Motion occupancy' %}
-              master_bedroom
-            {% elif room == 'Living Room Motion occupancy' or room == 'Living Room Echo' %}
-              main
-            {% elif room == 'Croft Occupancy' %}
-              croft
-            {% elif room == 'Skylar Bedroom Motion occupancy' or room == 'Skylar\'s Bedroom' %}
-              skylar_bedroom
-            {% else %}
-              main
-            {% endif %}
+          value: '{{ states(''sensor.room_audio'') }}'
       - service: mqtt.publish
         data:
           topic: house/presence/current_room
-          payload: >
-            {% set room = trigger.to_state.attributes.friendly_name %}
-            {% if room == 'Kitchen Echo' %}
-              kitchen
-            {% elif room == 'Living Room Echo' %}
-              main
-            {% elif room == 'Skylar\'s Bedroom' %}
-              skylar_bedroom
-            {%- elif is_state('media_player.theater_tv', 'on') %}
-              theater
-            {% elif room == 'Kitchen Motion occupancy' or room == 'Back Door Motion'%}
-              kitchen
-            {% elif room == 'Master Bedroom Motion occupancy' %}
-              master_bedroom
-            {% elif room == 'Living Room Motion occupancy' or room == 'Living Room Echo' %}
-              main
-            {% elif room == 'Croft Occupancy' %}
-              croft
-            {% elif room == 'Skylar Bedroom Motion occupancy' or room == 'Skylar\'s Bedroom' %}
-              skylar_bedroom
-            {% else %}
-              main
-            {% endif %}
+          payload: '{{ states(''sensor.room_audio'') }}'
           retain: true
 
   - id: e1cb287a-0423-11eb-adc1-0242ac120002
@@ -234,7 +187,25 @@ automation:
           - media_player.skylars_bedroom_speaker
           volume_level: .5
 
-
+  - id: e1cb17ea-0423-11eb-adc1-0242ac120002
+    alias: Set Last Alexa Called Time 
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: 
+        - media_player.living_room_echo
+        - media_player.kitchen_echo
+        - media_player.skylars_echo
+    condition:
+      - condition: template
+        value_template: '{{ trigger.to_state.attributes.last_called_timestamp | float > trigger.from_state.attributes.last_called_timestamp | float }}'   # Alexa has been triggered
+    action:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.last_time_alexa_called
+        data:
+          datetime: '{{ now().strftime(''%Y-%m-%d %H:%M:%S'') }}'
+    
 sensor:
   - platform: mqtt
     name: "Room Presence"
@@ -244,37 +215,40 @@ sensor:
       room_audio:
         friendly_name: "Room Audio"
         value_template: >-
-          {%- if is_state('media_player.theater_tv', 'on') %}
-              theater
+          {%- set last_alexa_called_seconds = (now() - as_local(states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='last_updated') | first)).seconds -%}
+          {%- if last_alexa_called_seconds <= 60 %}  
+            {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}
+          {% elif expand('group.occupancy') | selectattr('state', 'eq', 'on') | list | count >= 1 %}
+            {% set sensor = expand('group.occupancy') | selectattr('state', 'eq', 'on') | sort(attribute='last_changed') | last %}
+              {% if is_state('input_boolean.audible_notifications', 'off') %}
+                {% if sensor.name == 'Master Bedroom Motion occupancy' %}
+                  master_bedroom
+                {% else %}
+                  kitchen      
+                {%- endif %}
+              {% else %} 
+                {% if sensor.name == 'Master Bedroom Motion occupancy' %}
+                    master_bedroom
+                {% elif sensor.name in ('Back Door Motion','Kitchen Motion Occupancy' ) %}
+                    kitchen
+                {% elif sensor.name in ('Living Room Motion Occupancy' ) %}
+                    living_room
+                {% elif sensor.name in ('Skylar Bedroom Motion occupancy' ) %}
+                    skylar_bedroom
+                {% else %}
+                  main
+                {%- endif %}
+            {%- endif %}
+          {% elif is_state('media_player.theater_tv', 'on') %}
+            theater
           {% else %}
-            {% set sensor_count = expand('group.occupancy') | selectattr('state', 'eq', 'on') | list | count %}
-            {% if sensor_count >= 1 %}
-              {% for sensor in expand('group.occupancy') %}
-                {% if as_timestamp(sensor.last_changed) == as_timestamp(expand('group.occupancy') | selectattr('state', 'eq', 'on') | map(attribute='last_changed') | max) %}
-                  {% if is_state('input_boolean.audible_notifications', 'on') %}
-                    {% if sensor.name == 'Kitchen Motion Occupancy' %}
-                      kitchen
-                    {% elif sensor.name == 'Master Bedroom Motion Occupancy' %}
-                      master_bedroom
-                    {% else %}
-                      main
-                    {%- endif %}
-                  {% else %}
-                    {% if sensor.name == 'Croft Occupancy' %}
-                      croft
-                    {% else %}
-                      kitchen
-                    {%- endif %}
-                  {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
+            {{ states('sensor.room_presence') }}
           {% endif %}
       alexa_audio:
         friendly_name: "Alexa Audio"
         value_template: >-
             {%- if is_state('sensor.last_alexa', 'media_player.living_room_echo') %}
-              main
+              living_room
             {% elif is_state('sensor.last_alexa', 'media_player.kitchen_echo') %}
               kitchen
             {% elif is_state('sensor.last_alexa', 'media_player.skylar_s_bedroom') %}
