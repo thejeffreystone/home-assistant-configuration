@@ -120,7 +120,7 @@ improved_randomize_vacation_lights:
       - delay:
           minutes: '{{ range(1,3) | random | int }}'
       - service: >
-          {% set service = ['homeassistant.turn_on', 'homeassisant.turn_off' ] | random %}
+          {% set service = ['homeassistant.turn_on', 'homeassistant.turn_off' ] | random %}
           {{ service }}
         data:
           entity_id: >
