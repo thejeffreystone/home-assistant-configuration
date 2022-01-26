@@ -1,6 +1,6 @@
 >
 {# Daily Briefing #}
-{%- macro getGretting() -%}
+{%- macro getGreeting() -%}
     {% if now().strftime('%H')|int < 12 %}
       Good morning.
     {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
@@ -29,7 +29,7 @@
 
 {# a macro to call all macros :)  #}
 {%- macro mother_of_all_macros() -%}
-  {{ getGretting() }}
+  {{ getGreeting() }}
   {{ getDoorStatus()}}
 {%- endmacro -%}
   
