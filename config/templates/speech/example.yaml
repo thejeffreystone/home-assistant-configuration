@@ -1,0 +1,37 @@
+>
+{# Daily Briefing #}
+{%- macro getGretting() -%}
+    {% if now().strftime('%H')|int < 12 %}
+      Good morning.
+    {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
+      Good afternoon.
+    {% else %}
+      Good evening.
+    {% endif %}
+
+  {% if is_state('binary_sensor.morning','on') %} 
+    Today is {{states.sensor.today_is.state }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.
+  {% else %}
+    It is {{ now().strftime("%I:%M %p") }}.
+  {% endif %}
+
+{%- endmacro -%}
+
+{%- macro getDoorStatus() -%}
+  The Pod Bay Doors are Closed.
+{%- endmacro -%}
+
+{# a macro that removes all newline characters, empty spaces, and returns formatted text #}
+{%- macro cleanup(data) -%}
+  {%- for item in data.split("\n")  if item | trim != "" -%}
+    {{ item | trim }} {% endfor -%}
+{%- endmacro -%}
+
+{# a macro to call all macros :)  #}
+{%- macro mother_of_all_macros() -%}
+  {{ getGretting() }}
+  {{ getDoorStatus()}}
+{%- endmacro -%}
+  
+  {# Call the macro  #}
+{{- cleanup(mother_of_all_macros()) -}}
