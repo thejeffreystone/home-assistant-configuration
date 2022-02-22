@@ -128,7 +128,7 @@ improved_randomize_vacation_lights:
             {{ expand('group.vacation_lights') | map(attribute='entity_id') | list | random }}
       - delay:
           minutes: '{{ range(1,3) | random | int }}'
-  # - service: group.turn_off 
+  # - service: homeassistant.turn_off 
   #   entity_id: group.vacation_lights
   mode: single
 
