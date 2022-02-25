@@ -47,8 +47,14 @@
 #  
 ###############################################################################
 
+input_boolean:
+  christmas_season:
+    name: Christmas Season
+
+
 
 automation:
+
 
 
 # Holiday Wishes
@@ -129,7 +135,7 @@ automation:
     mode: single
 
   - id: e1cb24ba-0423-11eb-adc1-0242ac120002
-    alias: Disneyland Christmas Loop
+    alias: Epcot Christmas
     trigger: 
     - platform: state
       entity_id: input_boolean.disneyland_christmas_loop
@@ -149,7 +155,7 @@ automation:
         sequence:
         - service: script.local_audio
           data:
-            media: "/media/disney/DisneylandChristmas.mp3"
+            media: "/media/disney/EpcotChristmas.mp3"
             volume: .35
             speaker: 'media_player.ha_blue'
       - conditions:
@@ -272,6 +278,42 @@ automation:
     initial_state: true
     mode: single
   
+  - id: e1cb166e-0423-11eb-adc1-0242ac120002
+    alias: Christmas Background
+    trigger: 
+    - platform: state
+      entity_id: input_boolean.christmas_background
+      to: 'on'
+      from: 'off'
+      id: start 
+    - platform: state
+      entity_id: input_boolean.christmas_background
+      id: stop
+      from: 'on'
+      to: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: start
+        sequence:
+        - service: script.turn_on
+          entity_id: script.christmas_music
+      - conditions:
+        - condition: trigger
+          id: stop
+        sequence:
+        - service: media_player.media_stop
+          entity_id: media_player.ha_blue
+        - service: script.turn_off
+          entity_id: script.local_audio
+        - service: script.turn_off
+          entity_id: script.christmas_music
+      default: []
+    initial_state: true
+    mode: single
+
+  
 sensor:
   - platform: rest
     name: Halloween Countdown
@@ -289,51 +331,132 @@ sensor:
 
 
 script:
+  christmas_music:
+    sequence:
+      - service: script.local_audio
+        data:
+          media: "/media/disney/DisneyParkHoliday.mp3"
+          volume: .35
+          speaker: 'media_player.ha_blue'
+      - delay: 02:50:00
+      - service: script.local_audio
+        data:
+          media: "/media/disney/ChristmasAroundDisneyland.mp3"
+          volume: .35
+          speaker: 'media_player.ha_blue'
+      - delay: 04:02:00
+      - service: script.local_audio
+        data:
+          media: "/media/disney/EpcotChristmas.mp3"
+          volume: .35
+          speaker: 'media_player.ha_blue'
+  normal_xmas: 
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: light.wled_tree
+      data:
+        effect: "Solid"
+        brightness: 51  
+    - service: input_number.set_value
+      target:
+        entity_id: number.wled_tree_intensity
+      data:
+        value: 255
+    - service: select.select_option
+      target:
+        entity_id: select.wled_tree_color_palette
+      data: 
+        option: 'Color 1'
+  sparkle_xmas: 
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: light.wled_tree
+      data:
+        effect: "Candle Multi"
+        brightness: 13  
+    - service: input_number.set_value
+      target:
+        entity_id: number.wled_tree_intensity
+      data:
+        value: 75
+    - service: select.select_option
+      target:
+        entity_id: select.wled_tree_color_palette
+      data: 
+        option: 'Color 1'
   fireworks1d_xmas:
     sequence:
-    - service: wled.effect
+    - service: light.turn_on
       target:
         entity_id: light.wled_tree
       data:
         effect: "Fireworks 1D"
-        intensity: 51
-    - service: light.turn_on
+        brightness: 51
+    - service: input_number.set_value
+      target:
+        entity_id: number.wled_tree_intensity
+      data:
+        value: 51
+    - service: select.select_option
+      target:
+        entity_id: select.wled_tree_color_palette
       data: 
-        entity_id: light.wled_tree
-        brightness: 127
+        option: 'C9 New'
   blends_xmas:
     sequence:
-    - service: wled.effect
+    - service: light.turn_on
       target:
         entity_id: light.wled_tree
       data:
         effect: "Blends"
-        intensity: 43
-    - service: light.turn_on
+        brightness: 43 
+    - service: input_number.set_value
+      target:
+        entity_id: number.wled_tree_intensity
+      data:
+        value: 43
+    - service: select.select_option
+      target:
+        entity_id: select.wled_tree_color_palette
       data: 
-        entity_id: light.wled_tree
-        brightness: 43
+        option: 'C9 New'
   aurora_xmas:
     sequence:
-    - service: wled.effect
+    - service: light.turn_on
       target:
         entity_id: light.wled_tree
       data:
         effect: "Aurora"
-        intensity: 128
-    - service: light.turn_on
-      data: 
-        entity_id: light.wled_tree
         brightness: 255
+    - service: input_number.set_value
+      target:
+        entity_id: number.wled_tree_intensity
+      data:
+        value: 128
+    - service: select.select_option
+      target:
+        entity_id: select.wled_tree_color_palette
+      data: 
+        option: 'C9 New'
   twinklefox_xmas:
     sequence:
-    - service: wled.effect
+    - service: light.turn_on
       target:
         entity_id: light.wled_tree
       data:
         effect: "Twinklefox"
-        intensity: 128
-    - service: light.turn_on
-      data: 
-        entity_id: light.wled_tree
         brightness: 127
+    - service: input_number.set_value
+      target:
+        entity_id: number.wled_tree_intensity
+      data:
+        value: 128
+    - service: select.wled_tree_color_palette
+      target:
+        entity_id: light.wled_tree
+      data: 
+        option: 'C9 New'
+        
+        
