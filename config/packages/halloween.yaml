@@ -318,8 +318,8 @@ script:
   #     state: 'on'
   #   # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
   #   - condition: state
-  #     entity_id: sensor.family_status
-  #     state: Home
+  #     entity_id: group.family
+  #     state: 'home'
   #   # Update the media player with the one you want to use
   #   - service: media_player.turn_on
   #     data:
@@ -365,8 +365,8 @@ script:
   #     state: 'on'
   #   # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
   #   - condition: state
-  #     entity_id: sensor.family_status
-  #     state: Home
+  #     entity_id: group.family
+  #     state: 'home'
   #   # Update the media player with the one you want to use
   #   - service: media_player.turn_on
   #     data:
