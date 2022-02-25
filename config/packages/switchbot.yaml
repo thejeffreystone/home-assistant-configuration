@@ -65,3 +65,6 @@ cover:
             deviceId: !secret switchbot_lrone_deviceId
             command: "setPosition"
             parameter: "0,ff,{{position}}"
+
+
+            
