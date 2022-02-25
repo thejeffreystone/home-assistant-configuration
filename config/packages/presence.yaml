@@ -1,8 +1,8 @@
 ###############################################################################
-#   @author         :   Jeffrey Stone 
+#   @author         :   Jeffrey Stone
 #   @date           :   02/19/2019
 #   @package        :   Presence
-#   @description    :   A Collection of Presence Related Trackers and Sensors 
+#   @description    :   A Collection of Presence Related Trackers and Sensors
 ###############################################################################
 
 input_datetime:
@@ -18,6 +18,7 @@ input_datetime:
     name: Skylar Last Seen
     has_date: true
     has_time: true
+
 
 
 # Testing Proximity Sensors
@@ -46,64 +47,64 @@ sensor:
   - platform: template
     sensors:
       jeff_location:
-        friendly_name: "Jeff's Current Location"
-        unit_of_measurement: ''
+        friendly_name: "Jeff"
+        unit_of_measurement: ""
         value_template: >-
-            {% set person = states.person.jeffrey.state %}
-            {%- if person in ['Sprouts','Kroger1','Kroger2'] %}
-              Grocery Store
-            {% elif person in ['HomeDepot','Lowes'] %}
-              Home Improvement Store
-            {% elif person in ['Walmart','Target'] %}
-              Super Store
+          {% set person = states.person.jeffrey.state %}
+          {%- if person in ['Sprouts','Kroger1','Kroger2'] %}
+            Grocery Store
+          {% elif person in ['HomeDepot','Lowes'] %}
+            Home Improvement Store
+          {% elif person in ['Walmart','Target'] %}
+            Super Store
+          {% else %}
+            {% if person in ['not_home'] %}
+              {{ state_attr('device_tracker.life360_jeffrey_stone','address') }} 
             {% else %}
-              {% if person in ['not_home'] %}
-                {{ states.device_tracker.life360_jeffrey_stone.attributes.address }} 
-              {% else %}
-                {{ states.person.jeffrey.state }}
-              {%- endif %}
+              {{ states('person.jeffrey') }}
             {%- endif %}
+          {%- endif %}
   - platform: template
     sensors:
       skylar_location:
-        friendly_name: "Skylar's Current Location"
-        unit_of_measurement: ''
+        friendly_name: "Skylar"
+        unit_of_measurement: ""
         value_template: >-
-            {% if is_state('input_boolean.skylar_school', 'on') %}
-              school
-            {% elif is_state('calendar.skylar_events', 'on') %}
-                  {{ states.calendar.skylar_events.attributes.message }}
-            {%- elif is_state('person.jeffrey', 'home') and is_state('person.katherine', 'home') and is_state('input_boolean.skylar_school', 'off')%}
-              home
-            {%- elif is_state('person.jeffrey', 'Summit') and is_state('input_boolean.skylar_school', 'off')%}
-              {{ states.sensor.kat_location.state }}
-            {%- elif is_state('person.katherine', 'ZooAtlanta') and is_state('input_boolean.skylar_school', 'off')%}
-              {{ states.person.jeffrey.state }}
-            {% else %}
-              {{ states.person.skylar.state }}
-            {%- endif %}
+          {% if is_state('input_boolean.skylar_school', 'on') %}
+            school
+          {% elif is_state('calendar.skylar_events', 'on') %}
+                {{ state_attr('calendar.skylar_events', 'message') }}
+          {%- elif is_state('person.jeffrey', 'home') and is_state('person.katherine', 'home') and is_state('input_boolean.skylar_school', 'off')%}
+            home
+          {%- elif is_state('person.jeffrey', 'Summit') and is_state('input_boolean.skylar_school', 'off')%}
+            {{ states('sensor.kat_location') }}
+          {%- elif is_state('person.katherine', 'ZooAtlanta') and is_state('input_boolean.skylar_school', 'off')%}
+            {{ states('person.jeffrey') }}
+          {% else %}
+            Unknown
+          {%- endif %}
   - platform: template
     sensors:
       kat_location:
-        friendly_name: "Kat's Current Location"
-        unit_of_measurement: ''
+        friendly_name: "Kat"
+        unit_of_measurement: ""
         value_template: >-
-            {% set person = states.person.katherine.state %}
-            {%- if person in ['Sprouts','Kroger1','Kroger2'] %}
-              Grocery Store
-            {% elif person in ['HomeDepot','Lowes'] %}
-              Home Improvement Store
-            {% elif person in ['Walmart','Target'] %}
-              Super Store
+          {% set person = states('person.katherine') %}
+          {%- if person in ['Sprouts','Kroger1','Kroger2'] %}
+            Grocery Store
+          {% elif person in ['HomeDepot','Lowes'] %}
+            Home Improvement Store
+          {% elif person in ['Walmart','Target'] %}
+            Super Store
+          {% else %}
+            {%- if person in ['ZooAtlanta'] %}
+              Zoo Atlanta
+            {% elif person in ['not_home'] %}
+              {{ state_attr('device_tracker.life360_kat_stone', 'address') }} 
             {% else %}
-              {%- if person in ['ZooAtlanta'] %}
-                Zoo Atlanta
-              {% elif person in ['not_home'] %}
-                {{ states.device_tracker.life360_kat_stone.attributes.address }} 
-              {% else %}
-                {{ states.person.katherine.state }}
-              {%- endif %}
+              {{ states('person.katherine') }}
             {%- endif %}
+          {%- endif %}
   - platform: mqtt
     name: "Family Status"
     state_topic: "house/family/status"
@@ -134,19 +135,19 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.skylar_bedroom_motion_occupancy
-        to: 'on'
-        from: 'off'
+        to: "on"
+        from: "off"
       - platform: state
         entity_id: binary_sensor.skylar_room_occupancy
-        to: 'on'
-        from: 'off'
+        to: "on"
+        from: "off"
     condition:
       - condition: time
-        after: '05:00:00'
-        before: '08:30:00'
+        after: "05:00:00"
+        before: "08:30:00"
       - condition: state
         entity_id: input_boolean.skylar_awake
-        state: 'off'
+        state: "off"
     action:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.skylar_awake_at
@@ -154,6 +155,8 @@ automation:
           time: "{{ now().strftime('%H:%M') }}"
       - service: input_boolean.turn_on
         entity_id: input_boolean.skylar_awake
+      - service: switch.turn_off
+        entity_id: switch.rainbow_light
 
   - id: skylar_early_morning_tv
     alias: Skylar Early Morning TV
@@ -161,18 +164,21 @@ automation:
     trigger:
       - platform: state
         entity_id: media_player.theater_tv
-        to: 'off'
-        from: 'on'
+        to: "on"
+        from: "off"
       - platform: state
         entity_id: media_player.croft_tv
-        to: 'playing'
+        to: "playing"
     condition:
       - condition: time
-        after: '05:00:00'
-        before: '08:30:00'
+        after: "05:00:00"
+        before: "08:30:00"
       - condition: state
         entity_id: input_boolean.skylar_dressed_reminder
-        state: 'off'
+        state: "off"
+      - condition: state
+        entity_id: input_boolean.skylar_awake
+        state: "on"
     action:
       - service: script.status_annc
         data:
@@ -191,51 +197,50 @@ automation:
     alias: Kat Arrives at Zoo
     initial_state: true
     trigger:
-    - platform: zone
-      event: enter
-      zone: zone.zoo_atlanta
-      entity_id: person.katherine
+      - platform: zone
+        event: enter
+        zone: zone.zoo_atlanta
+        entity_id: person.katherine
     action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.kat_travel_monitor
-    - service: script.status_annc
-      data:
-        who: '{{ states.sensor.room_presence.state }}'
-        speech_message: 'Kat has arrived at work.'
-  
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.kat_travel_monitor
+      - service: script.status_annc
+        data:
+          who: "{{ states('sensor.room_audio') }}"
+          speech_message: "Kat has arrived at work."
+
   - id: kat_leaves_zoo
     alias: Kat Leaves Zoo Notification
     initial_state: true
     trigger:
-    - platform: zone
-      event: leave
-      zone: zone.zoo_atlanta
-      entity_id: person.katherine
+      - platform: zone
+        event: leave
+        zone: zone.zoo_atlanta
+        entity_id: person.katherine
     action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.kat_travel_monitor
-    - service: script.status_annc
-      data_template:
-        who: '{{ states.sensor.room_presence.state }}'
-        call_interpruption: 1 
-        call_kat_location: 1
-        
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.kat_travel_monitor
+      - service: script.status_annc
+        data_template:
+          who: "{{ states('sensor.room_audio') }}"
+          call_interpruption: 1
+          call_kat_location: 1
 
   - id: skylar_at_school
     alias: Skylar is at School
     trigger:
-    - entity_id: person.jeffrey
-      event: leave
-      platform: zone
-      zone: zone.starling
-    - entity_id: person.katherine
-      event: leave
-      platform: zone
-      zone: zone.starling
-    - entity_id: person.skylar
-      event: enter
-      platform: zone
-      zone: zone.starling
+      - entity_id: person.jeffrey
+        event: leave
+        platform: zone
+        zone: zone.starling
+      - entity_id: person.katherine
+        event: leave
+        platform: zone
+        zone: zone.starling
+      - entity_id: person.skylar
+        event: enter
+        platform: zone
+        zone: zone.starling
     condition:
       - condition: time
         before: "13:30:00"
@@ -245,33 +250,33 @@ automation:
           - wed
           - thu
           - fri
-      - condition: state 
+      - condition: state
         entity_id: input_boolean.skylar_school
-        state: 'off'
+        state: "off"
     action:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.skylar_school
-    - service: script.text_alert
-      data:
-        who: parents
-        message: "Skylar has been dropped off at school."
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.skylar_school
+      - service: script.text_alert
+        data:
+          who: parents
+          message: "Skylar has been dropped off at school."
     initial_state: true
 
   - id: skylar_left_school
     alias: Skylar left School
     trigger:
-    - entity_id: person.jeffrey
-      event: leave
-      platform: zone
-      zone: zone.starling
-    - entity_id: person.katherine
-      event: leave
-      platform: zone
-      zone: zone.starling
-    - entity_id: person.skylar
-      event: leave
-      platform: zone
-      zone: zone.starling
+      - entity_id: person.jeffrey
+        event: leave
+        platform: zone
+        zone: zone.starling
+      - entity_id: person.katherine
+        event: leave
+        platform: zone
+        zone: zone.starling
+      - entity_id: person.skylar
+        event: leave
+        platform: zone
+        zone: zone.starling
     condition:
       - condition: time
         after: "11:30:00"
@@ -281,57 +286,57 @@ automation:
           - wed
           - thu
           - fri
-      - condition: state 
+      - condition: state
         entity_id: input_boolean.skylar_school
-        state: 'on'
+        state: "on"
     action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.skylar_school
-    - service: script.text_alert
-      data:
-        who: parents
-        message: "Skylar has been picked up from school."
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.skylar_school
+      - service: script.text_alert
+        data:
+          who: parents
+          message: "Skylar has been picked up from school."
     initial_state: true
 
-  
-  
   - id: jeff_arrives_summit
     alias: Jeff Arrives At Summit
     trigger:
-    - entity_id: person.jeffrey
-      event: enter
-      platform: zone
-      zone: zone.summit
+      - entity_id: person.jeffrey
+        event: enter
+        platform: zone
+        zone: zone.summit
     action:
-    - service: script.text_notify
-      data:
-        who: "kat"
-        message: "Jeff has arrived at Summit"
+      - service: script.text_notify
+        data:
+          who: "kat"
+          message: "Jeff has arrived at Summit"
+      - service: script.jeff_destination_na
     initial_state: true
-  
-  - id: jeff_arrives_summit_notification
-    alias: Notify Kat Jeff At Summit
+
+  - id: e1cb15b0-0423-11eb-adc1-0242ac120002
+    alias: Zone Debugger
     trigger:
-    - entity_id: person.jeffrey
-      event: enter
-      platform: zone
-      zone: zone.summit
+      - platform: state
+        entity_id: person.jeffrey
+    condition:
+      - condition: state
+        entity_id: input_boolean.jeff_location_debug
+        state: 'on' 
     action:
-    - service: script.jeff_destination_na
-    initial_state: true
-  
+    - service: script.jeff_location_debug 
+
   - id: jeff_leaves_summit
     alias: Jeff Leaves Summit
     initial_state: true
     trigger:
-    - entity_id: person.jeffrey
-      event: leave
-      platform: zone
-      zone: zone.summit
+      - entity_id: person.jeffrey
+        event: leave
+        platform: zone
+        zone: zone.summit
     action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.jeff_traffic_alert_home
-  
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.jeff_traffic_alert_home
+
   - id: welcome_home
     alias: Welcome Home
     mode: restart
@@ -343,133 +348,120 @@ automation:
           - person.uncle_matt
           - person.papa
           - person.skylar
-        from: 'not_home'
-        to: 'home'
+        from: "not_home"
+        to: "home"
     action:
-    - choose:
-      - conditions:
-        - condition: state
-          entity_id: input_boolean.welcome_home
-          state: "on"
-        sequence:
-        - service: script.turn_on 
-          entity_id: script.welcome_briefing
-      default: 
-      - service: group.set
-        data:
-          object_id: "arriving"
-          add_entities: >-
-            {{ trigger.to_state.entity_id }}
-      - wait_template: "{{ is_state('binary_sensor.laundry_room_door', 'on') }}"
-        timeout: '00:3:00'   
-      - service: script.status_annc
-        data_template:
-          who: '{{ states.sensor.room_presence.state }}'
-          call_interuption: 1
-          speech_message: >
-            {% set person = expand('group.arriving')|map(attribute='name')|join(' and ') %}
-            {% set peoplecount = expand('group.arriving') | count %}
-            {% if peoplecount == 1 %}
-              {% set is_are = ' is ' %}
-              {% set has_have = ' has ' %}
-            {% else %}
-              {% set is_are = ' are ' %}
-              {% set has_have = ' have ' %}
-            {% endif %}
-            {%- macro greeting_sentence(person, is_are, has_have) -%}
-            {{ [
-              person ~ has_have + " arrived.",
-              "My sensors are picking up the presence of additional humans. " ~ person ~ has_have + " been identified as home.",
-              "Guess who is home?" ~ person ~ is_are,
-              "I am sensing a disturbance in the force. "  ~ person +" must be home!",
-              person ~ is_are + "now in the house.",
-              person  ~ is_are + " now here.  Hash tag Welcome Home.",
-              person  ~ is_are + " now here.  Hash tag Home.",
-              "I know a secret! "  ~ person ~ is_are +" home!",
-              "Just a quick announcement. " ~ person ~ has_have +" arrived!",
-              "Hey" ~ person + "! High Five! Glad you are finally home.",
-              "Just a quick announcement. " ~ person ~ has_have + "  arrived!",
-              person ~ has_have + " finally made it home."
-              ] | random }}
-            {%- endmacro -%}
-            {{greeting_sentence(person, is_are, has_have)}}
-      - delay: 00:02:00  
-      - service: group.set
-        data:
-          object_id: "arriving"
-          entities: []     
-          
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.welcome_home
+                state: "on"
+            sequence:
+              - service: script.turn_on
+                entity_id: script.welcome_briefing
+        default:
+          - service: group.set
+            data:
+              object_id: "arriving"
+              add_entities: >-
+                {{ trigger.to_state.entity_id }}
+          - wait_template: "{{ is_state('binary_sensor.laundry_room_door', 'on') }}"
+            timeout: "00:3:00"
+          - service: script.status_annc
+            data_template:
+              who: "{{ states.sensor.room_presence.state }}"
+              call_interuption: 1
+              speech_message: >
+                {% set person = expand('group.arriving')|map(attribute='name')|join(' and ') %}
+                {% set peoplecount = expand('group.arriving') | count %}
+                {% if peoplecount == 1 %}
+                  {% set is_are = ' is ' %}
+                  {% set has_have = ' has ' %}
+                {% else %}
+                  {% set is_are = ' are ' %}
+                  {% set has_have = ' have ' %}
+                {% endif %}
+                {%- macro greeting_sentence(person, is_are, has_have) -%}
+                {{ [
+                  person ~ has_have + " arrived.",
+                  "My sensors are picking up the presence of additional humans. " ~ person ~ has_have + " been identified as home.",
+                  "Guess who is home?" ~ person ~ is_are,
+                  "I am sensing a disturbance in the force. "  ~ person +" must be home!",
+                  person ~ is_are + "now in the house.",
+                  person  ~ is_are + " now here.  Hash tag Welcome Home.",
+                  person  ~ is_are + " now here.  Hash tag Home.",
+                  "I know a secret! "  ~ person ~ is_are +" home!",
+                  "Just a quick announcement. " ~ person ~ has_have +" arrived!",
+                  "Hey" ~ person + "! High Five! Glad you are finally home.",
+                  "Just a quick announcement. " ~ person ~ has_have + "  arrived!",
+                  person ~ has_have + " finally made it home."
+                  ] | random }}
+                {%- endmacro -%}
+                {{greeting_sentence(person, is_are, has_have)}}
+          - delay: 00:02:00
+          - service: group.set
+            data:
+              object_id: "arriving"
+              entities: []
+
   - id: guests_have_arrived
     alias: Guests have arrived
     trigger:
-    - entity_id: person.papa
-      event: enter
-      platform: zone
-      zone: zone.home
-    - entity_id: person.uncle_matt
-      event: enter
-      platform: zone
-      zone: zone.home
+      - entity_id: person.papa
+        event: enter
+        platform: zone
+        zone: zone.home
+      - entity_id: person.uncle_matt
+        event: enter
+        platform: zone
+        zone: zone.home
     action:
-    - service: script.standby
-    - service: script.family_is_home
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.guest_mode
+      - service: script.standby
+      - service: script.family_is_home
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_mode
     initial_state: true
-
 
   - id: disable_bad_traffic_home_jeff
     alias: Disabling Jeff Bad Traffic Home
     initial_state: true
     trigger:
-    - platform: numeric_state
-      entity_id: sensor.jeff_ett_home
-      below: 40
-    - platform: state
-      entity_id: sensor.jeff_destination
-      to: Home
+      - platform: numeric_state
+        entity_id: sensor.jeff_ett_home
+        below: 40
+      - platform: state
+        entity_id: sensor.jeff_destination
+        to: Home
     condition:
-    - condition: state
-      entity_id: input_boolean.jeff_traffic_alert_home
-      state: 'on'
+      - condition: state
+        entity_id: input_boolean.jeff_traffic_alert_home
+        state: "on"
     action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.jeff_traffic_alert_home
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.jeff_traffic_alert_home
 
 script:
   family_is_home:
     sequence:
-    - condition: state
-      entity_id: sensor.family_status
-      state: Away
-    - service: script.standby
-    - service: mqtt.publish
-      data:
-        topic: house/family/status
-        payload_template: Home
-        retain: true
-    - service: script.turn_on
-      entity_id: script.welcome_briefing 
+      - condition: state
+        entity_id: group.family
+        state: "home"
+      - service: script.standby
 
   family_is_away:
     sequence:
-    - condition: state
-      entity_id: sensor.family_status
-      state: Home
-    - service: script.appliances_off
-    - service: scene.turn_on
-      entity_id: scene.lights_out
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.sentry_mode
-    - service: scene.turn_on
-      entity_id: scene.all_fans_off
-    - service: mqtt.publish
-      data:
-        topic: house/family/status
-        payload_template: Away
-        retain: true
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.welcome_home
+      - condition: state
+        entity_id: group.family
+        state: "not_home"
+      - service: script.appliances_off
+      - service: scene.turn_on
+        entity_id: scene.lights_out
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.sentry_mode
+      - service: scene.turn_on
+        entity_id: scene.all_fans_off
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.welcome_home
 
   reset_skylar_sensors:
     sequence:
@@ -480,3 +472,13 @@ script:
           time: "00:00:00"
       - service: input_boolean.turn_off
         entity_id: input_boolean.skylar_awake
+
+  jeff_location_debug:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.jeff_location_debug
+      state: 'on'
+    - service: script.text_alert
+      data:
+        who: jeff
+        message: "Jeff is at {{ states('person.jeffrey') }}"
