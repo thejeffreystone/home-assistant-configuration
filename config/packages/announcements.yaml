@@ -214,7 +214,7 @@ script:
     - condition: state
       entity_id: input_boolean.welcome_home
       state: 'on'
-    - delay: 00:04:00
+    - delay: 00:05:00
     - service: script.speech_engine
       data:
         who: main
@@ -236,10 +236,11 @@ script:
 
   skylar_nightly_briefing:
     sequence:
-    - service: script.speech_engine
-      data:
-        who: '{{ states.sensor.room_presence.state }}'
-        message: !include ../templates/speech/skylar_nightly_briefing.yaml
+    - service: script.local_audio
+      data_template:
+        media: "/media/music/ES_TravelsinTime.mp3"
+        volume: .3
+        speaker: 'media_player.ha_blue'
     - service: script.text_notify
       data_template:
         who: "all_ios"
@@ -291,4 +292,118 @@ script:
               'Minecraft Creepers. <break time="1s"/> Creepers are so cruel, I hear a hiss from behind, Bam! There goes my stuff.'
             ]|random }}
 
- 
+  dinner_is_ready:
+    alias: Dinner Annonoucement
+    sequence:
+    - service: script.dinner_theater
+    - service: script.dinner_main
+    - service: script.dinner_skylar
+    - service: script.dinner_master  
+    mode: single 
+  dinner_main:
+    alias: Dinner Annonoucement Croft
+    sequence:
+    - service: script.local_audio
+      data_template:
+        speaker: media_player.croft_speaker
+        media: /media/sounds/ES_Gong.mp3
+        volume: .5
+    - delay: 00:00:07
+    - service: tts.amazon_polly_say
+      data:
+        entity_id: media_player.croft_speaker
+        message: > 
+          <speak>
+            {{ [
+                'Time to eat. Please wash up and head to the kitchen.',
+                'Food is now being served in the kitchen.',
+                'If you are hungry, the wait is over. Wash Up.',
+                'It is time to wash up and head to the kitchen.'
+              ]|random }}
+          </speak>
+    mode: single
+  dinner_theater:
+    alias: Dinner Annonoucement Theater
+    sequence:
+    - condition: state
+      entity_id: media_player.theater_tv
+      state: 'on' 
+    - service: script.local_audio
+      data_template:
+        speaker: media_player.theater_speaker
+        media: /media/sounds/ES_Gong.mp3
+        volume: .5
+    - delay: 00:00:07
+    - service: tts.amazon_polly_say
+      data:
+        entity_id: media_player.theater_speaker
+        message: > 
+          <speak>
+            {{ [
+                'Time to eat. Please wash up and head to the kitchen.',
+                'Food is now being served in the kitchen.',
+                'If you are hungry, the wait is over. Wash Up.',
+                'It is time to wash up and head to the kitchen.'
+              ]|random }}
+          </speak>
+    mode: single 
+  dinner_skylar:
+    alias: Dinner Annonoucement Skylar
+    sequence:
+    - condition: or 
+      conditions: 
+      - condition: state
+        entity_id: binary_sensor.skylar_bedroom_motion_occupancy
+        state: 'on' 
+      - condition: state 
+        entity_id: binary_sensor.skylar_room_occupancy
+        state: 'on' 
+    - service: script.local_audio
+      data_template:
+        speaker: media_player.skylars_bedroom_speaker
+        media: /media/sounds/ES_Gong.mp3
+        volume: .5
+    - delay: 00:00:07
+    - service: tts.amazon_polly_say
+      data:
+        entity_id: media_player.skylars_bedroom_speaker
+        message: > 
+          <speak>
+            {{ [
+                'Time to eat. Please wash up and head to the kitchen.',
+                'Food is now being served in the kitchen.',
+                'If you are hungry, the wait is over. Wash Up.',
+                'It is time to wash up and head to the kitchen.'
+              ]|random }}
+          </speak>
+    mode: single
+  dinner_master:
+    alias: Dinner Annonoucement Master
+    sequence:
+    - condition: or 
+      conditions: 
+      - condition: state
+        entity_id: binary_sensor.master_bedroom_motion_occupancy
+        state: 'on' 
+      - condition: state 
+        entity_id: binary_sensor.master_bedroom_occupancy
+        state: 'on'
+    - service: script.local_audio
+      data_template:
+        speaker: media_player.master_bedroom_speaker
+        media: /media/sounds/ES_Gong.mp3
+        volume: .5
+    - delay: 00:00:07
+    - service: tts.amazon_polly_say
+      data:
+        entity_id: media_player.master_bedroom_speaker
+        message: > 
+          <speak>
+            {{ [
+                'Time to eat. Please wash up and head to the kitchen.',
+                'Food is now being served in the kitchen.',
+                'If you are hungry, the wait is over. Wash Up.',
+                'It is time to wash up and head to the kitchen.'
+              ]|random }}
+          </speak>
+    mode: single             
