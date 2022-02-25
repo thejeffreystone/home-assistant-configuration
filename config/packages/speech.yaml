@@ -1,0 +1,154 @@
+
+script:
+  tts_notificatons:
+    sequence:
+      - service: script.speech_engine
+        data:
+          who: '{{ who }}'
+          message: >-
+
+            {% macro greeting() %}
+              <p>
+              {% if now().strftime('%H')|int < 12%}
+                Good morning.
+              {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
+                Good afternoon.
+              {% else %}
+                Good evening.
+              {% endif %}
+              </p>
+            {% endmacro %}
+
+
+            {% macro confirmation() %}
+              <p>
+              {{ [
+              'Okay.', 
+              'If you insist.',
+              'I am afraid I can not do that <break time="1s"/> I am kidding,',
+              'Leave it to me.',
+              'As you wish.',
+              'I am on it.',
+              'No Problem.',
+              'I think I can handle that.',
+              'Working on it now.',
+              '<break time="2s"/> Oh, you were talking to me. Let me take care of that.'
+              'Why not. It is not like I ever sleep.',
+              'I am not even supposed to be here today. But whatever.',
+              'You did not say the magic word. <break time="1s"/> Oh forget it. I will take care of it.',
+              'Funny, I was just about to do that.',
+              'There are still terabytes of calculations required before I can.<break time="1s"/> Oh, whatever.'
+              ] | random }}
+              </p>
+            {% endmacro %}
+
+            {% macro interuption() %}
+              <p>
+              {{ [
+                  'Pardon me, ',
+                  'Excuse me, ',
+                  'I do not mean to interrupt, but,',
+                  'I hate to interrupt, but,',
+                  'I beg your pardon, ',
+                  'I do not mean to intrude, but, ',
+                  'I am sorry to interrupt, but. ',
+                  'Just a quick heads up, '
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
+            {% macro issue() %}
+              <p>
+              {{ [
+                  'Anchorage House Emergency Alert!',
+                  'Anchorage House, We have a problem!',
+                  'You might not like this.',
+                  'There is something that needs your attention.'
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
+            {% macro time_is() %}
+              <p>
+              It is {{ now().strftime("%I:%M %p") }}
+              </p>
+            {% endmacro %}
+
+            {%- macro house_party_protocol_enabled() -%}
+              {{ [
+                'Anchorage House has been configured for a House Party.',
+                'Incense has been turned on.',
+                'I have enabled house party protocol.'
+                ] | random }}
+            {%- endmacro -%}
+
+              {%- macro house_party_protocol_disabled() -%}
+              {{ [
+                'The House Party has been canceled.',
+                'Incense has been turned off.',
+                'I have disabled house party protocol.'
+                ] | random }}
+            {%- endmacro -%}
+
+            {%- macro snark_door_motion() -%}
+              {{ [
+                'Do you want me to send them away?',
+                'I have armed the lasers. Just say the word.',
+                'I was not informed there would be guests.',
+                'They do not appear to have any gifts, so I suggest we do not open the door.',
+                'My sensors have detected a meat popsicle.',
+                'I do not think they can hear me.'
+                ] | random }}
+            {%- endmacro -%}
+
+            {# a macro that removes all newline characters, empty spaces, and returns formatted text. Also replaces all Underscores with Spaces  #}
+            {%- macro cleanup(data) -%}
+              {%- for item in data.split("\n")  if item | trim != "" -%}
+                {{ item | trim | replace("_", " ") }} {% endfor -%}
+            {%- endmacro -%}
+
+
+            {# ********************************************* #}
+            {#  ******** Start the Speech routines ********  #}
+            {# ********************************************* #}
+            {# a macro to call all macros :)  #}
+            {%- macro mother_of_all_macros() -%}
+              {% if call_greeting == 1 %}
+                {{ greeting() }}
+              {% endif %}
+
+              {% if call_confirmation == 1 %}
+                {{ confirmation() }}
+              {% endif %}
+
+              {% if call_interuption == 1 %}
+                {{ interuption() }}
+              {% endif %}
+
+              {% if call_issue == 1 %}
+                {{ issue() }}
+              {% endif %}
+
+              {% if call_time_is == 1 %}
+                {{ time_is() }}
+              {% endif %}
+
+              {% if call_house_party_protocol_enabled == 1 %}
+                {{ house_party_protocol_enabled() }}
+              {% endif %}
+
+              {% if call_house_party_protocol_disabled == 1 %}
+                {{ house_party_protocol_disabled() }}
+              {% endif %}
+
+              {{ welcome_home }}  
+
+              {{ speech_message }}
+
+              {% if call_snark_door_motion == 1 %}
+                {{ snark_door_motion() }}
+              {% endif %}
+              
+            {%- endmacro -%}
+
+            {{- cleanup(mother_of_all_macros()) -}}
