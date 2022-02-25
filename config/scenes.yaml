@@ -1,98 +1,57 @@
 - name: studio normal
   entities:
-    light.jeff_lamp:
-      state: 'on'
-      brightness: 12.5
-      color_temp: 380
     light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
       state: 'on'
       brightness: 255
-    light.master_bedroom_tower_lamp:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7
-        - 130
-        - 255
-    light.desk_accent:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
-    switch.master_bedroom_bookcase:
-      state: 'on'
     switch.dazzned50:
       state: 'on'
     switch.tplink_a2:
       state: 'on'
+    switch.kasa2:
+      state: 'on'
+    switch.desk_lamp:
+      state: 'on'
+    light.desk_lighting:
+      state: 'on'
+      brightness: 255
 
 - name: studio blue
   entities:
-    light.jeff_lamp:
+    switch.desk_lamp:
       state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
     light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
       state: 'on'
       brightness: 255
-    light.master_bedroom_tower_lamp:
+    switch.kasa2:
+      state: 'on'
+    light.desk_lighting:
       state: 'on'
       brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
-    light.desk_accent:
+    switch.dazzned50:
       state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
-    switch.master_bedroom_bookcase:
-      state: 'on'
-
 - name: studio yellow
   entities:
-    light.jeff_lamp:
-      state: 'on'
-      brightness: 67.5
-      color_temp: 299
     light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
     light.kat_lamp:
       state: 'on'
       brightness: 255
-    light.master_bedroom_tower_lamp:
-      state: 'on'
-      brightness: 255
-      color_temp: 299
-    light.desk_accent:
-      state: 'on'
-      brightness: 255
-      rgb_color:
-        - 7 
-        - 130
-        - 255
-    switch.master_bedroom_bookcase:
-      state: 'off'
     switch.dazzned50:
-      state: 'off'
+      state: 'on'
     switch.tplink_a2:
       state: 'off'
-    
+    switch.desk_lamp:
+      state: 'on'
+    light.desk_lighting:
+      state: 'on'
+      brightness: 255
 
 - name: all lights on
   entities:
@@ -327,13 +286,12 @@
 
 - name: master bedroom on
   entities:
-    light.jeff_lamp:
+    light.desk_lamp:
       state: 'on'
-      brightness: 255
-      color_temp: 369
     light.kat_lamp:
       state: 'on'
       brightness: 255
+      color_temp: 369
     light.master_bedroom_dresser_lamp:
       state: 'on'
       brightness: 255
@@ -341,13 +299,14 @@
       state: 'on'
       brightness: 255
       color_temp: 369
-    light.desk_accent:
-      state: 'off'
+    light.desk_lighting:
+      state: 'on'
+      brightness: 255
   id: d250bb4c5c1644b0a7064a9f36ffec32
 
 - name: master bedroom off
   entities:
-    light.jeff_lamp:
+    switch.desk_lamp:
       state: 'off'
     light.kat_lamp:
       state: 'off'
@@ -357,8 +316,11 @@
       state: 'off'
     light.desk_accent:
       state: 'off'
-    switch.master_bedroom_bookcase:
+    switch.kasa2:
       state: 'off'
+    light.desk_lighting:
+      state: 'off'
+      brightness: 255
   id: 06e4b59c35f14054ab7e741445b7fd21
 
 - name: master bedroom dim
@@ -379,13 +341,11 @@
       brightness: 102
     light.master_bedroom_dresser_lamp:
       state: 'off'
-    switch.master_bedroom_bookcase:
-      state: 'off'
   id: 85953e56acc94c8b8614347de8aab96a
 
 - name: santa protocol
   entities:
-    switch.kasa2:
+    switch.master_bedroom_bookcase:
       state: 'on'
     switch.rail_lights:
       state: 'on'
@@ -393,34 +353,34 @@
 
 - name: skylar room prebed
   entities:
-    light.wled_loftbed:
+    light.wled_skylarsbed:
       state: 'on'
       brightness: 255
       rgb_color:
       - 63
       - 255
       - 0
-    switch.rainbow_lamp:
-      state: 'on'
     light.skylars_dresser_lamp:
       state: 'on'
       brightness: 255
+    light.tower_lamp:
+      state: 'off'
+    light.tower_spotlight:
+      state: 'off'
+    switch.skylars_christmas_tree:
+      state: 'on'
   id: cc8606f7345f48d59b3c32e900122d75
 
-- name: skylar room sleep
+- name: skylar bedtime
   entities:
     input_boolean.audible_notifications:
       state: 'off'
-    light.wled_loftbed:
+    light.wled_skylarsbed:
       state: 'on'
       brightness_pct: 100
-      rgb_color:
-      - 63
-      - 255
-      - 0
-    switch.rainbow_lamp:
+    switch.rainbow_light:
       state: 'on'
-    switch.wled_loftbed_nightlight:
+    switch.wled_skylarsbed_nightlight:
       state: 'on'
     light.diffuser_skylars_bedroom:
       state: 'on'
@@ -434,19 +394,22 @@
       state: 'off'
     switch.sleep_aid:
       state: 'on'
-  id: f4e8d2f594c446ee9f0e41cf46dc1c72
+  id: f4e8d2f594c446ee9f0e41cf46df3a53
+
+- name: skylar awake
+  entities:
+    switch.rainbow_light:
+      state: 'off'
 
 - name: skylar room morning
   entities:
-    light.wled_loftbed:
+    light.wled_skylarsbed:
       state: 'on'
       brightness_pct: 100
       rgb_color:
       - 63
       - 255
       - 0
-    switch.rainbow_lamp:
-      state: 'off'
     light.diffuser_skylars_bedroom:
       state: 'off'
     light.bedside_lamp:
@@ -455,9 +418,7 @@
 
 - name: skylar room day
   entities:
-    switch.rainbow_lamp:
-      state: 'off'
-    light.wled_loftbed:
+    light.wled_skylarsbed:
       state: 'off'
   id: b25b0c6dcec049929b2bde5d08f3ce53
 
@@ -505,7 +466,7 @@
         - 130
         - 255
     switch.dazzned50:
-      state: 'off'
+      state: 'on'
     switch.tplink_a2:
       state: 'off'
     light.warning_light:
@@ -515,6 +476,13 @@
       - 255
       - 0
       - 67
+    switch.kasa2:
+      state: 'on'
+    switch.desk_lamp:
+      state: 'on'
+    light.desk_lighting:
+      state: 'on'
+      brightness: 255
     
 - name: teams call done
   id: teams_call_done
@@ -601,11 +569,20 @@
   id: 2f3792fca2f64ba28ed39e7a7b6025f8
 - name: holiday inside on
   entities:
-    switch.av_system:
+    switch.master_bedroom_bookcase:
       state: 'on'
+    switch.rail_lights:
+      state: 'on'
+    light.wled_tree:
+      state: 'on'
+    
   id: a5e09ec5988a4eab92d0ea527fe72a6a
 - name: holiday off
   entities:
-    switch.av_system:
+    switch.master_bedroom_bookcase:
+      state: 'off'
+    switch.rail_lights:
+      state: 'off'
+    light.wled_tree:
       state: 'off'
   id: e4408be905b94d13b918f727362c679b
