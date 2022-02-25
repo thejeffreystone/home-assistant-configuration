@@ -138,18 +138,18 @@ automation:
       - service: input_boolean.turn_on 
         entity_id: input_boolean.heartworm
 
-  # # When Winston gets his heartworm mark it complete, and update Grocy via command to api to reduce stock and mark chore complete. 
-  - alias: Chore Complete Heartworm
-    trigger:
-      - platform: state
-        entity_id: input_boolean.heartworm
-        from: 'on'
-        to: 'off'
-    action:
-      - service: grocy.execute_chore
-        data:
-          chore_id: 2
-          done_by: 1
+  # # # When Winston gets his heartworm mark it complete, and update Grocy via command to api to reduce stock and mark chore complete. 
+  # - alias: Chore Complete Heartworm
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.heartworm
+  #       from: 'on'
+  #       to: 'off'
+  #   action:
+  #     - service: grocy.execute_chore
+  #       data:
+  #         chore_id: 2
+  #         done_by: 1
 
   ###################
   # Nextguard chore - See that Winston get his Flea/ Tick Meds
@@ -162,17 +162,17 @@ automation:
     action:
       - service: input_boolean.turn_on 
         entity_id: input_boolean.nextguard
-  # # When Winston gets his Nextguard mark it complete, and update Grocy via command to api to reduce stock and mark chore complete. 
-  - alias: Nextguard Complete 
-    trigger:
-      - platform: state
-        entity_id: input_boolean.nextguard
-        to: 'off'
-    action:
-      - service: grocy.execute_chore
-        data:
-          chore_id: 3
-          done_by: 1
+  # # # When Winston gets his Nextguard mark it complete, and update Grocy via command to api to reduce stock and mark chore complete. 
+  # - alias: Nextguard Complete 
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.nextguard
+  #       to: 'off'
+  #   action:
+  #     - service: grocy.execute_chore
+  #       data:
+  #         chore_id: 3
+  #         done_by: 1
 
   ###################
   # Skylars Laundry chore - Do Skylars Launder each week
@@ -186,16 +186,16 @@ automation:
       - service: input_boolean.turn_on 
         entity_id: input_boolean.do_skylars_laundry
   # # When its complete, and update Grocy via command to api to reduce stock and mark chore complete. 
-  - alias: Skylars Laundry Complete 
-    trigger:
-      - platform: state
-        entity_id: input_boolean.do_skylars_laundry
-        to: 'off'
-    action:
-      - service: grocy.execute_chore
-        data:
-          chore_id: 7
-          done_by: 1
+  # - alias: Skylars Laundry Complete 
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.do_skylars_laundry
+  #       to: 'off'
+  #   action:
+  #     - service: grocy.execute_chore
+  #       data:
+  #         chore_id: 7
+  #         done_by: 1
 
 # Replacing calendar based reminders with Grocy          
 # script:
