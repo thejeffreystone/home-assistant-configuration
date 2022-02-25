@@ -280,16 +280,9 @@ script:
     sequence:
     - condition: and
       conditions:
-      - condition: template
-        value_template: >
-          {%- if states.media_player.home_theater != "playing" -%}
-            true
-          {%- endif -%}
-      - condition: template
-        value_template: >
-          {%- if states.media_player.playstation_4 != "playing" -%}
-            true
-          {%- endif -%}
+      - condition: state
+        entity_id: media_player.theater_tv
+        state: 'off'
       - condition: state  
         entity_id: binary_sensor.theater_occupancy
         state: 'off'
