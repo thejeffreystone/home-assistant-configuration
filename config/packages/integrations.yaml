@@ -27,6 +27,23 @@ life360:
 ecobee:
   api_key: !secret ecobee_api
 
+# calendar:
+#   - platform: todoist
+#     token: !secret todoist_token
+#     custom_projects:
+#       - name: 'All Projects'
+#       - name: 'Due Today'
+#         due_date_days: 0
+#       - name: 'Due This Week'
+#         due_date_days: 7
+#       - name: 'Follow up'
+#         labels:
+#           - Engagement
+#         include_projects:
+#           - SlackerLabs
+#       - name: 'Work Stuff'
+#         include_projects:
+#           - Work  
 
 gdacs:
   categories:
@@ -73,20 +90,29 @@ wemo:
 #     include_domains:
 #       - light
 #     include_entities:
-#       - switch.croft_fan
-#       - switch.driveway_light_2
-#       - switch.incense
-#       - switch.livingroom_fan
+#       - switch.master_bath_fan
+#       - switch.master_bedroom_bookcase
 #       - switch.rail_lights
-#       - switch.croft_light
-#       - switch.kitchen_light_strip
+#       - switch.skylars_christmas_tree
+#       - switch.sleep_aid
 #       - switch.artemis
-#       - switch.fireplace_lights_2
-#       - switch.desk
+#       - switch.croft_fan
+#       - switch.croft_light
+#       - switch.dazzned50
+#       - switch.desk_lamp
+#       - switch.driveway_light
+#       - switch.fireplace_lights
 #       - switch.forest_incense
 #       - switch.front_porch_light
-#       - input_boolean.house_party_protocol
-#       - switch.christmas_tree
-#       - switch.rainbow_light
 #       - switch.garage_fan
+#       - switch.incense
+#       - switch.kasa2
+#       - switch.kitchen_light_strip
+#       - switch.rainbow_light
+#       - switch.skylar_led_cube
+#       - switch.theater_fan
+#       - switch.train_table
+#       - switch.wled_loftbed_nightlight
+#       - switch.wled_tree_nightlight
+#       - switch.3dprinters
 
