@@ -168,6 +168,10 @@ automation:
     - service: switch.turn_on
       data:
         entity_id: switch.front_porch_light
+    - service: cover.close_cover
+      entity_id: 
+        - cover.south_shade
+        - cover.living_room_2
     - service: scene.turn_on
       entity_id: scene.normal_livingroom_lighting
     - service: script.sunset_garage_open
@@ -263,16 +267,14 @@ automation:
     trigger:
     - platform: sun
       event: sunrise
-      offset: 01:30:00
-    condition:
-    - condition: template
-      value_template: >
-        {%- if states.weather.klzu_hourly.state == "sunny" or states.weather.klzu_hourly.state == "partlycloudy" or states.weather.klzu_hourly.state == "clear" -%}
-          true
-        {%- endif -%}
+      offset: 00:20:00
     action:
     - service: scene.turn_on
       entity_id: scene.skylar_room_day
+    - service: cover.open_cover
+      entity_id: 
+        - cover.south_shade
+        - cover.living_room_2
 
   - id: 82b96b73-2407-49d7-8ea2-1f78a69e025b
     alias: Jeff eta home
@@ -397,3 +399,8 @@ script:
       state: 'on'
     - service: script.turn_on
       entity_id: script.driveway_on
+
+  good_night_routine:
+    sequence:
+    - service: scene.turn_on
+      entity_id: scene.skylar_room_sleep
