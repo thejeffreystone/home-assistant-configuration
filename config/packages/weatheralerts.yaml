@@ -1581,9 +1581,6 @@ automation:
         attribute: tornado_warning_count
         above: 0
     action:
-      - service: script.text_notify
-        data_template:
-          message: "Tornado Warning Issued for Anchorage House"
       - service: script.jarvis_alert
         data_template:
           message: "Attention!,,,Attention!,,,The National Weather Service Has issued a Tornado Warning for our area."
