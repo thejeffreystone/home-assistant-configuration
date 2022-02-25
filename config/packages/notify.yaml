@@ -129,6 +129,9 @@ notify:
     platform: group
     services:
       - service: mobile_app_skylars_ipad
+  
+  
+  
   - name: twitter
     platform: twitter
     consumer_key: !secret twitter_consumer_key
@@ -462,8 +465,8 @@ script:
           payload: '{{ who }}'
           retain: true
       - condition: state
-        entity_id: binary_sensor.quiet_time
-        state: 'off'
+        entity_id: input_boolean.audible_notifications
+        state: 'on'
       - condition: state
         entity_id: group.family
         state: 'home'
@@ -473,24 +476,35 @@ script:
       - service: >
           {% if voice == 'nabu' %}
             script.nabu_voice      
-          {% elif voice == 'alexa' %}
-            script.alexa_voice
-          {% elif who in ['kitchen_echo','livingroom_echo', 'garage_echo']  %}
-            script.alexa_voice
-          {% elif voice == 'jarvis' %}
-            {% if who == 'main' and is_state('media_player.ha_blue','playing') %}
+          {% elif who in ['kitchen_echo','media_player.kitchen_echo','kitchen'] %}
+            {% if is_state('media_player.kitchen_echo','playing') %}
+              {% set who = 'kitchen' %}
+              script.jarvis_voice
+            {% else %}
+              {% set who = 'kitchen_echo' %}
+              script.alexa_voice
+            {% endif %}
+          {% elif who in ['livingroom_echo', 'media_player.livingroom_echo','living_room']  %}
+            {% if is_state('media_player.livingroom_echo','playing') %}
+              {% set who = 'main' %}
+              script.jarvis_voice
+            {% else %}
               {% set who = 'livingroom_echo' %}
               script.alexa_voice
-            {% else %}
-              script.jarvis_voice
             {% endif %}
+          {% elif who in ['skylars_bedroom','media_player.skylars_echo']  %}
+            {% if is_state('media_player.skylars_echo','playing') %}
+              {% set who = 'skylar_bedroom' %}
+              script.jarvis_voice
+            {% else %}
+              {% set who = 'media_player.skylars_echo' %}
+              script.alexa_voice
+            {% endif %}
+          {% elif who in ['master_bedroom']  %}
+            script.jarvis_voice
           {% else %}
-            {% if who == 'main' and is_state('media_player.ha_blue','playing') %}
-              {% set who = 'livingroom_echo' %}
-              script.alexa_voice
-            {% else %}
-              script.jarvis_voice
-            {% endif %}
+            {% set who = 'livingroom_echo' %}
+            script.alexa_voice
           {% endif %}
         data:
           who: '{{ who }}'
@@ -513,8 +527,8 @@ script:
   speech_engine_simplified:
     sequence:
       - condition: state
-        entity_id: binary_sensor.quiet_time
-        state: 'off'
+        entity_id: input_boolean.audible_notifications
+        state: 'on'
       - condition: state
         entity_id: group.family
         state: 'home'
@@ -557,26 +571,24 @@ script:
     - service: media_player.turn_on
       data_template:
         entity_id: >
-          {% if who == 'kitchen_echo' %}
+          {% if who in ['kitchen_echo','media_player.kitchen_echo','kitchen'] %}
             notify.alexa_media_kitchen_echo
-          {% elif who == 'garage_echo' %}
+          {% elif who in ['skylar_bedroom','media_player.skylars_echo','skylars_bedroom'] %}
             notify.alexa_media_garage_echo
-          {% elif who == 'livingroom_echo' %}
+          {% elif who in ['livingroom_echo','media_player.livingroom_echo','living_room'] %}
             notify.alexa_media_living_room_echo
           {% else %}
             notify.alexa_media_living_room_echo
           {% endif %}
-    - service: script.dim_main_volume
     - service: media_player.volume_set
       data_template:
         entity_id: >
-          {% if who == 'kitchen_echo' %}
+          {% if who in ['kitchen_echo','media_player.kitchen_echo','kitchen'] %}
             notify.alexa_media_kitchen_echo
-          {% elif who == 'garage_echo' %}
+          {% elif who in ['skylar_bedroom','media_player.skylars_echo','skylars_bedroom'] %}
             notify.alexa_media_garage_echo
-          {% elif who == 'livingroom_echo' and is_state('media_player.ha_blue','playing')  %}
-            {% set old_volume = states.media_player.ha_blue.attributes.volume_level %}
-            media_player.ha_blue
+          {% elif who in ['livingroom_echo','media_player.livingroom_echo','living_room'] %}
+            notify.alexa_media_living_room
           {% else %}
             notify.alexa_media_living_room
           {% endif %}
@@ -587,12 +599,12 @@ script:
               .4
             {% endif %}
     - service: >
-        {% if who == 'kitchen_echo' %}
+        {% if who in ['kitchen_echo','media_player.kitchen_echo','kitchen'] %}
           notify.alexa_media_kitchen_echo
-        {% elif who == 'livingroom_echo' %}
-          notify.alexa_media_living_room_echo
-        {% elif who == 'garage_echo' %}
+        {% elif who in ['skylar_bedroom','media_player.skylars_echo','skylars_bedroom'] %}
           notify.alexa_media_garage_echo
+        {% elif who in ['livingroom_echo','media_player.livingroom_echo','living_room'] %}
+        notify.alexa_media_living_room_echo
         {% else %}
           notify.alexa_media_living_room_echo
         {% endif %}
@@ -601,8 +613,6 @@ script:
             {{ message }}
           data:
             type: tts
-    - delay: 00:00:20
-    - service: script.raise_main_volume
  
 
 
@@ -617,24 +627,22 @@ script:
           {% if who == 'kitchen' %}
             media_player.kitchen_display
           {% elif who == 'theater' %}
-            media_player.upstairs_speaker
+            media_player.theater_speaker
           {% elif who == 'croft' %}
             media_player.croft_speaker
-          {% elif who == 'skylar_bedroom' %}
+          {% elif who in ['skylar_bedroom', 'skylars_bedroom'] %}
             media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
             media_player.theater
-          {% elif who == 'all_google' %}
-            media_player.house
           {% elif who == 'main' %}
             media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.ha_blue
             {% else %}
-            media_player.house
+            media_player.kitchen_display
             {% endif %}
           {% endif %}
     - service: media_player.volume_set
@@ -643,24 +651,22 @@ script:
           {% if who == 'kitchen' %}
             media_player.kitchen_display
           {% elif who == 'theater' %}
-            media_player.upstairs_speaker
+            media_player.theater_speaker
           {% elif who == 'croft' %}
             media_player.croft_speaker
-          {% elif who == 'skylar_bedroom' %}
+          {% elif who in ['skylar_bedroom', 'skylars_bedroom'] %}
             media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
             media_player.theater
-          {% elif who == 'all_google' %}
-            media_player.house
           {% elif who == 'main' %}
             media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.ha_blue
             {% else %}
-            media_player.house
+            media_player.kitchen_display
             {% endif %}
           {% endif %}
         volume_level: >
@@ -687,24 +693,22 @@ script:
           {% if who == 'kitchen' %}
             media_player.kitchen_display
           {% elif who == 'theater' %}
-            media_player.upstairs_speaker
+            media_player.theater_speaker
           {% elif who == 'croft' %}
             media_player.croft_speaker
-          {% elif who == 'skylar_bedroom' %}
+          {% elif who in ['skylar_bedroom', 'skylars_bedroom'] %}
             media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
             media_player.theater
-          {% elif who == 'all_google' %}
-            media_player.house
           {% elif who == 'main' %}
             media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.ha_blue
             {% else %}
-            media_player.house
+            media_player.kitchen_display
             {% endif %}
           {% endif %}
         message: >-
@@ -722,24 +726,22 @@ script:
           {% if who == 'kitchen' %}
             media_player.kitchen_display
           {% elif who == 'theater' %}
-            media_player.upstairs_speaker
+            media_player.theater_speaker
           {% elif who == 'croft' %}
             media_player.croft_speaker
-          {% elif who == 'skylar_bedroom' %}
+          {% elif who in ['skylar_bedroom', 'skylars_bedroom'] %}
             media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
             media_player.theater
-          {% elif who == 'all_google' %}
-            media_player.house
           {% elif who == 'main' %}
             media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.ha_blue
             {% else %}
-            media_player.house
+            media_player.kitchen_display
             {% endif %}
           {% endif %}
     - service: media_player.volume_set
@@ -748,24 +750,22 @@ script:
           {% if who == 'kitchen' %}
             media_player.kitchen_display
           {% elif who == 'theater' %}
-            media_player.upstairs_speaker
+            media_player.theater_speaker
           {% elif who == 'croft' %}
             media_player.croft_speaker
-          {% elif who == 'skylar_bedroom' %}
+          {% elif who in ['skylar_bedroom', 'skylars_bedroom'] %}
             media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
             media_player.theater
-          {% elif who == 'all_google' %}
-            media_player.house
           {% elif who == 'main' %}
             media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.ha_blue
             {% else %}
-            media_player.house
+            media_player.kitchen_display
             {% endif %}
           {% endif %}
         volume_level: >
@@ -780,24 +780,22 @@ script:
           {% if who == 'kitchen' %}
             media_player.kitchen_display
           {% elif who == 'theater' %}
-            media_player.upstairs_speaker
+            media_player.theater_speaker
           {% elif who == 'croft' %}
             media_player.croft_speaker
-          {% elif who == 'skylar_bedroom' %}
+          {% elif who in ['skylar_bedroom', 'skylars_bedroom'] %}
             media_player.skylars_bedroom_speaker
           {% elif who == 'master_bedroom' %}
             media_player.master_bedroom_speaker
           {% elif who == 'studio' %}
             media_player.theater
-          {% elif who == 'all_google' %}
-            media_player.house
           {% elif who == 'main' %}
             media_player.ha_blue
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.ha_blue
             {% else %}
-            media_player.house
+            media_player.kitchen_display
             {% endif %}
           {% endif %}
         message: >-
