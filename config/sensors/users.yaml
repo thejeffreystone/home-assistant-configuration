@@ -4,3 +4,15 @@
 - platform: mqtt
   name: "Kat Destination"
   state_topic: "kat/driving/destination"
+- platform: template
+  sensors:
+    jeff_speed:
+      friendly_name: "Jeff Speed"
+      unit_of_measurement: 'mph'
+      value_template: "{{ state_attr('device_tracker.jeffrey_s_iphone_11_app', 'speed') | float / 1.609 | round(0) }}"
+    kat_speed:
+      friendly_name: "Kat Speed"
+      unit_of_measurement: 'mph'
+      value_template: "{{ state_attr('device_tracker.life360_kat_stone', 'raw_speed') | int }}"
+
+  
