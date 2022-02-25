@@ -23,6 +23,16 @@ homeassistant:
 #     api_key: !secret nws_api_key
 #     station: klzu
 
+weather:
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    # Additional optional values:
+    #latitude: Location latitude
+    #longitude: Location longitude
+    mode: "daily"
+    name: Anchorage House
+    
+
 group:
   alerts_card:
    name: Alerts
@@ -73,7 +83,18 @@ sensor:
     state: GA
     zone: 34
     county: 135
-
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    scan_interval: '00:15:00'
+    monitored_conditions:
+      - temperature
+      - precip_probability
+      - precip_type
+      - humidity
+      - cloud_cover
+      - nearest_storm_distance
+      - precip_intensity
+      - wind_speed
   - platform: statistics
     name: Inside Humidity Stats
     entity_id: sensor.current_inside_humidity
@@ -82,6 +103,10 @@ sensor:
 
   - platform: template
     sensors:
+      outside_pressure:
+        friendly_name: 'outisde pressure'
+        value_template: '{{ state_attr(''weather.home'',''pressure'') }}'
+        unit_of_measurement: ''
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
