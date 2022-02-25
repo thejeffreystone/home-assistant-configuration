@@ -3,7 +3,7 @@
   {%- macro getReport() -%}
     <p>
     {% set person = expand('group.people')| selectattr('state', 'eq', 'home') | map(attribute='name')|join(' and ') %}
-    {% set peoplecount = expand('group.arriving') | count %}
+    {% set peoplecount = expand('group.people') | count %}
     {% if peoplecount == 0 %}
       <s>Welcome Home</s>
     {% else %}
@@ -15,11 +15,11 @@
         {% set has_have = ' have ' %}
       {% endif %}
       {%- macro greeting_sentence(person, is_are, has_have) -%}
-      {{ [
-        "Welcome back home " ~ person,
-        "Hey" ~ person + "! High Five! Glad you are finally home.",
-        "Welcome home " ~ person
-        ] | random }}"Welcome back home " ~ person,
+       {{ [
+        "Welcome back home " ~ person + ".",
+        "Hey " ~ person + "! High Five! Glad you are finally home.",
+        "Welcome home " ~ person + "."
+        ] | random }}
       {%- endmacro -%}
       {{greeting_sentence(person, is_are, has_have)}}
     {% endif %}

@@ -161,22 +161,6 @@
       {% endif %}
     </p>
 
-    <p>
-      {%- if states.sensor.home_to_zoo.state|round > 50 %}
-        Traffic to the Zoo appears heavy than normal.
-      {% else %}
-        Traffic to the Zoo is normal.
-      {% endif %}
-      Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo taking {{ states.sensor.home_to_zoo.attributes.route }}.
-
-      {%- if states.sensor.home_to_summit.state|round > 50 %}
-        Traffic to Summit appears heavy than normal.
-      {% else %}
-        Traffic to Summit is normal.
-      {% endif %}
-      Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}.
-    </p>
-
   {%- endmacro -%}
 
 

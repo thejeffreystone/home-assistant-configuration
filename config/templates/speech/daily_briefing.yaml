@@ -269,7 +269,7 @@
 
             {% if 'Fools' in event %}
               {{ [
-              'Which reminds me. The camera looking at tbe drive way caught a Tee Rex last night. <break time="1s"/> April Fools!',
+              'Which reminds me. The camera looking at the drive way caught a Tee Rex last night. <break time="1s"/> April Fools!',
               'Which reminds me. I won the lottery and I am moving out to go live with Siri. <break time="1s"/> April Fools!',
               'Which reminds me. there was a time change last night. We have jumped 15 years into the future. <break time="1s"/> April Fools!'
             ]|random }}
@@ -362,26 +362,7 @@
 
       </p>
       
-      
-      
-      
-      {% if is_state('binary_sensor.morning','on') %}
-      <p>
-        {%- if states.sensor.home_to_zoo.state|round > 50 %}
-          Traffic to the Zoo appears heavy than normnal.
-        {% else %}
-          Traffic to the Zoo is normal.
-        {% endif %}
-        Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo taking {{ states.sensor.home_to_zoo.attributes.route }}.
-
-        {%- if states.sensor.home_to_summit.state|round > 50 %}
-          Traffic to Summit appears heavy than normnal.
-        {% else %}
-          Traffic to Summit is normal.
-        {% endif %}
-        Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}
-      </p>
-      {%- endif -%}
+    
       
         
       <p>
@@ -406,7 +387,7 @@
           {%- if is_state('climate.home','off') %}
             The internal climate control system is off. The temperature inside is {{ states.climate.home.attributes.current_temperature }} degrees. 
           {%- elif is_state('climate.home','heat_cool') %}
-            The internal climate control system will try to keep the temperature between {{ states.climate.home.attributes.target_temp_low }} and {{ states.climate.home.attributes.target_temp_high }}.
+            The internal climate control system will try to keep the temperature between {{ states.climate.home.attributes.target_temp_low }} and {{ states.climate.home.attributes.target_temp_high }} degrees.
           {% else %}
             The internal climate control system is set to {{ states.climate.home.state }} with a current temperature of {{ states.climate.home.attributes.current_temperature }} which is 
             
