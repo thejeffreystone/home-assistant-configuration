@@ -16,6 +16,10 @@ People:
   - person.uncle_matt
   - person.papa
 
+test:
+  - group.jeffrey
+  - group.kat
+
 jeffrey:
   - device_tracker.jeffrey_s_iphone_11_app
   - device_tracker.jeffreys_iphone_11
@@ -89,7 +93,7 @@ all fans:
 Skylars Bedroom:
   - light.skylars_dresser_lamp
   - switch.rainbow_lamp # rainbow light
-  - light.wled_loftbed
+  - light.wled_skylarsbed
   - switch.skylars_desk
 
 Master Bedroom:
