@@ -22,8 +22,8 @@ automation:
       - condition: or  #Either we are home or Guest_Mode is on.
         conditions:
           - condition: state
-            entity_id: sensor.family_status
-            state: 'Home'
+            entity_id: group.family
+            state: 'home'
           - condition: state
             entity_id: input_boolean.guest_mode
             state: 'on'
@@ -44,4 +44,4 @@ automation:
             {% else %}
             https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/sounds/cuckoo-clock-{{now().strftime("%I")}}.wav
             {% endif %}
-          media_content_type: audio/mp4
+          media_content_type: music
