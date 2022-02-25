@@ -31,11 +31,6 @@
 - id: family_has_arrived
   alias: Family Has arrived
   trigger:
-  - entity_id: sensor.family_status
-    from: Away
-    platform: state
-    to: Home
-    id: family
   - platform: zone
     entity_id: person.jeffrey
     zone: zone.home
@@ -51,6 +46,11 @@
     zone: zone.home
     event: enter
     id: kat
+  - entity_id: group.family
+    platform: state
+    to: home
+    id: family
+    from: not_home
   condition: []
   action:
   - service: script.family_is_home
@@ -78,10 +78,6 @@
   alias: Family Has Left
   initial_state: true
   trigger:
-  - entity_id: sensor.family_status
-    from: Home
-    platform: state
-    to: Away
   - entity_id: group.family
     from: home
     platform: state
@@ -514,7 +510,7 @@
         - condition: trigger
           id: cancel
       sequence:
-      - service: nput_boolean.turn_off
+      - service: input_boolean.turn_off
         entity_id: input_boolean.randomize_vacation_lights
     default: []
   mode: single
@@ -529,7 +525,7 @@
     at: input_datetime.skylar_bedtime_holiday
     id: no_school
   condition:
-  - condition: state 
+  - condition: state
     entity_id: input_boolean.skylar_awake
     state: 'on'
   action:
@@ -806,8 +802,171 @@
   - service: humidifier.turn_off
     target:
       entity_id: humidifier.diffuser_skylars_bedroom
+  mode: single
+- id: '1638194699925'
+  alias: Christmas Effects Picker
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.tree_effects
+    to: Normal
+    id: normal
+  - platform: state
+    entity_id: input_select.tree_effects
+    to: Christmas Fireworks
+    id: fireworks
+  - platform: state
+    entity_id: input_select.tree_effects
+    to: Christmas Smooth
+    id: smooth
+  - platform: state
+    entity_id: input_select.tree_effects
+    to: Christmas Twinkle
+    id: twinkle
+  - platform: state
+    entity_id: input_select.tree_effects
+    to: Christmas Aurora
+    id: aurora
+  - platform: state
+    entity_id: input_select.tree_effects
+    to: Christmas Sparkle
+    id: sparkle
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: fireworks
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.fireworks1d_xmas
+    - conditions:
+      - condition: trigger
+        id: normal
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.normal_xmas
+    - conditions:
+      - condition: trigger
+        id: smooth
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.blends_xmas
+    - conditions:
+      - condition: trigger
+        id: twinkle
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.twinklefox_xmas
+    - conditions:
+      - condition: trigger
+        id: aurora
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.aurora_xmas
+    - conditions:
+      - condition: trigger
+        id: sparkle
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.sparkle_xmas
+    default: []
+  mode: single
+- id: '1638589697417'
+  alias: Turn on Night Light
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.wled_skylarsbed
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.ambilight
   - service: switch.turn_off
-    entity_id: switch.skylars_microphone
-  - service: scene.turn_on
-    entity_id: scene.skylars_night_light
+    target:
+      entity_id: switch.skylars_christmas_tree
+  - service: light.turn_on
+    target:
+      entity_id: light.bedside_lamp
+  mode: single
+- id: '1639858026697'
+  alias: Christmas Daily Mode
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.audible_notifications
+    id: lights_on
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.audible_notifications
+    id: lights_off
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.christmas_season
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: lights_on
+      sequence:
+      - type: turn_on
+        device_id: 36a19fa37d884a58b2286ff5fcf7e571
+        entity_id: switch.master_bedroom_bookcase
+        domain: switch
+      - type: turn_on
+        device_id: 700a83ce51088f774dfb86655aaafd59
+        entity_id: light.wled_tree
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: lights_off
+      sequence:
+      - delay:
+          hours: 1
+          minutes: 0
+          seconds: 0
+          milliseconds: 0
+      - type: turn_off
+        device_id: 36a19fa37d884a58b2286ff5fcf7e571
+        entity_id: switch.master_bedroom_bookcase
+        domain: switch
+      - type: turn_off
+        device_id: 700a83ce51088f774dfb86655aaafd59
+        entity_id: light.wled_tree
+        domain: light
+    default: []
+  mode: single
+- id: '1639858423431'
+  alias: Random Christmas Effect
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: /1
+  condition:
+  - condition: state
+    entity_id: light.wled_tree
+    state: 'on'
+  action:
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.tree_effects
+    data:
+      option: '{{ state_attr(''input_select.tree_effects'', ''options'') | list |
+        random }}'
   mode: single
