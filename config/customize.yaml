@@ -194,9 +194,7 @@ sensor.kitchen_fire:
   icon: mdi:tower-fire
 sensor.smoke_kitchen:
   icon: mdi:fire
-sensor.family_status:
-  icon: mdi:home
-  name: Family Status
+
 sensor.ha_uptime:
   friendly_name: HA Uptime
   icon: mdi:clock-start
