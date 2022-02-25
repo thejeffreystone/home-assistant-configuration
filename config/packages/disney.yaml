@@ -80,6 +80,8 @@ input_boolean:
     name: Around Magic Kingdom
   hauntedmansionloop:
     name: Haunted Mansion Loop
+  christmas_background:
+    name: Christmas Background
 
 group:
   Disney Audio:
@@ -123,9 +125,31 @@ group:
       - input_boolean.aroundwdw
       - input_boolean.toystoryland_loop
       - input_boolean.worldshowcase_loop
+      - input_boolean.christmas_background
 
 
 automation:
+
+# Turn off input booleans when audio is over:
+  - id: e1cb172c-0423-11eb-adc1-0242ac120002
+    alias: disney_audio_auto_off
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: media_player.ha_blue
+      to: 'idle'
+      from: 'playing'
+    - platform: state
+      entity_id: media_player.ha_blue
+      to: 'idle'
+      from: 'paused'
+    condition:
+    - condition: state
+      entity_id: group.disney_audio
+      state: 'on'
+    action:
+    - service: homeassistant.turn_off 
+      entity_id: group.disney_audio
 
 # If Main audio is off, turn off input_booleans and notify via notifications. 
   - id: audio_is_disabled
@@ -136,9 +160,14 @@ automation:
       entity_id: group.disney_audio
       to: 'on'
     condition:
-    - condition: state 
-      entity_id: input_boolean.audible_notifications
-      state: 'off'
+      condition: or
+      conditions:
+      - condition: state 
+        entity_id: input_boolean.audible_notifications
+        state: 'off'
+      - condition: state
+        entity_id: group.family
+        state: 'not_home'
     action:
     - service: homeassistant.turn_off 
       entity_id: group.disney_audio
@@ -380,7 +409,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/MK_MainStreet_Loop.mp3
-        volume: .4
+        volume: .35
   - id: mk_loop_off
     alias: MK Loop Off
     initial_state: true
@@ -407,7 +436,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/frontierland_loop.mp3
-        volume: .4
+        volume: .35
   - id: frontier_loop_off
     alias: Frontier Loop Off
     initial_state: true
@@ -434,7 +463,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/adventureland_loop.mp3
-        volume: .4
+        volume: .35
   - id: adventure_loop_off
     alias: Adventure Loop Off
     initial_state: true
@@ -461,7 +490,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/epcot_entrance_loop.mp3
-        volume: .4
+        volume: .35
   - id: epcotentrance_loop_off
     alias: Epcot Entrance Loop Off
     initial_state: true
@@ -489,7 +518,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: "https://www.youtube.com/watch?v=19-ooWL5R8w"
-        volume: .4
+        volume: .35
   - id: pixar_pier_loop_off
     alias: Pixar Pier Loop Off
     initial_state: true
@@ -746,7 +775,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/ML_Welcome_Show.mp3
-        volume: .4
+        volume: .35
     - delay:
         minutes: 8
     - service: media_player.media_stop
@@ -781,7 +810,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/music/Voctave_Trolly_Song.mp3
-        volume: .4
+        volume: .35
   - id: trolly_audio_show_off
     alias: Trolly Audio Show Off
     initial_state: true
@@ -808,7 +837,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/Pandora_Area_Loop.mp3
-        volume: .4
+        volume: .35
   - id: pandora_audio_off
     alias: Pandora Audio Off
     initial_state: true
@@ -836,7 +865,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/WDW_Resort_TV.mp3
-        volume: .4
+        volume: .35
   - id: resort_room_audio_off
     alias: Resort Room Off
     initial_state: true
@@ -864,7 +893,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/The_American_Adventure.mp3
-        volume: .7
+        volume: .35
   - id: american_adventure_off
     alias: American Adventure Off
     initial_state: true
@@ -918,7 +947,7 @@ automation:
       data_template:
         speaker: media_player.ha_blue
         media: /media/disney/move_it_shake_dance_audio.mp3
-        volume: .4
+        volume: .35
   - id: move_dance_off
     alias: Move It Shake It Off
     initial_state: true
@@ -965,8 +994,8 @@ script:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     - service: shell_command.haunted_mansion_hurry_back_short
   hurry_back_full:
     sequence:
@@ -974,8 +1003,8 @@ script:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     - service: shell_command.haunted_mansion_hurry_back_full
   haunted_lights_on:
     sequence:
@@ -1018,8 +1047,8 @@ script:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     - service: shell_command.haunted_mansion_ride
 
 # Big Kill show script - This is my E-Stop
@@ -1031,6 +1060,8 @@ script:
       entity_id: script.youtube_audio
     - service: script.turn_off
       entity_id: script.youtube_audio
+    - service: homeassistant.turn_off 
+      entity_id: group.disney_audio
 
   
   
@@ -1040,8 +1071,8 @@ script:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     - service: media_player.turn_on
       entity_id: media_player.ha_blue
     - service: media_player.play_media
@@ -1121,11 +1152,11 @@ script:
       entity_id: input_boolean.audible_notifications
       state: 'on'
     - condition: state
-      entity_id: sensor.family_status
-      state: Home
+      entity_id: group.family
+      state: 'home'
     - service: media_player.turn_on
       entity_id: media_player.ha_blue
-    - service: script.youtube_audio
+    - service: script.local_audio
       data_template:
         media: /media/disney/haunted_guest_welcome.mp3
         volume: .5
