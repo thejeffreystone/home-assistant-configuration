@@ -27,7 +27,7 @@
     days: 8
 - platform: history_stats
   name: AppleTV time
-  entity_id: media_player.home_theater
+  entity_id: media_player.apple_tv
   state: 'playing'
   type: time
   end: '{{ now() }}'
@@ -104,7 +104,7 @@
   - sensor.living_room_temperature
   - sensor.master_bedroom_temperature
   - sensor.skylar_room_temperature
-
+  type: mean
 - platform: history_stats
   name: Outside Lights
   entity_id: group.outside_lights
