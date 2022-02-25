@@ -30,6 +30,7 @@
 - platform: statistics
   name: xlm_price_stats
   entity_id: sensor.xlm_exchange_rate
+  state_characteristic: change
   sampling_size: 2
 
 
