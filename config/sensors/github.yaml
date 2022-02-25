@@ -1,7 +1,7 @@
-- platform: github
-  access_token: !secret github_token
-  repositories:
-    - path: 'thejeffreystone/home-assistant-configuration'
+# - platform: github
+#   access_token: !secret github_token
+#   repositories:
+#     - path: 'thejeffreystone/home-assistant-configuration'
 - platform: command_line
   command: 'curl https://api.github.com/repos/thejeffreystone/home-assistant-configuration'
   name: GitHub Stats
