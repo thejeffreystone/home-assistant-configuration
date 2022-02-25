@@ -3,34 +3,34 @@
   {%- macro getRandomStat() -%}
     {{- [
        "Thanks to Home Assistant and Amazon Polly and #AWS I have spoken for {{ states.sensor.speech_time.attributes.value }} in the last 7 days.",
-       "I am constantly monitoring Anchorage House. For instance I know that the washer has ran for {{ states.sensor.washer_time.attributes.value }} in the last 7 days.",
-       "I am using {{ states.sensor.sensor_count.state }} sensors to power {{ states.sensor.automation_count.state}} automations and {{ states.sensor.script_count.state}} scripts to automate Anchorage House thanks to Home Assistant.",
-       "My config on Github (https://github.com/thejeffreystone/home-assistant-configuration) has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stars and counting.  Currently with {{ states.sensor.github_stats.attributes.open_issues }} open #Todo items.",
-       "I am running Home Assistant version {{ states.sensor.installed_version.state }} (https://github.com/thejeffreystone/home-assistant-configuration)",
-       "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration and currently has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stargazers. You could be one too.",
-       "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration .The last commit was {{ states.sensor.home_assistant_configuration.attributes.latest_commit_message}}.",
-       "The average temperature inside Anchorage House is {{states.sensor.inside_temp_stats.attributes.mean | round}} degrees fahrenheit.",
-       "We have watched the Roku for a total of {{states.sensor.roku_theater_time.attributes.value}} in the last 24 hours.",
-       "The outside lights were on for a total of {{states.sensor.outside_lights.attributes.value}} in the last 24 hours.",
-       "The average temperature in the garage is {{states.sensor.garage_temp_stats.attributes.mean | round}} degrees fahrenheit.",
-       "The HVAC has cooled the house for {{states.sensor.cooling_last_month.attributes.value}} and heated for {{states.sensor.heating_last_month.attributes.value}} in the last month",
-       "The HVAC has cooled the house for {{states.sensor.cooling_last_day.attributes.value}} and heated for {{states.sensor.heating_last_day.attributes.value}} in the last 24 hours",
-       "Anchorage House averages {{ states.sensor.humidity_stats.attributes.mean | round}}% Humidity outside.",
-       "On Average, Anchorage House has {{states.sensor.visibility_stats.attributes.mean | round}} miles of visability.",
-       "The wind blows an average of {{ states.sensor.wind_speed_stats.attributes.mean | round}} mph here at Anchorage House.",
-       "The Washing Machine uses an an average of {{ states.sensor.washer_power_stats.attributes.mean | round}} watts here at Anchorage House.",
-       "I am currently managing {{ states.sensor.lights_count.state }} lights and {{ states.sensor.tracker_count.state }} devices.",
-       "Amazon Polly enables me to sound more lifelike by incorporating breathing into my speech using #SAML. #AWS",
-       "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. One day @thejeffreystone will get it down to {{ (states.sensor.lines_of_code.state | int / 2) | round }} lines.",
-       "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. If one gets deleted and no one notices was it ever there?",
-       "According to my latest speed tests Anchorage House is getting
-          {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+        "I am constantly monitoring Anchorage House. For instance I know that the washer has ran for {{ states.sensor.washer_time.attributes.value }} in the last 7 days.",
+        "I am using {{ states.sensor.sensor_count.state }} sensors to power {{ states.sensor.automation_count.state}} automations and {{ states.sensor.script_count.state}} scripts to automate Anchorage House thanks to Home Assistant.",
+        "My config on Github (https://github.com/thejeffreystone/home-assistant-configuration) has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stars and counting.  Currently with {{ states.sensor.github_stats.attributes.open_issues }} open #Todo items.",
+        "I am running Home Assistant version {{ states.sensor.installed_version.state }} (https://github.com/thejeffreystone/home-assistant-configuration)",
+        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration and currently has {{ states.sensor.home_assistant_configuration.attributes.stargazers}} stargazers. You could be one too.",
+        "My configuration is at https://github.com/thejeffreystone/home-assistant-configuration .The last commit was {{ states.sensor.home_assistant_configuration.attributes.latest_commit_message}}.",
+        "The average temperature inside Anchorage House is {{states('sensor.inside_temp_stats') | round}} degrees fahrenheit.",
+        "We have watched the TV for a total of {{states('sensor.appletv_time')}} in the last 24 hours.",
+        "The outside lights were on for a total of {{states.sensor.outside_lights.attributes.value}} in the last 24 hours.",
+        "The average temperature in the garage is {{states('sensor.garage_temp_stats') | round}} degrees fahrenheit.",
+        "The HVAC has cooled the house for {{states.sensor.cooling_last_month.attributes.value}} and heated for {{states.sensor.heating_last_month.attributes.value}} in the last month",
+        "The HVAC has cooled the house for {{states.sensor.cooling_last_day.attributes.value}} and heated for {{states.sensor.heating_last_day.attributes.value}} in the last 24 hours",
+        "Anchorage House averages {{ states('sensor.humidity_stats') | round}}% Humidity outside.",
+        "On Average, Anchorage House has {{states('sensor.visibility_stats') | round}} miles of visability.",
+        "The wind blows an average of {{ states('sensor.wind_speed_stats') | round}} mph here at Anchorage House.",
+        "The Washing Machine uses an an average of {{ states('sensor.washer_power_stats') | round}} watts here at Anchorage House.",
+        "I am currently managing {{ states.sensor.lights_count.state }} lights and {{ states.sensor.tracker_count.state }} devices.",
+        "Amazon Polly enables me to sound more lifelike by incorporating breathing into my speech using #SAML. #AWS",
+        "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. One day @thejeffreystone will get it down to {{ (states.sensor.lines_of_code.state | int / 2) | round }} lines.",
+        "My Home Assistant config contains {{ states.sensor.lines_of_code.state }} lines of code. If one gets deleted and no one notices was it ever there?",
+        "According to my latest speed tests Anchorage House is getting
+          {{ states('sensor.internet_test_down') }} Mbps down and {{ states('sensor.internet_test_up') }}
           Mbps up thanks to #ATTFiber. ",
-       "How fast is your internet? I just checked
-          am Im seeing {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+        "How fast is your internet? I just checked
+          am Im seeing {{ states('sensor.speedtest_download') }} Mbps down and {{ states('sensor.internet_test_up') }}
           Mbps up. Beat that. ", 
         "My speed is monitored using @home_assistant 
-          and at last check is {{ states.sensor.internet_test_down.attributes.max_value }} Mbps down and {{ states.sensor.internet_test_up.attributes.max_value }}
+          and at last check is {{ states('sensor.internet_test_down') }} Mbps down and {{ states('sensor.internet_test_up') }}
           Mbps up."   
        ] | random -}}
   {%- endmacro -%}
