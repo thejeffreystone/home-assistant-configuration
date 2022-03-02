@@ -1288,25 +1288,25 @@ input_text:
     name: Triggered Weather Alert IDs - UI
     icon: mdi:information-variant
     max: 255
-    initial: None
+    initial: 1
 
   weatheralerts_triggered_pushbullet_alert_ids:
     name: Triggered Weather Alert IDs - Pushbullet
     icon: mdi:information-variant
     max: 255
-    initial: None
+    initial: 1
     
   weatheralerts_triggered_alert_ids:
     name: Triggered Weather Alert IDs - Text
     icon: mdi:information-variant
     max: 255
-    initial: None
+    initial: 1
 
   weatheralerts_triggered_audible_alert_ids:
     name: Triggered Weather Alert IDs - Audible
     icon: mdi:information-variant
     max: 255
-    initial: None  
+    initial: 1  
 
 
 ################################################################################
