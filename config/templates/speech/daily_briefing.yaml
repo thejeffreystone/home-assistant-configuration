@@ -62,9 +62,9 @@
       {% endif %}
 
         {% if is_state('binary_sensor.evening','on') %}
-          The overnight forecast says we can expect {{ states.sensor.nws_overnight_forecast.state }}    
+          The overnight forecast says we can expect {{ state_attr('sensor.overnight_forecast','description') }}    
         {% else %}
-          The current forecast says we should expect {{ states.sensor.nws_current_forecast.state }} 
+          The current forecast says we should expect {{ state_attr('sensor.current_forecast','description') }} 
           {% if is_state('input_boolean.freeze_warning','on') %}
           And based on the forecasted low, It will be near or below freezing.
             {{ [ 'So, Someone might want to bring the lemon tree in. ',
@@ -219,7 +219,10 @@
             And do not forget. Today is also {{states.calendar.anchorage_holidays.attributes.message}}. 
           {% endif %}
           {% if states.calendar.birthdays.state == 'on' %}
-            Today is {{ states.calendar.birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper garbage that someone else would have to pick up.
+            Today is {{ states.calendar.birthdays.attributes.message }}! 
+            So Happy Birthday! The confetti cannon is not working 
+            otherwise I would shower you in paper garbage that 
+            someone else would have to pick up.
           {% endif %}
           {%- set event=states.calendar.national_holidays.attributes.message %}
           {% if 'Day' in event and 'National' in event%}
