@@ -43,5 +43,8 @@
   after: '17:00'
   before: '21:00'
 
-
+- platform: tod
+  name: Overnight
+  after: '18:00'
+  before: '06:00'
   
