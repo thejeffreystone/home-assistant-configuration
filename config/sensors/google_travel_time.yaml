@@ -1,25 +1,25 @@
-- platform: waze_travel_time
-  name: "Jeff ETT Home"
-  #api_key: !secret google_api
-  origin: device_tracker.jeffrey_s_iphone_11_app
-  destination: zone.home
-  region: 'US'
-- platform: waze_travel_time
-  name: "Kat ETT Home"
-  #api_key: !secret google_api
-  origin: device_tracker.life360_kat_stone
-  destination: zone.home
-  region: 'US'
-- platform: waze_travel_time
-  name: "Home To Summit"
-#  api_key: !secret google_api
-  origin: zone.home
-  destination: zone.summit
-  region: 'US'
-- platform: waze_travel_time
-  name: "Home To Zoo"
-#  api_key: !secret google_api#
-  origin: zone.home
-  destination: zone.zooatlanta
-  region: 'US'
-  incl_filter: US-78 W
+# - platform: waze_travel_time
+#   name: "Jeff ETT Home"
+#   #api_key: !secret google_api
+#   origin: device_tracker.jeffrey_s_iphone_11_app
+#   destination: zone.home
+#   region: 'US'
+# - platform: waze_travel_time
+#   name: "Kat ETT Home"
+#   #api_key: !secret google_api
+#   origin: device_tracker.life360_kat_stone
+#   destination: zone.home
+#   region: 'US'
+# - platform: waze_travel_time
+#   name: "Home To Summit"
+# #  api_key: !secret google_api
+#   origin: zone.home
+#   destination: zone.summit
+#   region: 'US'
+# - platform: waze_travel_time
+#   name: "Home To Zoo"
+# #  api_key: !secret google_api#
+#   origin: zone.home
+#   destination: zone.zooatlanta
+#   region: 'US'
+#   incl_filter: US-78 W
