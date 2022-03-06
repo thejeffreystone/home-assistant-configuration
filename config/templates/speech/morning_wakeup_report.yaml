@@ -11,82 +11,18 @@
     </p>
 
     <p>
-      The Weather in Grayson is {{states('sensor.acurite_6045m_3078_f')|round}} degrees 
-      {% if is_state('weather.home', 'rainy') %}
-        {{ [
-        'with rain.', 
-        'with showers.'
-        ] | random }}
-      {% elif is_state('weather.home', 'cloudy') %}
-        {{ [
-        'with clouds.', 
-        'with cloudy skies.'
-        ] | random }}
-      {% elif is_state('weather.home', 'partlycloudy') %}
-        {{ [
-        'with some clouds.', 
-        'with partly cloudy skies.',
-        'with scatterd clouds'
-        ] | random }}
-      {% elif is_state('weather.home', 'sunny') %}
-        {% if is_state('sun.sun', 'above_horizon') %}
-          {{ [
-          'and sunny.', 
-          'with sun.'
-          ] | random }}
-        {% else %}
-          {{ [
-          'and clear.', 
-          'with clear skies.'
-          ] | random }}
-        {% endif %}
-      {% else %}
-        and {{ states.weather.home.state }}
-      {% endif %}
+      {# Moved the current conditions to a tempate sensor in packages/weather.yaml #}
+      {# That will allow me to use it on other briefings with without having to rewrite it #}
+      {{ states('sensor.current_conditions')}}
 
 
       {% if states.sensor.weatheralerts_active_alerts.state | int > 0 %}
         There are currently {{states.sensor.weatheralerts_active_alerts.state }} active weather alerts for our area.
       {% endif %}
 
-      Based on the forecasted high temperature, 
-      {% if is_state('binary_sensor.morning','on') %}
-        {% if is_state('sensor.clothing_forecast', 'Freezing') %}
-          It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
-        {% elif is_state('sensor.clothing_forecast','Cold') %}
-          It is going to be cold today. so I suggest wearing long pants and a light jacket.
-        {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
-          It is going to be chilly today. so I suggest wearing at least long pants.
-        {% elif is_state('sensor.clothing_forecast', 'Nice') %}
-          It is going to be           
-          {{ [ 'nice outside. ',
-            'pretty nice outside. ',
-            'a good day to be outside. ',
-            'rather enjoyable outside. ',
-          ] | random }} 
-          So I suggest wearing shorts.
-        {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
-          It is going to be 
-          {{ [ 'bit warm ',
-            ' rather warm outside ',
-            ' almost too hot outside ',
-            ' a little warm ',
-          ] | random }} 
-          today. So I suggest wearing shorts. 
-        {% elif is_state('sensor.clothing_forecast', 'Hot') %}
-          It is going to be 
-          {{ [ 'hot',
-            'hotter than the sun ',
-            'hotter than hot. but in a lot of bad ways ',
-            'hotter than the sun outside ',
-            'super hot ',
-            'hotter than the inside of a volcano '
-          ] | random }} 
-          today. So I suggest wearing shorts.
-        {% else %}
-          It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
-        {% endif %} 
-      {% endif %}
+      {# Moved the clothing forecast to a tempate sensor in packages/weather.yaml #}
+      {# That will allow me to use it on other briefings with without having to rewrite it #}
+      {{ states('sensor.clothing_forecast_detail') }}
 
     </p>
 

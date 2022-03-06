@@ -108,138 +108,542 @@ sensor:
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[0] %}
             {{ forecast.condition }}
         attribute_templates:
           high_temp: >-
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[0] %}
             {{ forecast.temperature }}
+          overnight_low: >-
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
+            {{ forecast.templow }}
           wind_bearing: >-
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[0] %}
             {{ forecast.wind_bearing }}
           wind_speed: >-
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[0] %}
             {{ forecast.wind_speed }}
-          precipitation_probability: >-
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {{ forecast.precipitation_probability }} 
-          description: >
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {{ forecast.detailed_description | truncate(250, False) }} 
-      overnight_forecast:
-        friendly_name: Overnight Forecast
+          precipitation: >-
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[0] %}
+            {{ forecast.precipitation }}
+      current_forecast_detail:
+        friendly_name: Current Forecast Detail
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% endif %}
-            {{ forecast.condition }}
-        attribute_templates:
-          low_temp: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% endif %}
-            {{ forecast.temperature }}
-          wind_bearing: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% endif %}
-            {{ forecast.wind_bearing }}
-          wind_speed: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% endif %}
-            {{ forecast.wind_speed }}
-          precipitation_probability: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% endif %}
-            {{ forecast.precipitation_probability }} 
-          description: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-            {% set forecast = state_attr('weather.klzu_daynight','forecast')[0] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% endif %}
-            {{ forecast.detailed_description | truncate(250, False) }} 
+          {%- macro getReport() -%}
+            {{ [
+              'Today in Grayson ', 
+              'Later Today ',
+              'For the rest of the day'
+              ] | random }}
+            expect a high of {{ state_attr('sensor.current_forecast','high_temp') }}
+            {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
+              {{ [
+                  'and sunny.', 
+                  'with sun.',
+                  'with sunny conditions prevailing.'
+                  ] | random }}
+            {%- elif states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','on') %}
+              {{ [
+                'and clear.', 
+                'with clear skies.'
+                ] | random }}
+            {%- elif states('sensor.current_forecast') == 'clear-night' %}
+              {{ [
+                'and clear.', 
+                'with clear skies.'
+                ] | random }}
+            {%- elif states('sensor.current_forecast') == 'rainy' %}
+              {{ [
+                'with rain.', 
+                'with showers.',
+                'and rainy.'
+                ] | random }}
+              {{ [
+                'Rainfall accumulations ', 
+                'Total Rainfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.
+            {%- elif states('sensor.current_forecast') == 'snowy' %}
+              {{ [
+                'with snow.', 
+                'with snow showers.'
+                ] | random }}
+              {{ [
+                'Snowfall accumulations ', 
+                'Total snowfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.
+            {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
+              {{ [
+                  'with mix preciptation possible.', 
+                  'with snow and rain showers.'
+                  ] | random }}
+              Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.    
+            {%- elif states('sensor.current_forecast') == 'windy' %}
+              {{ [
+                'and windy.', 
+                'with lots of wind.'
+                ] | random }}
+            {%- elif states('sensor.current_forecast') == 'fog' %}
+              {{ [
+                'and foggy.', 
+                'with some fog.'
+                ] | random }}
+            {% elif states('sensor.current_forecast') == 'cloudy' %}
+              {{ [
+                'with clouds.', 
+                'with cloudy skies.'
+                ] | random }}
+            {% elif states('sensor.current_forecast') == 'partlycloudy' %}
+              {{ [
+                  'with some clouds.', 
+                  'with partly cloudy skies.',
+                  'with scattered clouds'
+                  ] | random }}
+            {%- elif states('sensor.current_forecast') == 'hail' %}
+              {{ [
+                'with severve thunderstorms possible.', 
+                'with hail possible.'
+                ] | random }}
+              {{ [
+                'Rainfall accumulations ', 
+                'Total Rainfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.
+            {%- elif states('sensor.current_forecast') == 'lightning' %}
+              {{ [
+                'with thunderstorms possible.', 
+                'with the potential of thunderstorms.'
+                ] | random }}
+              {{ [
+                'Rainfall accumulations ', 
+                'Total Rainfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.
+            {% endif -%}
+
+            {{ [
+                'Later tonight expect a low of ', 
+                'Overnight expect a low of '
+                ] | random }}
+            {{ state_attr('sensor.current_forecast','overnight_low') }} degrees. 
+          {%- endmacro -%}
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+            {%- macro cleanup(data) -%}
+              {%- for item in data.split("\n")  if item | trim != "" -%}
+                {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+
+          {# a macro to call all macros :)  #}
+            {%- macro mother_of_all_macros() -%}
+              {{ getReport() }}
+            {%- endmacro -%}
+            
+            {# Call the macro  #}
+            {{- cleanup(mother_of_all_macros()) -}}
       tomorrow_forecast:
         friendly_name: Tomorrows Forecast
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[2] %}
-            {% endif %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
             {{ forecast.condition }}
         attribute_templates:
           high_temp: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[2] %}
-            {% endif %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
             {{ forecast.temperature }}
+          overnight_low: >-
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[2] %}
+            {{ forecast.templow }}
           wind_bearing: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[2] %}
-            {% endif %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
             {{ forecast.wind_bearing }}
           wind_speed: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
-            {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[2] %}
-            {% endif %}
+            {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
             {{ forecast.wind_speed }}
-          precipitation_probability: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
+          precipitation: >-
+           {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
+            {{ forecast.precipitation }}
+      tomorrow_forecast_detail:
+        friendly_name: Tomorrow Forecast Detail
+        unit_of_measurement: ''
+        icon_template: mdi:weather-sunny
+        value_template: >-
+          {%- macro getReport() -%}
+            {{ [
+              'Tomorrow in Grayson ', 
+              'For the next day ',
+              'Tomorrow '
+              ] | random }}
+            expect a high of {{ state_attr('sensor.tomorrow_forecast','high_temp') }}
+            {%- if states('sensor.tomorrow_forecast') == 'sunny' %}
+              {{ [
+                  'and sunny.', 
+                  'with sun.',
+                  'with sunny conditions prevailing.'
+                  ] | random }}
+            {%- elif states('sensor.tomorrow_forecast') == 'rainy' %}
+              {{ [
+                'with rain.', 
+                'with showers.',
+                'and rainy.'
+                ] | random }}
+              {{ [
+                'Rainfall accumulations ', 
+                'Total Rainfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
+                possible.
+            {%- elif states('sensor.tomorrow_forecast') == 'snowy' %}
+              {{ [
+                'with snow.', 
+                'with snow showers.'
+                ] | random }}
+              {{ [
+                'Snowfall accumulations ', 
+                'Total snowfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
+                possible.
+            {%- elif states('sensor.tomorrow_forecast') == 'snowy-rainy' %}
+              {{ [
+                  'with mix preciptation possible.', 
+                  'with snow and rain showers.'
+                  ] | random }}
+              Total accumulation near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
+                possible.    
+            {%- elif states('sensor.tomorrow_forecast') == 'windy' %}
+              {{ [
+                'and windy.', 
+                'with lots of wind.'
+                ] | random }}
+            {%- elif states('sensor.current_forecast') == 'fog' %}
+              {{ [
+                'and foggy.', 
+                'with some fog.'
+                ] | random }}
+            {% elif states('sensor.tomorrow_forecast') == 'cloudy' %}
+              {{ [
+                'with clouds.', 
+                'with cloudy skies.'
+                ] | random }}
+            {% elif states('sensor.tomorrow_forecast') == 'partlycloudy' %}
+              {{ [
+                  'with some clouds.', 
+                  'with partly cloudy skies.',
+                  'with scattered clouds'
+                  ] | random }}
+            {%- elif states('sensor.tomorrow_forecast') == 'hail' %}
+              {{ [
+                'with severve thunderstorms possible.', 
+                'with hail possible.'
+                ] | random }}
+              {{ [
+                'Rainfall accumulations ', 
+                'Total Rainfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.
+            {%- elif states('sensor.current_forecast') == 'lightning' %}
+              {{ [
+                'with thunderstorms possible.', 
+                'with the potential of thunderstorms.'
+                ] | random }}
+              {{ [
+                'Rainfall accumulations ', 
+                'Total Rainfall amounts '
+                ] | random }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                possible.
+            {% endif -%}
+
+            {{ [
+                ' Tomorrow night expect a low of '
+                ] | random }}
+            {{ state_attr('sensor.tomorrow_forecast','overnight_low') }} degrees. 
+          {%- endmacro -%}
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+            {%- macro cleanup(data) -%}
+              {%- for item in data.split("\n")  if item | trim != "" -%}
+                {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+
+          {# a macro to call all macros :)  #}
+            {%- macro mother_of_all_macros() -%}
+              {{ getReport() }}
+            {%- endmacro -%}
+            
+            {# Call the macro  #}
+            {{- cleanup(mother_of_all_macros()) -}}
+      current_conditions:
+        friendly_name: Current Conditions
+        unit_of_measurement: ''
+        icon_template: mdi:weather-sunny
+        value_template: >-
+          {%- macro getReport() -%}
+            The Weather in Grayson
+             {{ [
+              ' is ', 
+              ' is currently '
+              ] | random }}
+             {{states('sensor.acurite_6045m_3078_f')|round}} degrees 
+            {% if is_state('weather.home', 'rainy') %}
+              {{ [
+              'with rain.', 
+              'with showers.'
+              ] | random }}
+            {% elif is_state('weather.home', 'cloudy') %}
+              {{ [
+              'with clouds.', 
+              'with cloudy skies.'
+              ] | random }}
+            {% elif is_state('weather.home', 'partlycloudy') %}
+              {{ [
+              'with some clouds.', 
+              'with partly cloudy skies.',
+              'with scatterd clouds'
+              ] | random }}
+            {% elif is_state('weather.home', 'sunny') %}
+              {% if is_state('sun.sun', 'above_horizon') %}
+                {{ [
+                'and sunny.', 
+                'with sun.'
+                ] | random }}
+              {% else %}
+                {{ [
+                'and clear.', 
+                'with clear skies.'
+                ] | random }}
+              {% endif %}
             {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[2] %}
+              and {{ states.weather.home.state }}
             {% endif %}
-            {{ forecast.precipitation_probability }}
-          description: >-
-            {% if is_state('binary_sensor.overnight', 'on') %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[1] %}
+          {%- endmacro -%}
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+            {%- macro cleanup(data) -%}
+              {%- for item in data.split("\n")  if item | trim != "" -%}
+                {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+
+          {# a macro to call all macros :)  #}
+            {%- macro mother_of_all_macros() -%}
+              {{ getReport() }}
+            {%- endmacro -%}
+            
+            {# Call the macro  #}
+            {{- cleanup(mother_of_all_macros()) -}}
+      current_conditions_detail:
+        friendly_name: Current Conditions Detail
+        unit_of_measurement: ''
+        icon_template: mdi:weather-sunny
+        value_template: >-
+          {%- macro getReport() -%}
+            The Weather in Grayson
+             {{ [
+              ' is ', 
+              ' is currently '
+              ] | random }}
+             {{states('sensor.acurite_6045m_3078_f')|round}} degrees 
+            {% if is_state('weather.home', 'rainy') %}
+              {{ [
+              'with rain.', 
+              'with showers.'
+              ] | random }}
+            {% elif is_state('weather.home', 'cloudy') %}
+              {{ [
+              'with clouds.', 
+              'with cloudy skies.'
+              ] | random }}
+            {% elif is_state('weather.home', 'partlycloudy') %}
+              {{ [
+              'with some clouds.', 
+              'with partly cloudy skies.',
+              'with scatterd clouds'
+              ] | random }}
+            {% elif is_state('weather.home', 'sunny') %}
+              {% if is_state('sun.sun', 'above_horizon') %}
+                {{ [
+                'and sunny.', 
+                'with sun.'
+                ] | random }}
+              {% else %}
+                {{ [
+                'and clear.', 
+                'with clear skies.'
+                ] | random }}
+              {% endif %}
             {% else %}
-              {% set forecast = state_attr('weather.klzu_daynight','forecast')[2] %}
+              and {{ states.weather.home.state }}
             {% endif %}
-            {{ forecast.detailed_description | truncate(250, False) }}
+            {%- if is_state('binary_sensor.night','off')%}
+              {{ [ 
+                'Later Today ',
+                'For the rest of the day'
+                ] | random }}
+              expect a high of {{ state_attr('sensor.current_forecast','high_temp') }}
+              {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
+                {{ [
+                    'and sunny.', 
+                    'with sun.',
+                    'with sunny conditions prevailing.'
+                    ] | random }}
+              {%- elif states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','on') %}
+                {{ [
+                  'and clear.', 
+                  'with clear skies.'
+                  ] | random }}
+              {%- elif states('sensor.current_forecast') == 'clear-night' %}
+                {{ [
+                  'and clear.', 
+                  'with clear skies.'
+                  ] | random }}
+              {%- elif states('sensor.current_forecast') == 'rainy' %}
+                {{ [
+                  'with rain.', 
+                  'with showers.',
+                  'and rainy.'
+                  ] | random }}
+                {{ [
+                  'Rainfall accumulations ', 
+                  'Total Rainfall amounts '
+                  ] | random }}
+                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                  possible.
+              {%- elif states('sensor.current_forecast') == 'snowy' %}
+                {{ [
+                  'with snow.', 
+                  'with snow showers.'
+                  ] | random }}
+                {{ [
+                  'Snowfall accumulations ', 
+                  'Total snowfall amounts '
+                  ] | random }}
+                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                  possible.
+              {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
+                {{ [
+                    'with mix preciptation possible.', 
+                    'with snow and rain showers.'
+                    ] | random }}
+                Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                  possible.    
+              {%- elif states('sensor.current_forecast') == 'windy' %}
+                {{ [
+                  'and windy.', 
+                  'with lots of wind.'
+                  ] | random }}
+              {%- elif states('sensor.current_forecast') == 'fog' %}
+                {{ [
+                  'and foggy.', 
+                  'with some fog.'
+                  ] | random }}
+              {% elif states('sensor.current_forecast') == 'cloudy' %}
+                {{ [
+                  'with clouds.', 
+                  'with cloudy skies.'
+                  ] | random }}
+              {% elif states('sensor.current_forecast') == 'partlycloudy' %}
+                {{ [
+                    'with some clouds.', 
+                    'with partly cloudy skies.',
+                    'with scattered clouds'
+                    ] | random }}
+              {%- elif states('sensor.current_forecast') == 'hail' %}
+                {{ [
+                  'with severve thunderstorms possible.', 
+                  'with hail possible.'
+                  ] | random }}
+                {{ [
+                  'Rainfall accumulations ', 
+                  'Total Rainfall amounts '
+                  ] | random }}
+                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                  possible.
+              {%- elif states('sensor.current_forecast') == 'lightning' %}
+                {{ [
+                  'with thunderstorms possible.', 
+                  'with the potential of thunderstorms.'
+                  ] | random }}
+                {{ [
+                  'Rainfall accumulations ', 
+                  'Total Rainfall amounts '
+                  ] | random }}
+                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+                  possible.
+              {% endif -%}
+
+              {{ [
+                  'Later tonight expect a low of ', 
+                  'Overnight expect a low of '
+                  ] | random }}
+              {{ state_attr('sensor.current_forecast','overnight_low') }} degrees. 
+          {%- else -%}
+            {{ [
+                  'Tonight expect a low of ', 
+                  'Overnight expect a low of '
+                  ] | random }}
+              {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
+          {% endif %} 
+          {%- endmacro -%}
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+            {%- macro cleanup(data) -%}
+              {%- for item in data.split("\n")  if item | trim != "" -%}
+                {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+
+          {# a macro to call all macros :)  #}
+            {%- macro mother_of_all_macros() -%}
+              {{ getReport() }}
+            {%- endmacro -%}
+            
+            {# Call the macro  #}
+            {{- cleanup(mother_of_all_macros()) -}}
       outside_pressure:
         friendly_name: 'outisde pressure'
         value_template: '{{ state_attr(''weather.home'',''pressure'') }}'
         unit_of_measurement: ''
+      todays_high_temp:
+        friendly_name: "Today's High Temp"
+        unit_of_measurement: ''
+        device_class: temperature
+        value_template: >-
+          {% set forecast = state_attr('weather.anchorage_house','forecast')[0] %}
+          {{ forecast.temperature }}
+      tonights_low_temp:
+        friendly_name: "Tonight's Low Temp"
+        unit_of_measurement: ''
+        device_class: temperature
+        value_template: >-
+          {% set forecast = state_attr('weather.anchorage_house','forecast')[1] %}
+          {{ forecast.lowtemp }}
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
         value_template: >-
-            {%- if state_attr('sensor.current_forecast', 'high_temp')|int > 63 %}
-              {%- if state_attr('sensor.current_forecast', 'high_temp')|int < 80 %}
+            {% if is_state('binary_sensor.overnight', 'off') %}
+              {% set temp = states('sensor.todays_high_temp')|int %}
+            {% else %}  
+              {% set temp = states('sensor.acurite_6045m_3078_f')|round %}
+            {% endif %}
+            {%- if states('sensor.todays_high_temp')|int > 63 %}
+              {%- if states('sensor.todays_high_temp')|int < 80 %}
                 Nice
-              {% elif state_attr('sensor.current_forecast', 'high_temp')|int > 95 %}
+              {% elif states('sensor.todays_high_temp')|int > 95 %}
                 Hot
               {% else %}
                 Toasty
               {%- endif %}
-            {% elif state_attr('sensor.current_forecast', 'high_temp')|int < 64 %}
-              {%- if state_attr('sensor.current_forecast', 'high_temp')|int < 32 %}
+            {% elif states('sensor.todays_high_temp')|int < 64 %}
+              {%- if states('sensor.todays_high_temp')|int < 32 %}
                 Freezing
-              {% elif state_attr('sensor.current_forecast', 'high_temp')|int > 50 %}
+              {% elif states('sensor.todays_high_temp')|int > 50 %}
                 Chilly
               {% else %}
                 Cold
@@ -247,36 +651,90 @@ sensor:
             {% else %}
               Unknown
             {%- endif %}
-      nws_current_forecast:
-        friendly_name: 'Current Detailed Forecast'
-        value_template: "{{ state_attr('sensor.current_forecast', 'description')}}"
-      nws_current_rain_forecast:
-        friendly_name: 'Current Rain Chance'
-        value_template: "{{ state_attr('sensor.current_forecast', 'precipitation_probability')}}" 
-        unit_of_measurement: '%'
-      nws_current_temperature:
-        friendly_name: 'Current Temperature'
-        value_template: "{{ state_attr('weather.klzu_daynight','temperature') }}"
-        device_class: temperature
-      nws_current_condition: 
-        friendly_name: 'Current Condition'
-        value_template: "{{ states('weather.klzu_daynight') }}"
-      nws_current_humidity:
-        friendly_name: 'Current Humidity'
-        value_template: "{{ state_attr('weather.klzu_daynight','humidity') }}"
-      nws_current_visibility:
-        friendly_name: "Current Visability"
-        value_template: "{{ state_attr('weather.klzu_daynight','visibility') }}"
-      nws_current_windspeed:
-        friendly_name: "Current Windspeed"
-        value_template: "{{ state_attr('weather.klzu_daynight','wind_speed') }}"
-      nws_overnight_low:
-        friendly_name: "Overnight Low"
+      clothing_forecast_detail:
+        friendly_name: "Clothing Forecast Detail"
         unit_of_measurement: ''
         value_template: >-
-            {{ state_attr('sensor.overnight_forecast', 'low_temp')}}
+            {% if is_state('binary_sensor.morning','on') %}
+              Based on the forecasted high temperature, 
+              {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+                It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
+              {% elif is_state('sensor.clothing_forecast','Cold') %}
+                It is going to be cold today. so I suggest wearing long pants and a light jacket.
+              {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+                It is going to be chilly today. so I suggest wearing at least long pants.
+              {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+                It is going to be           
+                {{ [ 'nice outside. ',
+                  'pretty nice outside. ',
+                  'a good day to be outside. ',
+                  'rather enjoyable outside. ',
+                ] | random }} 
+                So I suggest wearing shorts.
+              {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+                It is going to be 
+                {{ [ 'bit warm ',
+                  ' rather warm outside ',
+                  ' almost too hot outside ',
+                  ' a little warm ',
+                ] | random }} 
+                today. So I suggest wearing shorts. 
+              {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+                It is going to be 
+                {{ [ 'hot',
+                  'hotter than the sun ',
+                  'hotter than hot. but in a lot of bad ways ',
+                  'hotter than the sun outside ',
+                  'super hot ',
+                  'hotter than the inside of a volcano '
+                ] | random }} 
+                today. So I suggest wearing shorts.
+              {% else %}
+                It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+              {% endif %} 
+            {% else %}
+              Based on the current temperature, 
+              {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+                It is freezing. so I suggest wearing long pants and a heavy coat if you are going out.
+              {% elif is_state('sensor.clothing_forecast','Cold') %}
+                It is cold outside. so I suggest wearing long pants and a light jacket.
+              {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+                It is chilly right now. so I suggest wearing at least long pants 
+                if you are going to venture outside.
+              {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+                It is            
+                {{ [ 'nice outside. ',
+                  'pretty nice outside. ',
+                  'a good day to be outside. ',
+                  'rather enjoyable outside. ',
+                ] | random }} 
+                So I suggest wearing shorts.
+              {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+                It is 
+                {{ [ 'bit warm ',
+                  ' rather warm outside ',
+                  ' almost too hot outside ',
+                  ' a little warm ',
+                ] | random }} 
+                outside. So I suggest wearing shorts. 
+              {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+                It is 
+                {{ [ 'hot',
+                  'hotter than the sun ',
+                  'hotter than hot. but in a lot of bad ways ',
+                  'hotter than the sun outside ',
+                  'super hot ',
+                  'hotter than the inside of a volcano '
+                ] | random }} 
+                outside. So I suggest wearing shorts.
+              {% else %}
+                It is {{ states.sensor.clothing_forecast.state }} right now so I suggest wearing shorts.
+              {% endif %} 
+            {% endif %}
+      nws_current_visibility:
+        friendly_name: "Current Visability"
+        value_template: "{{ ((state_attr('weather.anchorage_house','visibility') | int) * 0.621371) | round }}"
       
-
       current_inside_humidity:
         friendly_name: "Current Inside Humidity"
         unit_of_measurement: '%'
@@ -301,8 +759,6 @@ sensor:
         
 
 automation:
-
-
   - alias: 'record previous day rainfall'
     trigger:
       - platform: time
@@ -317,10 +773,10 @@ automation:
   - alias: Forecast Low Near Freezing
     trigger:
       - platform: numeric_state
-        entity_id: sensor.nws_overnight_low
+        entity_id: sensor.tonights_low_temp
         below: 35
       - platform: numeric_state
-        entity_id: sensor.nws_current_temperature
+        entity_id: sensor.pirateweather_temperature
         below: 35
     condition:
       - condition: state
@@ -333,14 +789,14 @@ automation:
   - alias: Forecast Low Above Freezing
     trigger:
       - platform: numeric_state
-        entity_id: sensor.nws_overnight_low
+        entity_id: sensor.tonights_low_temp
         above: 33
     condition:
       - condition: state
         entity_id: input_boolean.freeze_warning
         state: 'on'
       - condition: numeric_state
-        entity_id: sensor.nws_overnight_low
+        entity_id: sensor.tonights_low_temp
         above: 35
     action:
       - service: input_boolean.turn_off
