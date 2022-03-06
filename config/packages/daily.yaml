@@ -163,7 +163,6 @@ automation:
     trigger:
     - platform: sun
       event: sunset
-      offset: -00:30:00
     action:
     - service: switch.turn_on
       data:
