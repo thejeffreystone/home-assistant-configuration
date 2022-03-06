@@ -17,25 +17,9 @@
     light.desk_lighting:
       state: 'on'
       brightness: 255
+    
 
-- name: studio blue
-  entities:
-    switch.desk_lamp:
-      state: 'on'
-    light.master_bedroom_dresser_lamp:
-      state: 'on'
-      brightness: 255
-    light.kat_lamp:
-      state: 'on'
-      brightness: 255
-    switch.kasa2:
-      state: 'on'
-    light.desk_lighting:
-      state: 'on'
-      brightness: 255
-    switch.dazzned50:
-      state: 'on'
-- name: studio yellow
+- name: studio work
   entities:
     light.master_bedroom_dresser_lamp:
       state: 'on'
@@ -47,11 +31,16 @@
       state: 'on'
     switch.tplink_a2:
       state: 'off'
+    switch.kasa2:
+      state: 'on'
     switch.desk_lamp:
       state: 'on'
     light.desk_lighting:
       state: 'on'
       brightness: 255
+    light.desk_accent:
+      state: 'on'
+      brightness: 76.5
 
 - name: all lights on
   entities:
