@@ -139,7 +139,7 @@
     hours: 24
 - platform: statistics
   name: Wind Speed Stats
-  entity_id: sensor.nws_current_windspeed
+  entity_id: sensor.pirateweather_wind_speed
   state_characteristic: mean
   sampling_size: 500
 - platform: statistics
@@ -149,12 +149,12 @@
   sampling_size: 500
 - platform: statistics
   name: Temperature Stats
-  entity_id: sensor.nws_current_temperature
+  entity_id: sensor.pirateweather_temperature
   state_characteristic: mean
   sampling_size: 500
 - platform: statistics
   name: Humidity Stats
-  entity_id: sensor.nws_current_humidity
+  entity_id: sensor.pirateweather_humidity
   state_characteristic: mean
   sampling_size: 500
 - platform: statistics
