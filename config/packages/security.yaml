@@ -77,7 +77,7 @@ automation:
               - service: input_boolean.turn_off
                 entity_id: input_boolean.sentry_mode
               - service: input_boolean.turn_on
-                entity_id: input_boolean.locakdown_issue
+                entity_id: input_boolean.lockdown_issue
               - service: script.text_notify
                 data:
                   who: "parents"
