@@ -62,7 +62,7 @@ sensor.kat_ett_home:
   icon: mdi:car
 sensor.kat_destination:
   icon: mdi:google-maps
-  name: "Jeffs Destination"
+  name: "Kats Destination"
 
 # Skylar
 
